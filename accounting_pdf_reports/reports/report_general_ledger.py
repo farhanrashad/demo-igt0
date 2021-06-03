@@ -103,7 +103,26 @@ class ReportGeneralLedger(models.AbstractModel):
         # Calculate the debit, credit and balance for Accounts
         account_res = []
         for account in accounts:
-            if account_name == account.id:
+            if account_name:
+                if account_name == account.id:
+                    currency = account.currency_id and account.currency_id or account.company_id.currency_id
+                    res = dict((fn, 0.0) for fn in ['credit', 'debit', 'balance'])
+                    res['code'] = account.code
+                    res['name'] = account.name
+                    res['move_lines'] = move_lines[account.id]
+                    for line in res.get('move_lines'):
+                        if default_currency.id != currency_id:
+                            line['amount_currency'] = round(line['amount_currency'] * currency_obj.rate, 2)
+                        res['debit'] += line['debit']
+                        res['credit'] += line['credit']
+                        res['balance'] = line['balance']
+                    if display_account == 'all':
+                        account_res.append(res)
+                    if display_account == 'movement' and res.get('move_lines'):
+                        account_res.append(res)
+                    if display_account == 'not_zero' and not currency.is_zero(res['balance']):
+                        account_res.append(res)
+            else:
                 currency = account.currency_id and account.currency_id or account.company_id.currency_id
                 res = dict((fn, 0.0) for fn in ['credit', 'debit', 'balance'])
                 res['code'] = account.code
@@ -121,34 +140,33 @@ class ReportGeneralLedger(models.AbstractModel):
                     account_res.append(res)
                 if display_account == 'not_zero' and not currency.is_zero(res['balance']):
                     account_res.append(res)
+                
             # print(account_res)
         return account_res
 
     @api.model
-    def _get_report_values(self, docids, data=None):
+    def _get_report_values(self, docids, data):
         if not data.get('form') or not self.env.context.get('active_model'):
             raise UserError(_("Form content is missing, this report cannot be printed."))
         model = self.env.context.get('active_model')
         docs = self.env[model].browse(self.env.context.get('active_ids', []))
         init_balance = data['form'].get('initial_balance', True)
-#         account_name = data['form'].get('account_id', True)
         sortby = data['form'].get('sortby', 'sort_date')
         display_account = data['form']['display_account']
-#         account_name = data['form']['account_id']
         codes = []
         if data['form'].get('journal_ids', False):
             codes = [journal.code for journal in
                      self.env['account.journal'].search([('id', 'in', data['form']['journal_ids'])])]
 
         accounts = docs if model == 'account.account' else self.env['account.account'].search([])
+        account_id = docs.account_id.id
         currency_id = int(data['currency_id'])
-        account_name = int(data['account_id'])
         accounts_res = self.with_context(data['form'].get('used_context', {}))._get_account_move_entry(accounts,
                                                                                                        init_balance,
                                                                                                        sortby,
                                                                                                        display_account,
                                                                                                        currency_id,
-                                                                                                      account_name
+                                                                                                      account_id
                                                                                                       )
         return {
             'doc_ids': docids,
