@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="employee_pit_menu"
+              name="Employee PIT"
+              parent="hr_work_entry_contract.menu_hr_payroll_root"
+              action="action_topup_request_view"
+              sequence="1"/>
+
+
+
+</odoo>
