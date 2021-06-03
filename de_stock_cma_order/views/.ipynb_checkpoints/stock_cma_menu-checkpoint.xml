@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="stock_cma_root_menu" name="CMA" parent="stock.menu_stock_root" sequence="4"/>
+    <menuitem id="stock_cma_config_menu" name="CMA" parent="stock.menu_stock_config_settings" sequence="100"/>
+
+</odoo>

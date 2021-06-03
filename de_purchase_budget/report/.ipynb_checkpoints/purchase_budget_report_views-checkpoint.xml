@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="purchase_budget_report_tree_view" model="ir.ui.view">
+        <field name="name">purchase.budget.report.tree.view</field>
+        <field name="model">purchase.budget.report</field>
+        <field name="arch" type="xml">
+            <tree string="Purchase Budget">
+                <field name="name"/>
+                <field name="analytic_account_id"/>
+                 <field name="date_from"/>
+                 <field name="date_to"/>
+                <field name="purchase_budget_state"/>
+                <field name="planned_quantity"/>
+                <field name="planned_price_unit"/>
+                <field name="planned_amount"/>
+                <field name="actual_quantity"/>
+                <field name="average_price"/>
+                <field name="actual_amount"/>
+                <field name="remain_qty"/>
+                <field name="remain_amount"/>
+               
+            </tree>
+        </field>
+    </record>
+    
+
+    <record id="purchase_budget_report_pivot_view" model="ir.ui.view">
+         <field name="name">purchase.budget.report.pivot.view</field>
+         <field name="model">purchase.budget.report</field>
+         <field name="arch" type="xml">
+             <pivot string="Purchase Budget" disable_linking="True">
+                 <field name="name" type="row"/>
+                 <field name="planned_quantity" type="measure"/>
+                 <field name="planned_price_unit" type="measure"/>
+                 <field name="planned_amount" type="measure"/>
+                 <field name="actual_quantity" type="measure"/>
+                 <field name="average_price" type="measure"/>
+                 <field name="actual_amount" type="measure"/>
+                 <field name="remain_qty" type="measure"/>
+                 <field name="remain_amount" type="measure"/>
+             </pivot>
+         </field>
+    </record>
+
+    <record id="purchase_budget_report_graph_view" model="ir.ui.view">
+         <field name="name">purchase.budget.graph.view</field>
+         <field name="model">purchase.budget.report</field>
+         <field name="arch" type="xml">
+             <graph string="Purchase Budget Analysis" type="line">
+                 <field name="name" type="row" />
+             </graph>
+         </field>
+    </record>
+
+    <record id="purchase_budget_report_search_view" model="ir.ui.view">
+        <field name="name">purchase.budget.report.search.view</field>
+        <field name="model">purchase.budget.report</field>
+        <field name="arch" type="xml">
+            <search string="Purchase Budget Analysis">
+                <field name="name"/>
+                <separator/>
+                <field name="analytic_account_id"/>
+               
+                <group expand="1" string="Group By">
+                    <filter string="Analytic Account" name="analytic_account" context="{'group_by':'analytic_account_id'}"/>
+                    <filter string="name" name="Name" context="{'group_by':'name'}"/>
+                  
+                    <separator/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_purchase_budget_report" model="ir.actions.act_window">
+        <field name="name">Purchase Budget Analysis</field>
+        <field name="res_model">purchase.budget.report</field>
+        <field name="view_mode">pivot,graph,tree</field>
+        <field name="view_id"></field>  <!-- force empty -->
+        <field name="search_view_id" ref="purchase_budget_report_search_view"/>
+        <field name="context">{'create':False}</field> 
+        <field name="help">This report performs budget analysis .</field>
+    </record>
+    
+    <menuitem parent="menu_procurement_management_budget"
+              id="menu_act_purchase_budget_report"
+              name="Budget Analysis"
+              action="action_purchase_budget_report" sequence="60"
+              groups="purchase.group_purchase_manager"/>
+    
+</odoo>

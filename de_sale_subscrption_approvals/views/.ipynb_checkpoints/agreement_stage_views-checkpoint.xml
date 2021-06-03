@@ -1,0 +1,15 @@
+<odoo>
+  <data>
+   <record id="sale_subscription_agreement_stage_form_view_inherit" model="ir.ui.view">
+			<field name="name">sale.subscription.agreement.stage.form.view.inherit</field>
+			<field name="model">sale.subscription.agreement.stage</field>
+			<field name="inherit_id" ref="de_sale_subscription.sale_subscription_agreement_stage_view_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='is_closed']" position="after">
+					<field name="is_refused"/>
+				</xpath>
+				
+			</field>
+		</record>
+  </data>
+</odoo>

@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_cma_type_manager,access.stock.cma.type.manager,model_stock_cma_type,group_stock_cma_manager,1,1,1,1
+access_stock_cma_condition_manager,access.stock.cma.condition.manager,model_stock_cma_condition,group_stock_cma_manager,1,1,1,1
+access_stock_cma_order_manager,access.stock.cma.order.manager,model_stock_cma_order,group_stock_cma_manager,1,1,1,1
+access_stock_cma_order_line_manager,access.stock.cma.order.line.manager,model_stock_cma_order_line,group_stock_cma_manager,1,1,1,1
+access_stock_cma_order_user,access.stock.cma.order.user,model_stock_cma_order,group_stock_cma_user,1,1,1,1
+access_stock_cma_order_line_user,access.stock.cma.order.line.user,model_stock_cma_order_line,group_stock_cma_user,1,1,1,1
+
+access_stock_cma_order_wizard_user,access.stock.cma.order.wizard.user,model_stock_cma_replace_wizard,group_stock_cma_user,1,1,1,1
+access_stock_cma_order_line_wizard_user,access.stock.cma.order.line.wizard.user,model_stock_cma_replace_line_wizard,group_stock_cma_user,1,1,1,1

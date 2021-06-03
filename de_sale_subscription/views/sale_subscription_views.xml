@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="sale_subscription_agreement_view_search" model="ir.ui.view">
+        <field name="name">sale.subscription.agreement.search</field>
+        <field name="model">sale.subscription.agreement</field>
+        <field name="arch" type="xml">
+            <search string="Subscriptions">
+                <field name="name" string="Subscription" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
+                <field name="partner_id" operator="child_of"/>
+                <field name="user_id"/>
+                <field name="team_id"/>
+                <field name="subscription_agreement_line" string="Product" filter_domain="[('subscription_agreement_line.product_id', 'ilike', self)]"/>
+                <field name="subscription_plan_id"/>
+                <filter name="my_subscriptions" string="My Subscriptions" domain="[('user_id','=',uid)]"/>
+                <filter string="Unassigned" name="contracts_not_assigned" help="Subscriptions that are not assigned to an account manager." domain="[('user_id', '=', False)]"/>
+                <separator/>
+                <filter name="open" string="Running" domain="[('stage_id.is_closed','!=',True)]" help="Running Subscriptions"/>
+                <filter name="closed" string="Closed" domain="[('stage_id.is_closed','=',True)]" help="Closed subscriptions"/>
+                <separator/>
+               
+                <filter name="filter_date_start" date="date_start"/>
+                <filter name="filter_recurring_next_date" date="recurring_next_date"/>
+                <filter invisible="1" string="Late Activities" name="activities_overdue"
+                    domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                    help="Show all records which has next action date is before today"/>
+                <filter invisible="1" string="Today Activities" name="activities_today"
+                    domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter invisible="1" string="Future Activities" name="activities_upcoming_all"
+                        domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
+                        ]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Salesperson" name="sales_person" domain="[]" context="{'group_by':'user_id'}"/>
+                    <filter string="Sales Team" name="sales_team" domain="[]" context="{'group_by':'team_id'}"/>
+                    <filter string="Customer" name="customer" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="Subscription Plan" name="plan" domain="[]" context="{'group_by':'subscription_plan_id'}"/>
+                    <filter string="Stage" name="stage" domain="[]" context="{'group_by':'stage_id'}"/>
+                    <filter string="Start Date" name="start_month" domain="[]" context="{'group_by' : 'date_start'}" />
+                    <filter string="End Date" name="end_month" domain="[]" context="{'group_by' : 'date'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <record id="sale_subscription_agreement_kanban_view" model="ir.ui.view">
+        <field name="name">sale.subscription.agreement.kanban.view</field>
+        <field name="model">sale.subscription.agreement</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_mobile" sample="1">
+                <field name="user_id"/>
+                <field name="stage_id" options="{'group_by_tooltip': {'description': 'Description'}}"/>
+                <field name="subscription_plan_id"/>
+                <field name="currency_id"/>
+                <field name="activity_ids"/>
+                <field name="activity_state" />
+                <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}' help="This bar allows to filter the opportunities based on scheduled activities."/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <strong class="float-right">
+                                    <field name="recurring_total" widget="monetary"/>
+                                </strong>
+                                <div class="o_kanban_record_title">
+                                    <field name="partner_id"/>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="code"/>
+                                </div>
+                                 <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                         <field name="activity_ids" widget="kanban_activity"/>
+                                     </div>
+                                     <div class="oe_kanban_bottom_right">
+                                        <field name="user_id" widget="many2one_avatar_user"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+        <record id="sale_subcription_agreement_form_view" model="ir.ui.view">
+            <field name="name">sale.subscription.agreement.form.view</field>
+	        <field name="model">sale.subscription.agreement</field>
+            <field name="arch" type="xml">
+                <form string="Subscription">
+                    <header>
+                        
+                        <button string="Create Invoice" name="generate_recurring_invoice" type="object" attrs="{'invisible': [('invoicing_mode', '!=', 'manual')]}" class="btn-primary"/>
+                        <field name="stage_id" widget="statusbar" />
+                        <!--
+                        <field name="stage_id" widget="statusbar" options="{'clickable': '1', 'fold_field': 'fold'}" />
+-->
+                    </header>
+                    <sheet string="Subscription">
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-book" 
+                                    name="action_subscription_invoice" type="object">
+                            <field name="subscription_invoice_count" widget="statinfo" string="Invoices"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="e.g. Monthly Subscription"/>
+                            </h1>
+                        </div>
+                        <group name="main">
+                            <group>
+                                <field name="partner_id" required="1"/>
+                                <field name="pricelist_id" groups="product.group_product_pricelist"/>
+                                <field name="subscription_agreement_date" />
+                                <field name="recurring_interval_rule" widget="radio" invisible="1"/>
+                                <field name="recurring_interval_count" invisible="1"/>
+                                <field name="invoicing_mode" widget="radio" invisible="1"/>
+                                <field name="recurring_invoice_day" />
+                                <field name="date_start" />
+                                <field name="date" attrs="{'invisible':[('recurring_interval_rule','=','unlimited')]}"/>
+                                <label for="recurring_next_date" string="Date of Next Invoice" />
+                                <div>
+                                    <field name="recurring_next_date"/>
+                                    <button name="generate_recurring_invoice"
+                                        string="Generate Invoice"
+                                        class="oe_link"
+                                        icon="fa-long-arrow-right"
+                                        type="object"
+                                        groups="base.group_no_one"
+                                        attrs="{'invisible': [('invoicing_mode', '=', 'manual')]}"/>
+
+                                </div>
+                            </group>
+                            <group>
+                                <field name="subscription_plan_id"/>
+                                <field name="user_id" domain="[('share', '=', False)]"/>
+                                <field name="team_id" kanban_view_ref="%(sales_team.crm_team_view_kanban)s"/>
+                                <field name="company_id" groups="base.group_multi_company"/>
+                                <field name="currency_id" invisible="1"/>
+                                
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Subscription Lines" id="subscription_lines">
+                                <field name="subscription_agreement_line">
+                                        <tree editable="bottom">
+                                            <field name="product_id" domain="[('subscription_invoice', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" context="{'default_subscription_invoice': True}"/>
+                                            <field name="name" optional="show"/>
+                                            <field name="quantity"/>
+                                            <field name="product_uom_category_id" invisible="1"/>
+                                            <field name="uom_id" string="UoM" groups="uom.group_uom"  optional="show"/>
+                                            <field name="price_unit" widget="monetary" />
+                                            <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
+                                            <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                            <field name="currency_id" invisible="1"/>
+                                        </tree>
+                                </field>
+                                <group name="note_group" col="6" class="mt-2 mt-md-0">
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                        <field name="recurring_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                            <label for="recurring_total"/>
+                                        </div>
+                                        <field name="recurring_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                    <div class="oe_clear"/>
+                                </group>
+                            </page>
+                            <page string="Other Info" id="others">
+                                <group>
+                                    <group>
+                                        <field name="code" attrs="{'required': [('id', '!=', False)]}"/>
+                                        <field name="payment_term_id" />
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Subscription Invoices" id="subscription_invoices">
+                                <field name="subscription_invoice_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="state"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+	
+		<record id="sale_subscription_agreement_view_cohort" model="ir.ui.view">
+            <field name="name">sale.subscription.agreement.cohort</field>
+            <field name="model">sale.subscription.agreement</field>
+            <field name="arch" type="xml">
+                <cohort string="Subscription" date_start="date_start" date_stop="date" interval="month" sample="1"/>
+            </field>
+        </record>
+		
+		<record id="action_sale_subscription_agreement" model="ir.actions.act_window">
+			<field name="name">Subscriptions</field>
+			<field name="res_model">sale.subscription.agreement</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">kanban,tree,form,pivot,graph,cohort,activity</field>
+            <field name="context">{"search_default_my_subscriptions":1}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" eval='False'/>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new Subscription
+				</p>
+                <p>
+                    Create subscriptions to manage recurring invoicing &amp; payments. Subscriptions can be time-bounded or not. In case of a limited period, they are flagged as to be renewed one month from the end date. </p>
+<p>
+Subscriptions can be automatically generated from sales orders in Sales or eCommerce apps. To do so, set a subscription template on your subscription products.
+                </p>
+			</field>
+		</record>
+		
+
+		<menuitem id="sale_subscription_agreement_menu" name="Subscriptions" parent="subscription_agreement_menu" action="action_sale_subscription_agreement" sequence="1" />
+		
+			
+</odoo>
+
+

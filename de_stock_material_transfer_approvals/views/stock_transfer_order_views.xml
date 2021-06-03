@@ -1,0 +1,74 @@
+<odoo>
+  <data>
+       <record id="stock_transfer_order_form_inherit_approvals" model="ir.ui.view">
+		<field name="name">stock_transfer.order.form.inherit.approvals</field>
+		<field name="model">stock.transfer.order</field>
+		<field name="inherit_id" ref="de_stock_material_transfer.stock_transfer_order_form_view" />
+		<field name="arch" type="xml">
+            <xpath expr="//button[@name='action_confirm']" position="replace">
+                <button name="action_confirm" type="object" string="Confirm" class="oe_highlight" id="bid_confirm" attrs="{'invisible': [('category_id','!=',False)]}"/>
+            </xpath>
+           
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done" attrs="{'invisible': [('approval_state','=','pending')]}"/>
+            </xpath>
+             <xpath expr="//field[@name='state']" position="after">
+                <field name="approval_state" widget="statusbar" statusbar_visible="pending,approved" attrs="{'invisible': [('approval_state','!=','pending')]}"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_submit" string="Submit for Approval" type="object" class="oe_highlight" attrs="{'invisible': ['|','|',('category_id', '=', False),('approval_state', '=', 'pending'),'&amp;',('state', 'not in', ['draft']),('category_id', '!=', False)]}"/>
+            </xpath>            
+			<xpath expr="//group[1]/group[2]" position="inside">
+                <field name="category_id" invisible="0" options="{'no_create':True,'no_open':True}"/> 
+                <field name="request_status" string="Approval Status" invisible="1"/> 
+                <field name="approval_request_id" invisible="1"/> 
+			</xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="%(action_approval_approver_view_stock_transfer_order)d" type="action" class="oe_stat_button" icon="fa-users" context="{'requisition_id':id,'category_id':category_id}" attrs="{'invisible': [('approval_request_id', '=', False)]}">
+                    <field name="approvers_count" widget="statinfo" string="Approvers"/>
+                </button>     
+            </xpath>
+            
+            <!-- add feidls readonly attributes -->
+            <xpath expr="//field[@name='partner_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('approval_state','in',['pending','approved'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_request']" position="attributes">
+                <attribute name="attrs">{'readonly':[('approval_state','in',['pending','approved'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='transfer_order_type_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('approval_state','in',['pending','approved'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='transfer_order_category_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('approval_state','in',['pending','approved'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='user_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('approval_state','in',['pending','approved'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('approval_state','in',['pending','approved'])]}</attribute>
+            </xpath>
+            
+            <xpath expr="//field[@name='category_id']" position="attributes">
+                <attribute name="attrs">{'readonly':[('approval_state','in',['pending','approved'])]}</attribute>
+            </xpath>
+            
+            <xpath expr="//field[@name='date_order']" position="attributes">
+                <attribute name="attrs">{'readonly':[('approval_state','in',['pending','approved'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='date_scheduled']" position="attributes">
+                <attribute name="attrs">{'readonly':[('approval_state','in',['pending','approved'])]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='delivery_deadline']" position="attributes">
+                <attribute name="attrs">{'readonly':[('approval_state','in',['pending','approved'])]}</attribute>
+            </xpath>
+            
+            <xpath expr="//field[@name='stock_transfer_order_line']" position="attributes">
+                <attribute name="attrs">{'readonly':[('approval_state','in',['pending','approved'])]}</attribute>
+            </xpath>
+            
+		</field>
+	</record>
+      
+  </data>
+</odoo>
