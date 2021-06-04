@@ -50,22 +50,28 @@
                 <form string="Custom Journal Entry" class="">
                     <header>
                         <field name="expense_advance" invisible="1"/>
+                        
+                        <button name="action_submit" string="Submit for Approval" type="object" class="oe_highlight" attrs="{'invisible': [('stage_category', 'not in', ['draft'])]}"/>
+                    
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                        attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+                    
+                    <button name="action_refuse" string="Refuse" type="object" 
+                        attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+                        
+                        <button name="%(action_custom_entry_to_bill)d" string="Create Bill" type="action" invisible="1"/>
+                        <button string="Create Bill" name="create_custom_invoice" type="object" class="btn-primary" attrs="{'invisible':['|',('invoice_count','=',1),('stage_category','!=','confirm')]}"/>
+                        <button string="Create Bill" name="create_advance_expense" type="object" class="btn-primary" invisible="1"/>
 
-                        <button name="button_confirm" type="object" states="draft" string="Confirm Entry"
-                                class="oe_highlight"/>
-                        <button name="button_cancel" states="draft,confirm" string="Cancel" type="object"/>
-                        <button name="%(action_custom_entry_to_bill)d" string="Create Bill" type="action"
-                                invisible="1"/>
-                        <button string="Create Bill" name="create_custom_invoice" type="object" class="btn-primary"
-                                attrs="{'invisible':['|',('invoice_count','=',1),('state','!=','confirm')]}"/>
-                        <button string="Create Bill" name="create_advance_expense" type="object" class="btn-primary"
-                                invisible="1"/>
 
+                        <field name="state" widget="statusbar" invisible="1" statusbar_visible="draft,confirm,done"/>
+                        <field name="stage_id" widget="statusbar" domain="[('custom_entry_type_ids', '=', custom_entry_type_id)]"/>
 
-                        <field name="state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
 
                     </header>
                     <sheet>
+                        <field name="stage_category" invisible="1" />
+                        
                         <div class="oe_button_box" name="button_box">
                             <button type="object" name="action_view_invoice"
                                     class="oe_stat_button"
@@ -90,19 +96,19 @@
                         </div>
                         <group>
                             <group>
-                                <field name="date_entry"/>
-                                <field name="partner_id" readonly="1"/>
-                                <field name="custom_entry_type_id"/>
-                                <field name="currency_id"/>
-                                <field name="company_id"/>
+                                <field name="date_entry" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                <field name="partner_id" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                <field name="custom_entry_type_id" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                <field name="currency_id" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                <field name="company_id" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
                             </group>
 <!-- attrs="{'invisible':[('has_partner','==','no')], 'required': [('has_partner','==','required')]}" -->
 
                             <!--                         #fleet fields form -->
                             <group>
-                                <field name="ref_fleet" required='1'/>
-                                <field name="supplier_inv_no_fleet" required='1'/>
-                                <field name="invoice_no_fleet"/>
+                                <field name="ref_fleet" required='1' attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                <field name="supplier_inv_no_fleet" required='1' attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                <field name="invoice_no_fleet" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
                                 <field name="amount_total_fleet"
                                        attrs="{'invisible':[('has_fleet_fields','==','no')], 'required': [('has_fleet_fields','==','required')]}"/>
                                 
@@ -176,7 +182,7 @@
                         <field name="has_accommodation_fields" invisible="1"/>
                         <notebook>
                             <page string="Line" name="custom_entry_line">
-                                <field name="custom_entry_line" widget="one2many_list">
+                                <field name="custom_entry_line" widget="one2many_list" attrs="{'readonly': [('stage_category', '!=', 'draft')]}">
                                     <tree string="Custom Entry Line" editable="bottom">
                                         <field name="company_id" invisible="1"/>
                                         <field name="currency_id" invisible="1"/>
