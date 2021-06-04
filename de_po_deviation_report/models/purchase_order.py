@@ -5,7 +5,7 @@ class PurchaseOrderInherit(models.Model):
     _inherit = 'purchase.order'
     reason = fields.Char(string='Reason')
 
-    def print_report(self):
+    def generate_report(self):
         print('ID: ', self.id)
         id = self.id
         data = {
