@@ -136,9 +136,9 @@ class CustomEntry(models.Model):
         for entry in self:
             if entry.custom_entry_type_id:
                 if entry.custom_entry_type_id not in entry.stage_id.custom_entry_type_ids:
-                    entry.stage_id = entry.stage_find(order.custom_entry_type_id.id, [('fold', '=', False), ('stage_category', '=', 'draft')])
+                    entry.stage_id = entry.stage_find(entry.custom_entry_type_id.id, [('fold', '=', False), ('stage_category', '=', 'draft')])
             else:
-                order.stage_id = False
+                entry.stage_id = False
     
     def stage_find(self, section_id, domain=[], order='sequence'):
         section_ids = category_ids = []
