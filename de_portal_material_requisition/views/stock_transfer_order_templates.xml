@@ -44,7 +44,6 @@
                                 <th class="text-left">Reference</th>
                                 <th class="text-left">Order Date</th>
                                 <th class="text-left">Date Schedule</th>
-                                <th class="text-left">Contractor</th>
                                 <th class="text-left">Status</th>
                                
                             </tr>
@@ -65,9 +64,7 @@
                                     <td class="text-left">
                                         <span t-esc="material.date_scheduled" />
                                     </td>
-                                    <td class="text-left">
-                                        <span t-esc="material.partner_id.name" />
-                                    </td>
+
                                     <td class="text-left">
                                         <span t-esc="material.stage_id.name" />
                                     </td>

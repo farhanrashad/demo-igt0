@@ -42,6 +42,7 @@
                             <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
                                 <th class="text-left">No#</th>
                                 <th class="text-left">Reference</th>
+                                <th class="text-left">Purchase Representative</th>
                                 <th class="text-left">Agreement Type</th>
                                 <th class="text-left">Ordering Date</th>
                                 <th class="text-left">Agreement Deadline</th>
@@ -51,8 +52,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-foreach="subscriptions" t-as="subsc"> 
-                                <t t-if="subsc.user_id.id==uid" >
+                            <t t-foreach="subscriptions" t-as="subsc">       
                                 <tr>
                                     <td class="text-left">
                                           <a t-attf-href="/subscription/order/#{subsc.id}?{{ keep_query() }}">#<span t-field="subsc.id"/></a>
@@ -60,7 +60,9 @@
                                      <td>
                                         <a t-attf-href="/subscription/order/#{subsc.id}?{{ keep_query() }}"><span t-field="subsc.name"/></a>
                                     </td>
-
+                                     <td class="text-left">
+                                        <span t-esc="subsc.user_id.partner_id.name" />
+                                    </td>
                                     <td class="text-left">
                                         <span t-esc="subsc.type_id.name" />
                                     </td>
@@ -98,7 +100,6 @@
                                     </td>	
 
                                 </tr>
-                              </t>
                             </t>
                             <tr>
 

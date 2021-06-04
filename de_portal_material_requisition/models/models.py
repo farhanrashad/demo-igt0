@@ -1,18 +1,16 @@
 # -*- coding: utf-8 -*-
+from odoo import models, fields, api, _
 
-# from odoo import models, fields, api
+
+class StockTransferOrder(models.Model):
+    _inherit = 'stock.transfer.order'
 
 
-# class de_portal_purchase_subscription(models.Model):
-#     _name = 'de_portal_purchase_subscription.de_portal_purchase_subscription'
-#     _description = 'de_portal_purchase_subscription.de_portal_purchase_subscription'
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+
+class StockTransferOrder(models.Model):
+    _inherit = 'stock.transfer.order.stage'
+
+

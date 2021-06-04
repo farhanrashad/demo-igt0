@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
+from odoo import models, fields, api, _
 
-# from odoo import models, fields, api
+
+class PurchaseRequisition(models.Model):
+    _inherit = 'purchase.requisition'
+
+class ResUsers(models.Model):
+    _inherit = 'res.users'
 
 
-# class de_portal_purchase_subscription(models.Model):
-#     _name = 'de_portal_purchase_subscription.de_portal_purchase_subscription'
-#     _description = 'de_portal_purchase_subscription.de_portal_purchase_subscription'
+class ResPartner(models.Model):
+    _inherit = 'res.partner'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+
+class PurchaseRequisitionType(models.Model):
+    _inherit = 'purchase.requisition.type'
+
+
+
+

@@ -1,104 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <odoo>
-    <template id="portal_layout_purchase_subscription" name="Portal layout: Subscription Order menu entry" inherit_id="portal.portal_breadcrumbs" priority="25">
+    <template id="portal_layout_stock_document" name="Portal layout: Stock Order menu entry" inherit_id="portal.portal_breadcrumbs" priority="25">
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
-            <li t-if="page_name == 'subscription' or subscription" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not subscription else ''}">
-                <a t-if="subscription" t-attf-href="/subscription/orders?{{ keep_query() }}">Purchase Agreements</a>
-                <t t-else="">Purchase Agreements</t>
+            <li t-if="page_name == 'docs' or docs" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not docs else ''}">
+                <a t-if="docs" t-attf-href="/docs/document?{{ keep_query() }}">Documents</a>
+                <t t-else="">Documents</t>
             </li>
-            <li t-if="subscription" class="breadcrumb-item active text-truncate col-8 col-lg-10">
-                <t t-esc="subscription.name"/>
+            <li t-if="docs" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                <t t-esc="docs.name"/>
             </li>
         </xpath>
     </template>
 
-    <template id="portal_my_home_subscription" name="Subscription Order" customize_show="True" inherit_id="portal.portal_my_home" priority="25">
+    <template id="portal_my_home_docs" name="docs Order" customize_show="True" inherit_id="portal.portal_my_home" priority="25">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
-                <t t-set="title">Purchase Agreements</t>
-                <t t-set="url" t-value="'/subscription/orders'"/>
-                <t t-set="placeholder_count" t-value="'subscription_count'"/>
+                <t t-set="title">Documents</t>
+                <t t-set="url" t-value="'/docs/document'"/>
+                <t t-set="placeholder_count" t-value="'docs_count'"/>
             </t>
         </xpath>  
     </template>
 
-    <template id="portal_my_purchase_subscriptions" name="Subscription Order">
+    <template id="portal_my_purchase_docs" name="docs Order">
          <t t-set="foo" t-value="2 + 1"/>
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
             <t t-call="portal.portal_searchbar">
-                <t t-set="title">Purchase Agreements</t>
+                <t t-set="title">Documents</t>
             </t>
-            <t t-if="not grouped_subscription">
+            <t t-if="not grouped_docs">
                 <div class="alert alert-warning mt8" role="alert">
-                    There are no Purchase Agreement.
+                    There are no Documents.
                 </div>
             </t>
-            <t t-if="grouped_subscription">
+            <t t-if="grouped_docs">
                 <t t-call="portal.portal_table">
-                    <t t-foreach="grouped_subscription" t-as="subscriptions">
+                    <t t-foreach="grouped_docs" t-as="docs">
                         <thead>
                             <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
                                 <th class="text-left">No#</th>
-                                <th class="text-left">Reference</th>
-                                <th class="text-left">Agreement Type</th>
-                                <th class="text-left">Ordering Date</th>
-                                <th class="text-left">Agreement Deadline</th>
-                                <th class="text-left">Source Document</th>
-                                <th class="text-left">Status</th>
-                               
+                                <th class="text-left">Document</th>
+                                <th class="text-left">URL</th>
+                                <th class="text-left">Type</th>
+                                <th class="text-left">Owner</th>
+                                <th class="text-left">Created On</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <t t-foreach="subscriptions" t-as="subsc"> 
-                                <t t-if="subsc.user_id.id==uid" >
+                            <t t-foreach="docs" t-as="doc">
+<!--                                <t t-if="material.user_id.id==uid" >-->
                                 <tr>
-                                    <td class="text-left">
-                                          <a t-attf-href="/subscription/order/#{subsc.id}?{{ keep_query() }}">#<span t-field="subsc.id"/></a>
-                                    </td>
-                                     <td>
-                                        <a t-attf-href="/subscription/order/#{subsc.id}?{{ keep_query() }}"><span t-field="subsc.name"/></a>
-                                    </td>
 
-                                    <td class="text-left">
-                                        <span t-esc="subsc.type_id.name" />
+                                     <td class="text-left">
+                                        <span t-esc="doc.id" />
                                     </td>
                                     <td class="text-left">
-                                        <span t-esc="subsc.ordering_date" />
+                                        <span t-esc="doc.name" />
                                     </td>
                                     <td class="text-left">
-                                        <span t-esc="subsc.date_end" />
+                                        <span t-esc="doc.url" />
                                     </td>
                                     <td class="text-left">
-                                        <span t-esc="subsc.origin" />
+                                        <span t-esc="doc.type" />
                                     </td>
-                                    
-                                    <td class="text-center">
-                                  
-                                                <t t-if="subsc.state == 'draft'">
-                                                    <i class="badge badge-pill badge-info" >Draft</i>
-                                                </t>
-                                                <t t-if="subsc.state == 'ongoing'">
-                                                    <i class="badge badge-pill badge-info" >Ongoing</i>
-                                                </t>
-                                                <t t-if="subsc.state == 'in_progress'">
-                                                    <i class="badge badge-pill badge-info" >Confirmed</i>
-                                                </t>
-                                                <t t-if="subsc.state == 'open'">
-                                                    <i class="badge badge-pill badge-info" >Bid Selection</i>
-                                                </t>
-                                                <t t-if="subsc.state == 'done'">
-                                                    <i class="badge badge-pill badge-info" >Closed</i>
-                                                </t>
-                                               <t t-if="subsc.state == 'cancel'">
-                                                    <i class="badge badge-pill badge-info" >Cancelled</i>
-                                                </t>                                            
-
-                                    </td>	
+                                    <td class="text-left">
+                                        <span t-esc="doc.owner_id.name" />
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="doc.create_date" />
+                                    </td>
 
                                 </tr>
-                              </t>
+<!--                               </t>-->
                             </t>
                             <tr>
 
@@ -110,11 +85,11 @@
         </t>
     </template>
     
-    <template id="portal_my_subscription" name="My Subscription">
+    <template id="portal_my_doc" name="My doc">
         <t t-call="portal.portal_layout">
              <t t-set="o_portal_fullwidth_alert" >
                 <t t-call="portal.portal_back_in_edit_mode">
-                    <t t-set="backend_url" t-value="'/web#model=purchase.requisition&amp;id=%s&amp;view_type=form' % (subscription.id)"/>
+                    <t t-set="backend_url" t-value="'/web#model=documents.document&amp;id=%s&amp;view_type=form' % (doc.id)"/>
                 </t> 
             </t>
           
@@ -128,12 +103,12 @@
                                 <div class="row">
                                     <div class="col-lg-11">
                                         <h5 class="d-flex mb-1 mb-md-0 row">
-                                            <span t-field="subscription.user_id.partner_id.name" class="col-8 text-truncate"/>
-                                            <small class="text-muted d-none d-md-inline"> (#<span t-field="subscription.id"/>)</small>
+                                            <span t-field="doc.user_id.partner_id.name" class="col-8 text-truncate"/>
+                                            <small class="text-muted d-none d-md-inline"> (#<span t-field="doc.id"/>)</small>
                                             <div class="col-3 col-md-3 text-left">
                                               <small class="text-right">State:</small>
 
-                                                    <span t-field="subscription.state" class=" badge badge-pill badge-info" title="Current stage of this subscription Order"/>
+                                                    <span t-field="doc.state" class=" badge badge-pill badge-info" title="Current stage of this doc Order"/>
 
                                             </div>
                                         </h5>
@@ -143,14 +118,14 @@
                                     <div style="float:right; text-align:right; width:0ox; margin-right:0px;" class=" btn-group col-lg-1" role="group">
                                     <h5>  
                                         <t t-if="pre_id">
-                                            <a role="button"  t-attf-href="/pr/order/pre/#{subscription.id}?" ><i style="margin-right:10px; align:right" class="fa fa-chevron-left" role="img" aria-label="Previous" title="Previous"></i></a>
+                                            <a role="button"  t-attf-href="/doc/order/pre/#{doc.id}?" ><i style="margin-right:10px; align:right" class="fa fa-chevron-left" role="img" aria-label="Previous" title="Previous"></i></a>
                                         </t>
                                         <t t-else="">
                                             <a role="button"  t-att-class="disabled"  ><i style="margin-right:10px; align:right; color:#B8B7B0" class="fa fa-chevron-left" aria-label="Previous" title="Previous"></i></a>
 
                                         </t>
                                         <t t-if="next_id">
-                                            <a role="button" t-attf-href="/pr/order/next/#{subscription.id}?" ><i class="fa fa-chevron-right" role="img" aria-label="Next" title="Next"></i></a>
+                                            <a role="button" t-attf-href="/transfer/order/next/#{transfer.id}?" ><i class="fa fa-chevron-right" role="img" aria-label="Next" title="Next"></i></a>
                                         </t>
                                         <t t-else="">
                                             <a role="button"  t-att-class="disabled"  ><i style="color:#B8B7B0" class="fa fa-chevron-right" aria-label="Next" title="Next"></i></a>
@@ -165,28 +140,28 @@
                <t t-set="card_body">          
                     <div class="row mb-5">
                         <div class="col-12 col-md-6 mb-1">
-                            <span t-field="subscription.name" />
+                            <span t-field="transfer.name" />
                         </div>
-                        <div class="col-12 col-md-6" t-if="subscription.id">
-                            <strong>Purchase Representative:</strong> <span t-field="subscription.user_id.partner_id.name" />
+                        <div class="col-12 col-md-6" t-if="transfer.id">
+                            <strong>Contractor:</strong> <span t-field="transfer.partner_id.name" />
                         </div>
                     </div>
                      <div class="row mb-12">
                          <div class="col-12 col-md-12 pb-2">
                             <div class="row">
-                                <div class="col-md-5"> <strong>Agreement Type : </strong>
-                                    <t t-if="subscription.type_id">
-                                        <span t-esc="subscription.type_id.name"/>
+                                <div class="col-md-5"> <strong>Transfer Type : </strong>
+                                    <t t-if="transfer.transfer_order_type_id">
+                                        <span t-esc="transfer.transfer_order_type_id.name"/>
                                     </t>
                                 </div>
-                                <div class="col-md-5"> <strong>Ordering Date : </strong>
-                                    <t t-if="subscription.ordering_date">
-                                        <span t-esc="subscription.ordering_date"/>
+                                <div class="col-md-5"> <strong>Date Order : </strong>
+                                    <t t-if="transfer.date_order">
+                                        <span t-esc="transfer.date_order"/>
                                     </t>
                                 </div>
-                                <div class="col-md-5"> <strong>Source Document : </strong>
-                                    <t t-if="subscription.origin">
-                                        <span t-esc="subscription.origin"/>
+                                <div class="col-md-5"> <strong>Scheduled Date : </strong>
+                                    <t t-if="transfer.date_scheduled">
+                                        <span t-esc="transfer.date_scheduled"/>
                                     </t>
                                 </div>
                             </div>
@@ -198,25 +173,29 @@
                                             <b>
                                         <th class="text-left">Product</th>
                                         <th class="text-left">Project</th>
-                                        <th class="text-left">Quantity</th>
-                                        <th class="text-left">Order Quantities</th>
-                                        <th class="text-left">Schedule Date</th>
-                                        <th class="text-left">Unit Price</th>
+                                        <th class="text-left">Demand Quantity</th>
+                                        <th class="text-left">Delivered Qty</th>
+                                        <th class="text-left">UOM</th>
+                                        <th class="text-left">From</th>
+                                        <th class="text-left">To</th>
+                                        <th class="text-left">Status</th>
                                             </b>
                                         </h4>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <t t-foreach="subscription.line_ids" t-as="pr_line">
+                                    <t t-foreach="transfer.stock_transfer_order_line" t-as="transfer_line">
 
 
                                         <tr>
-                                            <td><span t-esc="pr_line.product_id.name"/></td>
-                                            <td><span t-esc="pr_line.project_id.name"/></td>
-                                            <td><span t-esc="pr_line.product_qty"/></td>
-                                            <td><span t-esc="pr_line.qty_ordered"/></td>
-                                            <td><span t-esc="pr_line.schedule_date"/></td>
-                                            <td><span t-esc="pr_line.price_unit"/></td>
+                                            <td><span t-esc="transfer_line.product_id.name"/></td>
+                                            <td><span t-esc="transfer_line.project_id.name"/></td>
+                                            <td><span t-esc="transfer_line.product_uom_qty"/></td>
+                                            <td><span t-esc="transfer_line.delivered_qty"/></td>
+                                            <td><span t-esc="transfer_line.product_uom.name"/></td>
+                                            <td><span t-esc="transfer_line.location_src_id.name"/></td>
+                                            <td><span t-esc="transfer_line.location_dest_id.name"/></td>
+                                            <td><span t-esc="transfer_line.delivery_status"/></td>
                                         </tr>
 
                                     </t>
@@ -237,8 +216,8 @@
                             <div class="d-flex my-2">
                                 <strong>Document</strong>
                             </div>
-                            <t t-if="subscription.name">                                        
-                                <div class="py-1 px-2 bg-100 small" t-field="subscription.name"/>
+                            <t t-if="transfer.name">
+                                <div class="py-1 px-2 bg-100 small" t-field="transfer.name"/>
                             </t>
                         </div> 
                     </div>
@@ -248,7 +227,7 @@
             <div class="mt32">
                 <h4><strong>Message and communication history</strong></h4>
                 <t t-call="portal.message_thread">
-                    <t t-set="object" t-value="subscription"/>
+                    <t t-set="object" t-value="transfer"/>
                     <t t-set="pid" t-value="pid"/>
                     <t t-set="hash" t-value="hash"/>
                 </t>
@@ -277,7 +256,7 @@
                                 <div class="container">
                                         <div class="row">
                                             <div class="col-md-8 col-xs-12 col-md-offset-2 sell-page-contact">
-                                                <form id="saleForm" data-toggle="validator" action="/subscription/order/save" class="mt32">
+                                                <form id="saleForm" data-toggle="validator" action="/transfer/order/save" class="mt32">
                                                     <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
                                                         <div  class="col-xl">
                                                                 <strong class="d-block mb-2">Payslip Name:</strong>
@@ -330,7 +309,7 @@
                                                             </t>
                                                         </div>
                                                         <div class="col-md-3">
-                                                            <a href="/subscription/orders"><div class="btn btn-warning pull-right" style="float:right; height:35px;line-height:100%;">Back To All Order</div></a> 
+                                                            <a href="/transfer/orders"><div class="btn btn-warning pull-right" style="float:right; height:35px;line-height:100%;">Back To All Order</div></a>
                                                         </div>
                                                     </div>
                                                 </form>

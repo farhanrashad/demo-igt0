@@ -29,7 +29,7 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'views/stock_transfer_order_templates.xml',
+        'views/documents_document_templates.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
