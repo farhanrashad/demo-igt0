@@ -19,6 +19,9 @@ class CustomEntry(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
     _description = 'Custom Entry'
     
+    def _get_default_stage_id(self):
+        return self.env['account.custom.entry.stage'].search([('stage_category','=','draft')], order='sequence', limit=1)
+    
     def unlink(self):
         for r in self:
             if r.state != 'draft' or r.state == 'cancel':
@@ -45,7 +48,9 @@ class CustomEntry(models.Model):
     date_entry = fields.Datetime('Entry Date', required=True, states=READONLY_STATES, index=True, copy=False, default=fields.Datetime.now,)
 
     custom_entry_type_id = fields.Many2one('account.custom.entry.type', string='Entry Type', index=True, required=True, readonly=True, states={'draft': [('readonly', False)],},)
-    
+    stage_id = fields.Many2one('account.custom.entry.stage', string='Stage', compute='_compute_stage_id', store=True, readonly=False, ondelete='restrict', tracking=True, index=True, default=_get_default_stage_id, copy=False)
+    stage_category = fields.Selection(related='stage_id.stage_category')
+                                   
     expense_advance = fields.Boolean(related='custom_entry_type_id.expense_advance')
  
     custom_entry_line = fields.One2many('account.custom.entry.line', 'custom_entry_id', string='Entry Line', copy=True, auto_join=True,states=READONLY_STATES)
@@ -126,7 +131,29 @@ class CustomEntry(models.Model):
 #         else
     
 
-            
+    @api.depends('custom_entry_type_id')
+    def _compute_stage_id(self):
+        for entry in self:
+            if entry.custom_entry_type_id:
+                if entry.custom_entry_type_id not in entry.stage_id.custom_entry_type_ids:
+                    entry.stage_id = entry.stage_find(order.custom_entry_type_id.id, [('fold', '=', False), ('stage_category', '=', 'draft')])
+            else:
+                order.stage_id = False
+    
+    def stage_find(self, section_id, domain=[], order='sequence'):
+        section_ids = category_ids = []
+        if section_id:
+            section_ids.append(section_id)
+        section_ids.extend(self.mapped('custom_entry_type_id').ids)
+        search_domain = []
+        if section_ids:
+            search_domain = [('|')] * (len(section_ids) - 1)
+            for section_id in section_ids:
+                search_domain.append(('custom_entry_type_ids', '=', section_id))
+        search_domain += list(domain)
+        return self.env['account.custom.entry.stage'].search(search_domain, order=order, limit=1).id
+                               
+                               
     @api.depends('custom_entry_line.amount')
     def _compute_total_fleet(self):
         for record in self:
@@ -177,15 +204,32 @@ class CustomEntry(models.Model):
             })
             
             
-
    
     def button_draft(self):
         self.write({'state': 'draft'})
         return {}
     
-    def button_confirm(self):
-        self.write({'state': 'confirm'})
+    def action_confirm(self):
+        self.update({
+            'stage_id' : self.stage_id.next_stage_id.id,
+        })
         return {}
+
+    def action_refuse(self):
+        
+        self.update({
+            'stage_id' : self.stage_id.prv_stage_id.id,
+        })
+        
+        
+    def action_submit(self):
+        self.ensure_one()
+        if not self.custom_entry_line:
+            raise UserError(_("You cannot submit requisition '%s' because there is no product line.", self.name))
+        self.update({
+            'stage_id' : self.stage_id.next_stage_id.id,
+        })
+        
 
     def button_cancel(self):
         for order in self:
