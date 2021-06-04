@@ -35,11 +35,12 @@ class HrOvertimeType(models.Model):
     duration_rule = fields.Selection([('unlimited', 'Unlimited'),
                              ('fixed', 'Fixed ')], default='unlimited', string='Limit Per Day')
     duration_limit = fields.Float(string='Duration Limit')
+    leave_earn_hours = fields.Float(string='Leave Earning Total Hours')
     pay_rule = fields.Selection([('percent', 'Salary (Pecentage)'),
                                  ('fix', 'Fixed Rate'),], 
                                 default='percent', string='Pay Based On')
         
-    leave_type = fields.Many2one('hr.leave.type', string='Leave Type', domain="[('id', 'in', leave_compute)]")
+    leave_type = fields.Many2one('hr.leave.type', string='Leave Type', )
     leave_compute = fields.Many2many('hr.leave.type', compute="_get_leave_type")
     rule_line_ids = fields.One2many('hr.overtime.type.rule', 'type_line_id')
 
@@ -98,9 +99,7 @@ class HrOvertimeRequest(models.Model):
     def _default_employee(self):
         return self.env['hr.employee'].search([('user_id', '=', self.env.uid)], limit=1)
 
-    @api.onchange('days_no_tmp')
-    def _onchange_days_no_tmp(self):
-        self.days_no = self.days_no_tmp
+
 
     name = fields.Char('Name', readonly=True)
     employee_id = fields.Many2one('hr.employee', string='Employee',
@@ -143,8 +142,24 @@ class HrOvertimeRequest(models.Model):
     overtime_rate = fields.Monetary(string='Overtime Rate', compute='_compute_overtime_rate', readonly=True)
     overtime_amount = fields.Monetary(string='Overtime Amount', compute='_compute_overtime_amount', readonly=True, store=True)
     
+    total_leaves = fields.Float(string='Total Leaves', compute='_compute_leaves', readonly=True)
+    
     overtime_line = fields.One2many('hr.overtime.request.line', 'overtime_request_id', string='Overtime Lines', copy=True, states=READONLY_STATES)
 
+    @api.depends('overtime_line','overtime_line.overtime_hours','overtime_line.overtime_days')
+    def _compute_leaves(self):
+        tot = tot_hrs = tot_days = 0.0
+        if self.type == 'leave':
+            for line in self.overtime_line:
+                tot_hrs += line.overtime_hours
+                tot_days += line.overtime_days
+                
+            if self.overtime_type_id.duration_type == 'hours':
+                tot = tot_hrs / self.overtime_type_id.leave_earn_hours
+            else:
+                tot = tot_days
+        self.total_leaves = tot
+                
     @api.depends('overtime_line','overtime_line.overtime_hours','overtime_line.overtime_days')
     def _compute_overtime_rate(self):
         self.ensure_one()
@@ -158,7 +173,7 @@ class HrOvertimeRequest(models.Model):
                 
             for rule in self.overtime_type_id.rule_line_ids:
                 if rule.from_duration <= tot_hrs and rule.to_duration >= tot_hrs:
-                    tot_rate_hrs = rule.overtime_rate * (self.contract_id.wage / 30 / 24)
+                    tot_rate_hrs = rule.overtime_rate * (self.contract_id.wage / 26 / 7.335)
                 if rule.from_duration <= tot_days and rule.to_duration >= tot_days:
                     tot_rate_days = rule.overtime_rate * (self.contract_id.wage / 30)
                     
@@ -230,9 +245,9 @@ class HrOvertimeRequest(models.Model):
                 diff = sheet.date_to - sheet.date_from
                 days, seconds = diff.days, diff.seconds
                 hours = days * 24 + seconds // 3600
-                sheet.update({
-                    'days_no_tmp': hours if sheet.duration_type == 'hours' else days_no,
-                })
+                #sheet.update({
+                #    'days_no_tmp': hours if sheet.duration_type == 'hours' else days_no,
+                #})
 
     #@api.onchange('overtime_type_id')
     def _get_hour_amount(self):
@@ -287,29 +302,31 @@ class HrOvertimeRequest(models.Model):
     def action_approved(self):
         days = 0
         if self.overtime_type_id.type == 'leave':
-            for line in self.overtime_line:
-                if self.duration_type == 'days':
-                    holiday_vals = {
-                        'name': 'Overtime',
-                        'holiday_status_id': self.overtime_type_id.leave_type.id,
-                        'number_of_days': line.overtime_leave_days,
-                        'notes': self.desc,
-                        'holiday_type': 'employee',
-                        'employee_id': self.employee_id.id,
-                        'state': 'validate',
-                    }
-                else:
-                    day_hour = self.days_no_tmp / HOURS_PER_DAY
-                    holiday_vals = {
-                        'name': 'Overtime',
-                        'holiday_status_id': self.overtime_type_id.leave_type.id,
-                        'number_of_days': day_hour,
-                        'notes': self.desc,
-                        'holiday_type': 'employee',
-                        'employee_id': self.employee_id.id,
-                        'state': 'validate',
-                    }
-                holiday = self.env['hr.leave.allocation'].sudo().create(holiday_vals)
+            #for line in self.overtime_line:
+            #if self.duration_type == 'days':
+            holiday_vals = {
+                'name': 'Overtime',
+                'holiday_status_id': self.overtime_type_id.leave_type.id,
+                #'number_of_days': self.total_leaves,
+                'number_of_days': 1,
+                'notes': self.desc,
+                'holiday_type': 'employee',
+                'employee_id': self.employee_id.id,
+                'state': 'validate',
+                }
+            holiday = self.env['hr.leave.allocation'].sudo().create(holiday_vals)
+                #else:
+                    #day_hour = self.days_no_tmp / HOURS_PER_DAY
+                #holiday_vals = {
+                #    'name': 'Overtime',
+                #    'holiday_status_id': self.overtime_type_id.leave_type.id,
+                #    'number_of_days': self.total_leaves,
+                #    'notes': self.desc,
+                #    'holiday_type': 'employee',
+                #    'employee_id': self.employee_id.id,
+                #    'state': 'validate',
+                #}
+                #holiday = self.env['hr.leave.allocation'].sudo().create(holiday_vals)
             self.leave_id = holiday.id
 
         # notification to employee :
@@ -414,7 +431,7 @@ class HrOvertimeRequestLine(models.Model):
     employee_id = fields.Many2one('hr.employee', related='overtime_request_id.employee_id')
     type = fields.Selection(related='overtime_request_id.type', store=True,)
     overtime_type_id = fields.Many2one(related='overtime_request_id.overtime_type_id', store=True,)
-    date_overtime = fields.Date('Date', required=True, index=True, copy=False, default=fields.Datetime.now, help="Overtime To Date.", compute='_compute_date_orvertime', store=True, readonly=False)
+    date_overtime = fields.Date('Date', index=True, copy=False, help="Overtime To Date.", compute='_compute_date_orvertime', store=True, readonly=False)
     
     date_from = fields.Datetime('Date From')
     date_to = fields.Datetime('Date to')
@@ -431,23 +448,43 @@ class HrOvertimeRequestLine(models.Model):
     overtime_amount = fields.Monetary(string='Overtime Amount', compute='_compute_overtime_line_amount', readonly=True)
     
     approved_amount = fields.Monetary(string='Approved Amount')
+    
+    @api.constrains('overtime_hours')
+    def _check_approved_limit(self):
+        for req in self:
+            if req.overtime_hours > 3:
+                raise UserError(_('You can not eligible to submit more than 3 hours in a day'))
 
     @api.constrains('approved_amount')
     def _check_approved_amount(self):
         for line in self:
             if line.approved_amount > line.overtime_amount:
                 raise UserError(_('You can not approve higher amount of calculated overtime'))
+                
+    @api.constrains('date_from', 'date_to')
+    def _check_date(self):
+        for req in self:
+            domain = [
+                ('date_from', '<=', req.date_to),
+                ('date_to', '>=', req.date_from),
+                ('employee_id', '=', req.employee_id.id),
+                ('id', '!=', req.id),
+                ('state', 'not in', ['refused']),
+            ]
+            nholidays = self.search_count(domain)
+            if nholidays:
+                raise ValidationError(_(
+                    'You can not have 2 Overtime requests that overlaps on same day!'))
     
-    @api.constrains('overtime_hours','overtime_days')
-    def _check_overtime_limit(self):
-        for line in self:
-            if line.overtime_type_id.duration_limit == 'fixed':
-                if line.overtime_request_id.duration_type == 'hours':
-                    if line.overtime_hours > line.overtime_type_id.duration_limit:
-                        raise UserError(_('Overtime exceeding the day limit'))
-                elif line.overtime_request_id.duration_type == 'days':
-                     if line.overtime_days > line.overtime_type_id.duration_limit:
-                        raise UserError(_('Overtime exceeding the day limit'))
+                
+        #for line in self:
+         #   if line.overtime_type_id.duration_limit == 'fixed':
+          #      if line.overtime_request_id.duration_type == 'hours':
+           #         if line.overtime_hours > line.overtime_type_id.duration_limit:
+            #            raise UserError(_('Overtime exceeding the day limit'))
+             #   elif line.overtime_request_id.duration_type == 'days':
+              #       if line.overtime_days > line.overtime_type_id.duration_limit:
+               #         raise UserError(_('Overtime exceeding the day limit'))
     
             
     @api.depends('overtime_hours','overtime_days')
@@ -471,10 +508,12 @@ class HrOvertimeRequestLine(models.Model):
             
     @api.depends('date_from')
     def _compute_date_orvertime(self):
-        if self.date_from:
-            date_from = str(self.date_from)
-            d = datetime.strptime(date_from, '%Y-%m-%d %H:%M:%S')
-            self.date_overtime = d.strftime('%Y-%m-%d')
+        date_from = str(self.date_from)
+        for request in self:
+            if request.date_from:
+                date_from = str(request.date_from)
+            d = datetime.strptime(date_from, '%m/%d/%Y %H:%M:%S')
+            request.date_overtime = d.strftime('%Y-%m-%d')
             #self.date_overtime = datetime.datetime.strptime(self.date_from, '%Y-%m-%d %H:%M:%S').date()
 
             #self.date_overtime = dateutil.parser.parse(self.date_from).date()

@@ -22,7 +22,7 @@
         'security/ir.model.access.csv',
         'data/data.xml',
         'views/overtime_menu.xml',
-        'views/res_config_settings_views.xml',
+        #'views/res_config_settings_views.xml',
         'views/overtime_type_views.xml',
         'views/hr_contract_views.xml',
         'views/overtime_request_views.xml',

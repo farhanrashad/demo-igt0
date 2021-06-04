@@ -54,14 +54,16 @@
                                 <field name='overtime_type_id' options="{'no_create': True}"/>
                                  <field name='type' invisible="0"/>
                                 <field name='duration_type' invisible="0"/>
-                                <field name='pay_rule' invisible="0"/>
-                                <label for="overtime_rate" />
-                                <div class="o_row">
+                                <field name='total_leaves' invisible="0" attrs="{'invisible':[('type','!=','leave')]}"/>
+
+                                <field name='pay_rule' invisible="0" attrs="{'invisible':[('type','!=','cash')]}"/>
+                                <label for="overtime_rate" attrs="{'invisible':[('type','!=','cash')]}"/>
+                                <div class="o_row" attrs="{'invisible':[('type','!=','cash')]}">
                                     <field name="overtime_rate"/>/
                                     <field class="mr-1" name="duration_type" readonly="1"/>
                                 </div>
-                                <label for="overtime_amount" />
-                                <div class="o_row">
+                                <label for="overtime_amount" attrs="{'invisible':[('type','!=','cash')]}"/>
+                                <div class="o_row" attrs="{'invisible':[('type','!=','cash')]}">
                                     <field name="overtime_amount"/>/
                                     <field class="mr-1" name="duration_type" readonly="1"/>
                                 </div>
@@ -69,11 +71,9 @@
                                 <field name='date_request' />
                                 <field name='date_submit' />
                                 <field name='date_approve' />
-                                <field name="leave_id"
-                                       attrs="{'invisible': [('leave_id', '=', False)],'readonly': [('state', '!=', 'draft')]}"/>
+                                <field name="leave_id" attrs="{'invisible': [('leave_id', '=', False)],'readonly': [('state', '!=', 'draft')]}"/>
                             </group>
                         </group>
-                        
                         <notebook>
                             <page string="Overtime Lines" name="overtime_lines">
                                 <field name="overtime_line" widget="one2many_list">
@@ -86,8 +86,8 @@
                                         <field name="overtime_hours" widget="timesheet_uom_no_toggle" sum="Total Hrs" attrs="{'column_invisible':[('parent.duration_type','!=','hours')],'required':[('parent.duration_type','=','hours')]}"/>
                                         <field name="overtime_days" sum="Total Days" attrs="{'column_invisible':[('parent.duration_type','!=','days')],'required':[('parent.duration_type','=','days')]}"/>
 
-                                        <field name="overtime_amount" sum="Total Overtime" />
-                                        <field name="approved_amount" required="1" groups="hr.group_hr_manager" sum="Total Approved" />
+                                        <field name="overtime_amount" sum="Total Overtime" attrs="{'column_invisible':[('parent.type','!=','cash')]}"/>
+                                        <field name="approved_amount" required="1" groups="hr.group_hr_manager" sum="Total Approved" attrs="{'column_invisible':[('parent.type','!=','cash')]}"/>
 
 
                                     </tree>
@@ -98,11 +98,6 @@
                             </page>
                             
                         </notebook>
-
-<!--                        <group string="Refuse Reason"-->
-<!--                               attrs="{'invisible': [('cancel_reason', '=', False)]}">-->
-<!--                            <field name="cancel_reason" readonly="1"/>-->
-<!--                        </group>-->
                     </sheet>
                     <div class="oe_chatter">
                         <field name="message_follower_ids"

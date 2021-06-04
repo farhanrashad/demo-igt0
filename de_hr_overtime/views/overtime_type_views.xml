@@ -27,8 +27,11 @@
                                         <field class="mr-1" name="duration_type" />
                                     </div>
                                     <field name="leave_compute" invisible="1"/>
+
                                     <field name="leave_type"
                                            attrs="{'invisible': [('type','!=','leave')],'required': [('type','=','leave')]}"/>
+                                    <field name="total_hours" attrs="{'invisible': [('type','!=','cash')]}" />
+                                    <field name="leave_earn_hours" attrs="{'invisible': [('type','!=','leave')]}" />
                                 </group>
                             </group>
                         
