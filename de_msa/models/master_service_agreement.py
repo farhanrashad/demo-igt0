@@ -91,7 +91,7 @@ class master_service_agreement(models.Model):
         site = None
         if self.site_billing_info_ids:
             for site_line in self.site_billing_info_ids:
-                if self.simulation_date_from >= site_line.ip_start_date and self.simulation_date <= site_line.ip_end_date:
+                if self.simulation_date_from >= site_line.ip_start_date and self.simulation_date <= site_line.ip_start_date:
                     monthly_lease_amount = site_line.billable_lease_amount
                     ip_start_date = site_line.ip_start_date
                     site = site_line.site_id
