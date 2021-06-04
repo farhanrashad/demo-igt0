@@ -451,7 +451,7 @@ class CustomEntryLine(models.Model):
     to = fields.Char(string="To")
     departure_date = fields.Date(string="Departure Date")
     arrival_date = fields.Date(string="Arrival Date")
-    number_of_days = fields.Float(string="Number of Days" , compute = '_number_of_nights')
+    number_of_days = fields.Float(string="Number of Days" , compute = '_number_of_days')
     travel_reference = fields.Many2one('travel.request' , string="Travel Reference")
     description = fields.Char(related='travel_reference.description_main',string="Description")
     unit_price = fields.Float(string="Unit Price")
@@ -463,7 +463,7 @@ class CustomEntryLine(models.Model):
     
     
     @api.onchange('departure_date','arrival_date')
-    def _number_of_nights(self):
+    def _number_of_days(self):
         for line in self:
             if line.departure_date and line.arrival_date:
                 if line.departure_date > line.arrival_date:
@@ -580,9 +580,9 @@ class CustomEntryLine(models.Model):
     hotel_detail = fields.Char(string="Hotel Detail")
     check_in = fields.Date(string="Check-In")
     check_out = fields.Date(string="Check-Out")
-    number_of_nights = fields.Float(string="Number of Nights")
-    travel_reference_accom = fields.Char(string="Travel Reference")
-    description_accom = fields.Char(string="Description")
+    number_of_nights = fields.Float(string="Number of Nights", compute='_number_of_nights')
+    travel_reference_accom = fields.Many2one('travel.request' , string="Travel Reference")
+    description_accom = fields.Char(related='travel_reference.description_main',string="Description")
     travel_for_accom = fields.Float(string="Travel For")
     unit_price_accom = fields.Float(string="Unit Price")
     extra_charges_accom = fields.Float(string="Extra Charges")
@@ -600,6 +600,17 @@ class CustomEntryLine(models.Model):
                 'amount_accom': total_amount
             })
 
+    @api.onchange('check_in','check_out')
+    def _number_of_nights(self):
+        for line in self:
+            if line.check_in and line.check_out:
+                if line.check_in > line.check_out:
+                    raise UserError(("Check Out cant be before Check in."))
+                else:
+                    delta = line.check_out - line.check_in
+                    line.number_of_nights = abs(delta.days)
+            else:
+                line.number_of_nights = 0
         
         
     @api.depends('amount_accom')
