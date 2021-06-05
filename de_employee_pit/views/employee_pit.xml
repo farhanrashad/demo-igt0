@@ -26,9 +26,12 @@
                             <field name='no_of_children'/>
                             <field name='father'/>
                             <field name='mother'/>
+                            <field name='child'/>
                             <field name='wage'/>
                             <field name='annual_wage'/>
                             <field name='tax_income'/>
+                            <field name='monthly_tax'/>
+                            <field name='tax_test'/>
                         </group>
                     </group>
                     <notebook>

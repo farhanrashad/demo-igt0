@@ -49,66 +49,91 @@ class EmployeeIncomeTax(models.Model):
     department_id = fields.Many2one('hr.department', string='Department', related='employee_id.department_id')
     wage = fields.Float(string="Contract Wage", compute='employee_count')
     marital_stat = fields.Selection(string="Marital Status", related='employee_id.marital')
-    no_of_dependant = fields.Integer(string="No. of Dependants", compute='employee_count')
+    no_of_dependant = fields.Integer(string="No. of Dependants")
     no_of_children = fields.Integer(string="No. of Children", related='employee_id.children', compute='employee_count')
     father = fields.Boolean(string="Father")
     mother = fields.Boolean(string="Mother")
+    child = fields.Boolean(string="Child")
     annual_wage = fields.Float(string="Annual Wage", compute='employee_count')
-    tax_income = fields.Float(string="Tax Income")
-
+    tax_income = fields.Float(string="Tax Income", compute='employee_count')
+    monthly_tax = fields.Float('Monthly tax amount')
+    tax_test = fields.Float()
+    
     employee_income_tax_ids = fields.One2many('employee.income.tax.line', 'employee_income_tax_id')
-
+            
+        
+               
+    def employee_count(self):
+        count = 0
+        parent_count = 0
+        for rec in self:
+            if rec.employee_id.contract_id:
+                for contract in rec.employee_id.contract_id:
+                    if contract.state == 'open':
+                        rec.wage = contract.wage 
+                        rec.annual_wage = contract.wage * 12 
+                    else:
+                        rec.wage = 0
+                        rec.annual_wage = 0
+            else:
+                rec.wage = 0
+                rec.annual_wage = 0
+                
+            if rec.employee_id.employee_family_ids:
+                for dependant in rec.employee_id.employee_family_ids:
+                    if dependant.relation_ship == "father":
+                        rec.father = True
+                        parent_count = parent_count + 1
+                    if dependant.relation_ship == "mother":
+                        rec.mother = True
+                        parent_count = parent_count + 1
+                    if dependant.relation_ship == "child":
+                        rec.child = True
+                    count = count + 1
+            rec.no_of_dependant = count
+            
+            rec.tax_income = rec.annual_wage - ((rec.no_of_children * 500000) + (parent_count * 1000000))
+            
+            if rec.tax_income > 1 and rec.tax_income <= 2000000:
+                tax_per = 0
+            if rec.tax_income > 2000001 and rec.tax_income <= 5000000:
+                tax_per = 5
+            if rec.tax_income > 5000001 and rec.tax_income <= 10000000:
+                tax_per = 10
+            if rec.tax_income > 10000001 and rec.tax_income <= 20000000:
+                tax_per = 15
+            if rec.tax_income > 20000001 and rec.tax_income <= 30000000:
+                tax_per = 20
+            if rec.tax_income > 30000001:
+                tax_per = 25
+                
+            
+            total_annual_tax = rec.tax_income * (tax_per/100)
+            rec.monthly_tax = total_annual_tax / 12
+        
+            
     @api.onchange("employee_id")
     def compute_wage(self):
-        list_months=['jan','feb']
-        for i in range(len(list_months)):
-            vals = {
-                'months': list_months[i],
-                'employee_income_tax_id': self.id
-                }
-            self.employee_income_tax_ids.create(vals)
-            
-        
-        
+        if self.employee_id:
+            list_months=['jan','feb','march','april','may','june','jul','aug','sep','oct','nov','dec']
+            if self.employee_income_tax_ids:
+                for line in self.employee_income_tax_ids:
+                    line.unlink()
+            for i in range(len(list_months)):
+                vals = {
+                    'months': list_months[i],
+                    'month_tax': self.monthly_tax,
+                    'employee_income_tax_id': self.id
+                    }
+                self.employee_income_tax_ids.create(vals)
                 
-                
-    def employee_count(self):
-        for rec in self:
-            count = 0
-            if rec.employee_id:
-                if rec.employee_id.contract_id:
-                    for contract in rec.employee_id.contract_id:
-                        if contract.state == 'open':
-                            rec.wage = contract.wage 
-                            rec.annual_wage = contract.wage * 12 
-                        else:
-                            rec.wage = 0
-                            rec.annual_wage = 0
-                else:
-                    rec.wage = 0
-                    rec.annual_wage = 0
-        
-        
-                if rec.employee_income_tax_ids:
-                    for line in rec.employee_income_tax_ids:
-            line.unlink()
-                
-                if rec.employee_id.employee_family_ids:
-                    for dependant in rec.employee_id.employee_family_ids:
-                        if dependant.relation_ship == "father":
-                            rec.father = True
-#                         if dependant.relation_ship == "mother":
-#                             rec.mother = True
-                        if dependant.relation_ship == "child":
-                            rec.child = True
-                        count = count + 1
-                    rec.no_of_dependant = count
             
 
+            
 class EmployeeIncomeTaxLine(models.Model):
     _name = 'employee.income.tax.line'
 
     employee_income_tax_id = fields.Many2one('employee.income.tax')
     months = fields.Char('Months')
     month_salary = fields.Float(string="Month Salary")
-    month_tax = fields.Float(string="Monthly Tax")
+    month_tax = fields.Float(string="Monthly Tax", realted='employee_income_tax_id.tax_test')
