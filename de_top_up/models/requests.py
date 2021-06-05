@@ -130,4 +130,39 @@ class EmployeeRequestLine(models.Model):
                 'total': total_cards
             })
             
+            
+class EmployeeRequestLineCategory(models.Model):
+    _name = 'topup.request.category.line'
+    _description = 'Top Up Request model for Category'
+
+    request_id = fields.Many2one('topup.request')
+
+    category = fields.Selection([('employee benfit', 'Employee Benfit'), ('category use', 'Category Use')],
+                            String="Type")
+    telenor = fields.Integer(string="Telenor")
+    ooredoo = fields.Integer(string="Ooredoo")
+    mpt = fields.Integer(string="MPT")
+    mytel = fields.Integer(string="MYTEL")
+    total = fields.Integer(string="Total", compute="_compute_total")
+    remarks = fields.Char(string="Remarks")
+
+    @api.onchange('total')
+    def total_const(self):
+        for line in self:
+            if self.request_id.additional_req:
+                if line.total > 5:
+                    raise UserError("Total Sum cannot be greater than 5")
+            else:
+                if line.total > 3:
+                    raise UserError("Total cannot be greater than 3")
+                    
+    
+    @api.depends('telenor','ooredoo','mpt','mytel')
+    def _compute_total(self):
+        for line in self:
+            total_cards = line.telenor + line.ooredoo + line.mpt + line.mytel
+            line.update({
+                'total': total_cards
+            })
+
     
