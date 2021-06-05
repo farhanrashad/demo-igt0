@@ -58,8 +58,9 @@ class VehicleFuelLog(models.Model):
     purchaser = fields.Many2one('res.partner', string='Purchaser')
     
     def total_price_fuel(self):
-        m_liter = self.liter * self.price_per_liter
-        self.total_price = m_liter
+    	for record in self:
+        	m_liter = record.liter * record.price_per_liter
+        	record.total_price = m_liter
         
     @api.onchange('vehicle')
     def _get_employee(self):
