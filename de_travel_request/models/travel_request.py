@@ -94,4 +94,4 @@ class TravelRequestLine(models.Model):
 
     hotel_detail = fields.Char(string="Hotel Detail")
     check_in = fields.Datetime(string="Check In")
-    check_out = fields.Datetime(string="Check In")
+    check_out = fields.Datetime(string="Check Out")
