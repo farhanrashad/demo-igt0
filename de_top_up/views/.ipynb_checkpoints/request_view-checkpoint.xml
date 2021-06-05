@@ -31,16 +31,30 @@
                             <field name='representative_batch'/>
                             <field name='date'/>
                             <field name='type'/>
-                            <field name='is_level'/>
+                            <field name='is_level' string="Is C-Level?" attrs="{'readonly': [('type','=','category use')]}"/>
                             <field name='additional_req'/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Employee Benefit" name="Employee Benefit">
+                        <page string="Employee Benefit" name="employee_benefit"  attrs="{'invisible': [('type','=','category use')]}">
                             <field name='topup_request_lines' attrs="{'readonly': [('state','=','approved')]}">
                                 <tree editable='bottom'>
                                     <field name='employee'/>
                                     <field name='department'/>
+                                    <field name='telenor' sum="Total Telenor"/>
+                                    <field name='ooredoo' sum="Total Ooredoo"/>
+                                    <field name='mpt' sum="Total MRP"/>
+                                    <field name='mytel' sum="Total Mytel"/>
+                                    <field name='total' sum="Total"/>
+                                    <field name='remarks'/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Category" name="category" attrs="{'invisible': [('type','!=','category use')]}">
+                            <field name='topup_request_lines_category' attrs="{'readonly':[('state','=','approved')]}">
+                                <tree editable='bottom'>
+                                    <field name='category'/>
+                                    <field name='description'/>
                                     <field name='telenor' sum="Total Telenor"/>
                                     <field name='ooredoo' sum="Total Ooredoo"/>
                                     <field name='mpt' sum="Total MRP"/>

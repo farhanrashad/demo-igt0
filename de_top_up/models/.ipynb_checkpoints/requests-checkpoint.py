@@ -34,6 +34,7 @@ class TopUpRequest(models.Model):
     ], string='State', index=True, copy=False, default='draft', track_visibility='onchange')
 
     topup_request_lines = fields.One2many('topup.request.line', 'request_id')
+    topup_request_lines_category = fields.One2many('topup.request.category.line', 'request_id')
 
     # @api.constrains('participants_ids')
     # def constraints_on_selection(self):
@@ -133,12 +134,19 @@ class EmployeeRequestLine(models.Model):
             
 class EmployeeRequestLineCategory(models.Model):
     _name = 'topup.request.category.line'
-    _description = 'Top Up Request model'
+    _description = 'Top Up Request model for Category'
 
     request_id = fields.Many2one('topup.request')
 
-    employee = fields.Many2one('hr.employee', string="Employee")
-    department = fields.Many2one('hr.department', string="Department", related="employee.department_id")
+    category = fields.Selection([('BOD', 'BOD'),
+                                 ('media', 'Media ( Facebook, Twitter, LinkedIn )'),
+                                 ('gps', 'GPS'),
+                                 ('hr', 'HR Phone'),
+                                 ('it', 'IT server room Alarm system'),
+                                 ('cctv', 'CCTV')
+                                ],
+                            String="Category")
+    description = fields.Char(string="Description")
     telenor = fields.Integer(string="Telenor")
     ooredoo = fields.Integer(string="Ooredoo")
     mpt = fields.Integer(string="MPT")
@@ -146,15 +154,6 @@ class EmployeeRequestLineCategory(models.Model):
     total = fields.Integer(string="Total", compute="_compute_total")
     remarks = fields.Char(string="Remarks")
 
-    @api.onchange('total')
-    def total_const(self):
-        for line in self:
-            if self.request_id.additional_req:
-                if line.total > 5:
-                    raise UserError("Total Sum cannot be greater than 5")
-            else:
-                if line.total > 3:
-                    raise UserError("Total cannot be greater than 3")
                     
     
     @api.depends('telenor','ooredoo','mpt','mytel')
