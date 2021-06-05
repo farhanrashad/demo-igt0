@@ -6,6 +6,11 @@ from odoo import models, fields, api, _
 class HrPayslip(models.Model):
     _inherit = 'hr.payslip'
     
+    work_location = fields.Char(related='employee_id.work_location')   
+    bank_account_id = fields.Many2one(related='employee_id.bank_account_id')   
+    job_id = fields.Many2one(related='employee_id.job_id') 
+    conctract_type = fields.Selection(related='employee_id.type', string='Contract Type') 
+    
     @api.constrains('contract_id')
     def onchange_employee_input(self):
     	for payslip in self:
