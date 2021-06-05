@@ -30,8 +30,7 @@
                             <field name='wage'/>
                             <field name='annual_wage'/>
                             <field name='tax_income'/>
-                            <field name='monthly_tax'/>
-                            <field name='tax_test'/>
+                            <field name='monthly_tax' invisible="1"/>
                         </group>
                     </group>
                     <notebook>

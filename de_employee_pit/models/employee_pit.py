@@ -57,7 +57,6 @@ class EmployeeIncomeTax(models.Model):
     annual_wage = fields.Float(string="Annual Wage", compute='employee_count')
     tax_income = fields.Float(string="Tax Income", compute='employee_count')
     monthly_tax = fields.Float('Monthly tax amount')
-    tax_test = fields.Float()
     
     employee_income_tax_ids = fields.One2many('employee.income.tax.line', 'employee_income_tax_id')
             
@@ -122,7 +121,6 @@ class EmployeeIncomeTax(models.Model):
             for i in range(len(list_months)):
                 vals = {
                     'months': list_months[i],
-                    'month_tax': self.monthly_tax,
                     'employee_income_tax_id': self.id
                     }
                 self.employee_income_tax_ids.create(vals)
@@ -136,4 +134,10 @@ class EmployeeIncomeTaxLine(models.Model):
     employee_income_tax_id = fields.Many2one('employee.income.tax')
     months = fields.Char('Months')
     month_salary = fields.Float(string="Month Salary")
-    month_tax = fields.Float(string="Monthly Tax", realted='employee_income_tax_id.tax_test')
+    month_tax = fields.Float(string="Monthly Tax", compute='compute_monthly_tax')
+    
+    
+    def compute_monthly_tax(self):
+        for rec in self:
+            rec.month_tax = rec.employee_income_tax_id.monthly_tax
+            
