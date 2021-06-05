@@ -6,8 +6,8 @@
     'author': "Dynexcel",
     'website': "http://www.dynexcel.co",
     'category': 'Hr',
-    'version': '14.0.0.0',
-    'depends': ['base', 'hr'],
+    'version': '14.0.0.1',
+    'depends': ['base', 'hr', 'base_setup',  'digest'],
     'data': [
         'security/ir.model.access.csv',
         'data/form_name.xml',
