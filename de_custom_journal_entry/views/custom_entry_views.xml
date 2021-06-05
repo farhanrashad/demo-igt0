@@ -294,7 +294,7 @@
                                                attrs="{'column_invisible':[('parent.has_accommodation_fields','==','no')], 'required': [('parent.has_accommodation_fields','==','required')]}"
                                                options="{'no_create':True}"/>
                                         <field name="remark_accom"
-                                               attrs="{'column_invisible':[('parent.has_accommodation_fields','==','no')]}"
+                                               attrs="{'column_invisible':[('parent.has_accommodation_fields','==','no')],'required':[('extra_charges','!=',0.0)]}"
                                                options="{'no_create':True}"/>
                                         <field name="amount_accom"
                                                attrs="{'column_invisible':[('parent.has_accommodation_fields','==','no')], 'required': [('parent.has_accommodation_fields','==','required')]}"
