@@ -118,6 +118,7 @@
                             <group>
                                 <field name='site_type_id' attrs="{'required':[('allow_site_planning', '=', True)]}" options="{'no_create':'1', 'no_open':'1'}"/>
                                 <field name='address_id' attrs="{'required':[('allow_site_planning', '=', True)]}"/>
+                                <field name="state_id" string="Region"/>
                             </group>
                             <group>
                                 <field name="location_id" options="{'no_create': True}"/>

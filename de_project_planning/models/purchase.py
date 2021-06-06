@@ -18,6 +18,15 @@ class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
     
     project_id = fields.Many2one('project.project', string='Project')
+    state_id = fields.Many2one('res.country.state', compute='_compute_project_state')
+    
+    @api.depends('project_id')
+    def _compute_project_state(self):
+        for line in self:
+            if line.project_id:
+                line.state_id = line.project_id.address_id.state_id.id
+            else:
+                line.state_id = False
     
     @api.onchange('product_id')
     def onchange_product(self):

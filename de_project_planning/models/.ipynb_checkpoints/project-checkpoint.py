@@ -26,8 +26,9 @@ class ProjectProject(models.Model):
     stock_receipt_count = fields.Integer(compute='_compute_stock_receipt_count', string="Receipt Count")
     stock_transfer_count = fields.Integer(compute='_compute_stock_transfer_count', string="Transfer Count")
     
-    site_type_id = fields.Many2one('project.site.type',string='Site Type')
+    site_type_id = fields.Many2one('project.site.type',string='Site Type', change_default=True,)
     address_id = fields.Many2one('res.partner',string='Address')
+    state_id = fields.Many2one('res.country.state', related='address_id.state_id')
     location_id = fields.Many2one('stock.location',string='Stock Location', domain="[('site_location', '=', True)]")
 
     def _compute_requisition_count(self):
