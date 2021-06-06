@@ -2,3 +2,4 @@
 
 from . import employee_benefit
 from . import hr_payslip
+from . import hr_payslips_by_employees

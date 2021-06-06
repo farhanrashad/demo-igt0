@@ -49,7 +49,7 @@ class VehicleFuelLog(models.Model):
     liter = fields.Integer(string='Liter')
     fuel = fields.Many2one('fleet.fuel', string='Fuel')
     price_per_liter = fields.Integer(string='Price Per Liter')
-    total_price = fields.Integer(string='Total Price', compute='total_price_fuel', store=True)
+    total_price = fields.Integer(string='Total Price', compute='total_price_fuel')
     odometer_value = fields.Char(string='Odometer Value')
     previous_odometer_reading = fields.Char(string='Previous Odometer Reading')
     date = fields.Date(string='Date')
@@ -58,8 +58,9 @@ class VehicleFuelLog(models.Model):
     purchaser = fields.Many2one('res.partner', string='Purchaser')
     
     def total_price_fuel(self):
-        m_liter = self.liter * self.price_per_liter
-        self.total_price = m_liter
+    	for record in self:
+        	m_liter = record.liter * record.price_per_liter
+        	record.total_price = m_liter
         
     @api.onchange('vehicle')
     def _get_employee(self):
