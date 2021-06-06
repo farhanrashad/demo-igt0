@@ -25,7 +25,7 @@ class StockPicking(models.Model):
     @api.depends('move_lines.product_uom_qty','move_lines.quantity_done')
     def _compute_all_currency_conversion_amount(self):
         total_base_signed = 0.0
-        price = total = 0
+        price = total = 0.0
         for picking in self:
             for line in picking.move_lines:
                 if not (line.currency_id.id == picking.company_id.currency_id.id):
@@ -57,7 +57,7 @@ class StockMove(models.Model):
     @api.depends('purchase_line_id')
     def _compute_all_purchase(self):
         currency_id = self.env['res.currency'].browse(0)
-        price_unit = price_total = 0
+        price_unit = price_total = 0.0
         for line in self:
             if line.purchase_line_id:
                 currency_id = line.purchase_line_id.currency_id
@@ -70,7 +70,7 @@ class StockMove(models.Model):
     @api.depends('product_uom_qty','quantity_done')
     def _compute_all_currency_conversion_amount(self):
         for line in self:
-            price = total = 0
+            price = total = 0.0
             if not (line.currency_id.id == line.picking_id.company_id.currency_id.id):
                 if line.purchase_line_id:
                     price = line.currency_id._get_conversion_rate(line.currency_id, line.company_currency_id,line.picking_id.company_id, fields.date.today()) * line.price_unit
