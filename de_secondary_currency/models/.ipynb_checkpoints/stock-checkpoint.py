@@ -28,14 +28,16 @@ class StockPicking(models.Model):
         price = total = 0.0
         for picking in self:
             for line in picking.move_lines:
-                if not (line.currency_id.id == picking.company_id.currency_id.id):
-                    price = line.currency_id._get_conversion_rate(line.currency_id, picking.company_currency_id,picking.company_id, fields.date.today()) * line.price_unit
-                else:
-                    price = line.purchase_line_id.price_unit
-                if line.state == 'done':
-                    total += (price * line.quantity_done)
-                else:
-                   total += (price * line.product_uom_qty)
+                if line.purchase_line_id:
+                    if not (line.currency_id.id == picking.company_id.currency_id.id):
+                        price = line.currency_id._get_conversion_rate(line.currency_id, picking.company_id.currency_id,picking.company_id, fields.date.today()) * line.price_unit
+                    #price = 1
+                    else:
+                        price = line.purchase_line_id.price_unit
+                    if line.state == 'done':
+                        total += (price * line.quantity_done)
+                    else:
+                       total += (price * line.product_uom_qty)
         
             picking.update({
                 'total_base_signed': total,
@@ -71,15 +73,17 @@ class StockMove(models.Model):
     def _compute_all_currency_conversion_amount(self):
         for line in self:
             price = total = 0.0
-            if not (line.currency_id.id == line.picking_id.company_id.currency_id.id):
-                if line.purchase_line_id:
-                    price = line.currency_id._get_conversion_rate(line.currency_id, line.company_currency_id,line.picking_id.company_id, fields.date.today()) * line.price_unit
-                else:
-                    price = line.price_unit
-                if line.state == 'done':
-                    total = price * line.quantity_done
-                else:
-                    total = price * line.product_uom_qty
+            if line.product_uom_qty > 0 or line.quantity_done > 0:
+                if not (line.currency_id.id == line.picking_id.company_id.currency_id.id):
+                    if line.purchase_line_id:
+                        price = line.currency_id._get_conversion_rate(line.currency_id, line.picking_id.company_id.currency_id,line.picking_id.company_id, fields.date.today()) * line.price_unit
+                        #price = 1
+                    else:
+                        price = line.price_unit
+                    if line.state == 'done':
+                        total = price * line.quantity_done
+                    else:
+                        total = price * line.product_uom_qty
                         
             line.update({
                 'price_unit_base': price,
