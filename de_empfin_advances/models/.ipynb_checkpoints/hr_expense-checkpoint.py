@@ -2,14 +2,21 @@
 
 from odoo import fields, models, _, api
 
+class HrExpenseSheet(models.Model):
+    _inherit = 'hr.expense.sheet'
+    
+    hr_salary_advance_id  = fields.Many2one('hr.salary.advance', string='Advances Request', domain='[("employee_id","=", employee_id), ("state","in", ("paid","close"))]')
+    
 
 class HrExpense(models.Model):
     _inherit = 'hr.expense'
+    
+    #hr_salary_advance_id  = fields.Many2one('hr.salary.advance', string='Advances Request', domain='[("employee_id","=", employee_id), ("state","in", ("paid","close"))]')
 
-    advance_line_id  = fields.Many2one('hr.salary.advance.line', string='Advances Line', domain='[("employee_id","=", employee_id), ("state","not in", ("paid", "cancel", "close", "reject"))]')
-    
-    
-    
+    hr_salary_advance_id  = fields.Many2one('hr.salary.advance', string='Advances Request', domain='[("employee_id","=", employee_id), ("state","in", ("paid","close"))]')
+
+    advance_line_id  = fields.Many2one('hr.salary.advance.line', string='Advances Line', domain='[("advance_id","=", hr_salary_advance_id)]')
+
     
     @api.depends('product_id', 'company_id')
     def _compute_from_product_id_company_id(self):
@@ -31,6 +38,6 @@ class HrExpense(models.Model):
         if self.advance_line_id:
             self.update({
                 'product_id': self.advance_line_id.product_id.id,
-                'unit_amount': self.advance_line_id.approve_amount,
+                'unit_amount': self.advance_line_id.approved_amount,
             })
 

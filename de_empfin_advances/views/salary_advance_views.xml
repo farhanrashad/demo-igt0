@@ -11,11 +11,15 @@
                     <field name="name" string="Salary Advance" filter_domain="['|',('name','ilike',self)]"/>
                     <field name="employee_id"/>
                     <field name="state"/>
-                    <filter string="My Requests" domain="[('employee_id.user_id.id','=',uid)]" name="my_requests_filter"/>
-                    <filter domain="[('state', '=', 'draft')]" string="To Submit" name="to_report" help="New Requests"/>
-                    <filter domain="[('state','in',('submit','waiting_approval'))]" string="To Approve" name="submitted" help="Submitted Requests"/>
-                    <filter domain="[('state', '=', 'approve')]" string="Approved" name="approved" help="Approved Requests"/>
+                    <filter string="My Requests" domain="[('employee_id.user_id.id','=',uid)]" name="filter_my_requests"/>
+                    <filter domain="[('state', 'in', ['draft'])]" string="To Submit" name="filter_to_sumbit" help="New Requests"/>
+                    <filter domain="[('state','in',('confirmed','hr_approval','finance_approval'))]" string="To Approve" name="filter_to_approve" help="Submitted Requests"/>
+                    <filter domain="[('state', 'in', ['approved','paid','close'])]" string="Approved" name="filter_approved" help="Approved Requests"/>
                     <separator/>
+                    <filter domain="[('state', '=', 'approved')]" string="Waiting for Payment" name="filter_wait_for_payment" />
+                    <filter domain="[('state', '=', 'paid')]" string="Paid" name="filter_paid" />
+
+
                </search>
             </field>
         </record>
@@ -57,7 +61,7 @@
                 		<group>
 	                		<group>
 	                        	<field name="employee_id" attrs="{'readonly':[('state','!=','draft')]}"  on_change="onchange_employee_id(employee_id,employee_contract_id)"/>
-                                <field name="department" attrs="{'readonly':[('state','!=','draft')]}" />  
+                                <field name="department_id" />  
                                 <field name="date" attrs="{'readonly':[('state','!=','draft')]}" />
 	                        	<field name="reason" attrs="{'readonly':[('state','!=','draft')]}"  />
                                 <field name="exceed_condition" groups="hr.group_hr_manager,hr.group_hr_user" attrs="{'readonly':[('state','!=','draft')]}" />
@@ -65,20 +69,21 @@
 		                    <group>
                                 <field name="currency_id" groups="base.group_multi_currency" attrs="{'readonly':[('state','!=','draft')]}" />
                                 <field name="company_id"  groups="base.group_multi_currency" attrs="{'readonly':[('state','!=','draft')]}" />
-                                <field name="employee_contract_id"   groups="hr.group_hr_manager,hr.group_hr_user"/>
+                                <field name="employee_contract_id" required="1" groups="hr.group_hr_manager,hr.group_hr_user"/>
 	                    	</group>
                     	</group>
                         <notebook>
                             <page string="Lines">
                                <field name="cash_line_ids">  
                                 <tree editable="bottom">
+                                    <field name="currency_id" invisible="1" />
                                   <field name="type_id" attrs="{'readonly':[('state','!=','draft')]}" />
                                  <field name="product_id" attrs="{'readonly':[('state','!=','draft')]}" />
                                  <field name="description" attrs="{'readonly':[('state','!=','draft')]}" />
                                  <field name="quantity" attrs="{'readonly':[('state','!=','draft')]}" />
                                  <field name="unit_price" attrs="{'readonly':[('state','!=','draft')]}" />
-                                 <field name="total_amount" attrs="{'readonly':[('state','!=','draft')]}" />  
-                                 <field name="approve_amount" attrs="{'readonly':[('state','in',('paid','close','cancel', 'reject'))]}" />  
+                                 <field name="total_amount" sum="Total"/>  
+                                 <field name="approved_amount" sum="Approved Amount" attrs="{'readonly':[('state','in',('paid','close','cancel', 'reject'))]}" />  
                                  <field name="remarks" attrs="{'readonly':[('state','!=','draft')]}" /> 
                                  <field name="finance_remarks" attrs="{'readonly':[('state','!=','draft')]}" />   
                                  <field name="approved" attrs="{'readonly':[('state','!=','draft')]}" />
@@ -97,15 +102,25 @@
                             </page>
                             <page string="Accounting Information" name="accounting_info">
                                 <group>
-                                    <group>
+                                    <group string="Bill/Payment">
                                         <field name="deductable" />
                                         <field name="journal_type" invisible="1" />
                                         <field name="partner_id" />
                                         <field name="journal_id"  />
                                         <field name="payment_id" attrs="{'invisible':[('journal_type','=','purchase')]}" />
+                                        <field name="invoice_id" attrs="{'invisible':[('journal_type','!=','purchase')]}" />
+                                        <field name="payment_date"  />
+
                                         <field name="payment_method_id"  attrs="{'invisible':[('journal_type','=','purchase')],'required':[('journal_type','in',['cash','bank'])]}" />
-                                        <field name="account_id"   attrs="{'invisible':[('journal_type','!=','purchase')],'required':[('journal_type','=','purchase')]}" />
+                                        <field name="account_id"   attrs="{'invisible':[('journal_type','!=','purchase')]}" />
                                         <field name="payment_amount" />
+                                    </group>
+                                    <group string="Expense">
+                                        <field name="hr_expense_id" />
+                                        <field name="hr_expense_sheet_id" />
+                                        <field name="expense_deadline" string="Remittance Due Date"/>
+                                        <field name="remittance_outstanding_days" />
+                                        <field name="remittance_overdue_days" />
                                     </group>
                                 </group>
                             </page>
@@ -120,6 +135,7 @@
             <field name="model">hr.salary.advance</field>
             <field name="arch" type="xml">
                 <tree string=" Advance">
+                    <field name="name"/>
                     <field name="employee_id"/>
                     <field name="date"/>
                     <field name="amount_total"/>
@@ -135,23 +151,7 @@
             <field name="res_model">hr.salary.advance</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="hr_salary_advance_search_view"/>
-            <field name="context">{'search_default_my_requests_filter':1}</field>
-            <field name="domain">[('employee_id.user_id', '=', uid)]</field>
-            <field name="help" type="html">
-                <p class="oe_view_nocontent_create">
-                    Create Requests.
-                </p>
-            </field>
-        </record>
-
-        <record id="action_my_salary_advance_request_approved" model="ir.actions.act_window">
-            <field name="name">Salary Advance</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">hr.salary.advance</field>
-            <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="hr_salary_advance_search_view"/>
-            <field name="context">{'search_default_approved':1}</field>
-            <field name="domain">[('employee_id.user_id', '=', uid)]</field>
+            <field name="context">{'search_default_filter_my_requests':1}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Create Requests.
@@ -165,8 +165,21 @@
             <field name="res_model">hr.salary.advance</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="hr_salary_advance_search_view"/>
-            <field name="context">{'search_default_submitted': 1}</field>
-            <field name="domain"></field>
+            <field name="context">{'search_default_filter_to_approve': 1}</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create Requests.
+                </p>
+            </field>
+        </record>
+        
+        <record id="action_my_salary_advance_request_approved" model="ir.actions.act_window">
+            <field name="name">Salary Advance</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.salary.advance</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="hr_salary_advance_search_view"/>
+            <field name="context">{'search_default_filter_approved':1}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
                     Create Requests.
@@ -177,8 +190,11 @@
        
         <menuitem id="employee_salary_advance_menu" name="Advances" parent="de_empfin_core.emp_fin_root_menu" sequence="3"/>   
 
-        <menuitem id="menu_my_salary_advance" action="action_my_salary_advance" parent="employee_salary_advance_menu" name="Request Advance" sequence="1" />
-        <menuitem id="menu_salary_advance" action="action_salary_advance_to_approve" parent="employee_salary_advance_menu" name="Advance To Approve" sequence="3" groups="hr.group_hr_manager,hr.group_hr_user,account.group_account_manager"/>
-        <menuitem id="menu_my_salary_advance_approved" action="action_my_salary_advance_request_approved" parent="employee_salary_advance_menu" name="My Approved Advance" sequence="2" />
+        <menuitem id="menu_my_salary_advance" action="action_my_salary_advance" parent="employee_salary_advance_menu" name="Advance Request" sequence="1" />
+        
+        <menuitem id="menu_my_salary_advance_approved" action="action_salary_advance_to_approve" parent="employee_salary_advance_menu" name="Pending Request" sequence="2" />
+        
+        <menuitem id="menu_salary_advance" action="action_my_salary_advance_request_approved" parent="employee_salary_advance_menu" name="Approved Request" sequence="3" groups="hr.group_hr_manager,hr.group_hr_user,account.group_account_manager"/>
+
     </data>
 </odoo>
