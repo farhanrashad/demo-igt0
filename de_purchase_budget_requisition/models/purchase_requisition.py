@@ -31,4 +31,5 @@ class PurchaseRequisitionLine(models.Model):
             'account_analytic_id': self.account_analytic_id.id,
             'analytic_tag_ids': self.analytic_tag_ids.ids,
             'purchase_budget_line_id': self.purchase_budget_line_id.id,
+            'project_id': self.project_id.id,
         }

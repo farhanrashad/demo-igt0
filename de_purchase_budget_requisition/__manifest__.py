@@ -19,10 +19,10 @@ Budget on Purchase Agreement
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Purchase',
-    'version': '14.0.0.1',
+    'version': '14.0.0.2',
 
     # any module necessary for this one to work correctly
-    'depends': ['de_purchase_budget','purchase_requisition'],
+    'depends': ['de_purchase_budget','purchase_requisition','de_project_planning'],
 
     # always loaded
     'data': [
