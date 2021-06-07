@@ -98,6 +98,7 @@ class PurchaseSubscription(models.Model):
                 recurring_amount += line.recurring_total
             order.update({
                 'total_comitment': recurring_amount,
+                'open_comitment': recurring_amount - order.recurring_billed_total 
             })
             
     @api.depends('purchase_subscription_schedule_line.recurring_price')
@@ -123,7 +124,8 @@ class PurchaseSubscription(models.Model):
     current_amount = fields.Float(string='Current Amount', copy=False)
     amount_current = fields.Float(string='Current Amount', copy=False, compute='compute_current_amount')
     total_comitment = fields.Float(string='Total Commitment', compute='_compute_total_commitment')
-        
+    open_comitment = fields.Float(string='Open Commitment', compute='_compute_total_commitment')
+    
     def generate_recurring_invoice(self):
         plan_limit = False
         for subline in self.purchase_subscription_line:
