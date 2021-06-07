@@ -16,7 +16,7 @@
     'price': 300.00,
     'currency': 'USD',
     'website': '',
-    'depends': ['accounting_pdf_reports', 'de_account_analytic_default'],
+    'depends': ['accounting_pdf_reports', 'de_account_analytic_default', 'de_account_fin_period'],
     'images': ['static/description/banner.png'],
     'demo': [],
     'data': [

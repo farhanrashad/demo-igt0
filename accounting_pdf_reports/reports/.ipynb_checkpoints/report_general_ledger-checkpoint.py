@@ -72,7 +72,7 @@ class ReportGeneralLedger(models.AbstractModel):
         filters = filters.replace('account_move_line__move_id', 'm').replace('account_move_line', 'l')
 
         # Get move lines base on sql query and Calculate the total balance of move lines
-        sql = ('''SELECT l.id AS lid, l.account_id AS account_id, l.date AS ldate, j.code AS lcode, l.currency_id, l.amount_currency, l.ref AS lref, l.name AS lname, COALESCE(l.debit,0) AS debit, COALESCE(l.credit,0) AS credit, COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) AS balance,\
+        sql = ('''SELECT l.id AS lid, l.account_id AS account_id, l.date AS ldate, to_char(l.date, 'MM-YYYY') AS account_period, j.code AS lcode, l.currency_id, l.amount_currency, l.ref AS lref, l.name AS lname, COALESCE(l.debit,0) AS debit, COALESCE(l.credit,0) AS credit, COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) AS balance,\
             m.name AS move_name, c.symbol AS currency_code, p.name AS partner_name\
             FROM account_move_line l\
             JOIN account_move m ON (l.move_id=m.id)\
