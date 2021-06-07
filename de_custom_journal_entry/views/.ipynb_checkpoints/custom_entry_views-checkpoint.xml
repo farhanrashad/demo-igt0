@@ -32,7 +32,7 @@
                     <field name="partner_id"/>
                     <field name="ref_fleet"/>
                     <field name="supplier_inv_no_fleet"/>
-                    <field name="invoice_no_fleet" groups="'de_custom_journal_entry.group_show_taxes_custom_journal_entry'"/>
+                    <field name="invoice_no_fleet" groups="de_custom_journal_entry.group_show_taxes_custom_journal_entry"/>
                     <field name="amount_total_all" string="Bill Total"/>
                     
                     
@@ -106,7 +106,7 @@
                             <group>
                                 <field name="ref_fleet" required='1' attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
                                 <field name="supplier_inv_no_fleet" required='1' attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
-                                <field name="invoice_no_fleet" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                <field name="invoice_no_fleet" groups="de_custom_journal_entry.group_show_taxes_custom_journal_entry"/>
                                 <field name="amount_total_all"/>
 <!--                                 <field name="amount_total_fleet"
                                        attrs="{'invisible':[('has_fleet_fields','==','no')], 'required': [('has_fleet_fields','==','required')]}"/> -->

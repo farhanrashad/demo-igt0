@@ -109,7 +109,7 @@ class CustomEntry(models.Model):
     partner_id = fields.Many2one('res.users', default=lambda self: self.env.user, String="Supplier")
     amount_total_all = fields.Float(string="Total Amount", compute="_compute_amount_total_all")
     ref = fields.Char('Reference', copy=False)
-    invoice_no_fleet = fields.Many2one('account.move', string='Invoice Number', compute="_compute_invoice_no_fleet")
+    invoice_no_fleet = fields.Many2one('account.move', string='Invoice Number', compute="_compute_invoice_no_fleet", readonly=True)
     purchase_requisition_id = fields.Many2one('purchase.requisition', string="Requisition", check_company=True)
     purchase_id = fields.Many2one('purchase.order', string="Purchase", check_company=True)
     invoice_id = fields.Many2one('account.move', string="Invoice", check_company=True)
@@ -165,19 +165,22 @@ class CustomEntry(models.Model):
                 record.update({
                     'amount_total_all': amount_total,
                 })
-            if record.custom_entry_type_id.has_accommodation_fields == 'required':
+            elif record.custom_entry_type_id.has_accommodation_fields == 'required':
                 for line in record.custom_entry_line:
                     amount_total = line.amount_accom + amount_total
                 record.update({
                     'amount_total_all': amount_total,
                 })
-            if record.custom_entry_type_id.has_travel_fields == 'required':
+            elif record.custom_entry_type_id.has_travel_fields == 'required':
                 for line in record.custom_entry_line:
                     amount_total = line.amount_travel + amount_total
                 record.update({
                     'amount_total_all': amount_total,
                 })
-                
+            else:
+                record.update({
+                    'amount_total_all': 0.0,
+                })
     
 #     @api.depends('custom_entry_line.amount')
 #     def _compute_total_fleet(self):
