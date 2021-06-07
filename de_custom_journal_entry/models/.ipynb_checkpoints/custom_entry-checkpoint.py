@@ -107,6 +107,7 @@ class CustomEntry(models.Model):
     
 #     partner_id = fields.Many2one('res.partner', string='Vendor', required=True, states=READONLY_STATES, change_default=True, tracking=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
     partner_id = fields.Many2one('res.users', default=lambda self: self.env.user, String="Supplier")
+#     amount_total_all = fields.Float(string="Total Amount", compute="_compute_amount_total_all")
     ref = fields.Char('Reference', copy=False)
     invoice_no_fleet = fields.Many2one('account.move', string='Invoice Number', compute="_compute_invoice_no_fleet")
     purchase_requisition_id = fields.Many2one('purchase.requisition', string="Requisition", check_company=True)
@@ -153,7 +154,8 @@ class CustomEntry(models.Model):
         search_domain += list(domain)
         return self.env['account.custom.entry.stage'].search(search_domain, order=order, limit=1).id
                                
-                               
+            
+
     @api.depends('custom_entry_line.amount')
     def _compute_total_fleet(self):
         for record in self:
@@ -173,7 +175,6 @@ class CustomEntry(models.Model):
             record.update({
                 'amount_total_accom': amount_total,
             })
-            
             
     @api.depends('custom_entry_line.amount_travel')
     def _compute_total_travel(self):
@@ -470,7 +471,10 @@ class CustomEntryLine(models.Model):
                     raise UserError(("Arrival Date cant be before Departure Date."))
                 else:
                     delta = line.arrival_date - line.departure_date
-                    line.number_of_days = abs(delta.days)
+                    if abs(delta.days) > 0:
+                        line.number_of_days = abs(delta.days)
+                    else:
+                        line.number_of_days = 1
             else:
                 line.number_of_days = 0
     
@@ -582,7 +586,7 @@ class CustomEntryLine(models.Model):
     check_out = fields.Date(string="Check-Out")
     number_of_nights = fields.Float(string="Number of Nights", compute='_number_of_nights')
     travel_reference_accom = fields.Many2one('travel.request' , string="Travel Reference")
-    description_accom = fields.Char(related='travel_reference.description_main',string="Description")
+    description_accom = fields.Char(related='travel_reference_accom.description_main',string="Description")
     travel_for_accom = fields.Float(string="Travel For")
     unit_price_accom = fields.Float(string="Unit Price")
     extra_charges_accom = fields.Float(string="Extra Charges")
@@ -608,7 +612,10 @@ class CustomEntryLine(models.Model):
                     raise UserError(("Check Out cant be before Check in."))
                 else:
                     delta = line.check_out - line.check_in
-                    line.number_of_nights = abs(delta.days)
+                    if abs(delta.days) > 0:
+                        line.number_of_nights = abs(delta.days)
+                    else:
+                        line.number_of_nights = 1
             else:
                 line.number_of_nights = 0
         
