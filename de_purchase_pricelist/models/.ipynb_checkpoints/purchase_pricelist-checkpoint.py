@@ -119,7 +119,7 @@ class PurchaseOrderLine(models.Model):
     
     
     
-    @api.onchange('product_qty', 'product_uom', 'project_id', 'order_id.partner_id')
+    @api.onchange('product_qty', 'product_uom', 'project_id')
     def _onchange_quantity(self):
         if not self.product_id:
             return
@@ -131,10 +131,16 @@ class PurchaseOrderLine(models.Model):
                 uom_id=self.product_uom,
                 params=params)
         if self.project_id.address_id.state_id:
-            
+          
+        
+        
             for sellerline in self.product_id.seller_ids:
-                if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id:
-                    seller = sellerline
+                if self.order_id.partner_id:
+                    if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id and self.order_id.partner_id.id == sellerline.name.id:
+                        seller = sellerline
+                else:
+                    if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id :
+                        seller = sellerline
                     
 
         if seller or not self.date_planned:
