@@ -18,14 +18,6 @@ from odoo.tools.misc import formatLang, get_lang
 
 from odoo.tools import float_compare
 
-class PurchaseOrder(models.Model):
-    _inherit = 'purchase.order'
-    
-    @api.onchange('partner_id')
-    def onchange_partner_id_pricelist(self):
-        for line in self.order_line:
-            line.get_product_price()
-        
 
 
 
@@ -54,11 +46,23 @@ class ProductSupplierInfo(models.Model):
     purchase_pricelist_id = fields.Many2one('purchase.pricelist', string='Pricelist',)
 
     
+class PurchaseOrder(models.Model):
+    _inherit = 'purchase.order'    
+
+    
+    @api.onchange('partner_id')
+    def onchange_partner_price(self):
+        for line in self.order_line:
+            line.action_purchase_pricelist()
+                
+    
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
     
     
-    def get_product_price(self):
+    
+    
+    def action_purchase_pricelist(self):
         if not self.product_id:
             return
         params = {'order_id': self.order_id}
@@ -71,9 +75,12 @@ class PurchaseOrderLine(models.Model):
         if self.project_id.address_id.state_id:
             
             for sellerline in self.product_id.seller_ids:
-                if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id:
-                    seller = sellerline
-                    
+                if self.order_id.partner_id:
+                    if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id and self.order_id.partner_id.id == sellerline.name.id:
+                        seller = sellerline
+                else:
+                    if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id :
+                        seller = sellerline
 
         if seller or not self.date_planned:
             self.date_planned = self._get_date_planned(seller).strftime(DEFAULT_SERVER_DATETIME_FORMAT)
@@ -124,10 +131,16 @@ class PurchaseOrderLine(models.Model):
                 uom_id=self.product_uom,
                 params=params)
         if self.project_id.address_id.state_id:
-            
+          
+        
+        
             for sellerline in self.product_id.seller_ids:
-                if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id:
-                    seller = sellerline
+                if self.order_id.partner_id:
+                    if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id and self.order_id.partner_id.id == sellerline.name.id:
+                        seller = sellerline
+                else:
+                    if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id :
+                        seller = sellerline
                     
 
         if seller or not self.date_planned:
@@ -164,9 +177,6 @@ class PurchaseOrderLine(models.Model):
             price_unit = seller.product_uom._compute_price(price_unit, self.product_uom)
 
         self.price_unit = price_unit
-        
-        
-        
             
     
         
