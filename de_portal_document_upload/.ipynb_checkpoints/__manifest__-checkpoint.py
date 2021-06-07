@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Portal Puchase Subscription",
+    'name': "Portal Document upload",
 
     'summary': """
-        Portal Puchase Subscription
-        1- Check PR on Portal
+        Portal Document upload
+        1- Check Document upload on Portal
         2- Print Order From Portal
         """,
 
     'description': """
-        Portal Puchase Subscription
-        1- Check PR on Portal
+        Portal Document upload
+        1- Check Document upload on Portal
         2- Print Order From Portal
     """,
 
@@ -21,14 +21,14 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Portal',
-    'version': '0.1',
+    'version': '14.0.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'portal',  'rating', 'resource', 'web', 'web_tour', 'digest', 'purchase_requisition'],
+    'depends': ['base', 'portal',  'rating', 'resource', 'web', 'web_tour', 'digest', 'documents'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/documents_document_templates.xml',
     ],
     # only loaded in demonstration mode

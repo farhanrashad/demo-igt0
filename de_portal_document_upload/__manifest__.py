@@ -1,16 +1,16 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Portal Material Requisition",
+    'name': "Portal Document upload",
 
     'summary': """
-        Portal Material Requisition
-        1- Check Material Requisition on Portal
+        Portal Document upload
+        1- Check Document upload on Portal
         2- Print Order From Portal
         """,
 
     'description': """
-        Portal Material Requisition
-        1- Check Material Requisition on Portal
+        Portal Document upload
+        1- Check Document upload on Portal
         2- Print Order From Portal
     """,
 
@@ -24,7 +24,7 @@
     'version': '14.0.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'portal',  'rating', 'resource', 'web', 'web_tour', 'digest', 'de_stock_material_transfer'],
+    'depends': ['base', 'portal',  'rating', 'resource', 'web', 'web_tour', 'digest', 'documents'],
 
     # always loaded
     'data': [
