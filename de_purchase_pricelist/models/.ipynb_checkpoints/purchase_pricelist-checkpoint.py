@@ -47,17 +47,14 @@ class ProductSupplierInfo(models.Model):
 
     
 class PurchaseOrder(models.Model):
-    _inherit = 'purchase.order'   
+    _inherit = 'purchase.order'    
+
     
     @api.onchange('partner_id')
-    def onchange_partner_id(self):
-        
+    def onchange_partner_price(self):
         for line in self.order_line:
             line.action_purchase_pricelist()
-            
-        
-        
-    
+                
     
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
@@ -78,9 +75,12 @@ class PurchaseOrderLine(models.Model):
         if self.project_id.address_id.state_id:
             
             for sellerline in self.product_id.seller_ids:
-                if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id:
-                    seller = sellerline
-                    
+                if self.order_id.partner_id:
+                    if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id and self.order_id.partner_id.id == sellerline.name.id:
+                        seller = sellerline
+                else:
+                    if sellerline.x_studio_region.id == self.project_id.address_id.state_id.id :
+                        seller = sellerline
 
         if seller or not self.date_planned:
             self.date_planned = self._get_date_planned(seller).strftime(DEFAULT_SERVER_DATETIME_FORMAT)
@@ -119,7 +119,7 @@ class PurchaseOrderLine(models.Model):
     
     
     
-    @api.onchange('product_qty', 'product_uom', 'project_id')
+    @api.onchange('product_qty', 'product_uom', 'project_id', 'order_id.partner_id')
     def _onchange_quantity(self):
         if not self.product_id:
             return
