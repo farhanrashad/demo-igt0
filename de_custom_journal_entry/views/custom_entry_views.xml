@@ -243,6 +243,9 @@
                                         <field name="description"
                                                attrs="{'column_invisible':[('parent.has_travel_fields','==','no')], 'required': [('parent.has_travel_fields','==','required')]}"
                                                options="{'no_create':True}"/>
+                                        <field name="travel_for"
+                                               attrs="{'column_invisible':[('parent.has_travel_fields','==','no')], 'required': [('parent.has_travel_fields','==','required')]}"
+                                               options="{'no_create':True}"/>
                                         <field name="unit_price"
                                                attrs="{'column_invisible':[('parent.has_travel_fields','==','no')], 'required': [('parent.has_travel_fields','==','required')]}"
                                                options="{'no_create':True}"/>

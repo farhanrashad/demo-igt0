@@ -32,7 +32,7 @@
                     <field name="partner_id"/>
                     <field name="ref_fleet"/>
                     <field name="supplier_inv_no_fleet"/>
-                    <field name="invoice_no_fleet"/>
+                    <field name="invoice_no_fleet" groups="'de_custom_journal_entry.group_show_taxes_custom_journal_entry'"/>
 <!--                     <field name="amount_total_all" string="Bill Total"/> -->
                     
                     
@@ -241,6 +241,9 @@
                                                attrs="{'column_invisible':[('parent.has_travel_fields','==','no')], 'required': [('parent.has_travel_fields','==','required')]}"
                                                options="{'no_create':True}"/>
                                         <field name="description"
+                                               attrs="{'column_invisible':[('parent.has_travel_fields','==','no')], 'required': [('parent.has_travel_fields','==','required')]}"
+                                               options="{'no_create':True}"/>
+                                        <field name="travel_for"
                                                attrs="{'column_invisible':[('parent.has_travel_fields','==','no')], 'required': [('parent.has_travel_fields','==','required')]}"
                                                options="{'no_create':True}"/>
                                         <field name="unit_price"
