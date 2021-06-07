@@ -72,7 +72,7 @@ class CustomEntry(models.Model):
     #fleet form field datatype define
     ref_fleet = fields.Char('Reference', copy=False)
     supplier_inv_no_fleet = fields.Char(string='Supplier Invoice Number')
-    amount_total_fleet = fields.Float(string='Amount Total', compute="_compute_total_fleet")
+#     amount_total_fleet = fields.Float(string='Amount Total', compute="_compute_total_fleet")
     duration_from = fields.Date(string='Duration')
     duration_to = fields.Date(string='')
     period_fleet = fields.Date(string='Period')
@@ -88,7 +88,7 @@ class CustomEntry(models.Model):
          ('Vehicle', 'Vehicle Rental')],
         string='Travel By', track_visibility="always")
     customer_type = fields.Selection([('local', 'Local'), ('expat', 'Expat')], string='Customer Type')
-    amount_total_travel = fields.Float(string='Amount Total', compute="_compute_total_travel")
+#     amount_total_travel = fields.Float(string='Amount Total', compute="_compute_total_travel")
     effective_date = fields.Date(string='Effected Date')
     date_of_sub = fields.Date(string='Date of Subscription')
     taxes_travel = fields.Many2one('account.tax', string='Taxes')
@@ -99,7 +99,7 @@ class CustomEntry(models.Model):
     ref_accom = fields.Char('Reference', copy=False)
     supplier_inv_no_accom = fields.Char(string='Supplier Invoice Number')
     customer_type_accom = fields.Selection([('local', 'Local'), ('expat', 'Expat')], string='Customer Type')
-    amount_total_accom = fields.Float(string='Amount Total' , compute="_compute_total_accom")
+#     amount_total_accom = fields.Float(string='Amount Total' , compute="_compute_total_accom")
     effective_date_accom = fields.Date(string='Effected Date')
     date_of_sub_accom = fields.Date(string='Date of Subscription')
     period = fields.Date('Period')
@@ -107,9 +107,9 @@ class CustomEntry(models.Model):
     
 #     partner_id = fields.Many2one('res.partner', string='Vendor', required=True, states=READONLY_STATES, change_default=True, tracking=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
     partner_id = fields.Many2one('res.users', default=lambda self: self.env.user, String="Supplier")
-#     amount_total_all = fields.Float(string="Total Amount", compute="_compute_amount_total_all")
+    amount_total_all = fields.Float(string="Total Amount", compute="_compute_amount_total_all")
     ref = fields.Char('Reference', copy=False)
-    invoice_no_fleet = fields.Many2one('account.move', string='Invoice Number', compute="_compute_invoice_no_fleet")
+    invoice_no_fleet = fields.Many2one('account.move', string='Invoice Number', compute="_compute_invoice_no_fleet", readonly=True)
     purchase_requisition_id = fields.Many2one('purchase.requisition', string="Requisition", check_company=True)
     purchase_id = fields.Many2one('purchase.order', string="Purchase", check_company=True)
     invoice_id = fields.Many2one('account.move', string="Invoice", check_company=True)
@@ -155,36 +155,62 @@ class CustomEntry(models.Model):
         return self.env['account.custom.entry.stage'].search(search_domain, order=order, limit=1).id
                                
             
-
-    @api.depends('custom_entry_line.amount')
-    def _compute_total_fleet(self):
+    @api.depends('custom_entry_line.amount','custom_entry_line.amount_accom','custom_entry_line.amount_travel')
+    def _compute_amount_total_all(self):
         for record in self:
             amount_total = 0.0
-            for line in record.custom_entry_line:
-                amount_total = line.amount + amount_total
-            record.update({
-                'amount_total_fleet': amount_total,
-            })
+            if record.custom_entry_type_id.has_fleet_fields == 'required':
+                for line in record.custom_entry_line:
+                    amount_total = line.amount + amount_total
+                record.update({
+                    'amount_total_all': amount_total,
+                })
+            elif record.custom_entry_type_id.has_accommodation_fields == 'required':
+                for line in record.custom_entry_line:
+                    amount_total = line.amount_accom + amount_total
+                record.update({
+                    'amount_total_all': amount_total,
+                })
+            elif record.custom_entry_type_id.has_travel_fields == 'required':
+                for line in record.custom_entry_line:
+                    amount_total = line.amount_travel + amount_total
+                record.update({
+                    'amount_total_all': amount_total,
+                })
+            else:
+                record.update({
+                    'amount_total_all': 0.0,
+                })
+    
+#     @api.depends('custom_entry_line.amount')
+#     def _compute_total_fleet(self):
+#         for record in self:
+#             amount_total = 0.0
+#             for line in record.custom_entry_line:
+#                 amount_total = line.amount + amount_total
+#             record.update({
+#                 'amount_total_fleet': amount_total,
+#             })
             
-    @api.depends('custom_entry_line.amount_accom')
-    def _compute_total_accom(self):
-        for record in self:
-            amount_total = 0.0
-            for line in record.custom_entry_line:
-                amount_total = line.amount_accom + amount_total
-            record.update({
-                'amount_total_accom': amount_total,
-            })
+#     @api.depends('custom_entry_line.amount_accom')
+#     def _compute_total_accom(self):
+#         for record in self:
+#             amount_total = 0.0
+#             for line in record.custom_entry_line:
+#                 amount_total = line.amount_accom + amount_total
+#             record.update({
+#                 'amount_total_accom': amount_total,
+#             })
             
-    @api.depends('custom_entry_line.amount_travel')
-    def _compute_total_travel(self):
-        for record in self:
-            amount_total = 0.0
-            for line in record.custom_entry_line:
-                amount_total = line.amount_travel + amount_total
-            record.update({
-                'amount_total_travel': amount_total,
-            })
+#     @api.depends('custom_entry_line.amount_travel')
+#     def _compute_total_travel(self):
+#         for record in self:
+#             amount_total = 0.0
+#             for line in record.custom_entry_line:
+#                 amount_total = line.amount_travel + amount_total
+#             record.update({
+#                 'amount_total_travel': amount_total,
+#             })
             
             
            
@@ -455,6 +481,7 @@ class CustomEntryLine(models.Model):
     number_of_days = fields.Float(string="Number of Days" , compute = '_number_of_days')
     travel_reference = fields.Many2one('travel.request' , string="Travel Reference")
     description = fields.Char(related='travel_reference.description_main',string="Description")
+    travel_for = fields.Selection(related='travel_reference.travel_type',string="Travel For")
     unit_price = fields.Float(string="Unit Price")
     extra_charges = fields.Float(string="Extra Charges")
     user_travel = fields.Many2one('res.users',string="User")
@@ -587,7 +614,7 @@ class CustomEntryLine(models.Model):
     number_of_nights = fields.Float(string="Number of Nights", compute='_number_of_nights')
     travel_reference_accom = fields.Many2one('travel.request' , string="Travel Reference")
     description_accom = fields.Char(related='travel_reference_accom.description_main',string="Description")
-    travel_for_accom = fields.Float(string="Travel For")
+    travel_for_accom = fields.Selection(related='travel_reference_accom.travel_type',string="Travel For")
     unit_price_accom = fields.Float(string="Unit Price")
     extra_charges_accom = fields.Float(string="Extra Charges")
     remark_accom = fields.Char(string="Remark")

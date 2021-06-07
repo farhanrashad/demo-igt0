@@ -32,8 +32,8 @@
                     <field name="partner_id"/>
                     <field name="ref_fleet"/>
                     <field name="supplier_inv_no_fleet"/>
-                    <field name="invoice_no_fleet" groups="'de_custom_journal_entry.group_show_taxes_custom_journal_entry'"/>
-<!--                     <field name="amount_total_all" string="Bill Total"/> -->
+                    <field name="invoice_no_fleet" groups="de_custom_journal_entry.group_show_taxes_custom_journal_entry"/>
+                    <field name="amount_total_all" string="Bill Total"/>
                     
                     
                     
@@ -106,10 +106,10 @@
                             <group>
                                 <field name="ref_fleet" required='1' attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
                                 <field name="supplier_inv_no_fleet" required='1' attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
-                                <field name="invoice_no_fleet" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
-<!--                                 <field name="amount_total_all"/> -->
-                                <field name="amount_total_fleet"
-                                       attrs="{'invisible':[('has_fleet_fields','==','no')], 'required': [('has_fleet_fields','==','required')]}"/>
+                                <field name="invoice_no_fleet" groups="de_custom_journal_entry.group_show_taxes_custom_journal_entry"/>
+                                <field name="amount_total_all"/>
+<!--                                 <field name="amount_total_fleet"
+                                       attrs="{'invisible':[('has_fleet_fields','==','no')], 'required': [('has_fleet_fields','==','required')]}"/> -->
                                 
                                 
                                 <label for="duration_from" attrs="{'invisible':[('has_fleet_fields','==','no')]}"/>
@@ -137,8 +137,8 @@
                                        attrs="{'invisible':[('has_accommodation_fields','==','no')]}"/> -->
                             </group>
                             <group>
-                                <field name="amount_total_accom"
-                                       attrs="{'invisible':[('has_accommodation_fields','==','no')], 'required': [('has_accommodation_fields','==','required')]}"/>
+<!--                                 <field name="amount_total_accom"
+                                       attrs="{'invisible':[('has_accommodation_fields','==','no')], 'required': [('has_accommodation_fields','==','required')]}"/> -->
                                 <field name="effective_date_accom"
                                        attrs="{'invisible':[('has_accommodation_fields','==','no')], 'required': [('has_accommodation_fields','==','required')]}"/>
                                 <field name="date_of_sub_accom"
@@ -164,14 +164,14 @@
                             <group>
 <!--                                 <field name="invoice_no_travel"
                                        attrs="{'invisible':[('has_travel_fields','==','no')]}"/> -->
-                                <field name="amount_total_travel"
-                                       attrs="{'invisible':[('has_travel_fields','==','no')], 'required': [('has_travel_fields','==','required')]}"/>
+<!--                                 <field name="amount_total_travel"
+                                       attrs="{'invisible':[('has_travel_fields','==','no')], 'required': [('has_travel_fields','==','required')]}"/> -->
                                 <field name="effective_date"
                                        attrs="{'invisible':[('has_travel_fields','==','no')], 'required': [('has_travel_fields','==','required')]}"/>
                                 <field name="date_of_sub"
                                        attrs="{'invisible':[('has_travel_fields','==','no')], 'required': [('has_travel_fields','==','required')]}"/>
                                 <field name="taxes_travel"
-                                       attrs="{'invisible':[('has_travel_fields','==','no')]}"/>
+                                       attrs="{'invisible':[('has_travel_fields','==','no')]}" groups='de_custom_journal_entry.group_show_taxes_custom_journal_entry'/>
                             </group>
                         </group>
 
@@ -241,6 +241,9 @@
                                                attrs="{'column_invisible':[('parent.has_travel_fields','==','no')], 'required': [('parent.has_travel_fields','==','required')]}"
                                                options="{'no_create':True}"/>
                                         <field name="description"
+                                               attrs="{'column_invisible':[('parent.has_travel_fields','==','no')], 'required': [('parent.has_travel_fields','==','required')]}"
+                                               options="{'no_create':True}"/>
+                                        <field name="travel_for"
                                                attrs="{'column_invisible':[('parent.has_travel_fields','==','no')], 'required': [('parent.has_travel_fields','==','required')]}"
                                                options="{'no_create':True}"/>
                                         <field name="unit_price"
