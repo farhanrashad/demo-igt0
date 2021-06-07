@@ -21,7 +21,7 @@ class PurchaseBudget(models.Model):
 
     name = fields.Char('Budget Name', required=True, states={'done': [('readonly', True)]})
     user_id = fields.Many2one('res.users', 'Responsible', default=lambda self: self.env.user)
-    department_id = fields.Many2one('hr.department', string='Department')
+    department_ids = fields.Many2many('hr.department', string='Departments')
     date_from = fields.Date('Start Date', required=True, states={'done': [('readonly', True)]})
     date_to = fields.Date('End Date', required=True, states={'done': [('readonly', True)]})
     state = fields.Selection([
@@ -43,7 +43,42 @@ class PurchaseBudget(models.Model):
 
     company_id = fields.Many2one('res.company', 'Company', required=True,
         default=lambda self: self.env.company)
+    purchase_count = fields.Integer(compute='_compute_purchase_count', string='Purchases')
 
+
+    def _compute_purchase_count(self):
+        Purchase = self.env['purchase.order.line']
+        can_read = Purchase.check_access_rights('read', raise_exception=False)
+        for budget in self:
+            budget.purchase_count = can_read and Purchase.search_count([('purchase_budget_line_id.purchase_budget_id', '=', budget.id),('state', '!=', 'cancel')]) or 0
+
+    def action_view_purchases(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'binding_type': 'action',
+            'name': 'Purchase Lines',
+            'res_model': 'purchase.order.line',
+            'domain': [('purchase_budget_line_id', 'in', self.purchase_budget_line.ids)],
+            'target': 'current',
+            'view_mode': 'tree,form',
+        }
+    
+    def action_view_purchases1(self):
+        action = self.env["ir.actions.actions"]._for_xml_id("action_purchase_order_line_budget_view")
+        purchases = self.env['purchase.order.line'].search([('purchase_budget_line_id.purchase_budget_id', '=', self.id),('state', '!=', 'cancel')])
+        if len(purchases) > 1:
+            action['domain'] = [('purchase_budget_line_id.purchase_budget_id', '=', self.id),('state', '!=', 'cancel')]
+        elif purchases:
+            form_view = [(self.env.ref('purchase_order_form_inherit_budget').id, 'form')]
+            if 'views' in action:
+                action['views'] = form_view + [(state,view) for state,view in action['views'] if view != 'form']
+            else:
+                action['views'] = form_view
+            action['res_id'] = purchases.id
+        return action
+    
+            
     def action_budget_confirm(self):
         self.write({'state': 'confirm'})
 

@@ -20,6 +20,11 @@
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet string="Budget">
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_purchases" type="object" class="oe_stat_button" icon="fa-list" attrs="{'invisible': [('purchase_count', '=', 0)]}">
+                        <field name="purchase_count" widget="statinfo" string="Purchase"/>
+                        </button>
+                    </div>
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only"/>
                         <h1>
@@ -30,7 +35,7 @@
                         <group>
                             <field name="user_id" attrs="{'readonly':[('state','!=','draft')]}" domain="[('share', '=', False)]"/>
                             <field name="budget_apply" attrs="{'readonly':[('state','!=','draft')]}" />
-                            <field name="department_id" attrs="{'readonly':[('state','!=','draft')]}" />
+                            <field name="department_ids" widget="many2many_tags" attrs="{'readonly':[('state','!=','draft')]}" />
                         </group>
                         <group>
                             <label for="date_from" string="Period"/>

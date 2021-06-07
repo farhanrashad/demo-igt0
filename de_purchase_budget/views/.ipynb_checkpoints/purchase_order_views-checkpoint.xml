@@ -18,13 +18,33 @@
     </record>
     
     <!-- Purchase Order Line Views -->
+    
+    <record id="budget_purchase_order_line_tree_view" model="ir.ui.view">
+            <field name="name">budget.purchase.order.line.tree.view</field>
+            <field name="model">purchase.order.line</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Purchase Order line" >
+                    <field name="order_id" />
+                    <field name="date_order" />
+                    <field name="partner_id" />
+                    <field name="product_id" />
+                    <field name="price_unit" />
+                    <field name="product_qty" />
+                    <field name="price_subtotal" />
+                    <field name="date_planned" />
+                    <field name="state" />
+                </tree>
+            </field>
+    </record>
+    
     <record id="action_purchase_order_line_budget_view" model="ir.actions.act_window">
         <field name="name">Budget Lines</field>
 		<field name="res_model">purchase.order.line</field>
 		<field name="type">ir.actions.act_window</field>
 		<field name="view_mode">tree,form</field>
         <field name="view_ids" eval="[(5, 0, 0),
-                (0, 0, {'view_mode': 'tree', 'view_id': ref('purchase.purchase_order_line_tree')}),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('budget_purchase_order_line_tree_view')}),
                 (0, 0, {'view_mode': 'form', 'view_id': ref('purchase.purchase_order_line_form2')})]"/>
         <field name="search_view_id" ref="purchase.purchase_order_line_search"/>
         <field name="context">{'create':False}</field>
