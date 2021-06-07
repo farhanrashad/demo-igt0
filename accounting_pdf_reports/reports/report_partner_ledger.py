@@ -11,18 +11,20 @@ class ReportPartnerLedger(models.AbstractModel):
 
     def _lines(self, data, partner, currency_id):
         default_currency = self.env.ref('base.main_company').currency_id
+        model = self.env.context.get('active_model')
+        docs = self.env[model].browse(self.env.context.get('active_ids', []))    
         full_account = []
         temp = int(currency_id)
         currency_obj = self.env['res.currency'].search([('id', '=', temp)])
         currency = self.env['res.currency']
         query_get_data = self.env['account.move.line'].with_context(data['form'].get('used_context', {}))._query_get()
         reconcile_clause = "" if data['form']['reconciled'] else ' AND "account_move_line".full_reconcile_id IS NULL '
-        params = [partner.id, tuple(data['computed']['move_state']), tuple(data['computed']['account_ids'])] + \
+        params = [tuple(data['computed']['partner'])  , tuple(data['computed']['move_state']), tuple(data['computed']['account_ids'])] + \
                  query_get_data[2]
 
         query = """
             SELECT "account_move_line".id,rp.name as partner_name, proj.name as project_name, emp.name as employee_name ,
-            dept.name as department_name, "account_move_line".date, j.code, acc.code as a_code, acc.name as a_name, "account_move_line".ref, m.name as move_name, "account_move_line".name, "account_move_line".debit, "account_move_line".credit, "account_move_line".amount_currency,"account_move_line".currency_id, c.symbol AS currency_code
+            dept.name as department_name, "account_move_line".date, to_char("account_move_line".date, 'MM-YYYY') as account_period, j.code, acc.code as a_code, acc.name as a_name, "account_move_line".ref, m.name as move_name, "account_move_line".name, "account_move_line".debit, "account_move_line".credit, "account_move_line".amount_currency,"account_move_line".currency_id, c.symbol AS currency_code
             FROM """ + query_get_data[0] + """
             LEFT JOIN account_journal j ON ("account_move_line".journal_id = j.id)
             LEFT JOIN res_partner rp ON ("account_move_line".partner_id = rp.id)
@@ -32,7 +34,7 @@ class ReportPartnerLedger(models.AbstractModel):
             LEFT JOIN account_account acc ON ("account_move_line".account_id = acc.id)
             LEFT JOIN res_currency c ON ("account_move_line".currency_id=c.id)
             LEFT JOIN account_move m ON (m.id="account_move_line".move_id)
-            WHERE "account_move_line".partner_id = %s
+            WHERE "account_move_line".partner_id IN %s
                 AND m.state IN %s
                 AND "account_move_line".account_id IN %s AND """ + query_get_data[1] + reconcile_clause + """
                 ORDER BY "account_move_line".date"""
@@ -77,11 +79,11 @@ class ReportPartnerLedger(models.AbstractModel):
         query_get_data = self.env['account.move.line'].with_context(data['form'].get('used_context', {}))._query_get()
         reconcile_clause = "" if data['form']['reconciled'] else ' AND "account_move_line".full_reconcile_id IS NULL '
 
-        params = [partner.id, tuple(data['computed']['move_state']), tuple(data['computed']['account_ids'])] + \
+        params = [tuple(data['computed']['partner']) , tuple(data['computed']['move_state']), tuple(data['computed']['account_ids'])] + \
                  query_get_data[2]
         query = """SELECT sum(""" + field + """)
                 FROM """ + query_get_data[0] + """, account_move AS m
-                WHERE "account_move_line".partner_id = %s
+                WHERE "account_move_line".partner_id IN %s
                     AND m.id = "account_move_line".move_id
                     AND m.state IN %s
                     AND account_id IN %s
@@ -101,9 +103,12 @@ class ReportPartnerLedger(models.AbstractModel):
     def _get_report_values(self, docids, data=None):
         if not data.get('form'):
             raise UserError(_("Form content is missing, this report cannot be printed."))
+        model = self.env.context.get('active_model')
+        docs = self.env[model].browse(self.env.context.get('active_ids', []))    
         data['computed'] = {}
         obj_partner = self.env['res.partner']
         query_get_data = self.env['account.move.line'].with_context(data['form'].get('used_context', {}))._query_get()
+        
         data['computed']['move_state'] = ['draft', 'posted']
         if data['form'].get('target_move', 'all') == 'posted':
             data['computed']['move_state'] = ['posted']
@@ -114,6 +119,11 @@ class ReportPartnerLedger(models.AbstractModel):
             data['computed']['ACCOUNT_TYPE'] = ['receivable']
         else:
             data['computed']['ACCOUNT_TYPE'] = ['payable', 'receivable']
+            
+        if docs.partner_id:
+            data['computed']['partner'] = docs.partner_id.ids     
+        else:
+            data['computed']['partner'] = self.env['res.partner'].search([]).ids
 
         self.env.cr.execute("""
             SELECT a.id
@@ -121,7 +131,7 @@ class ReportPartnerLedger(models.AbstractModel):
             WHERE a.internal_type IN %s
             AND NOT a.deprecated""", (tuple(data['computed']['ACCOUNT_TYPE']),))
         data['computed']['account_ids'] = [a for (a,) in self.env.cr.fetchall()]
-        params = [tuple(data['computed']['move_state']), tuple(data['computed']['account_ids'])] + query_get_data[2]
+        params = [tuple(data['computed']['move_state']), tuple(data['computed']['account_ids']), tuple(data['computed']['partner'])] + query_get_data[2]
         reconcile_clause = "" if data['form']['reconciled'] else ' AND "account_move_line".full_reconcile_id IS NULL '
         query = """
             SELECT DISTINCT "account_move_line".partner_id
@@ -131,12 +141,14 @@ class ReportPartnerLedger(models.AbstractModel):
                 AND am.id = "account_move_line".move_id
                 AND am.state IN %s
                 AND "account_move_line".account_id IN %s
+                AND am.partner_id IN %s
                 AND NOT account.deprecated
                 AND """ + query_get_data[1] + reconcile_clause
         self.env.cr.execute(query, tuple(params))
         partner_ids = [res['partner_id'] for res in self.env.cr.dictfetchall()]
         partners = obj_partner.browse(partner_ids)
         partners = sorted(partners, key=lambda x: (x.ref or '', x.name or ''))
+
         return {
             'doc_ids': partner_ids,
             'doc_model': self.env['res.partner'],
