@@ -24,11 +24,13 @@
 
     # always loaded
     'data': [
+        'data/sequence.xml',
         'security/ir.model.access.csv',
         'views/employee_benefit_views.xml',
         'views/templates.xml',
         'views/hr_payslip_views.xml',
         'views/hr_employee_views.xml',
+        'views/hr_contract_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
