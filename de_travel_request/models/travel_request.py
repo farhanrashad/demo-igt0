@@ -6,10 +6,6 @@ from dateutil.relativedelta import relativedelta
 
 class TravelRequest(models.Model):
     _name = 'travel.request'
-    _description = 'Travel Request'
-    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin', 'sequence.mixin']
-    _order = 'date_start desc, name desc, id desc'
-    _mail_post_access = 'read'
 
     def unlink(self):
         for r in self:
@@ -58,7 +54,7 @@ class TravelRequest(models.Model):
     date_start = fields.Date(string='Start Date')
     date_end = fields.Date(string='End Date')
     days = fields.Integer(string='Days', compute='get_days')
-    employee_id = fields.Many2one('hr.employee', string="Employee", tracking=True)
+    employee_id = fields.Many2one('hr.employee', string="Employee")
     department_id = fields.Many2one('hr.department', string='Department', related='employee_id.department_id')
     designation_id = fields.Many2one('hr.job', string='Designation', related='employee_id.job_id')
     nrc_other_id = fields.Char(string="NRC/Other ID", related="employee_id.identification_id")
@@ -93,9 +89,6 @@ class TravelRequest(models.Model):
 
 class TravelRequestLine(models.Model):
     _name = 'travel.request.line'
-    _description = 'Travel Request Line'
-    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
-
 
     travel_request_id = fields.Many2one('travel.request')
 

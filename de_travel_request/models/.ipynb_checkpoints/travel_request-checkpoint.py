@@ -6,10 +6,6 @@ from dateutil.relativedelta import relativedelta
 
 class TravelRequest(models.Model):
     _name = 'travel.request'
-    _description = 'Travel Request'
-    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin', 'sequence.mixin']
-    _order = 'date_start desc, name desc, id desc'
-    _mail_post_access = 'read'
 
     def unlink(self):
         for r in self:
@@ -43,14 +39,15 @@ class TravelRequest(models.Model):
 
     def action_approve(self):
         self.state = 'approved'
-
+    
     def action_set_to_draft(self):
         self.state = 'draft'
-
+        
+        
     travel_request_lines = fields.One2many('travel.request.line', 'travel_request_id')
 
     name = fields.Char('Name', required="True")
-    description_main = fields.Char('Description')
+    description = fields.Char('Description')
     travel_type = fields.Selection(
         [('business', 'Business'), ('personal', 'Personal'), ('visa run', 'Visa Run'), ('meeting', 'Meeting')],
         string="Travel Type", default=None)
@@ -58,25 +55,25 @@ class TravelRequest(models.Model):
     date_start = fields.Date(string='Start Date')
     date_end = fields.Date(string='End Date')
     days = fields.Integer(string='Days', compute='get_days')
-    employee_id = fields.Many2one('hr.employee', string="Employee", tracking=True)
+    employee_id = fields.Many2one('hr.employee', string="Employee")
     department_id = fields.Many2one('hr.department', string='Department', related='employee_id.department_id')
     designation_id = fields.Many2one('hr.job', string='Designation', related='employee_id.job_id')
     nrc_other_id = fields.Char(string="NRC/Other ID", related="employee_id.identification_id")
     passport_no = fields.Char(string="Passport No", related="employee_id.passport_id")
     dob = fields.Date(string="Date of Birth", related="employee_id.birthday")
-
-    # , default=lambda self: self.env.user  options="{&quot;end_date&quot;: &quot;date_end&quot;}" options="{&quot;start_date&quot;: &quot;date_start&quot;}"  widget="daterange"
-    #
-
+# , default=lambda self: self.env.user  options="{&quot;end_date&quot;: &quot;date_end&quot;}" options="{&quot;start_date&quot;: &quot;date_start&quot;}"  widget="daterange"
+# 
+          
+    
+    
     def get_days(self):
         for travel in self:
-            if travel.date_start and travel.date_end:
-                delta = travel.date_start - travel.date_end
-                travel.days = abs(delta.days)
-            else:
-                travel.days = 0
+            delta = travel.date_start - travel.date_end
+#             raise UserError (delta)
+        self.days = abs(delta.days)
+        
 
-    # page fields
+# page fields
     visa_exp_date = fields.Date(string="Visa Expiry Date")
     multi_visit_visa = fields.Boolean(string="Multiple Visit Visa")
     round_trip = fields.Boolean(string="Round Trip")
@@ -86,19 +83,15 @@ class TravelRequest(models.Model):
     ticket_price = fields.Integer(string="Ticket Price")
     visa_cost = fields.Integer(string="Visa Cost")
     description = fields.Text(string="Description")
-
-
+    
 #     def get_user(self):
 #         self.employee_id = self.env.user.name
 
 class TravelRequestLine(models.Model):
     _name = 'travel.request.line'
-    _description = 'Travel Request Line'
-    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
-
-
-    travel_request_id = fields.Many2one('travel.request')
-
+    
+    travel_request_id = fields.Many2one('travel.request')  
+    
     hotel_detail = fields.Char(string="Hotel Detail")
     check_in = fields.Datetime(string="Check In")
-    check_out = fields.Datetime(string="Check Out")
+    check_out = fields.Datetime(string="Check In")
