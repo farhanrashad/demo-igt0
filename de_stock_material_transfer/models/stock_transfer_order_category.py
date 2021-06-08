@@ -39,6 +39,8 @@ class StockTransferOrderCategory(models.Model):
         ('replacement', 'Replacement'),
         ], string='Action Type', required=True, readonly=False, default='normal')
     
+    auto_expiry = fields.Boolean(string='Enable Auto Expiry', default=False, help='Enable auto expiery of the document.')
+    
     description = fields.Text("Requirements", help="Enter here the details of transfer category.")
     default_delivery_validity = fields.Integer('Delivery validity')
     delivery_lead_days = fields.Integer('Delivery Lead time')

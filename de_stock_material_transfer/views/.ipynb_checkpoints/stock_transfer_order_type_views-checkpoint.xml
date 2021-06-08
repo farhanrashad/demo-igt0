@@ -24,10 +24,13 @@
                                 <field name="name"/>
                                 <field name="code"/>
                                 <field name="disallow_staging"/>
+                                <field name="automated_sequence"/>
+                                <field name="sequence_code" attrs="{'invisible':[('automated_sequence','=',False)]}"/>
                             </group>
                             <group>
                                 <field name="company_id"/>
                                 <field name="sequence_id" invisible="1"/>
+                                <field name="group_id" />
                             </group>
                         </group>
                         <group>

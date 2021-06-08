@@ -153,7 +153,7 @@
                             <field name="return_deadline" attrs="{'invisible':[('action_type','=','normal')]}" />
                             <field name="date_returned" />
                             <field name="close_reason_id" attrs="{'invisible':[('close_reason_id','=',False)]}" decoration-danger="close_reason_id != False" />
-                            <field name="close_reason_message" attrs="{'invisible':[('close_reason_message','=',False)]}"/>
+                            <field name="close_reason_message" decoration-danger="close_reason_message != False" attrs="{'invisible':[('close_reason_message','=',False)]}"/>
 
                             <field name="date_closed" attrs="{'invisible':[('close_reason_id','=',False)]}"/>
                             
@@ -318,7 +318,7 @@
             </field>
     </record>
  
-    <menuitem action="action_stock_transfer_order_request" id="stock_transfer_root_stock_transfer_order_request_menu" parent="stock_requisition_root_menu" sequence="1"/>
+    <menuitem action="action_stock_transfer_order_request" id="stock_transfer_root_stock_transfer_order_request_menu" parent="stock_requisition_main_menu" sequence="1"/>
       
       <record id="action_stock_transfer_order" model="ir.actions.act_window">
             <field name="name">Transfer Orders</field>
@@ -336,7 +336,7 @@
             </field>
     </record>
  
-    <menuitem action="action_stock_transfer_order" id="stock_transfer_root_stock_transfer_order_menu" parent="stock_requisition_root_menu" sequence="2"/>
+    <menuitem action="action_stock_transfer_order" id="stock_transfer_root_stock_transfer_order_menu" parent="stock_requisition_main_menu" sequence="2"/>
       
       <record id="action_stock_transfer_order_pending" model="ir.actions.act_window">
             <field name="name">Pending Orders</field>
@@ -352,7 +352,7 @@
             </field>
     </record>
  
-    <menuitem action="action_stock_transfer_order_pending" id="stock_transfer_order_root_stock_transfer_order_pending_menu" parent="stock_requisition_root_menu" sequence="3"/>
+    <menuitem action="action_stock_transfer_order_pending" id="stock_transfer_order_root_stock_transfer_order_pending_menu" parent="stock_requisition_main_menu" sequence="3"/>
 
 <!-- Requisition Lines -->
       
@@ -439,7 +439,7 @@
             </field>
     </record>
  
-    <menuitem action="action_stock_transfer_order_line" id="stock_transfer_root_stock_transfer_order_line_menu" parent="stock_requisition_root_menu" sequence="4"/>
+    <menuitem action="action_stock_transfer_order_line" id="stock_transfer_root_stock_transfer_order_line_menu" parent="stock_requisition_main_menu" sequence="4"/>
       
       <!-- Return Products -->
       <record id="stock_transfer_returnable_order_line_tree_view" model="ir.ui.view">
@@ -489,7 +489,91 @@
             </field>
     </record>
  
-    <menuitem action="action_stock_transfer_returnable_order_line" id="stock_transfer_root_stock_transfer_returnable_order_line_menu" parent="stock_requisition_root_menu" sequence="10"/>
+    <menuitem action="action_stock_transfer_returnable_order_line" id="stock_transfer_root_stock_transfer_returnable_order_line_menu" parent="stock_requisition_main_menu" sequence="10"/>
+      
+      <!-- dashboard -->
+      <record id="stock_order_transfer_action_to_all_transfers" model="ir.actions.act_window">
+        <field name="name">Requisitions</field>
+        <field name="res_model">stock.transfer.order</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('transfer_order_type_id', '=', active_id)]</field>
+    </record>
+      
+      <record id="stock_transfer_order_dashboard_view_kanban" model="ir.ui.view">
+        <field name="name">stock.transfer.order.dashbaord.views.kanban</field>
+        <field name="model">stock.transfer.order.type</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_stock_kanban" create="0">
+                <field name="name"/>
+                <field name="id"/>
+                <field name="code"/>
+                <field name="image"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}" name="subscription_type">
+                            <div>
+                                <div t-attf-class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <t t-if="record.id">
+                                <img t-att-src="kanban_image('stock.transfer.order.type', 'image', record.id.raw_value)" alt="Approvals Types Image"
+                                    class="oe_kanban_avatar float-left mr-3" width="64" height="64"/>
+                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <a name="%(stock_order_transfer_action_to_all_transfers)d" type="action">
+                                                <field name="name"/>
+                                            </a>
+                                        </div>
+                                        <div class="o_primary" t-if="selection_mode">
+                                           <field name="name"/>
+                                        </div>
+                                        <div class="o_secondary">
+                                            <field class="o_secondary" name="description" readonly="1" />
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <button type="object" class="btn btn-primary btn-sm" name="create_requisition" context="{'transfer_order_type_id':'active_id'}"><field name="name"/></button>
+
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section" t-if="!selection_mode">
+                                            <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_content" t-if="!selection_mode">
+                                    <div class="row mt16">
+                                        
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                    <div class="row">
+                                        <div class="col-6" role="menuitem" aria-haspopup="true">
+                                            <ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+      
+      <record id="stock_transfer_order_dashboard_action" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">stock.transfer.order.type</field>
+        <field name="view_mode">kanban</field>
+    </record>
+      
+          <menuitem action="stock_transfer_order_dashboard_action" id="stock_transfer_root_stock_transfer_order_dashboard_menu" parent="stock_order_transfer_root_menu" sequence="0"/>
 
   </data>
 </odoo>

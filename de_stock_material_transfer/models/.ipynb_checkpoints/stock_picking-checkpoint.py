@@ -8,7 +8,7 @@ from odoo.tools.misc import format_date
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
     
-    stock_transfer_order_id = fields.Many2one('stock.transfer.order', string='CMA', copy=False)
+    stock_transfer_order_id = fields.Many2one('stock.transfer.order', string='Transfer Order', copy=False)
     
 class StockMove(models.Model):
     _inherit = 'stock.move'

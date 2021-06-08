@@ -27,7 +27,7 @@ class StockTransferOrder(models.Model):
         return location_id
     
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True, states={'draft': [('readonly', False)]}, index=True, default=lambda self: _('New'))
-    transfer_order_type_id = fields.Many2one('stock.transfer.order.type', string='Transfer Type', index=True, required=True, default=_get_type_id, readonly=True, states={'draft': [('readonly', False)],'in_progress': [('readonly', False)]},)
+    transfer_order_type_id = fields.Many2one('stock.transfer.order.type', string='Transfer Type', index=True, required=True, default=_get_type_id, readonly=True, copy=False, )
     code = fields.Char(related='transfer_order_type_id.code')
     sequence_code = fields.Char(String="Sequence Code")
     
@@ -175,22 +175,20 @@ class StockTransferOrder(models.Model):
         #    order.next_stage_id = next_stage
     
     @api.model
-    def cron_expire_order(self):
-        #picking = self.env['stock.picking'].search([('stock_transfer_order_id', '=', self.id),('picking_type_id', '=', self.transfer_order_category_id.return_picking_type_id.id)],limit=1)
-        
+    def cron_expire_order(self):        
         today = fields.Datetime.now()
         # set to close if date is passed
+        #domain_close = [('return_deadline', '<', today), ('date_returned', '=', False), ('stage_category', 'in', ['progress','confirm'])]
+        domain_close = [('delivery_deadline', '<', today), ('date_delivered', '=', False), ('stage_category', 'in', ['progress','confirm','transfer'])]
+        order_delivery_close = self.search(domain_close)
         domain_close = [('return_deadline', '<', today), ('date_returned', '=', False), ('stage_category', 'in', ['progress','confirm'])]
-        order_close = self.search(domain_close)
-        #order_close = self
-        #for picking in self.picking_ids.filtered(lambda p: p.picking_type_id.id == self.transfer_order_category_id.picking_type_id.id):
-            #if picking.id:
-        self.update({
-            'close_reason_message' : 'Document expired automatically',
-        })
-        order_close.set_close()
+        order_return_close = self.search(domain_close)
+        if order_delivery_close:
+            order_delivery_close.set_close(type='delivery')
+        if order_return_close:
+            order_return_close.set_close(type='return')
         #return dict(closed=order_close.ids)
-        return self._cancel_delivery(automatic=True)
+        #return self._cancel_delivery(automatic=True)
     
     
     def _cancel_delivery(self, automatic=False):
@@ -272,14 +270,29 @@ class StockTransferOrder(models.Model):
     #    if self.transfer_exception_type_id.stage_id:
     #        self.stage_id = self.transfer_exception_type_id.stage_id.id
 
-    def set_close(self):
+    def set_close(self,type):
         today = fields.Date.from_string(fields.Date.context_today(self))
+        pickings = self.env['stock.picking']
+        delivery_reason_id = self.env['stock.transfer.close.reason'].search([('reason_type','=','delivery')],limit=1)
+        return_reason_id = self.env['stock.transfer.close.reason'].search([('reason_type','=','delivery')],limit=1)
+        reason_id = delivery_reason_id
+        if type == 'delivery':
+            reason_id = delivery_reason_id
+        else:
+            reason_id = return_reason_id
+            
         stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',self.transfer_order_type_id.id),('stage_category','=','close')])
-        for sub in self:
-            sub.write({
-                'stage_id': stage_id.id, 
-                'date_closed': today,
-            })
+        for order in self:
+            if order.transfer_order_category_id.auto_expiry:
+                order.write({
+                    'stage_id': stage_id.id, 
+                    'date_closed': today,
+                    'close_reason_id' : reason_id.id,
+                    'close_reason_message' : reason_id.name,
+                })
+            #for picking in pickings.search([('stock_transfer_order_id','=',order.id),('state','!=','done')])
+                for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id in (self.transfer_order_category_id.picking_type_id.id,self.transfer_order_category_id.return_picking_type_id.id) and p.state not in ('done','cancel')):
+                    picking.sudo().action_cancel()
         return True
         
     #@api.onchange('picking_type_id')
@@ -344,6 +357,15 @@ class StockTransferOrder(models.Model):
         return transfer_order
 
 
+    def unlink(self):
+        if any(order.stage_category not in ('draft', 'cancel') for order in self):
+            raise UserError(_('You can only delete draft requisitions.'))
+        # Draft requisitions could have some requisition lines.
+        self.mapped('stock.transfer.order.line').unlink()
+        self.mapped('stock.transfer.return.line').unlink()
+        self.mapped('stock.transfer.txn.line').unlink()
+        return super(StockTransferOrder, self).unlink()
+    
         
     """
     @api.model
@@ -508,12 +530,12 @@ class StockTransferOrder(models.Model):
         Picking = self.env['stock.picking']
         can_read = Picking.check_access_rights('read', raise_exception=False)
         for order in self:
-            order.delivery_count = can_read and Picking.search_count([('stock_transfer_order_id', '=', order.id),('picking_type_id', '=', order.picking_type_id.id),('state', '!=', 'cancel')]) or 0
-            order.return_count = can_read and Picking.search_count([('stock_transfer_order_id', '=', order.id),('picking_type_id', '=', order.transfer_order_category_id.return_picking_type_id.id),('state', '!=', 'cancel')]) or 0
+            order.delivery_count = can_read and Picking.search_count([('stock_transfer_order_id', '=', order.id),('picking_type_id', '=', order.picking_type_id.id)]) or 0
+            order.return_count = can_read and Picking.search_count([('stock_transfer_order_id', '=', order.id),('picking_type_id', '=', order.transfer_order_category_id.return_picking_type_id.id)]) or 0
 
     def action_view_delivery(self):
         action = self.env["ir.actions.actions"]._for_xml_id("stock.action_picking_tree_all")
-        pickings = self.env['stock.picking'].search([('stock_transfer_order_id', '=', self.id),('picking_type_id', '=', self.picking_type_id.id),('state', '!=', 'cancel')])
+        pickings = self.env['stock.picking'].search([('stock_transfer_order_id', '=', self.id),('picking_type_id', '=', self.picking_type_id.id)])
         if len(pickings) > 1:
             action['domain'] = [('stock_transfer_order_id', '=', self.id),('picking_type_id', '=', self.picking_type_id.id),('state', '!=', 'cancel')]
         elif pickings:
@@ -535,7 +557,7 @@ class StockTransferOrder(models.Model):
     def action_view_receipt(self):
         action = self.env["ir.actions.actions"]._for_xml_id("stock.action_picking_tree_all")
         #pickings = self.mapped('picking_ids')
-        pickings = self.env['stock.picking'].search([('stock_transfer_order_id', '=', self.id),('picking_type_id', '=', self.transfer_order_category_id.return_picking_type_id.id),('state', '!=', 'cancel')])
+        pickings = self.env['stock.picking'].search([('stock_transfer_order_id', '=', self.id),('picking_type_id', '=', self.transfer_order_category_id.return_picking_type_id.id)])
         if len(pickings) > 1:
             action['domain'] = [('id', 'in', pickings.ids),('picking_type_id', '=', self.transfer_order_category_id.return_picking_type_id.id)]
         elif pickings:
