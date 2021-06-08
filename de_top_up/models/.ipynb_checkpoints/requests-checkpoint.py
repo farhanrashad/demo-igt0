@@ -5,7 +5,9 @@ from datetime import date, timedelta, datetime
 
 class TopUpRequest(models.Model):
     _name = 'topup.request'
+    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin', 'sequence.mixin']
     _description = 'Top Up Request model'
+
 
     def unlink(self):
         for r in self:
@@ -63,9 +65,10 @@ class TopUpRequest(models.Model):
     end_date = current_date + timedelta(days=30)
 
     description = fields.Text(String="Description")
-    period = fields.Date(String="Period")
-    requester = fields.Many2one('res.users', default=lambda self: self.env.user, String="Requester")
-    department = fields.Many2one('hr.department', String="Department")
+    period = fields.Char(string='Period', compute='_compute_account_period')
+    
+    requester = fields.Many2one('res.users', default=lambda self: self.env.user, String="Requester", readonly=True)
+    department = fields.Many2one('hr.department', String="Department", related='requester.employee_id.department_id')
     representative_batch = fields.Selection(
         [('c-level', 'C-Level'), ('admin & fleet', 'Admin & Fleet'), ('documentation', 'Documentation'),
          ('engineering', 'Engineering'), ('accounting and finance', 'Accounting and Finance'),
@@ -79,11 +82,16 @@ class TopUpRequest(models.Model):
          ('rollout & colocation', 'Rollout & Colocation'), ('procurement', 'Procurement'),
          ('supply chain', 'Supply Chain')],
         String="Representative Batch")
-    date = fields.Date(String="Date")
+    date = fields.Date(String="Date", default=fields.date.today())
     type = fields.Selection([('employee benfit', 'Employee Benfit'), ('category use', 'Category Use')],
                             String="Type")
     is_level = fields.Boolean(String='Is C-Level?')
     additional_req = fields.Boolean(String="Additional Request?")
+    
+    @api.depends('date')
+    def _compute_account_period(self):
+        for record in self:
+            record.period = record.date.strftime("%m/%Y")
     
     
     @api.onchange('additional_req')
@@ -116,11 +124,15 @@ class EmployeeRequestLine(models.Model):
     def total_const(self):
         for line in self:
             if self.request_id.additional_req:
-                if line.total > 5:
-                    raise UserError("Total Sum cannot be greater than 5")
+                if line.total > 2:
+                    raise UserError("Total Sum cannot be greater than 2")
+            elif self.request_id.is_level:
+                if line.total < 0:
+                    raise UserError("Total cannot be Less than 0")
             else:
                 if line.total > 3:
                     raise UserError("Total cannot be greater than 3")
+                    
                     
     
     @api.depends('telenor','ooredoo','mpt','mytel')
