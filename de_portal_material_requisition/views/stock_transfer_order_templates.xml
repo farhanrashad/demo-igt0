@@ -49,8 +49,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <t t-set="material_partner" t-value="0"/>
+                            <t t-foreach="request.env['res.users'].search([('id','=',uid)])" t-as="user">
+                              <t t-set="material_partner" t-value="user.partner_id.id"/>
+                            </t>
                             <t t-foreach="transfers" t-as="material">
-                                <t t-if="material.user_id.id==uid" >
+                                <t t-if="material.partner_id.id==material_partner" >
                                 <tr>
                                     <td class="text-left">
                                           <a t-attf-href="/transfer/order/#{material.id}?{{ keep_query() }}">#<span t-field="material.id"/></a>
@@ -161,6 +165,16 @@
                                         <span t-esc="transfer.date_scheduled"/>
                                     </t>
                                 </div>
+                                <div class="col-md-5"> <strong>Transfer Category : </strong>
+                                    <t t-if="transfer.transfer_order_category_id">
+                                        <span t-esc="transfer.transfer_order_category_id.name"/>
+                                    </t>
+                                </div>
+                                <div class="col-md-5"> <strong>Delivery Date : </strong>
+                                    <t t-if="transfer.delivery_deadline">
+                                        <span t-esc="transfer.delivery_deadline"/>
+                                    </t>
+                                </div>
                             </div>
                              <div class="row"> 
                                 <table class="table-striped table">
@@ -201,11 +215,55 @@
                                  
                                 
                             </div>
+
+
+
+                                      <div class="row">
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Exception Type</th>
+                                        <th class="text-left">Add Stage</th>
+                                        <th class="text-left">Action</th>
+
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="transfer.stock_transfer_txn_line" t-as="t_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="t_line.transfer_exception_type_id.name"/></td>
+                                            <td><span t-esc="t_line.txn_stage_id.name"/></td>
+                                            <td><span t-esc="t_line.txn_action"/></td>
+
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>
+
+
+                            </div>
                         </div>
                        
                     </div> 
                    
-                  
+                    <div class="row">
+                        <div t-attf-class="col-12 col-lg-12  mb-md-0 ">
+                            <hr class="mb-1"/>
+                            <div class="d-flex my-2">
+                                <strong>Terms and Conditions</strong>
+                            </div>
+                            <t t-if="transfer.description">
+                                <div class="py-1 px-2 bg-100 small" t-field="transfer.description"/>
+                            </t>
+                        </div>
+                    </div>
                         
                     <div class="row"> 
                         <div t-attf-class="col-12 col-lg-12  mb-md-0 ">

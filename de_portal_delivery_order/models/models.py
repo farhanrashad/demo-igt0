@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 
-# from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 
-# class de_portal_delivery_order(models.Model):
-#     _name = 'de_portal_delivery_order.de_portal_delivery_order'
-#     _description = 'de_portal_delivery_order.de_portal_delivery_order'
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
 
-#     name = fields.Char()
-#     value = fields.Integer()
-#     value2 = fields.Float(compute="_value_pc", store=True)
-#     description = fields.Text()
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         for record in self:
-#             record.value2 = float(record.value) / 100
+
+
+    puser_id = fields.Many2one('res.users',string='Partner User', computed='_compute_user')
+
+    @api.depends('partner_id')
+    def _compute_user(self):
+        for picking in self:
+            user = self.env['res.users'].search([('partner_id', '=', picking.partner_id.id)], limit=1)
+            return user.id
+

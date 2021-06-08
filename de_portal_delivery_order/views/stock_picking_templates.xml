@@ -42,7 +42,6 @@
                             <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
                                 <th class="text-left">No#</th>
                                 <th class="text-left">Reference</th>
-                                <th class="text-left">Partner</th>
                                 <th class="text-left">Schedule Date</th>
                                 <th class="text-left">Source Document</th>
                                 <th class="text-left">Status</th>
@@ -50,8 +49,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <t t-set="partner" t-value="0"/>
+                            <t t-foreach="request.env['res.users'].search([('id','=',uid)])" t-as="user">
+                              <t t-set="partner" t-value="user.partner_id.id"/>
+                            </t>
                             <t t-foreach="deliveries" t-as="delv">
-                              <t t-if="delv.user_id.id==uid" >       
+                              <t t-if="delv.partner_id.id==partner" >
                                 <tr>
                                     <td class="text-left">
                                           <a t-attf-href="/delivery/order/#{delv.id}?{{ keep_query() }}">#<span t-field="delv.id"/></a>
@@ -59,9 +62,7 @@
                                      <td>
                                         <a t-attf-href="/delivery/order/#{delv.id}?{{ keep_query() }}"><span t-field="delv.name"/></a>
                                     </td>
-                                     <td class="text-left">
-                                        <span t-esc="delv.partner_id.name" />
-                                    </td>
+
                                     <td class="text-left">
                                         <span t-esc="delv.scheduled_date" />
                                     </td>
@@ -247,94 +248,7 @@
             </div>
         </t>
     </template>
-    
-    
-    
-    
-    
-    
 
-     <template id="create_payslip" name="My Create">
-        <t t-call="portal.portal_layout">
-            <t t-set="breadcrumbs_searchbar" t-value="True"/>
-                <t t-call="portal.portal_table">
-                    <thead>
-                        <tr>
-                            <th class="text-left">Now you can also create new Payslips from here. Good Luck</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>  
-                                <div class="container">
-                                        <div class="row">
-                                            <div class="col-md-8 col-xs-12 col-md-offset-2 sell-page-contact">
-                                                <form id="saleForm" data-toggle="validator" action="/delivery/order/save" class="mt32">
-                                                    <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
-                                                        <div  class="col-xl">
-                                                                <strong class="d-block mb-2">Payslip Name:</strong>
-                                                                <input name="payslip_name" type="text" class="form-control o_website_form_input"/>
-                                                        </div>
-                                                        <div style="float:right;"  class="col-xl">
-                                                                <strong class="d-block mb-2">Reference:</strong>
-                                                            <input name="payslip_number" type="text" class="form-control o_website_form_input"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
-                                                        <div  class="col-xl">
-                                                                <strong class="d-block mb-2">Date start:</strong>
-                                                                <input name="date_start" type="date" required="required" class="form-control o_website_form_input"/>
-                                                        </div>
-                                                        <div style="float:right;"  class="col-xl">
-                                                                <strong class="d-block mb-2">Date End:</strong>
-                                                            <input name="date_end" type="date" required="required" class="form-control o_website_form_input"/>
-                                                        </div>
-                                                    </div>
-                                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
-                                                        <div  class="col-xl">
-                                                          <label for="environment">Employee:</label>
-                                                              <select class="form-control" name="payslip_emp_id">
-                                                                    <t t-foreach="emps" t-as="emp">
-                                                                        <option t-att-value="emp.id">
-                                                                            <t t-esc="emp.name"/>
-                                                                        </option>
-                                                                    </t>
-                                                            </select>
-                                                    </div>
-                                                     <div style="float:right;"  class="col-xl">
-                                                          <label for="environment">Structure:</label>
-                                                              <select class="form-control" name="payslip_structure_id">
-                                                                    <t t-foreach="structure" t-as="struct">
-                                                                        <option t-att-value="struct.id">
-                                                                            <t t-esc="struct.name"/>
-                                                                        </option>
-                                                                    </t>
-                                                            </select>
-                                                    </div>
-                                        </div>
-                                                    <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
-                                                        <div class="col-md-2">
-                                                            <button type="submit"  class="btn btn-primary pull-left">Save</button>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            <t t-if="success_flag" t-call="portal.portal_docs_entry">
-                                                                <t t-set="title" style="color:green">Approval has been Saved Success fully</t>
-                                                            </t>
-                                                        </div>
-                                                        <div class="col-md-3">
-                                                            <a href="/delivery/orders"><div class="btn btn-warning pull-right" style="float:right; height:35px;line-height:100%;">Back To All Order</div></a> 
-                                                        </div>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </t>
-                </t>
-        </template> 
 
 </odoo>
 

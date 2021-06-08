@@ -37,36 +37,15 @@ def paging(data, flag1 = 0, flag2 = 0):
             for ids in rec:
                 config.list12.append(ids.id)  
  
-###---------------------------------------#####
-        
-class SubscriptionOrder(http.Controller):
-    @http.route('/subscription/create/',type="http", website=True, auth='user')
-    def payslips_create_template(self, **kw):
-        return request.render("de_portal_payslips.create_payslip",payslip_page_content()) 
-    
-    @http.route('/my/subscription/save', type="http", auth="public", website=True)
-    def create_payslips(self, **kw):
-        payslip_val = {
-            'name': kw.get('payslip_name'),
-            'number': kw.get('payslip_number'),
-            'employee_id': int(kw.get('payslip_emp_id')),
-            'struct_id': int(kw.get('payslip_structure_id')),
-            'date_from':kw.get('date_start'),
-            'date_to': kw.get('date_end'),
-        }
-        record = request.env['hr.payslip'].sudo().create(payslip_val)
 
-        success_flag = 1
-        return request.render("de_portal_purchase_agreements.create_payslip", payslip_page_content(success_flag))
-
-###---------------------------------------####
 
 class CustomerPortal(CustomerPortal):
 
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
+        user = request.env['res.users'].search([('id','=', http.request.env.context.get('uid'))], limit=1)
         if 'subscription_count' in counters:
-            values['subscription_count'] = request.env['purchase.requisition'].search_count([])
+            values['subscription_count'] = request.env['purchase.requisition'].search_count([('partner_id','=',user.partner_id.id)])
         return values
   
     def _subscription_get_page_view_values(self,subscription, next_id = 0,pre_id= 0, subscription_user_flag = 0, access_token = None, **kwargs):

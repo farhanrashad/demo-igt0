@@ -51,8 +51,12 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <t t-set="subscription_partner" t-value="0"/>
+                            <t t-foreach="request.env['res.users'].search([('id','=',uid)])" t-as="user">
+                              <t t-set="subscription_partner" t-value="user.partner_id.id"/>
+                            </t>
                             <t t-foreach="subscriptions" t-as="subsc"> 
-                                <t t-if="subsc.user_id.id==uid" >
+                                <t t-if="subsc.vendor_id.id==subscription_partner" >
                                 <tr>
                                     <td class="text-left">
                                           <a t-attf-href="/subscription/order/#{subsc.id}?{{ keep_query() }}">#<span t-field="subsc.id"/></a>
