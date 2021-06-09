@@ -6,6 +6,8 @@ from dateutil.relativedelta import relativedelta
 
 class TravelRequest(models.Model):
     _name = 'travel.request'
+    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin', 'sequence.mixin']
+
 
     def unlink(self):
         for r in self:
