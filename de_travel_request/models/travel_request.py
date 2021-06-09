@@ -6,6 +6,8 @@ from dateutil.relativedelta import relativedelta
 
 class TravelRequest(models.Model):
     _name = 'travel.request'
+    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
+
 
     def unlink(self):
         for r in self:
@@ -29,7 +31,7 @@ class TravelRequest(models.Model):
         ('submitted', 'Submitted'),
         ('refuse', 'Refuse'),
         ('approved', 'Approved'),
-    ], string='State', index=True, copy=False, default='draft', track_visibility='onchange')
+    ], string='State', index=True, readonly=True, tracking=True, copy=False, default='draft')
 
     def action_submit(self):
         self.state = 'submitted'
@@ -45,7 +47,7 @@ class TravelRequest(models.Model):
 
     travel_request_lines = fields.One2many('travel.request.line', 'travel_request_id')
 
-    name = fields.Char('Name', required="True")
+    name = fields.Char('Name', required=True, tracking=True)
     description_main = fields.Char('Description')
     travel_type = fields.Selection(
         [('business', 'Business'), ('personal', 'Personal'), ('visa run', 'Visa Run'), ('meeting', 'Meeting')],

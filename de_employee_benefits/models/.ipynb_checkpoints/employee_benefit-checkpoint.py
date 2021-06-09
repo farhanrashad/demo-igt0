@@ -14,9 +14,9 @@ class EmployeeBenefit(models.Model):
     _name = 'hr.employee.payslip.benefit'
     _description = 'This is Employee Benefit'
 
-    name = fields.Char(string='Name', required=True)
-    input_type_id = fields.Many2one('hr.payslip.input.type', string='Payslip Rule', required=True)
+#     name = fields.Char(string='Name', required=True)
+    input_type_id = fields.Many2one('hr.payslip.input.type', string='Input Rule', required=True)
     cotract_id = fields.Many2one('hr.contract', string='Contract')
-    description = fields.Char(string='Desciption')
+    description = fields.Char(string='Description')
     amount = fields.Float(string='Amount', required=True)
 

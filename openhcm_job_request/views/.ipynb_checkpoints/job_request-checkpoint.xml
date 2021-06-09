@@ -154,6 +154,7 @@
 
         <menuitem id="menu_view_team"
                   action="open_team_form_order_tree_form"
+                  string='Man Power Request'
                   parent="hr_recruitment.menu_hr_recruitment_configuration"/>
         
         <record id="task_type_search" model="ir.ui.view">

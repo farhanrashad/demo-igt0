@@ -15,7 +15,9 @@ class HrJob(models.Model):
     @api.depends('hired_id')
     def _compute_hired_employee(self):
         for record in self:
-            record.hired_id = self.application_count
+            hired = self.env['hr.employee'].search_count([('job_title','=',record.name)])
+#             raise UserError((hired.id))
+            record.hired_id = hired
     
     @api.depends('hired_id')
     def _compute_remaining_employee(self):
