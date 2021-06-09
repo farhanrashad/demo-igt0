@@ -9,7 +9,11 @@
                 <xpath expr="//field[@name='structure_type_id']" position="after">                  
                     <field name="contract_type_id" />
                      <field name="sequence_code"  invisible='1'/>
+                    <field name="code"  invisible='1'/>
                      <field name="sequence_id"  invisible='1'/>
+				</xpath>
+                <xpath expr="//field[@name='name']" position="attributes">                  
+                    <attribute name='required'>0</attribute>
 				</xpath>
 			</field>
 		</record>
