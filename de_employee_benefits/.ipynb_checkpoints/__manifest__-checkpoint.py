@@ -31,6 +31,7 @@
         'views/hr_payslip_views.xml',
         'views/hr_employee_views.xml',
         'views/hr_contract_views.xml',
+        'views/contract_type_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
