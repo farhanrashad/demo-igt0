@@ -83,7 +83,7 @@ class TopUpRequest(models.Model):
          ('supply chain', 'Supply Chain')],
         String="Representative Batch")
     date = fields.Date(String="Date", default=fields.date.today())
-    type = fields.Selection([('employee benfit', 'Employee Benfit'), ('category use', 'Category Use')],
+    type = fields.Selection([('employee benfit', 'Employee Benefit'), ('category use', 'Category Use')],
                             String="Type")
     is_level = fields.Boolean(String='Is C-Level?')
     additional_req = fields.Boolean(String="Additional Request?")
