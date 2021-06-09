@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_payment_allocation_wizard" model="ir.ui.view">
+            <field name="name">Payment Allocation</field>
+            <field name="model">payment.allocation.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Payment Allocation">
+                   <group>
+                    <group>
+                       <field name='partner_id' />
+                       
+                    </group>
+                    <group>
+                       <field name='account_id' />
+                       <field name='company_id' />
+                        
+                    </group>
+                    </group>
+                    
+                    <group string="Payments">                        
+                    </group>
+                    <field name='payment_line_ids'>
+                        <tree>
+                          <field name='payment_id'  />
+                          <field name='payment_date'  />
+                          <field name='payment_amount'  />
+                          <field name='unallocate_amount'  />
+                          <field name='allocate'   widget="boolean_toggle" />
+                          <field name='allocate_amount'  />
+                          <field name='allocation_id'  invisible='1' />
+                        </tree>
+                    </field> 
+                    <group string="Invoices">                        
+                    </group>
+                    <field name='invoice_line_ids'>
+                        <tree>
+                          <field name='move_id'  />
+                          <field name='payment_date'  />
+                          <field name='due_date'  />
+                          <field name='invoice_amount'  />
+                          <field name='unallocate_amount'  />
+                          <field name='allocate'   widget="boolean_toggle" />
+                          <field name='allocate_amount'  />
+                          <field name='allocation_id'  invisible='1' />
+                        </tree>
+                    </field>    
+                    
+                    <footer>
+                        <button name="action_allocate_payment" id="create_allocation" string="Allocate" type="object"      class="btn-primary"/>
+                        
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_payment_allocation_wizard" model="ir.actions.act_window">
+            <field name="name">Payment Allocation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">payment.allocation.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_view_types">list</field>
+        </record>
+
+</odoo>
