@@ -8,7 +8,7 @@ class HrPayslip(models.Model):
     
     work_location = fields.Char(related='employee_id.work_location')   
     bank_account_id = fields.Many2one(related='employee_id.bank_account_id')   
-    job_id = fields.Many2one(related='employee_id.job_id') 
+    job_id = fields.Char(related='employee_id.job_title') 
     conctract_type = fields.Selection(related='employee_id.type', string='Contract Type') 
     
     @api.constrains('contract_id')
