@@ -98,7 +98,7 @@
         </record>
         
         <record id="open_job_creation_form_tree" model="ir.ui.view">
-            <field name="name">Manpower Request</field>
+            <field name="name">job.position.request.tree</field>
             <field name="model">hr.job.position.request</field>
             <field name="arch" type="xml">
                 <tree string="Job Position Request Tree">
