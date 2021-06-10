@@ -104,6 +104,7 @@ class FleetVehicleUserLog(models.Model):
 
     vehicle_id = fields.Many2one('fleet.vehicle', string="Vehicle", required=True)
     user_id = fields.Many2one('hr.employee', string="User", required=True)
+    department_id = fields.Many2one('hr.department', related= "user_id.department_id", string= 'Department')
     date_start = fields.Date(string="Start Date")
     date_end = fields.Date(string="End Date")
     
