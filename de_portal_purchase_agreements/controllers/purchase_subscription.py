@@ -45,7 +45,7 @@ class CustomerPortal(CustomerPortal):
         values = super()._prepare_home_portal_values(counters)
         user = request.env['res.users'].search([('id','=', http.request.env.context.get('uid'))], limit=1)
         if 'subscription_count' in counters:
-            values['subscription_count'] = request.env['purchase.requisition'].search_count([('partner_id','=',user.partner_id.id)])
+            values['subscription_count'] = request.env['purchase.requisition'].search_count([('vendor_id','=',user.partner_id.id)])
         return values
   
     def _subscription_get_page_view_values(self,subscription, next_id = 0,pre_id= 0, subscription_user_flag = 0, access_token = None, **kwargs):

@@ -216,30 +216,40 @@
                                 
                             </div>
 
+                             <t t-if="transfer.action_type != 'normal'">
 
 
-                                      <div class="row">
+                                      <div class="row" >
+                                          <p><strong>Return Products</strong></p>
                                 <table class="table-striped table">
                                 <thead style="font-size:12px;">
                                     <tr>
                                         <h4>
                                             <b>
-                                        <th class="text-left">Exception Type</th>
-                                        <th class="text-left">Add Stage</th>
-                                        <th class="text-left">Action</th>
+                                        <th class="text-left">Product</th>
+                                        <th class="text-left">Project</th>
+                                        <th class="text-left">Demand Qty</th>
+                                        <th class="text-left">Unit Of Measure</th>
+                                        <th class="text-left">From</th>
+                                        <th class="text-left">To</th>
+                                        <th class="text-left">Status</th>
 
                                             </b>
                                         </h4>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <t t-foreach="transfer.stock_transfer_txn_line" t-as="t_line">
+                                    <t t-foreach="transfer.stock_transfer_return_line" t-as="t_line">
 
 
                                         <tr>
-                                            <td><span t-esc="t_line.transfer_exception_type_id.name"/></td>
-                                            <td><span t-esc="t_line.txn_stage_id.name"/></td>
-                                            <td><span t-esc="t_line.txn_action"/></td>
+                                            <td><span t-esc="t_line.product_id.name"/></td>
+                                            <td><span t-esc="t_line.project_id.name"/></td>
+                                            <td><span t-esc="t_line.product_uom_qty"/></td>
+                                            <td><span t-esc="t_line.product_uom.name"/></td>
+                                            <td><span t-esc="t_line.location_src_id.name"/></td>
+                                            <td><span t-esc="t_line.location_dest_id.name"/></td>
+                                            <td><span t-esc="t_line.return_status"/></td>
 
                                         </tr>
 
@@ -249,6 +259,7 @@
 
 
                             </div>
+                             </t>
                         </div>
                        
                     </div> 
