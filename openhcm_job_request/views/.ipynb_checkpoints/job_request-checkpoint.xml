@@ -117,7 +117,7 @@
             <field name="view_id" ref="open_job_creation_form_tree"/>
         </record>
 
-        <menuitem action="open_job_request_creation_form" id="job_position_request_menu"
+        <menuitem  name="Manpower Request" action="open_job_request_creation_form" id="job_position_request_menu"
                   parent="hr_recruitment.menu_crm_case_categ0_act_job"/>
             
         <record id="open_team_form_order" model="ir.ui.view">
@@ -154,7 +154,7 @@
 
         <menuitem id="menu_view_team"
                   action="open_team_form_order_tree_form"
-                  string='Man Power Request'
+                  
                   parent="hr_recruitment.menu_hr_recruitment_configuration"/>
         
         <record id="task_type_search" model="ir.ui.view">
