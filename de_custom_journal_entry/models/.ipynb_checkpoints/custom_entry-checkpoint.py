@@ -27,6 +27,10 @@ class CustomEntry(models.Model):
             if r.state != 'draft' or r.state == 'cancel':
                 raise UserError(
                     "You can not delete records other than in draft/cancelled state.")
+        for rec in self:
+            if rec.stage_id.stage_category != 'draft' or rec.stage_id.stage_category != 'cancel':
+                raise UserError(
+                    "You can not delete records other than in draft/cancelled state.")
         return super(CustomEntry, self).unlink()
     
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
