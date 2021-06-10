@@ -30,12 +30,12 @@ class CustomEntry(models.Model):
         return super(CustomEntry, self).unlink()
     
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
-    company_id = fields.Many2one('res.company', 'Company', copy=False, required=True, index=True, default=lambda s: s.env.company, states=READONLY_STATES)
-    currency_id = fields.Many2one('res.currency', 'Currency', required=True, states=READONLY_STATES,
+    company_id = fields.Many2one('res.company', 'Company', copy=False, required=True, index=True, default=lambda s: s.env.company)
+    currency_id = fields.Many2one('res.currency', 'Currency', required=True, 
                                   default=lambda self: self.env.company.currency_id.id)
     text = fields.Text(string="")
     user_id = fields.Many2one('res.users', string='Purchase Representative', index=True, tracking=True,
-        default=lambda self: self.env.user, check_company=True,states=READONLY_STATES,)
+        default=lambda self: self.env.user, check_company=True,)
    
 
     state = fields.Selection([
@@ -45,7 +45,7 @@ class CustomEntry(models.Model):
         ('cancel', 'Cancelled'),
         ], string='Status', readonly=True, copy=False, index=True, tracking=4, default='draft')
         
-    date_entry = fields.Datetime('Entry Date', required=True, states=READONLY_STATES, index=True, copy=False, default=fields.Datetime.now,)
+    date_entry = fields.Datetime('Entry Date', required=True, index=True, copy=False, default=fields.Datetime.now,)
 
     custom_entry_type_id = fields.Many2one('account.custom.entry.type', string='Entry Type', index=True, required=True, readonly=True, states={'draft': [('readonly', False)],},)
     stage_id = fields.Many2one('account.custom.entry.stage', string='Stage', compute='_compute_stage_id', store=True, readonly=False, ondelete='restrict', tracking=True, index=True, default=_get_default_stage_id, copy=False)
@@ -53,7 +53,7 @@ class CustomEntry(models.Model):
                                    
     expense_advance = fields.Boolean(related='custom_entry_type_id.expense_advance')
  
-    custom_entry_line = fields.One2many('account.custom.entry.line', 'custom_entry_id', string='Entry Line', copy=True, auto_join=True,states=READONLY_STATES)
+    custom_entry_line = fields.One2many('account.custom.entry.line', 'custom_entry_id', string='Entry Line', copy=True, auto_join=True)
     
     #account related fields
     expense_advance = fields.Boolean(related='custom_entry_type_id.expense_advance')
