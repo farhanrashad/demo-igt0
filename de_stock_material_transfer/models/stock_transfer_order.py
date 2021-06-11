@@ -686,8 +686,8 @@ class StockTransferOrderLine(models.Model):
     supplier_id = fields.Many2one('res.partner', string='Supplier')
     project_id = fields.Many2one('project.project', string='Project')
     state = fields.Selection(related='stock_transfer_order_id.state')
-    location_src_id = fields.Many2one('stock.location', string='From', required=True,)
-    location_dest_id = fields.Many2one('stock.location', string='To', required=True,)
+    location_src_id = fields.Many2one('stock.location', string='From', )
+    location_dest_id = fields.Many2one('stock.location', string='To', )
     
     return_product_id = fields.Many2one('product.product', string='Product', compute='_compute_product_return' )
     return_product_uom_qty = fields.Float(string='Return Qty', compute='_compute_product_return')
@@ -840,8 +840,8 @@ class StockTransferReturnLine(models.Model):
     supplier_id = fields.Many2one('res.partner', string='Supplier')
     project_id = fields.Many2one('project.project', string='Project')
     state = fields.Selection(related='stock_transfer_order_id.state')
-    location_src_id = fields.Many2one('stock.location', string='From', required=True,)
-    location_dest_id = fields.Many2one('stock.location', string='To', required=True,)
+    location_src_id = fields.Many2one('stock.location', string='From', )
+    location_dest_id = fields.Many2one('stock.location', string='To', )
     return_status = fields.Selection([
         ('draft', 'New'), ('cancel', 'Cancelled'),
         ('waiting', 'Waiting Another Move'),
