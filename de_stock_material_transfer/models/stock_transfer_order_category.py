@@ -52,7 +52,8 @@ class StockTransferOrderCategory(models.Model):
     return_picking_type_id = fields.Many2one('stock.picking.type',related='picking_type_id.return_picking_type_id')
     location_src_id = fields.Many2one('stock.location', string='Source Location',  required=True, )
     location_dest_id = fields.Many2one('stock.location', string='Destination Location', )
-    return_location_id = fields.Many2one('stock.location', string='Return Location', default=_get_default_return_location,)
+    return_location_id = fields.Many2one('stock.location', string='Return Location', domain="[('return_location','=',True)]")
+
     filter_products = fields.Boolean('Filter Products by Category')
     categ_control_ids = fields.Many2many('product.category', string="Product Categories", help="Select categories to allow for transfer")
     

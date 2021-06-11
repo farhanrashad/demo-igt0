@@ -6,7 +6,7 @@ class StockTransferCloseReasonWizard(models.TransientModel):
     _name = "stock.transfer.close.reason.wizard"
     _description = 'Stock Transfer Close Reason Wizard'
 
-    close_reason_id = fields.Many2one("stock.transfer.close.reason", string="Close Reason")
+    close_reason_id = fields.Many2one("stock.transfer.close.reason", string="Close Reason", domain="[('reason_type','=','normal')]")
     close_reason_message = fields.Char(string='Message')
 
     def set_close(self):
@@ -14,4 +14,4 @@ class StockTransferCloseReasonWizard(models.TransientModel):
         order = self.env['stock.transfer.order'].browse(self.env.context.get('active_id'))
         order.close_reason_id = self.close_reason_id
         order.close_reason_message = self.close_reason_message
-        order.set_close()
+        order.set_close(order, order.close_reason_id.reason_type)

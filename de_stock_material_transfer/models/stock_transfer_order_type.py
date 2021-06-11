@@ -12,7 +12,7 @@ class StockTransferOrderType(models.Model):
     _description = "Transfer Order Type"
 
     def _get_default_image(self):
-        default_image_path = get_module_resource('de_stock_material_transfer', 'static/src/img', 'requisition.png')
+        default_image_path = get_module_resource('de_stock_material_transfer', 'static/description', 'requisition.png')
         return base64.b64encode(open(default_image_path, 'rb').read())
     
     name = fields.Char('Name', required=True)
@@ -20,7 +20,7 @@ class StockTransferOrderType(models.Model):
     active = fields.Boolean('Active', default=True, help="If unchecked, it will allow you to hide the transfer type without removing it.")
     description = fields.Text("Requirements", help="Enter here the details of transfer type.")
     disallow_staging = fields.Boolean(string='Disallow Staging')
-    image = fields.Binary(string='Image', default=_get_default_image)
+    image = fields.Binary(string='Image')
     color = fields.Integer(string='Color Index')
     automated_sequence = fields.Boolean('Automated Sequence?',
         help="If checked, the Approval Requests will have an automated generated name based on the given code.")

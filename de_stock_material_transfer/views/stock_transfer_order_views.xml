@@ -50,16 +50,19 @@
                     <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
                         attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
                     
-                    <button name="action_refuse" string="Refuse" type="object" 
-                        attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+                    <!--<button name="action_refuse" string="Refuse" type="object" 
+                        attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>-->
                     
                     <!--<button name="%(action_move_in_refund_type_transfer_order)d" type="action" states="confirm,delivery,return" context="{'default_stock_transfer_order_id':id,'default_move_type':'in_refund', 'default_partner_id': partner_id}" string="Penalty Bills" class="btn-primary"/>-->
                     
                     <button name="create_delivery" type="object" class="oe_highlight" string="Create Transfer" attrs="{'invisible': [('stage_category', 'not in', ['confirm'])]}"/>
                     
+                    <!--<button name="cron_expire_order" type="object" class="oe_highlight" string="Test Cron" />-->
+
+                    
                     <!--<button name="create_delivery" type="object" class="oe_highlight" string="Create Return" attrs="{'invisible':['|',('state','!=','delivery'),('action_type','=','normal')]}"/>-->
                     
-                    <button name="%(transfer_order_close_reason_wizard_action)d" type="action"  string="Close" attrs="{'invisible': [('stage_category', 'in', ['draft','close','cancel'])]}"/>
+                    <button name="%(transfer_order_close_reason_wizard_action)d" type="action"  string="Close" attrs="{'invisible': [('stage_category', 'not in', ['transfer'])]}"/>
                     
                     <button name="action_cancel" type="object" string="Cancel" attrs="{'invisible': [('stage_category', 'not in', ['done'])]}" />
                     
@@ -192,7 +195,7 @@
                                     <field name="analytic_tag_ids" widget="many2many_tags" optional="hide" attrs="{'invisible':[('parent.has_analytic_tags','==','no')], 'required': [('parent.has_analytic_tags','==','required')]}" groups="analytic.group_analytic_accounting,analytic.group_analytic_tags"/>
 
                                     <field name="product_uom_category_id" invisible="1"/>
-                                    <field name="location_src_id" optional="show" />
+                                    <field name="location_src_id" optional="hide" />
                                     <field name="location_dest_id" optional="show" />
                                     <field name="delivery_status" optional="show"/>
                                 </tree>
@@ -233,10 +236,12 @@
                         <page string="Picking Details" name="picking_details" >
                             <group>
                                 <group>
-                                    <field name="picking_type_id"/>
+                                    <field name="picking_type_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
                                     <field name="picking_type_code" invisible="1"/>
-                                    <field name="location_src_id" attrs="{'required':[('picking_type_code','in',['outgoing','internal'])]}"/>
-                                    <field name="location_dest_id" attrs="{'required':[('picking_type_code','in',['incoming','internal'])]}"/>  
+                                    <field name="location_src_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                    <field name="location_dest_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                    <field name="return_location_id" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>  
+
                                 </group>
                                 <group>
                                 </group>
@@ -306,7 +311,7 @@
             <field name="name">Transfer Requests</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">stock.transfer.order</field>
-            <field name="view_mode">tree,kanban,form,activity</field>
+            <field name="view_mode">tree,form,pivot,activity</field>
             <field name="search_view_id" ref="stock_transfer_order_search_view"/>
             <!--<field name="domain">[('stage_category','=','draft')]</field>-->
             <field name="help" type="html">
@@ -324,7 +329,7 @@
             <field name="name">Transfer Orders</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">stock.transfer.order</field>
-            <field name="view_mode">tree,kanban,form,activity</field>
+            <field name="view_mode">tree,form,pivot,activity</field>
             <field name="search_view_id" ref="stock_transfer_order_search_view"/>
             <field name="domain">[('stage_category','in',['confirm','close','transfer'])]</field>
             <field name="help" type="html">
@@ -342,7 +347,7 @@
             <field name="name">Pending Orders</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">stock.transfer.order</field>
-            <field name="view_mode">tree,kanban,form,activity</field>
+            <field name="view_mode">tree,form,pivot,activity</field>
             <field name="search_view_id" ref="stock_transfer_order_search_view"/>
             <field name="domain">[('stage_category','=','progress')]</field>
             <field name="help" type="html">
@@ -495,7 +500,7 @@
       <record id="stock_order_transfer_action_to_all_transfers" model="ir.actions.act_window">
         <field name="name">Requisitions</field>
         <field name="res_model">stock.transfer.order</field>
-        <field name="view_mode">kanban,tree,form</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
         <field name="domain">[('transfer_order_type_id', '=', active_id)]</field>
     </record>
       

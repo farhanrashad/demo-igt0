@@ -16,14 +16,14 @@
                                 <field name="sequence"/>
                             </group>
                             <group>
-                                 <field name="transfer_order_type_id" options="{'no_create':True,'no_open':True}"/>
-                    <field name="stage_id" options="{'no_create':True,'no_open':True}"/>
-                    <field name="apply_stage_id" options="{'no_create':True,'no_open':True}"/>
-                    <field name="stage_auto_apply" />
-                    <field name="picking_type_id" options="{'no_create':True,'no_open':True}"/>
-                    <field name="return_picking_type_id" options="{'no_create':True,'no_open':True}"/>
-                    <field name="location_src_id" options="{'no_create':True,'no_open':True}"/>
-                    <field name="location_dest_id" options="{'no_create':True,'no_open':True}"/>
+                                <field name="transfer_order_type_id" options="{'no_create':True,'no_open':True}"/>
+                                <field name="stage_id" options="{'no_create':True,'no_open':True}"/>
+                                <field name="apply_stage_id" options="{'no_create':True,'no_open':True}"/>
+                                <field name="stage_auto_apply" />
+                                <field name="picking_type_id" options="{'no_create':True,'no_open':True}"/>
+                                <field name="location_src_id" options="{'no_create':True,'no_open':True}" attrs="{'required':[('picking_type_id','!=', False)]}"/>
+                                <field name="location_dest_id" options="{'no_create':True,'no_open':True}"/>
+                                <field name="return_location_id" options="{'no_create':True,'no_open':True}"/>
                             </group>
                         </group>
                     </sheet>

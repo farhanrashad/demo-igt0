@@ -20,10 +20,10 @@ class TransferOrderException(models.Model):
     apply_stage_id = fields.Many2one('stock.transfer.order.stage', domain="[('transfer_order_type_ids','=',transfer_order_type_id)]", string='Apply On', copy=False)
     stage_auto_apply = fields.Boolean(string='Stage Auto Apply')
     picking_type_id = fields.Many2one('stock.picking.type', 'Operation Type', )
-    return_picking_type_id = fields.Many2one('stock.picking.type',related='picking_type_id.return_picking_type_id')
     location_src_id = fields.Many2one('stock.location', string='Source Location',  )
     location_dest_id = fields.Many2one('stock.location', string='Destination Location', )
-    return_location_id = fields.Many2one('stock.location', string='Return Location')
+    return_picking_type_id = fields.Many2one('stock.picking.type',related='picking_type_id.return_picking_type_id')
+    return_location_id = fields.Many2one('stock.location', string='Return Location', domain="[('return_location','=',True)]")
     active = fields.Boolean('Active', default=True,
         help="If unchecked, it will allow you to hide the exception without removing it.")
     

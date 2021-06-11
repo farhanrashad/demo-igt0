@@ -8,7 +8,7 @@
         <field name="arch" type="xml">
             <form string="Close Reasons">
                 <group class="oe_title">
-                    <field name="close_reason_id" string="Reason"/>
+                    <field name="close_reason_id" string="Reason" required="1" options="{'no_create':True, 'no_open':True}"/>
                     <field name="close_reason_message"/>
                 </group>
                 <footer>
