@@ -617,9 +617,10 @@ class StockTransferOrder(models.Model):
         })
         
     def action_refuse(self):
-        
+        stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',self.transfer_order_type_id.id),('transfer_order_category_ids','=',self.transfer_order_category_id.id)],limit=1)
         self.update({
-            'stage_id' : self.prv_stage_id.id,
+            #'stage_id' : self.prv_stage_id.id,
+            'stage_id': stage_id.id,
             'date_order': fields.Datetime.now(),
         })
         
@@ -646,7 +647,7 @@ class StockTransferOrder(models.Model):
         
     def process_txn_stage(self):
         for order in self:
-            if order.next_stage_id.id == order.curr_txn_stage_id.id or order.curr_txn_type_id.apply_stage_id.id == order.stage_id.id:
+            if order.next_stage_id.id == order.curr_txn_stage_id.id or order.curr_txn_type_id.exec_stage_id.id == order.stage_id.id:
                 for txn in self.stock_transfer_txn_line.filtered(lambda t: t.transfer_exception_type_id.id == order.curr_txn_type_id.id):
                     txn.txn_action = 'apply'
                     for line in order.stock_transfer_order_line:

@@ -280,7 +280,7 @@
         <field name="priority" eval="15"/>
         <field name="arch" type="xml">
             <search string="Search transfer Order">
-                <field name="name" string="Reference" filter_domain="['|', ('name', 'ilike', self), ('origin', 'ilike', self)]"/>
+                <field name="name" string="Reference" filter_domain="[('name', 'ilike', self)]"/>
                 <field name="user_id" invisible="1"/>
                 <field name="partner_id" operator="child_of"/>
                 <filter string="My Orders" name="my_transfer.order_orders" domain="[('user_id', '=', uid)]"/>
