@@ -38,16 +38,15 @@
                     <field name="sequence" widget="handle"/>
                     <field name="code"/>
                     <field name="name"/>
-                    <field name="message_type"/>
-                    <field name="message"/>
-                    <field name="transfer_order_type_id" options="{'no_create':True,'no_open':True}"/>
                     <field name="stage_id" options="{'no_create':True,'no_open':True}"/>
-                    <field name="apply_stage_id" options="{'no_create':True,'no_open':True}"/>
-                    <field name="stage_auto_apply" />
-                    <field name="picking_type_id" options="{'no_create':True,'no_open':True}"/>
-                    <field name="return_picking_type_id" options="{'no_create':True,'no_open':True}"/>
-                    <field name="location_src_id" options="{'no_create':True,'no_open':True}"/>
-                    <field name="location_dest_id" options="{'no_create':True,'no_open':True}"/>
+                    <field name="message_type" optional="hide"/>
+                    <field name="transfer_order_type_id" options="{'no_create':True,'no_open':True}"/>
+                    <field name="apply_stage_id" optional="hide" options="{'no_create':True,'no_open':True}"/>
+                    <field name="stage_auto_apply" optional="hide"/>
+                    <field name="picking_type_id" optional="hide" options="{'no_create':True,'no_open':True}"/>
+                    <field name="return_picking_type_id" optional="hide" options="{'no_create':True,'no_open':True}"/>
+                    <field name="location_src_id" optional="hide" options="{'no_create':True,'no_open':True}"/>
+                    <field name="location_dest_id" optional="hide" options="{'no_create':True,'no_open':True}"/>
                 </tree>
             </field>
         </record>
