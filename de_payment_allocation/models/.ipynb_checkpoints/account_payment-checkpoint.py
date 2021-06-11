@@ -24,9 +24,10 @@ class AccountPayment(models.Model):
                 'allocate_amount': payment.amount,
             }))
             partner.append(payment.partner_id.id)
-        uniq_partner =  set(partner)  
+        uniq_partner =  set(partner) 
         for ppartner in uniq_partner:
             invoices = self.env['account.move'].search([('partner_id','=',ppartner),('state','=','posted'),('payment_state','in', ('not_paid','partial'))]) 
+            
             for  inv in invoices:
                 invoice_list.append((0,0,{
                     'move_id': inv.id,
@@ -50,6 +51,7 @@ class AccountPayment(models.Model):
                         'default_company_id': self.env.company.id,
                         'default_partner_id': self.partner_id.id,
                         'default_account_id': self.destination_account_id.id,
+                        'default_payment_id': self.id,
                        },
         }
 
