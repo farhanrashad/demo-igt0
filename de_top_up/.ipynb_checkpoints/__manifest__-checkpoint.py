@@ -11,6 +11,7 @@
     'data': [
         'security/ir.model.access.csv',
         'views/request_view.xml',
+        'views/hr_employee_views.xml',
         'data/form_name.xml',
         'views/balance_views.xml',
         'views/top_up_menu.xml',

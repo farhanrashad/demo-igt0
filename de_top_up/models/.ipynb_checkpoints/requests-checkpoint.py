@@ -120,6 +120,14 @@ class TopUpRequest(models.Model):
     def _compute_account_period(self):
         for record in self:
             record.period = record.date.strftime("%B-%Y")
+            
+    @api.onchange('date')
+    def onchange_date(self):        
+        employees = self.env['hr.employee'].search([('active_emp','=', True)])
+        for employee in employees:
+            employee.update({
+                'active_emp': False
+            })        
     
     
     @api.onchange('additional_req')
@@ -139,7 +147,7 @@ class EmployeeRequestLine(models.Model):
 
     request_id = fields.Many2one('topup.request')
 
-    employee = fields.Many2one('hr.employee', string="Employee")
+    employee = fields.Many2one('hr.employee', string="Employee", domain="[('active_emp','=', False)]")
     department = fields.Many2one('hr.department', string="Department", related="employee.department_id")
     telenor = fields.Integer(string="Telenor")
     ooredoo = fields.Integer(string="Ooredoo")
@@ -147,6 +155,15 @@ class EmployeeRequestLine(models.Model):
     mytel = fields.Integer(string="MYTEL")
     total = fields.Integer(string="Total", compute="_compute_total")
     remarks = fields.Char(string="Remarks")
+    
+    
+    @api.onchange('employee')
+    def onchange_employee(self):        
+        for line  in self:
+            line.employee.update({
+                'active_emp': True
+            })
+    
 
     @api.onchange('total')
     def total_const(self):
