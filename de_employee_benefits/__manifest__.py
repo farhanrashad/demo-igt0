@@ -26,7 +26,6 @@
     'data': [
         'data/sequence.xml',
         'security/ir.model.access.csv',
-        'views/employee_benefit_views.xml',
         'views/templates.xml',
         'views/hr_payslip_views.xml',
         'views/hr_employee_views.xml',

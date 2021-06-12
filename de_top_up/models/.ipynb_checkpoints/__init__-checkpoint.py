@@ -2,3 +2,4 @@
 
 from . import requests
 from . import balance
+from . import hr_employee
