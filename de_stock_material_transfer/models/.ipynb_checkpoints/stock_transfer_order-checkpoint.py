@@ -623,6 +623,8 @@ class StockTransferOrder(models.Model):
             'stage_id': stage_id.id,
             'date_order': fields.Datetime.now(),
         })
+        for txn in self.stock_transfer_txn_line:
+            txn.txn_action = 'open'
         
         
     def action_submit(self):
@@ -669,7 +671,7 @@ class StockTransferOrder(models.Model):
     def _create_delivery(self):
         self.ensure_one()
         picking = self.env['stock.picking']
-        lines_data = []
+        moves_data = []
         line = False
         for order in self:
             for line in order.stock_transfer_order_line:
@@ -1054,14 +1056,22 @@ class StockTransferReturnLine(models.Model):
 class StockTransferTXNLine(models.Model):
     _name = 'stock.transfer.txn.line'
     _description = 'Stock transfer Transaction Line'
+    _order = 'sequence, id'
     
     stock_transfer_order_id = fields.Many2one('stock.transfer.order', string='Stock transfer.order Order', required=True, ondelete='cascade', index=True, copy=False)
     stage_id = fields.Many2one('stock.transfer.order.stage',related='stock_transfer_order_id.stage_id')
     transfer_order_type_id = fields.Many2one(related='stock_transfer_order_id.transfer_order_type_id', readonly=True, store=True)
-    sequence = fields.Integer(default=1)
+    sequence = fields.Integer(default=1, compute='_compute_sequence')
     transfer_exception_type_id = fields.Many2one("stock.transfer.exception.type", string="Exception Type", domain="[('transfer_order_type_id','=',transfer_order_type_id),('apply_stage_id','=',stage_id)]")
     txn_stage_id = fields.Many2one('stock.transfer.order.stage', related='transfer_exception_type_id.stage_id')
     txn_action = fields.Selection([
         ('open', 'Open'),
         ('apply', 'Applied'),
     ], string='Action', copy=False, default='open')
+    
+    @api.depends('transfer_exception_type_id')
+    def _compute_sequence(self):
+        for txn in self:
+            if txn.transfer_exception_type_id:
+                txn.sequence = txn.transfer_exception_type_id.sequence
+                
