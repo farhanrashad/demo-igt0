@@ -21,8 +21,8 @@
                             </h3>
                             <field name='employee_id'/>
                             <field name='department_id'/>
-                            <field name='marital_stat'/>
-                            <field name='no_of_dependant' readonly="1"/>
+                            <field name='marital_stat'  force_save="1"/>
+                            <field name='no_of_dependant' readonly="1" force_save="1"/>
                             <field name='no_of_children'/>
                             <field name='father'/>
                             <field name='mother'/>

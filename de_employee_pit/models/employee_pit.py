@@ -48,12 +48,15 @@ class EmployeeIncomeTax(models.Model):
     employee_id = fields.Many2one('hr.employee', string="Employee")
     department_id = fields.Many2one('hr.department', string='Department', related='employee_id.department_id')
     wage = fields.Float(string="Contract Wage", compute='employee_count')
-    marital_stat = fields.Selection(string="Marital Status", related='employee_id.marital')
+    marital_stat = fields.Selection([
+        ('single', 'Single'),
+        ('married', 'Married'),
+        ], string='Marital Status', readonly=True, copy=False, index=True, default='single')
     no_of_dependant = fields.Integer(string="No. of Dependants")
     no_of_children = fields.Integer(string="No. of Children", compute='employee_count')
-    father = fields.Boolean(string="Father")
-    mother = fields.Boolean(string="Mother")
-    child = fields.Boolean(string="Child")
+    father = fields.Boolean(string="Father", readonly=True)
+    mother = fields.Boolean(string="Mother", readonly=True)
+    child = fields.Boolean(string="Child", readonly=True)
     annual_wage = fields.Float(string="Annual Wage", compute='employee_count')
     tax_income = fields.Float(string="Tax Income", compute='employee_count')
     monthly_tax = fields.Float('Monthly tax amount')
@@ -62,11 +65,12 @@ class EmployeeIncomeTax(models.Model):
     employee_income_tax_ids = fields.One2many('employee.income.tax.line', 'employee_income_tax_id')
             
         
-               
+    @api.onchange('ss_amount','employee_id')
     def employee_count(self):
         count = 0
         parent_count = 0
         tax_per = 0
+        wife_count = 0
         for rec in self:
             if rec.employee_id.contract_id:
                 for contract in rec.employee_id.contract_id:
@@ -90,10 +94,19 @@ class EmployeeIncomeTax(models.Model):
                         parent_count = parent_count + 1
                     if dependant.relation_ship == "child":
                         rec.child = True
+                        child_count = rec.no_of_children + 1
+                        rec.update({
+                            'no_of_children' : child_count,
+                        })
+                    if dependant.relation_ship == "wife":
+                        wife_count = wife_count + 1
+                        rec.update({
+                            'marital_stat' : 'married',
+                        })
                     count = count + 1
             rec.no_of_dependant = count
             
-            rec.tax_income = rec.annual_wage - ((rec.no_of_children * 500000) + (parent_count * 1000000) + rec.ss_amount)
+            rec.tax_income = rec.annual_wage - ((rec.no_of_children * 500000) + (parent_count * 1000000) + (rec.ss_amount*12))
             
             if rec.tax_income > 1 and rec.tax_income <= 2000000:
                 tax_per = 0
