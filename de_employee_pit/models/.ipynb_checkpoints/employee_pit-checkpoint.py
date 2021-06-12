@@ -106,7 +106,10 @@ class EmployeeIncomeTax(models.Model):
                     count = count + 1
             rec.no_of_dependant = count
             
-            rec.tax_income = rec.annual_wage - ((rec.no_of_children * 500000) + (parent_count * 1000000) + (rec.ss_amount*12))
+            if rec.annual_wage > 10000000:
+                rec.tax_income = rec.annual_wage - ((rec.no_of_children * 500000) + (parent_count * 1000000) + (rec.ss_amount*12))
+            if rec.annual_wage < 10000000:
+                rec.tax_income = (rec.annual_wage*0.80) - ((rec.no_of_children * 500000) + (parent_count * 1000000) + (rec.ss_amount*12))
             
             if rec.tax_income > 1 and rec.tax_income <= 2000000:
                 tax_per = 0
