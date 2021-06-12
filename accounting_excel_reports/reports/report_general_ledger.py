@@ -78,7 +78,13 @@ class ReportGeneralLedgerExcel(models.Model):
         sheet.write('I7', "Credit", format3)
         sheet.write('J7', "Balance", format3)
         sheet.write('K7', "Currency", format3)
+        sheet.write('L7', "BC Balance", format3)
+        sheet.write('M7', "BC Currency", format3)
         currency_obj = self.env['res.currency'].search([('id','=',data['currency_id'])])
+        company_currency = self.env.company.id
+        bc_company_obj = self.env['res.company'].search([('id','=',company_currency)])
+        bc_currency_obj = bc_company_obj.currency_id
+        bc_currency_symbol = bc_currency_obj.symbol
         row = 7
         col = 0
         for account in results['Accounts']:
@@ -87,14 +93,14 @@ class ReportGeneralLedgerExcel(models.Model):
             sheet.write(row, col + 8, (account['credit']), format5)
             sheet.write(row, col + 9, (account['balance']), format5)
             sheet.write(row, col + 10, str(currency_obj.name) + "(" + str(data['currency_symbol']) + ")", format5)
-
+            sheet.write(row, col + 11, (account['bc_balance']), format5)
+            sheet.write(row, col + 12, str(bc_currency_obj.name) + "(" + str(bc_currency_symbol) + ")", format5)
 
             for line in account['move_lines']:
                 
                 col = 0
                 row += 1
                 sheet.write(row, col, line['ldate'], format8)
-                
                 sheet.write(row, col + 1, line['lcode'], format6)
                 sheet.write(row, col + 2, line['partner_name'], format6)
                 sheet.write(row, col + 3, line['lref'] or '', format6)
@@ -105,5 +111,7 @@ class ReportGeneralLedgerExcel(models.Model):
                 sheet.write(row, col + 8, (line['credit']), format7)
                 sheet.write(row, col + 9, (line['balance']), format7)
                 sheet.write(row, col + 10, str(currency_obj.name) + "(" + str(data['currency_symbol']) + ")", format5)
+                sheet.write(row, col + 11, (line['bc_balance']), format6)
+                sheet.write(row, col + 12, str(bc_currency_obj.name) + "(" + str(bc_currency_symbol) + ")", format6)
 
             row += 1
