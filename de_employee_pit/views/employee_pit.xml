@@ -40,7 +40,7 @@
                                 <tree editable="bottom">
                                     <field name="months"/>
                                     <field name="month_salary"/>
-                                    <field name="month_tax"/>
+                                    <field name="month_tax" force_tax="1"/>
                                 </tree>
                             </field>
                         </page>
