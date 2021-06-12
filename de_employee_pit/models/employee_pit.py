@@ -70,7 +70,9 @@ class EmployeeIncomeTax(models.Model):
         count = 0
         parent_count = 0
         tax_per = 0
+        tax_total = 0
         wife_count = 0
+        child_count =  0
         for rec in self:
             if rec.employee_id.contract_id:
                 for contract in rec.employee_id.contract_id:
@@ -105,27 +107,34 @@ class EmployeeIncomeTax(models.Model):
                         })
                     count = count + 1
             rec.no_of_dependant = count
+            rec.no_of_children = child_count
             
-            if rec.annual_wage > 10000000:
-                rec.tax_income = rec.annual_wage - ((rec.no_of_children * 500000) + (parent_count * 1000000) + (rec.ss_amount*12))
-            if rec.annual_wage < 10000000:
+            if (rec.annual_wage*0.20) > 10000000:
+                rec.tax_income = (rec.annual_wage-10000000) - ((rec.no_of_children * 500000) + (parent_count * 1000000) + (rec.ss_amount*12))
+#             if (rec.annual_wage*20) < 10000000:
+            else:
                 rec.tax_income = (rec.annual_wage*0.80) - ((rec.no_of_children * 500000) + (parent_count * 1000000) + (rec.ss_amount*12))
             
             if rec.tax_income > 1 and rec.tax_income <= 2000000:
                 tax_per = 0
             if rec.tax_income > 2000001 and rec.tax_income <= 5000000:
+                tax_total = ((rec.tax_income - 2000000)*0.05)
                 tax_per = 5
             if rec.tax_income > 5000001 and rec.tax_income <= 10000000:
+                tax_total = (((rec.tax_income - 5000000)*0.10)+150000)
                 tax_per = 10
             if rec.tax_income > 10000001 and rec.tax_income <= 20000000:
+                tax_total = (((rec.tax_income - 10000000)*0.15)+650000)
                 tax_per = 15
             if rec.tax_income > 20000001 and rec.tax_income <= 30000000:
+                tax_total = (((rec.tax_income - 20000000)*0.20)+2150000)
                 tax_per = 20
             if rec.tax_income > 30000001:
+                tax_total = (((rec.tax_income - 30000000)*0.25)+4150000)
                 tax_per = 25
                 
             
-            total_annual_tax = rec.tax_income * (tax_per/100)
+            total_annual_tax = tax_total
             rec.monthly_tax = total_annual_tax / 12
             
     @api.onchange("employee_id")
