@@ -426,11 +426,17 @@ class StockTransferOrder(models.Model):
         if auto_commit:
             cr.commit()
             
-    @api.depends('transfer_order_type_id','transfer_order_category_id')
-    def _compute_stage_id1(self):
+    @api.depends('picking_ids.state')
+    def _compute_stage_id(self):
         for order in self:
-            if not order.stage_id:
-                order.stage_id = lead._stage_find(order.transfer_order_type_id.id, order.transfer_order_category_id.id, domain=[('fold', '=', False),('stage_category', '=', 'draft')]).id
+            if order.transfer_order_type_id not in order.stage_id.transfer_order_type_ids:
+                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_category','=','draft')],limit=1).id
+            elif any(picking.state != 'done' for picking in order.picking_ids):
+                #partially Shipped
+                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PS')],limit=1).id
+            elif all(picking.state == 'done' for picking in order.picking_ids):
+                #fully Shipped
+                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','FS')],limit=1).id
     
     def _stage_find(self, type_id=None, category_id=None, domain=None, order='sequence'):
         if category_id:
@@ -446,7 +452,7 @@ class StockTransferOrder(models.Model):
     #            if order.transfer_order_type_id not in order.stage_id.transfer_order_type_ids:
                     
     @api.depends('transfer_order_type_id')        
-    def _compute_stage_id(self):
+    def _compute_stage_id2(self):
         dlvr_qty = demand_qty = 0
         for order in self:
             if order.transfer_order_type_id:
@@ -672,7 +678,7 @@ class StockTransferOrder(models.Model):
         self.ensure_one()
         picking = self.env['stock.picking']
         moves_data = []
-        line = False
+        lines_data = []
         for order in self:
             for line in order.stock_transfer_order_line:
                 lines_data.append([0,0,{
@@ -838,8 +844,8 @@ class StockTransferOrderLine(models.Model):
     product_uom_category_id = fields.Many2one(related='product_id.uom_id.category_id', readonly=True)
     product_uom_qty = fields.Float(string='Demand Qty', required=True)
     
-    delivered_qty = fields.Float(string='Dlvr. Qty', compute='_compute_delivered_qty')
-    remaining_qty = fields.Float(string='Remainig Qty', compute='_compute_delivered_qty')
+    delivered_qty = fields.Float(string='Dlvr. Qty', copy=False, compute='_compute_delivered_qty')
+    remaining_qty = fields.Float(string='Remainig Qty', copy=False, compute='_compute_delivered_qty')
     
     date_scheduled = fields.Date(string='Scheduled Date')
     analytic_account_id = fields.Many2one('account.analytic.account', string='Analytic Account',)
@@ -848,8 +854,7 @@ class StockTransferOrderLine(models.Model):
     project_id = fields.Many2one('project.project', string='Project')
     state = fields.Selection(related='stock_transfer_order_id.state')
     location_src_id = fields.Many2one('stock.location', string='From', )
-    location_dest_id = fields.Many2one('stock.location', string='To', )
-    
+    location_dest_id = fields.Many2one('stock.location', string='To', domain="[('id', 'child_of', parent.location_dest_id)]")
     return_product_id = fields.Many2one('product.product', string='Product', compute='_compute_product_return' )
     return_product_uom_qty = fields.Float(string='Return Qty', compute='_compute_product_return')
 
@@ -884,6 +889,7 @@ class StockTransferOrderLine(models.Model):
             for rtn in returns:
                 qty += rtn.product_uom_qty
             line.return_product_uom_qty = qty
+            line.return_product_id = False
         
     def _get_delivery_status(self):
         #status = ''
@@ -1003,7 +1009,7 @@ class StockTransferReturnLine(models.Model):
     supplier_id = fields.Many2one('res.partner', string='Supplier')
     project_id = fields.Many2one('project.project', string='Project')
     state = fields.Selection(related='stock_transfer_order_id.state')
-    location_src_id = fields.Many2one('stock.location', string='From', )
+    location_src_id = fields.Many2one('stock.location', string='From', domain="[('id', 'child_of', parent.location_dest_id)]",)
     location_dest_id = fields.Many2one('stock.location', string='To', )
     return_status = fields.Selection([
         ('draft', 'New'), ('cancel', 'Cancelled'),

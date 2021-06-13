@@ -51,3 +51,33 @@ class StockMove(models.Model):
     
     stock_transfer_order_line_id = fields.Many2one('stock.transfer.order.line')
     stock_material_condition_id = fields.Many2one('stock.transfer.material.condition', string="Condition", default=_get_default_condition)
+    
+class StockMoveLine(models.Model):
+    _inherit = 'stock.move.line'
+    
+    stock_transfer_order_id = fields.Many2one('stock.transfer.order', compute='_compute_transfer_order')
+    
+    @api.depends('picking_id')
+    def _compute_transfer_order(self):
+        for line in self:
+            if line.picking_id.stock_transfer_order_id:
+                line.stock_transfer_order_id = line.picking_id.stock_transfer_order_id.id
+            else:
+                line.stock_transfer_order_id = False
+            
+    @api.onchange('product_id')
+    def _onchange_product_id(self):
+        for line in self:
+            if line.picking_id.stock_transfer_order_id:
+                line.location_dest_id = line.move_id.stock_transfer_order_line_id.location_dest_id.id
+                
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('move_id'):
+                vals['company_id'] = self.env['stock.move'].browse(vals['move_id']).company_id.id
+            elif vals.get('picking_id'):
+                vals['company_id'] = self.env['stock.picking'].browse(vals['picking_id']).company_id.id
+            vals['location_dest_id'] = self.env['stock.move'].browse(vals['move_id']).stock_transfer_order_line_id.location_dest_id.id
+
+        mls = super().create(vals_list)

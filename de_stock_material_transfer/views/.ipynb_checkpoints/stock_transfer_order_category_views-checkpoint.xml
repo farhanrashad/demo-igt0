@@ -42,12 +42,12 @@
                             <page string="Delivery Info" name="delivery_info">
                                 <group>
                             <group string="Picking Details" name="picking_details">
-                                <field name="picking_type_id" />
-                                <field name="picking_type_code" />
-                                <field name="location_src_id" attrs="{'required':[('picking_type_code','=','outgoing')]}"/>
-                                <field name="location_dest_id" attrs="{'required':[('picking_type_code','=','incoming')]}"/>
-                                <field name="return_picking_type_id" attrs="{'invisible':[('action_type','=','normal')]}"/>
-                                <field name="return_location_id" attrs="{'invisible':[('action_type','=','normal')]}"/>
+                                <field name="picking_type_id" required="1"/>
+                                <field name="picking_type_code" readonly="1"/>
+                                <field name="location_src_id" required="1" />
+                                <field name="location_dest_id" required="1" />
+                                <field name="return_picking_type_id" attrs="{'invisible':[('action_type','=','normal')]}" readonly="1"/>
+                                <field name="return_location_id" attrs="{'invisible':[('action_type','=','normal')]}" readonly="1"/>
                             </group>
                             <group string="Delivery Validity" name="delivery_validity" attrs="{'invisible':[('action_type','=','normal')]}">
                                 <label for="default_delivery_validity" attrs="{'invisible':[('action_type','=','normal')]}"/>

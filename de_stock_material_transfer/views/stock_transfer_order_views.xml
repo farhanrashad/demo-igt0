@@ -196,8 +196,8 @@
                                     <field name="analytic_tag_ids" widget="many2many_tags" optional="hide" attrs="{'invisible':[('parent.has_analytic_tags','==','no')], 'required': [('parent.has_analytic_tags','==','required')]}" groups="analytic.group_analytic_accounting,analytic.group_analytic_tags"/>
 
                                     <field name="product_uom_category_id" invisible="1"/>
-                                    <field name="location_src_id" optional="hide" />
-                                    <field name="location_dest_id" optional="show" />
+                                    <field name="location_src_id" readonly="1" required="1" optional="hide" />
+                                    <field name="location_dest_id" required="1" optional="show" />
                                     <field name="delivery_status" optional="show"/>
                                 </tree>
                             </field>
@@ -225,8 +225,8 @@
                                     <field name="analytic_tag_ids" widget="many2many_tags" optional="hide" attrs="{'invisible':[('parent.has_analytic_tags','==','no')], 'required': [('parent.has_analytic_tags','==','required')]}" groups="analytic.group_analytic_accounting,analytic.group_analytic_tags"/>
 
                                     <field name="product_uom_category_id" invisible="1"/>
-                                    <field name="location_src_id" optional="show" />
-                                    <field name="location_dest_id" optional="show" />
+                                    <field name="location_src_id" readonly="1" required="1" optional="show" />
+                                    <field name="location_dest_id" required="1" optional="show" />
                                     <field name="return_status" optional="show"/>
                                 </tree>
                             </field>
@@ -237,11 +237,11 @@
                         <page string="Picking Details" name="picking_details" >
                             <group>
                                 <group>
-                                    <field name="picking_type_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                    <field name="picking_type_id" readonly="1"/>
                                     <field name="picking_type_code" invisible="1"/>
                                     <field name="location_src_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
                                     <field name="location_dest_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
-                                    <field name="return_location_id" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>  
+                                    <field name="return_location_id" attrs="{'readonly': [('stage_category', '!=', 'draft')],'invisible':[('action_type','=','normal')]}"/>  
 
                                 </group>
                                 <group>
