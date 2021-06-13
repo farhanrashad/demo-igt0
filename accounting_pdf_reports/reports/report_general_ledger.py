@@ -9,7 +9,7 @@ class ReportGeneralLedger(models.AbstractModel):
     _name = 'report.accounting_pdf_reports.report_general_ledger'
     _description = 'General Ledger Report'
 
-    def _get_account_move_entry(self, accounts, init_balance, sortby, display_account, currency_id, account_name):
+    def _get_account_move_entry(self, accounts, init_balance, sortby, display_account, currency_id, bc_currency_id, account_name):
         """
         :param:
                 accounts: the recordset of accounts
@@ -29,7 +29,7 @@ class ReportGeneralLedger(models.AbstractModel):
         """
         default_currency = self.env.ref('base.main_company').currency_id
         currency_obj = self.env['res.currency'].search([('id', '=', currency_id)])
-        # print(currency_obj)
+        bc_currency_obj = self.env['res.currency'].search([('id', '=', bc_currency_id)])
         cr = self.env.cr
         MoveLine = self.env['account.move.line']
         move_lines = {x: [] for x in accounts.ids}
@@ -43,7 +43,9 @@ class ReportGeneralLedger(models.AbstractModel):
                 init_wheres.append(init_where_clause.strip())
             init_filters = " AND ".join(init_wheres)
             filters = init_filters.replace('account_move_line__move_id', 'm').replace('account_move_line', 'l')
-            sql = ("""SELECT 0 AS lid, l.account_id AS account_id, '' AS ldate, '' AS lcode, 0.0 AS amount_currency, '' AS lref, 'Initial Balance' AS lname, COALESCE(SUM(l.debit),0.0) AS debit, COALESCE(SUM(l.credit),0.0) AS credit, COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) as balance, '' AS lpartner_id,\
+            sql = ("""SELECT 0 AS lid, l.account_id AS account_id, '' AS ldate, '' AS lcode, 0.0 AS amount_currency, '' AS lref, 'Initial Balance' AS lname, COALESCE(SUM(l.debit),0.0) AS debit, COALESCE(SUM(l.credit),0.0) AS credit, COALESCE(SUM(l.debit),0.0) AS bc_debit, COALESCE(SUM(l.credit),0.0) AS bc_credit, COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) as balance,
+            proj.name as project_name, emp.name as employee_name , dept.name as department_name, analytic.name as analytic_account, 
+            COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) as bc_balance, '' AS lpartner_id,\
                 '' AS move_name, '' AS mmove_id, '' AS currency_code,\
                 NULL AS currency_id,\
                 '' AS invoice_id, '' AS invoice_type, '' AS invoice_number,\
@@ -52,6 +54,10 @@ class ReportGeneralLedger(models.AbstractModel):
                 LEFT JOIN account_move m ON (l.move_id=m.id)\
                 LEFT JOIN res_currency c ON (l.currency_id=c.id)\
                 LEFT JOIN res_partner p ON (l.partner_id=p.id)\
+                LEFT JOIN project_project proj ON (l.project_id = proj.id)\
+                LEFT JOIN hr_employee emp ON (l.employee_id = emp.id)\
+                LEFT JOIN hr_department dept ON (emp.department_id = dept.id)\
+                LEFT JOIN account_analytic_account analytic ON (l.analytic_account_id = analytic.id)\
                 JOIN account_journal j ON (l.journal_id=j.id)\
                 WHERE l.account_id IN %s""" + filters + ' GROUP BY l.account_id')
             params = (tuple(accounts.ids),) + tuple(init_where_params)
@@ -72,15 +78,20 @@ class ReportGeneralLedger(models.AbstractModel):
         filters = filters.replace('account_move_line__move_id', 'm').replace('account_move_line', 'l')
 
         # Get move lines base on sql query and Calculate the total balance of move lines
-        sql = ('''SELECT l.id AS lid, l.account_id AS account_id, l.date AS ldate, to_char(l.date, 'MM-YYYY') AS account_period, j.code AS lcode, l.currency_id, l.amount_currency, l.ref AS lref, l.name AS lname, COALESCE(l.debit,0) AS debit, COALESCE(l.credit,0) AS credit, COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) AS balance,\
+        sql = ('''SELECT l.id AS lid, l.account_id AS account_id, l.date AS ldate, to_char(l.date, 'MM-YYYY') AS account_period, j.code AS lcode, proj.name as project_name, emp.name as employee_name , analytic.name as analytic_account,
+            dept.name as department_name, l.currency_id, l.amount_currency, l.ref AS lref, l.name AS lname, COALESCE(l.debit,0) AS debit, COALESCE(l.credit,0) AS credit, COALESCE(l.debit,0) AS bc_debit, COALESCE(l.credit,0) AS bc_credit, COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) AS balance, COALESCE(SUM(l.debit),0) - COALESCE(SUM(l.credit), 0) AS bc_balance,\
             m.name AS move_name, c.symbol AS currency_code, p.name AS partner_name\
             FROM account_move_line l\
             JOIN account_move m ON (l.move_id=m.id)\
             LEFT JOIN res_currency c ON (l.currency_id=c.id)\
             LEFT JOIN res_partner p ON (l.partner_id=p.id)\
+            LEFT JOIN project_project proj ON (l.project_id = proj.id)\
+            LEFT JOIN hr_employee emp ON (l.employee_id = emp.id)\
+            LEFT JOIN hr_department dept ON (emp.department_id = dept.id)\
+            LEFT JOIN account_analytic_account analytic ON (l.analytic_account_id = analytic.id)\
             JOIN account_journal j ON (l.journal_id=j.id)\
             JOIN account_account acc ON (l.account_id = acc.id) \
-            WHERE l.account_id IN %s ''' + filters + ''' GROUP BY l.id, l.account_id, l.date, j.code, l.currency_id, l.amount_currency, l.ref, l.name, m.name, c.symbol, p.name ORDER BY ''' + sql_sort)
+            WHERE l.account_id IN %s ''' + filters + ''' GROUP BY l.id, proj.name,  emp.name, dept.name, analytic.name, l.account_id, l.date, j.code, l.currency_id, l.amount_currency, l.ref, l.name, m.name, c.symbol, p.name ORDER BY ''' + sql_sort)
         params = (tuple(accounts.ids),) + tuple(where_params)
         cr.execute(sql, params)
         count = 0
@@ -89,14 +100,20 @@ class ReportGeneralLedger(models.AbstractModel):
             if default_currency.id != currency_id:
                 row['debit'] = round(row['debit'] * currency_obj.rate, 2)
                 row['credit'] = round(row['credit'] * currency_obj.rate, 2)
+                row['bc_debit'] = round(row['bc_debit'] * bc_currency_obj.rate, 2)
+                row['bc_credit'] = round(row['bc_credit'] * bc_currency_obj.rate, 2)
             balance = 0
+            bc_balance = 0
             for line in move_lines.get(row['account_id']):
                 balance += line['debit'] - line['credit']
+                bc_balance += line['debit'] - line['credit']
             #     amount_currency
             row['balance'] += balance
-
+            row['bc_balance'] += bc_balance
+            
             if default_currency.id != currency_id:
                 row['balance'] = round(row['balance'] * currency_obj.rate, 2)
+                row['bc_balance'] = round(row['bc_balance'] * bc_currency_obj.rate, 2)
 
             move_lines[row.pop('account_id')].append(row)
 
@@ -106,7 +123,7 @@ class ReportGeneralLedger(models.AbstractModel):
             if account_name:
                 if account_name == account.id:
                     currency = account.currency_id and account.currency_id or account.company_id.currency_id
-                    res = dict((fn, 0.0) for fn in ['credit', 'debit', 'balance'])
+                    res = dict((fn, 0.0) for fn in ['credit', 'debit', 'balance', 'bc_balance'])
                     res['code'] = account.code
                     res['name'] = account.name
                     res['move_lines'] = move_lines[account.id]
@@ -116,6 +133,7 @@ class ReportGeneralLedger(models.AbstractModel):
                         res['debit'] += line['debit']
                         res['credit'] += line['credit']
                         res['balance'] = line['balance']
+                        res['bc_balance'] = line['bc_balance']
                     if display_account == 'all':
                         account_res.append(res)
                     if display_account == 'movement' and res.get('move_lines'):
@@ -124,7 +142,7 @@ class ReportGeneralLedger(models.AbstractModel):
                         account_res.append(res)
             else:
                 currency = account.currency_id and account.currency_id or account.company_id.currency_id
-                res = dict((fn, 0.0) for fn in ['credit', 'debit', 'balance'])
+                res = dict((fn, 0.0) for fn in ['credit', 'debit', 'balance', 'bc_balance'])
                 res['code'] = account.code
                 res['name'] = account.name
                 res['move_lines'] = move_lines[account.id]
@@ -134,6 +152,7 @@ class ReportGeneralLedger(models.AbstractModel):
                     res['debit'] += line['debit']
                     res['credit'] += line['credit']
                     res['balance'] = line['balance']
+                    res['bc_balance'] = line['bc_balance']
                 if display_account == 'all':
                     account_res.append(res)
                 if display_account == 'movement' and res.get('move_lines'):
@@ -141,7 +160,6 @@ class ReportGeneralLedger(models.AbstractModel):
                 if display_account == 'not_zero' and not currency.is_zero(res['balance']):
                     account_res.append(res)
                 
-            # print(account_res)
         return account_res
 
     @api.model
@@ -161,11 +179,15 @@ class ReportGeneralLedger(models.AbstractModel):
         accounts = docs if model == 'account.account' else self.env['account.account'].search([])
         account_id = docs.account_id.id
         currency_id = int(data['currency_id'])
+        bc_company_id = self.env.company.id
+        company = self.env['res.company'].search([('id', '=', bc_company_id)])
+        bc_currency_id = company.currency_id.id
         accounts_res = self.with_context(data['form'].get('used_context', {}))._get_account_move_entry(accounts,
                                                                                                        init_balance,
                                                                                                        sortby,
                                                                                                        display_account,
                                                                                                        currency_id,
+                                                                                                       bc_currency_id,
                                                                                                       account_id
                                                                                                       )
         return {
