@@ -189,15 +189,6 @@ class StockTransferOrder(models.Model):
         self.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_category_ids','=',self.transfer_order_category_id.id)], limit=1).id
         lines_data = []
         txn_ids = self.env['stock.transfer.exception.type'].search([('transfer_order_type_id','=',self.transfer_order_type_id.id),('transfer_order_category_id','=',self.transfer_order_category_id.id),('stage_auto_apply','=',True)])
-<<<<<<< Updated upstream
-        if self.stock_transfer_txn_line:
-            self.stock_transfer_txn_line.unlink()
-        else:
-            for txn in txn_ids:
-                lines_data.append([0,0,{
-                    'transfer_exception_type_id': txn.id,
-                }])
-=======
         
         #if self.stock_transfer_txn_line:
             #self.stock_transfer_txn_line.unlink()
@@ -206,20 +197,13 @@ class StockTransferOrder(models.Model):
             lines_data.append([0,0,{
                 'transfer_exception_type_id': txn.id,
             }])
->>>>>>> Stashed changes
                 #self.env['stock.transfer.txn.line'].create({
                 #    'stock_transfer_order_id': self.id,
                 #    'transfer_exception_type_id': txn.id,
                 #})
-<<<<<<< Updated upstream
-            self.write({
-                'stock_transfer_txn_line':lines_data,
-            })
-=======
         self.write({
             'stock_transfer_txn_line':lines_data,
         })
->>>>>>> Stashed changes
     
     def write(self,vals):
         #if vals.get('stage_id'):
@@ -294,7 +278,6 @@ class StockTransferOrder(models.Model):
     
     @api.model
     def cron_return_order_expiry(self):        
-<<<<<<< Updated upstream
         today = fields.Datetime.now()
         # set to pending deliveries if date is in less than today
         domain_pending = [('return_deadline', '<', today), ('stage_category', '=', 'transfer')]
@@ -349,62 +332,6 @@ class StockTransferOrder(models.Model):
     def set_close(self, type):
         #today = fields.Date.from_string(fields.Date.context_today(self))
         today = fields.Datetime.now()
-=======
-        today = fields.Datetime.now()
-        # set to pending deliveries if date is in less than today
-        domain_pending = [('return_deadline', '<', today), ('stage_category', '=', 'transfer')]
-        order_pending = self.search(domain_pending)
-        order_pending.set_close('return')
-        
-        return dict(order=order_pending.ids)
-    
-    def set_close(self, type):
-        #today = fields.Date.from_string(fields.Date.context_today(self))
-        today = fields.Datetime.now()
-        picking_type_id = picking_return_type_id = self.picking_type_id.id
-        pickings = self.env['stock.picking']
-        vals = {}
-        reason_id = self.env['stock.transfer.close.reason'].search([('reason_type','=',type)],limit=1)
-        stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',self.transfer_order_type_id.id),('stage_category','=','close')])
-        for order in self:
-            if order.transfer_order_category_id.auto_expiry:
-                if type == 'delivery':
-                    if not order.date_delivered:
-                        picking_type_id = order.transfer_order_category_id.picking_type_id.id
-                        picking_return_type_id = order.transfer_order_category_id.return_picking_type_id.id
-                        vals = {
-                            'stage_id': stage_id.id, 
-                            'date_closed': today,
-                            'close_reason_id' : reason_id.id,
-                            'close_reason_message' : 'Auto Closed',
-                        }
-                elif type == 'return':
-                    if order.return_deadline < today and not (order.date_returned):
-                        picking_return_type_id = order.transfer_order_category_id.return_picking_type_id.id
-                        vals = {
-                            'stage_id': stage_id.id, 
-                            'date_closed': today,
-                            'close_reason_id' : reason_id.id,
-                            'close_reason_message' : 'Auto Closed',
-                        }
-            else:
-                vals = {
-                    'stage_id': stage_id.id,
-                    'date_closed': today,
-                }
-                picking_type_id = order.transfer_order_category_id.picking_type_id.id
-                picking_return_type_id = order.transfer_order_category_id.return_picking_type_id.id
-
-            order.sudo().write(vals)
-            #for picking in pickings.search([('stock_transfer_order_id','=',order.id),('state','!=','done')])
-            for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id in (picking_type_id, picking_return_type_id) and p.state not in ('done','cancel')):
-                picking.sudo().action_cancel()
-        return type
-    
-    def set_close(self, type):
-        #today = fields.Date.from_string(fields.Date.context_today(self))
-        today = fields.Datetime.now()
->>>>>>> Stashed changes
         picking_type_id = picking_return_type_id = self.picking_type_id.id
         pickings = self.env['stock.picking']
         vals = {}
@@ -1191,11 +1118,7 @@ class StockTransferTXNLine(models.Model):
     stage_id = fields.Many2one('stock.transfer.order.stage',related='stock_transfer_order_id.stage_id')
     transfer_order_type_id = fields.Many2one(related='stock_transfer_order_id.transfer_order_type_id', readonly=True, store=True)
     sequence = fields.Integer(default=1, compute='_compute_sequence')
-<<<<<<< Updated upstream
-    transfer_exception_type_id = fields.Many2one("stock.transfer.exception.type", string="Exception Type", domain="[('transfer_order_type_id','=',transfer_order_type_id),('apply_stage_id','=',stage_id)]")
-=======
     transfer_exception_type_id = fields.Many2one("stock.transfer.exception.type", string="Exception Type", domain="[('transfer_order_type_id','=',transfer_order_type_id),('transfer_order_category_id','=',parent.transfer_order_category_id),('apply_stage_id','=',stage_id)]")
->>>>>>> Stashed changes
     txn_stage_id = fields.Many2one('stock.transfer.order.stage', related='transfer_exception_type_id.stage_id')
     txn_action = fields.Selection([
         ('open', 'Open'),
