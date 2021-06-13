@@ -5,8 +5,6 @@ from odoo import api, fields, models, tools, SUPERUSER_ID, _
 from odoo.exceptions import UserError, AccessError, ValidationError
 from odoo.tools.safe_eval import safe_eval
 from odoo.tools.misc import format_date
-from . import config
-
 
 class PurchaseSubscriptionType(models.Model):
     _inherit = 'purchase.subscription.type'
@@ -85,47 +83,9 @@ class PurchaseSubscriptionPlanSchedule(models.Model):
 class PurchaseSubscription(models.Model):
     _inherit = 'purchase.subscription'
     
-    @api.depends('recurring_price')
-    def _compute_original_amount(self):
-        self.original_amount = self.recurring_price
-        
-        
-    @api.depends('purchase_subscription_schedule_line.recurring_total')
-    def _compute_total_commitment(self):
-        for order in self:
-            recurring_amount = 0.0
-            for line in order.purchase_subscription_schedule_line:
-                recurring_amount += line.recurring_total
-            order.update({
-                'total_comitment': recurring_amount,
-                'open_comitment': recurring_amount - order.recurring_billed_total 
-            })
-            
-    @api.depends('purchase_subscription_schedule_line.recurring_price')
-    def compute_current_amount(self):
-        for order in self:
-            recurring_amount = 0.0
-            start_date = fields.date.today()
-            start_end = fields.date.today()
-            for line in order.purchase_subscription_schedule_line:
-
-                if str (line.date_from) >= str (start_date) and str (start_end) <= str (line.date_to):
-                    recurring_amount = line.recurring_price
-                    break
-            order.update({
-                'amount_current': recurring_amount,
-                
-            })            
-    
-    
     invoicing_mode = fields.Selection(related='subscription_plan_id.invoicing_mode')
-    rfi_date = fields.Date(string="RFI Date")
-    original_amount = fields.Float(string='Original Amount', compute='_compute_original_amount')
-    current_amount = fields.Float(string='Current Amount', copy=False)
-    amount_current = fields.Float(string='Current Amount', copy=False, compute='compute_current_amount')
-    total_comitment = fields.Float(string='Total Commitment', compute='_compute_total_commitment')
-    open_comitment = fields.Float(string='Open Commitment', compute='_compute_total_commitment')
-    
+
+        
     def generate_recurring_invoice(self):
         plan_limit = False
         for subline in self.purchase_subscription_line:
@@ -135,7 +95,7 @@ class PurchaseSubscription(models.Model):
         res = self._recurring_create_invoice()
         return self.action_subscription_invoice()
 
-    purchase_subscription_schedule_line = fields.One2many('purchase.subscription.schedule', 'purchase_subscription_id', string='Subscription Schedules', copy=False)
+    purchase_subscription_schedule_line = fields.One2many('purchase.subscription.schedule', 'purchase_subscription_id', string='Subscription Schedules', copy=True)
 
     
     def start_subscription(self):
@@ -180,7 +140,6 @@ class PurchaseSubscriptionSchedule(models.Model):
     date_from = fields.Date(string='Date From', readonly=True)
     date_to = fields.Date(string='Date To', readonly=True)
     recurring_price = fields.Float(string="Recurring Price", required=True, readonly=True)
-    current_amount = fields.Float(string="Current Amount", required=False, readonly=True)
     recurring_intervals = fields.Integer(string="Intervals", required=True, readonly=True)
     recurring_sub_total = fields.Float(string="Subtotal", compute='_compute_recurring_all')
     
@@ -200,18 +159,8 @@ class PurchaseSubscriptionSchedule(models.Model):
                 discount = (line.recurring_price * line.discount) / 100
             if line.escalation > 0 and line.escalation <= 100:
                 escalation = (line.recurring_price * line.escalation) / 100
-                line.update({
-                    'current_amount' : line.recurring_price +  escalation
-                })
-                rec_price = line.recurring_price +  escalation
-                if  config.list12:
-                    config.list12[0] = str(line.recurring_price +  escalation)
-                else:
-                    config.list12.append(str(line.recurring_price +  escalation))
-                
-            line.recurring_price = config.list12[0] if config.list12 else line.purchase_subscription_id.recurring_price
             line.recurring_sub_total = line.recurring_price * line.recurring_intervals
-            line.recurring_total = (line.recurring_price - discount ) * line.recurring_intervals
+            line.recurring_total = (line.recurring_price - discount + escalation) * line.recurring_intervals
     
     
     
@@ -224,11 +173,7 @@ class PurchaseSubscriptionSchedule(models.Model):
                 discount = (line.recurring_price * line.discount) / 100
             if line.escalation > 0 and line.escalation <= 100:
                 escalation = (line.recurring_price * line.escalation) / 100
-                
-
             line.recurring_sub_total = line.recurring_price * line.recurring_intervals
-            line.recurring_total = (line.recurring_price - discount) * line.recurring_intervals
-    
     
     def create_invoice(self):
         res = self._create_invoice()

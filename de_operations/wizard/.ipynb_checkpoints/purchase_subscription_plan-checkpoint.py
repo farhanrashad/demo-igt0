@@ -4,7 +4,6 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
-from ..models import config
 
 class PurchaseSubscriptionAdjustments(models.Model):
     _name = 'purchase.subscription.plan.wizard'
@@ -38,7 +37,6 @@ class PurchaseSubscriptionAdjustments(models.Model):
     
     def create_payment_schedule(self):
         if self.purchase_subscription_id.purchase_subscription_schedule_line:
-            config.list12 = []
             recuring_step = 1
             payment_interval = 0
             escalation = self.amount
@@ -51,18 +49,8 @@ class PurchaseSubscriptionAdjustments(models.Model):
             elif  self.recurring_interval_type == 'daily': 
                 recuring_step = (self.recurring_interval/30)    
                 
-            count = 0
+                
             for  paymentline in self.purchase_subscription_id.purchase_subscription_schedule_line:
-                if count == 0: 
-                    recuring_step = (self.recurring_interval * 12) + 12
-                elif self.recurring_interval_type == 'yearly':
-                    recuring_step = self.recurring_interval * 12 
-                elif  self.recurring_interval_type == 'monthly': 
-                    recuring_step = self.recurring_interval
-                elif  self.recurring_interval_type == 'weekly': 
-                    recuring_step = (self.recurring_interval/4)
-                elif  self.recurring_interval_type == 'daily': 
-                    recuring_step = (self.recurring_interval/30)   
                 payment_interval += paymentline.recurring_intervals
                 paymentline.get_recurring_total()
                 if  payment_interval == recuring_step:   
@@ -70,12 +58,10 @@ class PurchaseSubscriptionAdjustments(models.Model):
                         'escalation': self.amount,
 
                     })
-                    count += 1 
                     paymentline.get_recurring_total()
                     payment_interval = 0
-         
+ 
         else:
-            config.list12 = []
             self.purchase_subscription_id.start_subscription()
             recuring_step = 0
             payment_interval = 0
@@ -88,30 +74,19 @@ class PurchaseSubscriptionAdjustments(models.Model):
                 recuring_step = (self.recurring_interval/4)
             elif  self.recurring_interval_type == 'daily': 
                 recuring_step = (self.recurring_interval/30)      
-            inner_count = 0
+                
             for  paymentline in self.purchase_subscription_id.purchase_subscription_schedule_line:
-                if inner_count == 0: 
-                    recuring_step = (self.recurring_interval * 12) + 12
-                elif self.recurring_interval_type == 'yearly':
-                    recuring_step = self.recurring_interval * 12 
-                elif  self.recurring_interval_type == 'monthly': 
-                    recuring_step = self.recurring_interval
-                elif  self.recurring_interval_type == 'weekly': 
-                    recuring_step = (self.recurring_interval/4)
-                elif  self.recurring_interval_type == 'daily': 
-                    recuring_step = (self.recurring_interval/30)   
                 payment_interval += paymentline.recurring_intervals
                 paymentline.get_recurring_total()
                 if  payment_interval == recuring_step:   
                     paymentline.update({
                         'escalation': self.amount,
                     })
-                    inner_count += 1 
                     paymentline.get_recurring_total()
                     payment_interval = 0
     
     
-              
+
     
     def create_invoices(self):
         subscriptions = self.env['purchase.subscription'].browse(self._context.get('active_ids', []))

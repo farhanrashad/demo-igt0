@@ -43,14 +43,6 @@
                 <xpath expr="//field[@name='subscription_plan_id']" position="after">
                     <field name="invoicing_mode" invisible="1"/>
                 </xpath>
-                <xpath expr="//field[@name='subscription_date']" position="after">
-                    <field name="original_amount" />
-                    <field name="current_amount" invisible='1'/>
-                    <field name="amount_current"/>
-                    <field name="total_comitment" />
-                    <field name="open_comitment" />
-                    <field name="rfi_date"  attrs="{'readonly': [('stage_category','!=', 'draft')]}"/>
-                </xpath>
                 <xpath expr="//field[@name='product_id']" position="after">
                     <field name="project_id" optional="show"/>
                     <field name="state_id" optional="hide"/>
@@ -63,7 +55,6 @@
                                 <field name="date_to"/>
                                 <field name="recurring_intervals" sum="Intervals"/>
                                 <field name="recurring_price" sum="Recurring"/>
-                                <field name="current_amount" invisible='1'/>
                                 <field name="recurring_sub_total" sum="Subtotal"/>
                                 <field name="discount"/>
                                 <field name="escalation"/>
