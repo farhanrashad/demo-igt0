@@ -115,6 +115,7 @@ class StockTransferOrder(models.Model):
     #has_penalty = fields.Boolean(related="transfer_order_category_id.has_penalty", ondelete='set default')
     #has_closed = fields.Boolean(related="transfer_order_category_id.has_closed", ondelete='set default')
     
+    has_partner = fields.Selection(related="transfer_order_category_id.has_partner")
     has_reference = fields.Selection(related="transfer_order_category_id.has_reference")
     has_purchase_order = fields.Selection(related="transfer_order_category_id.has_purchase_order")
     has_transfer_order = fields.Selection(related="transfer_order_category_id.has_transfer_order")
@@ -129,6 +130,10 @@ class StockTransferOrder(models.Model):
     purchase_id = fields.Many2one('purchase.order', string='Purchase Order')
     stock_transfer_order_id = fields.Many2one('stock.transfer.order', string='Transfer Order')
     transporter_id = fields.Many2one('res.partner', string='Transporter')
+    
+    partner_category_ids = fields.Many2many('res.partner.category', related='transfer_order_category_id.partner_category_ids')
+    transporter_category_ids = fields.Many2many('res.partner.category', related='transfer_order_category_id.transporter_category_ids')
+
     
     @api.depends('transfer_order_category_id','stock_transfer_txn_line')
     def _compute_all_picking(self):
@@ -616,6 +621,12 @@ class StockTransferOrder(models.Model):
         self.state = 'draft'
     
     def action_confirm(self):
+        for order in self.sudo():
+            group_id = order.stage_id.group_id
+            if group_id:
+                if not (group_id & self.env.user.groups_id):
+                    raise UserError(_("You are not authorize to approve '%s'.", order.stage_id.name))
+                    
         self.sudo().process_txn_stage()
         self.update({
             'stage_id' : self.next_stage_id.id,
@@ -623,6 +634,11 @@ class StockTransferOrder(models.Model):
         })
         
     def action_refuse(self):
+        for order in self.sudo():
+            group_id = order.stage_id.group_id
+            if group_id:
+                if not (group_id & self.env.user.groups_id):
+                    raise UserError(_("You are not authorize to refuse '%s'.", order.stage_id.name))
         stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',self.transfer_order_type_id.id),('transfer_order_category_ids','=',self.transfer_order_category_id.id)],limit=1)
         self.update({
             #'stage_id' : self.prv_stage_id.id,
@@ -634,9 +650,15 @@ class StockTransferOrder(models.Model):
         
         
     def action_submit(self):
-        self.ensure_one()
-        if not self.stock_transfer_order_line:
-            raise UserError(_("You cannot submit requisition '%s' because there is no product line.", self.name))
+        #self.ensure_one()
+        for order in self.sudo():
+            group_id = order.transfer_order_category_id.group_id
+            if group_id:
+                if not (group_id & self.env.user.groups_id):
+                #if not self.env.user.has_group(self.transfer_order_category_id.group_id.name):
+                    raise UserError(_("You are not authorize to submit requisition in category '%s'.", self.transfer_order_category_id.name))
+            if not order.stock_transfer_order_line:
+                raise UserError(_("You cannot submit requisition '%s' because there is no product line.", self.name))
         self.sudo().process_txn_stage()
         self.update({
             'stage_id' : self.next_stage_id.id,
@@ -947,9 +969,6 @@ class StockTransferOrderLine(models.Model):
             self.env.cr.execute(select, where_clause_params)
             line.delivered_qty = self.env.cr.fetchone()[0] or 0.0
             line.remaining_qty = line.product_uom_qty - line.delivered_qty
-    
-    
-            
             
     @api.onchange('product_id')
     def _onchange_product_id(self):
@@ -958,7 +977,7 @@ class StockTransferOrderLine(models.Model):
             self.product_uom = self.product_id.uom_po_id
             self.product_uom_qty = 1.0
             self.location_src_id = self.stock_transfer_order_id.location_src_id.id
-            self.location_dest_id = self.stock_transfer_order_id.location_dest_id.id
+            #self.location_dest_id = self.stock_transfer_order_id.location_dest_id.id
         if not self.date_scheduled:
             self.date_scheduled = self.stock_transfer_order_id.date_scheduled
             

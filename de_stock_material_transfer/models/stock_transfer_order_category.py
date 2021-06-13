@@ -57,9 +57,11 @@ class StockTransferOrderCategory(models.Model):
     filter_products = fields.Boolean('Filter Products by Category')
     categ_control_ids = fields.Many2many('product.category', string="Product Categories", help="Select categories to allow for transfer")
     
+    group_id = fields.Many2one('res.groups', string='Security Group')
+    
     #has_penalty = fields.Boolean(string="Allow Penalty", default=False)
     #has_closed = fields.Boolean(string="Forcefully Close", default=False)
-    
+    has_partner = fields.Selection(CATEGORY_SELECTION, string="Has Partner", default="no", required=True,)
     has_reference = fields.Selection(CATEGORY_SELECTION, string="Has Reference", default="no", required=True,)
     has_purchase_order = fields.Selection(CATEGORY_SELECTION, string="Has Purchase Order", default="no", required=True,)
     has_transfer_order = fields.Selection(CATEGORY_SELECTION, string="Has Transfer Order", default="no", required=True,)
@@ -68,6 +70,9 @@ class StockTransferOrderCategory(models.Model):
     has_analytic_tags = fields.Selection(CATEGORY_SELECTION, string="Has Analytic Tags", default="no", required=True,)
     has_tower_info = fields.Selection(CATEGORY_SELECTION, string="Has Tower info", default="no", required=True,)
     has_supplier = fields.Selection(CATEGORY_SELECTION, string="Has Supplier", default="no", required=True,)
+    
+    partner_category_ids = fields.Many2many('res.partner.category', 'res_partner_category_rel', column1='partner_id', column2='category_id', string='Tags')
+    transporter_category_ids = fields.Many2many('res.partner.category', 'res_transporter_category_rel', column1='transporter_id', column2='category_id', string='Tags')
 
 
 

@@ -32,7 +32,7 @@
                     <field name="activity_ids" widget="list_activity" optional="show"/>
                     <field name="company_id" groups="base.group_multi_company" optional="show" readonly="1"/>
                     <field name="stage_id" />
-                    <field name="stage_category" invisible="0" />
+                    <field name="stage_category" optional="hide" />
                     <field name="stage_code" invisible="1" />
                     <field name="state" invisible="1" />
                 </tree>
@@ -90,6 +90,7 @@
                     
                     <field name="filter_products" invisible="1"/>
                     <field name="has_reference" invisible="1"/>
+                    <field name="has_partner" invisible="1"/>
                     <field name="has_purchase_order" invisible="1"/>
                     <field name="has_transfer_order" invisible="1"/>
                     <field name="has_transporter" invisible="1"/>
@@ -116,10 +117,10 @@
                             <field name="name" readonly="1"/>
                         </h1>
                     </div>
-                    <group name="transfer.order_header">
+                    <group name="transfer_order_header">
                         <group name="partner_details">
-                            
-                            <field name="partner_id" widget="res_partner_many2one" options='{"always_reload": True}' attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                            <field name="partner_category_ids" invisible="1"/>
+                            <field name="partner_id" widget="res_partner_many2one" options='{"always_reload": True}' attrs="{'invisible':[('has_partner','==','no')], 'required': [('has_partner','==','required')],'readonly':[('stage_category','!=', 'draft')]}" domain="['|', ('category_id','in',partner_category_ids),('category_id','=',False)]"/>
                             
                             <field name="date_request" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
 
@@ -165,9 +166,9 @@
                             <field name="purchase_id" attrs="{'invisible':[('has_purchase_order','==','no')], 'required': [('has_purchase_order','==','required')]}"/>
                             <field name="stock_transfer_order_id" attrs="{'invisible':[('has_transfer_order','==','no')], 'required': [('has_transfer_order','==','required')]}"/>
                             <field name="reference" attrs="{'invisible':[('has_reference','==','no')], 'required': [('has_reference','==','required')]}"/>
-                            <field name="transporter_id" attrs="{'invisible':[('has_transporter','==','no')], 'required': [('has_transporter','==','required')]}"/>
+                            <field name="transporter_id" attrs="{'invisible':[('has_transporter','==','no')], 'required': [('has_transporter','==','required')]}" domain="[('category_id','in',transporter_category_ids)]"/>
+                            <field name="transporter_category_ids" invisible="1"/>
                             
-
                         </group>
                     </group>
                     <notebook>
@@ -239,7 +240,7 @@
                                 <group>
                                     <field name="picking_type_id" readonly="1"/>
                                     <field name="picking_type_code" invisible="1"/>
-                                    <field name="location_src_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                    <field name="location_src_id" readonly="1" />
                                     <field name="location_dest_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
                                     <field name="return_location_id" attrs="{'readonly': [('stage_category', '!=', 'draft')],'invisible':[('action_type','=','normal')]}"/>  
 
@@ -497,6 +498,36 @@
  
     <menuitem action="action_stock_transfer_returnable_order_line" id="stock_transfer_root_stock_transfer_returnable_order_line_menu" parent="stock_requisition_main_menu" sequence="10"/>
       
+      <!-- Actions to call transfer orders -->
+    <record id="action_transfer_order_partially_shipped" model="ir.actions.act_window">
+        <field name="name">Partially Shipped</field>
+        <field name="res_model">stock.transfer.order</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('transfer_order_type_id', '=', active_id),('stage_code','=','PS')]</field>
+    </record>
+    <record id="action_transfer_order_fully_shipped" model="ir.actions.act_window">
+        <field name="name">Partially Shipped</field>
+        <field name="res_model">stock.transfer.order</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('transfer_order_type_id', '=', active_id),('stage_code','=','FS')]</field>
+    </record>
+      <record id="action_transfer_open_orders" model="ir.actions.act_window">
+        <field name="name">Open Orders</field>
+        <field name="res_model">stock.transfer.order</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('transfer_order_type_id', '=', active_id),('stage_category','not in',['draft','cancel','close'])]</field>
+    </record>
+      <record id="action_transfer_pending_orders" model="ir.actions.act_window">
+        <field name="name">Pending Orders</field>
+        <field name="res_model">stock.transfer.order</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('transfer_order_type_id', '=', active_id),('stage_category','=','progress')]</field>
+    </record>
+      
       <!-- dashboard -->
       <record id="stock_order_transfer_action_to_all_transfers" model="ir.actions.act_window">
         <field name="name">Requisitions</field>
@@ -509,7 +540,7 @@
         <field name="name">stock.transfer.order.dashbaord.views.kanban</field>
         <field name="model">stock.transfer.order.type</field>
         <field name="arch" type="xml">
-            <kanban class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_stock_kanban" create="0">
+            <kanban class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_res_partner_kanban" create="0">
                 <field name="name"/>
                 <field name="id"/>
                 <field name="code"/>
@@ -517,7 +548,7 @@
                 <field name="color"/>
                 <templates>
                     <t t-name="kanban-box">
-                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}" name="subscription_type">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}" name="transfer_order" class="o_res_partner_kanban">
                             <div>
                                 <div t-attf-class="o_kanban_card_header">
                                     <div class="o_kanban_card_header_title">
@@ -553,7 +584,26 @@
                                 </div>
                                 <div class="container o_kanban_card_content" t-if="!selection_mode">
                                     <div class="row mt16">
-                                        
+                                        <div class="col-12 o_kanban_primary_left">
+                                             <div class="col-12">
+                                                <a name="%(action_transfer_order_partially_shipped)d" type="action"><field name="partially_shipped_count"/>  Partially Shipped</a>
+
+                                            </div>
+                                            <div class="col-12">
+                                                <a name="%(action_transfer_order_fully_shipped)d" type="action"><field name="fully_shipped_count"/>  Fully Shipped</a>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt8 o_kanban_primary_left">
+                                             <div class="col-12">
+                                                <a name="%(action_transfer_open_orders)d" type="action"><field name="open_orders_count"/>  Open Requisitions</a>
+
+                                            </div>
+                                            <div class="col-12">
+                                                <a name="%(action_transfer_pending_orders)d" type="action"><field name="pending_orders_count"/>  Pending for approvals</a>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">

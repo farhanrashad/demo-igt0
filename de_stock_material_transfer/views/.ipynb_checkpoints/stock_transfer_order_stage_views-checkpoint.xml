@@ -36,6 +36,7 @@
                         <group>
                             <field name="fold"/>
                             <field name="stage_category" widget="radio"/>
+                            <field name="group_id" options="{'no_create':True}"/>
                         </group>
                     </group>
                     <separator string="Requirements"/>

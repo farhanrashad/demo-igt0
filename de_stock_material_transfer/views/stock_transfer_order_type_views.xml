@@ -41,7 +41,7 @@
                             <group>
                                 <field name="company_id"/>
                                 <field name="sequence_id" invisible="1"/>
-                                <field name="group_id" />
+                                <field name="group_id" options="{'no_create':True}"/>
                             </group>
                         </group>
                         <group>

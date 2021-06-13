@@ -27,6 +27,13 @@ class StockTransferOrderType(models.Model):
     sequence_code = fields.Char(string="Code")
     group_id = fields.Many2one('res.groups', string='Security Group')
 
+    #kanban counts
+    partially_shipped_count = fields.Integer("Number of Partially Shipped Requisitions", compute="_compute_all_requisitions_count")
+    fully_shipped_count = fields.Integer("Number of Fully Shipped Requisitions", compute="_compute_all_requisitions_count")
+    open_orders_count = fields.Integer("Number of Open Requisitions", compute="_compute_all_requisitions_count")
+    pending_orders_count = fields.Integer("Number of Pending Requisitions", compute="_compute_all_requisitions_count")
+
+
     
     _sql_constraints = [
         ('name_uniq', 'unique (name)', "type name already exists!"),
@@ -71,6 +78,20 @@ class StockTransferOrderType(models.Model):
                     transfer_type.sequence_id.company_id = vals.get('company_id')
         return super().write(vals)
     
+    def _compute_all_requisitions_count(self):
+        Requisition = self.env['stock.transfer.order']
+        can_read = Requisition.check_access_rights('read', raise_exception=False)
+        ps_stage_id = self.env['stock.transfer.order.stage'].search([('stage_code','=','PS')],limit=1)
+        fs_stage_id = self.env['stock.transfer.order.stage'].search([('stage_code','=','FS')],limit=1)
+        for ot in self:
+            ot.partially_shipped_count = can_read and Requisition.search_count([('transfer_order_type_id', '=', ot.id),('stage_code', '=', 'PS')]) or 0
+            ot.fully_shipped_count = can_read and Requisition.search_count([('transfer_order_type_id', '=', ot.id),('stage_code', '=', 'FS')]) or 0
+            ot.open_orders_count = can_read and Requisition.search_count([('transfer_order_type_id', '=', ot.id),('stage_category', 'not in', ['draft','close','cancel'])]) or 0
+            ot.pending_orders_count = can_read and Requisition.search_count([('transfer_order_type_id', '=', ot.id),('stage_category', '=', ['progress'])]) or 0
+
+
+
+            
     def create_requisition(self):
         self.ensure_one()
         # If category uses sequence, set next sequence as name

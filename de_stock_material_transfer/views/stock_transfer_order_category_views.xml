@@ -25,6 +25,7 @@
                                 <field name="name"/>
                                 <field name="code"/>
                                 <field name="transfer_order_type_id" options="{'no_create':True, 'no_open':True}"/>
+                                <field name="group_id" options="{'no_create':True}"/>
                                 <field name="filter_products" />
                                 <field name="categ_control_ids" widget='many2many_tags' attrs="{'invisible':[('filter_products','!=',True)],'required':[('filter_products','=',True)]}"/>
                                 
@@ -71,14 +72,18 @@
                             <page string="Options" name="options">
                                 <group>
                                     <group string="Fields" name="option_settings">
+                                        <field name="has_partner" string="Partner" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="partner_category_ids" widget="many2many_tags" attrs="{'invisible':[('has_partner','==','no')]}"/>
+                                        
                                         <field name="has_reference" string="Reference" widget="radio" options="{'horizontal': true}"/>
                                         <field name="has_purchase_order" string="Purchase Order" widget="radio" options="{'horizontal': true}"/>
                                         <field name="has_transfer_order" string="Transfer Order" widget="radio" options="{'horizontal': true}"/>
                                         <field name="has_transporter" string="Transporter" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="transporter_category_ids" widget="many2many_tags" attrs="{'invisible':[('has_partner','==','no')]}"/>
+
                                         <field name="has_analytic_account" string="Analytic Account" widget="radio" options="{'horizontal': true}"/>
                                         <field name="has_analytic_tags" string="Anaytic Tags" widget="radio" options="{'horizontal': true}"/>
                                         <field name="has_supplier" string="Supplier" widget="radio" options="{'horizontal': true}"/>
-
                                         <field name="has_tower_info" string="Tower Info" widget="radio" options="{'horizontal': true}"/>
 
 
