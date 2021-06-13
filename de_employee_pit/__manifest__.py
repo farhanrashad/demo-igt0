@@ -4,9 +4,9 @@
     'summary': """Employee PIT""",
     'description': """ """,
     'author': "Dynexcel",
-    'website': "http://www.dynexcel.co",
-    'category': 'Uncategorized',
-    'version': '14',
+    'website': "https://www.dynexcel.com",
+    'category': 'Human Resource',
+    'version': '14.0.0.1',
     'depends': ['base', 'hr'],
     'data': [
         'security/ir.model.access.csv',
