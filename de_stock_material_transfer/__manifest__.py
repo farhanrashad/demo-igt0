@@ -18,8 +18,8 @@ Stock Material Transfer
     'author': "Dynexcel",
     'website': "https://www.dynexcel.com",
     'category': 'Warehouse',
-    'version': '14.0.2.9',
-    'depends': ['base', 'stock','purchase','account','project'],
+    'version': '14.0.3.0',
+    'depends': ['base', 'stock','stock_barcode','purchase','account','project'],
     'data': [
         'security/requisition_security.xml',
         'security/ir.model.access.csv',
