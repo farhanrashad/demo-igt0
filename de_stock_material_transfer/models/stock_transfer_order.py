@@ -35,7 +35,7 @@ class StockTransferOrder(models.Model):
     def _check_code(self):
         self.sequence_code = self.code    
     
-    transfer_order_category_id = fields.Many2one('stock.transfer.order.category', string='Transfer Category', index=True, readonly=True, copy=False, domain="[('transfer_order_type_id','=',transfer_order_type_id)]",default=_get_default_category_id,  states={'draft': [('readonly', False)],'in_progress': [('readonly', False)]},)
+    transfer_order_category_id = fields.Many2one('stock.transfer.order.category', string='Transfer Category', index=True, readonly=True, copy=False, domain="[('transfer_order_type_id','=',transfer_order_type_id)]",default=_get_default_category_id)
     action_type = fields.Selection(related='transfer_order_category_id.action_type')
     disallow_staging = fields.Boolean(related='transfer_order_type_id.disallow_staging')
     filter_products = fields.Boolean(related='transfer_order_category_id.filter_products')
@@ -187,6 +187,22 @@ class StockTransferOrder(models.Model):
     @api.onchange('transfer_order_category_id')
     def _onchange_transfer_order_category_id(self):
         self.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_category_ids','=',self.transfer_order_category_id.id)], limit=1).id
+        lines_data = []
+        txn_ids = self.env['stock.transfer.exception.type'].search([('transfer_order_type_id','=',self.transfer_order_type_id.id),('transfer_order_category_id','=',self.transfer_order_category_id.id),('stage_auto_apply','=',True)])
+        if self.stock_transfer_txn_line:
+            self.stock_transfer_txn_line.unlink()
+        else:
+            for txn in txn_ids:
+                lines_data.append([0,0,{
+                    'transfer_exception_type_id': txn.id,
+                }])
+                #self.env['stock.transfer.txn.line'].create({
+                #    'stock_transfer_order_id': self.id,
+                #    'transfer_exception_type_id': txn.id,
+                #})
+            self.write({
+                'stock_transfer_txn_line':lines_data,
+            })
     
     def write(self,vals):
         #if vals.get('stage_id'):
@@ -640,15 +656,32 @@ class StockTransferOrder(models.Model):
                 if not (group_id & self.env.user.groups_id):
                     raise UserError(_("You are not authorize to refuse '%s'.", order.stage_id.name))
         stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',self.transfer_order_type_id.id),('transfer_order_category_ids','=',self.transfer_order_category_id.id)],limit=1)
+        for txn in self.stock_transfer_txn_line:
+            if self.prv_stage_id.id == txn.transfer_exception_type_id.exec_stage_id.id:
+                txn.txn_action = 'open'
+        if self.prv_stage_id:
+            self.update({
+                'stage_id' : self.prv_stage_id.id,
+                'date_order': fields.Datetime.now(),
+            })
+        else:
+            self.update({
+                'stage_id': stage_id.id,
+            })
+    
+    def action_cancel(self):
+        for order in self.sudo():
+            group_id = order.stage_id.group_id
+            if group_id:
+                if not (group_id & self.env.user.groups_id):
+                    raise UserError(_("You are not authorize to cancel '%s'.", order.stage_id.name))
+        stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',self.transfer_order_type_id.id),('transfer_order_category_ids','=',self.transfer_order_category_id.id)],limit=1)
         self.update({
-            #'stage_id' : self.prv_stage_id.id,
             'stage_id': stage_id.id,
-            'date_order': fields.Datetime.now(),
         })
         for txn in self.stock_transfer_txn_line:
             txn.txn_action = 'open'
-        
-        
+            
     def action_submit(self):
         #self.ensure_one()
         for order in self.sudo():
@@ -671,9 +704,6 @@ class StockTransferOrder(models.Model):
         if any(picking.state in ['draft', 'sent', 'to approve'] for picking in self.mapped('picking_ids')):
             raise UserError(_('You have to cancel or validate every Transfer before closing the Transfer order.'))
         self.write({'state': 'done'})
-        
-    def action_cancel(self):
-        self.state = 'cancel'
         
     def process_txn_stage(self):
         for order in self:
@@ -1099,4 +1129,10 @@ class StockTransferTXNLine(models.Model):
         for txn in self:
             if txn.transfer_exception_type_id:
                 txn.sequence = txn.transfer_exception_type_id.sequence
+                
+    def unlink(self):
+        if self.txn_action == 'apply':
+            raise UserError(_('You cannot delete an applied transaction.'))
+        res = super().unlink()
+        return res
                 

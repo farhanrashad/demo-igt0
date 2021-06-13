@@ -52,6 +52,8 @@
                     
                     <button name="action_refuse" string="Refuse" type="object" 
                         attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+                    <button name="action_cancel" string="Cancel" type="object" 
+                        attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
                     
                     <!--<button name="%(action_move_in_refund_type_transfer_order)d" type="action" states="confirm,delivery,return" context="{'default_stock_transfer_order_id':id,'default_move_type':'in_refund', 'default_partner_id': partner_id}" string="Penalty Bills" class="btn-primary"/>-->
                     
@@ -240,7 +242,7 @@
                                 <group>
                                     <field name="picking_type_id" readonly="1"/>
                                     <field name="picking_type_code" invisible="1"/>
-                                    <field name="location_src_id" readonly="1" />
+                                    <field name="location_src_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
                                     <field name="location_dest_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
                                     <field name="return_location_id" attrs="{'readonly': [('stage_category', '!=', 'draft')],'invisible':[('action_type','=','normal')]}"/>  
 
@@ -252,9 +254,9 @@
                         <page string="Transactions" name="transactions">
                             <field name="stock_transfer_txn_line" widget="one2many_list" >
                                 <tree string="TXN Lines" editable="bottom">
-                                    <field name="sequence" widget="handle"/>
+                                    <field name="sequence" widget="handle" invisible="1"/>
                                     <field name="transfer_order_type_id" invisible="1"/>
-                                    <field name="transfer_exception_type_id" required="1" />
+                                    <field name="transfer_exception_type_id" attrs="{'readonly':[('txn_action','=','apply')],'required':[('txn_action','!=','apply')]}"/>
                                     <field name="txn_stage_id" />
                                     <field name="txn_action" readonly="1"/>
                                     <field name="stage_id" invisible="1"/>

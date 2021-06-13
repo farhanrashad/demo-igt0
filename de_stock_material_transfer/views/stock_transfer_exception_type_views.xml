@@ -17,6 +17,8 @@
                             </group>
                             <group>
                                 <field name="transfer_order_type_id" options="{'no_create':True,'no_open':True}"/>
+                                <field name="transfer_order_category_id" options="{'no_create':True,'no_open':True}"/>
+
                                 <field name="stage_id" options="{'no_create':True,'no_open':True}"/>
                                 <field name="apply_stage_id" options="{'no_create':True,'no_open':True}"/>
                                 <field name="exec_stage_id" options="{'no_create':True,'no_open':True}"/>

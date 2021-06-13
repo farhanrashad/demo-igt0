@@ -16,6 +16,8 @@ class TransferOrderException(models.Model):
     message = fields.Char(string='Message', required=True)
     sequence = fields.Integer(default=1)
     transfer_order_type_id = fields.Many2one('stock.transfer.order.type', string='Transfer Type', copy=False)
+    transfer_order_category_id = fields.Many2one('stock.transfer.order.category', string='Transfer Category', copy=False, domain="[('transfer_order_type_id','=',transfer_order_type_id)]")
+
     stage_id = fields.Many2one('stock.transfer.order.stage', domain="[('transfer_order_type_ids','=',transfer_order_type_id)]", string='Add Stage', copy=False)
     apply_stage_id = fields.Many2one('stock.transfer.order.stage', domain="[('transfer_order_type_ids','=',transfer_order_type_id)]", string='Apply On', copy=False)
     exec_stage_id = fields.Many2one('stock.transfer.order.stage', domain="[('transfer_order_type_ids','=',transfer_order_type_id)]", string='Execute On', copy=False)
