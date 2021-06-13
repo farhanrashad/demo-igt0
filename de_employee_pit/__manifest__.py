@@ -6,7 +6,7 @@
     'author': "Dynexcel",
     'website': "https://www.dynexcel.com",
     'category': 'Human Resource',
-    'version': '14.0.0.1',
+    'version': '14.0.0.2',
     'depends': ['base', 'hr'],
     'data': [
         'security/ir.model.access.csv',
