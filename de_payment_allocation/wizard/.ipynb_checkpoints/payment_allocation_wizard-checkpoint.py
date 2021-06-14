@@ -45,20 +45,42 @@ class PaymentAllocation(models.Model):
                 wizard.payment_method_id = False
                 
     
+    
     def action_allocate_payment(self):
         invoice_line = []
         line_ids = []
         for invoice in self.invoice_line_ids:
-            invoice_line.append(invoice.move_id.invoice_line_ids.ids)
-            line_ids.append(invoice.move_id.line_ids.ids)
-            invoice.move_id.id        
-            self.payment_id.update({
-#                 'move_id': invoice.move_id.id ,
-                'payment_method_id': self.payment_method_id.id,
-                'invoice_line_ids': invoice_line,
-                'reconciled_bills_count': 1,
-                'line_ids': line_ids,
-            })    
+            if invoice.allocate == True:
+                invoice_line.append(invoice.move_id.invoice_line_ids.ids)
+                line_ids.append(invoice.move_id.line_ids.ids)
+                debit_line = 0
+                credit_line = 0
+                for line in invoice.move_id.line_ids:
+                    if line.credit != 0.0:
+                        credit_line = line.id 
+                    if line.credit == 0.0:
+                        debit_line = line.id    
+                invoice.move_id.id 
+                recocile_vals = {
+                    'exchange_move_id': invoice.move_id.id,
+                }
+                reconcile_id = self.env['account.full.reconcile'].create(recocile_vals)
+                
+                vals = {
+                    'full_reconcile_id': reconcile_id.id,
+                    'amount':  self.payment_id.amount,
+                    'credit_move_id':  credit_line,
+                    'debit_move_id': debit_line,
+                    'credit_amount_currency': self.payment_id.amount,
+                    'debit_amount_currency': self.payment_id.amount,
+                }
+                payment = self.env['account.partial.reconcile'].create(vals)
+                
+                
+#                 invoice.move_id.update({
+#                     'payment_state': 'paid'
+#                 }
+
     
 class PaymentAllocationLine(models.Model):
     _name = 'payment.allocation.wizard.line'
