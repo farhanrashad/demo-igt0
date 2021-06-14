@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="hr_attendance.hr_attendance_action_my_attendances" model="ir.actions.client">
+            <field name="tag">de_attendance_location_my_attendances</field>
+        </record>
+        <record id="view_attendance_tree_inherit_de" model="ir.ui.view">
+            <field name="name">hr.attendance.tree.inherit.de</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.view_attendance_tree"/>
+            <field name="arch" type="xml">
+                <field name="check_out" position="after">
+                    <field name="check_out_msg"/>
+                    <field name="chk_out_link" widget="url"/>
+                </field>
+                <field name="check_in" position="after">
+                    <field name="check_in_msg"/>
+                    <field name="chk_in_link" widget="url"/>
+                </field>
+            </field>
+        </record>
+        <record id="hr_attendance_view_form_de_inherit" model="ir.ui.view">
+            <field name="name">hr.attendance.form.inherit.de</field>
+            <field name="model">hr.attendance</field>
+            <field name="inherit_id" ref="hr_attendance.hr_attendance_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//group[1]' position='after'>
+                    <group string="Employee Geolocation">
+                        <group string="Check in">
+                            <field name="chk_in_lat"/>
+                            <field name="chk_in_lng"/>
+                            <field name="check_in_msg"/>
+                            <field name="chk_in_link" widget="url"/>
+                        </group>
+                        <group string="Check out">
+                            <field name="chk_out_lat"/>
+                            <field name="chk_out_lng"/>
+                            <field name="check_out_msg"/>
+                            <field name="chk_out_link" widget="url"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+
+        <!--        de.attendance.location views-->
+        <record id="de_attendance_geoloc_view_tree" model="ir.ui.view">
+            <field name="name">de.attendance.location.tree</field>
+            <field name="model">de.attendance.location</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="department_id"/>
+                    <field name="job_id"/>
+                    <field name="employee_ids"/>
+                    <field name="from_date"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="de_attendance_geoloc_view_form" model="ir.ui.view">
+            <field name="name">de.attendance.location.form</field>
+            <field name="model">de.attendance.location</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="search_employees" class="oe_highlight" string="Search" type="object"/>
+                        <button name="clear_fields" string="Clear" type="object"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="department_id"/>
+                            <field name="job_id"/>
+                            <field name="employee_ids" widget="many2many_tags" domain="[('department_id', '=', department_id),
+                                                                                ('job_id', '=', job_id)]"/>
+                            <field name="from_date" required="1"/>
+                            <field name="to_date" required="1"/>
+                        </group>
+                        <notebook>
+                            <page string="Map Result">
+                                <field name="map_id" widget="googlemap"/>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="de_attendance_geolocation_action" model="ir.actions.act_window">
+            <field name="name">Get Geolocation Result</field>
+            <field name="res_model">de.attendance.location</field>
+            <field name="view_mode">form</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_empty_folder">
+                </p>
+            </field>
+        </record>
+        <record id="view_map_config_settings" model="ir.ui.view">
+            <field name="name">Map_settings</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='integration']" position="inside">
+                    <div class="col-12 col-lg-6 o_setting_box" id="gmap">
+                        <div class="o_setting_right_pane">
+                            <span class="o_form_label">Google Maps</span>
+                            <div class="text-muted">
+                                Follow <a
+                                    href="https://console.developers.google.com/flows/enableapi?apiid=maps_backend,static_maps_backend&amp;keyType=CLIENT_SIDE&amp;reusekey=true">
+                                the instructions
+                            </a> to create your key.
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <label for="google_maps_api_key" string="API Key"/>
+                                    <field name="google_maps_api_key" class="oe_inline"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+    <menuitem id="menu_de_attendance_geolocation" parent="hr_attendance.menu_hr_attendance_root"
+              sequence="100"
+              groups=""
+              action="de_attendance_geolocation_action"/>
+
+</odoo>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template xml:space="preserve">
+    <t t-extend="HrAttendanceMyMainMenu" t-name="DeAttendanceMyMainMenuLocation">
+        <t t-jquery=".o_hr_attendance_user_badge" t-operation="after">
+            <h3 class="mt8">Enter Your Message Below</h3>
+            <div style="text-align: -webkit-center;">
+                <input style="width: 50%; float:center" type="text" id="check_in_out_msg" required="1"/>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="FieldGoogleMap">
+        <div class="google-map">
+            <div id="tung_googlemap"></div>
+        </div>
+    </t>
+
+</template>
