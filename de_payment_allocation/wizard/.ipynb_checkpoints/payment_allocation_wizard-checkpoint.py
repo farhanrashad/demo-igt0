@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
+
 
 
 class PaymentAllocation(models.Model):
@@ -55,12 +57,15 @@ class PaymentAllocation(models.Model):
                 line_ids.append(invoice.move_id.line_ids.ids)
                 debit_line = 0
                 credit_line = 0
+                payment_debit_line = 0
                 for line in invoice.move_id.line_ids:
                     if line.credit != 0.0:
                         credit_line = line.id 
                     if line.credit == 0.0:
                         debit_line = line.id    
-                invoice.move_id.id 
+                invoice.move_id.id
+                for payment_line in self.payment_id.move_id.line_ids:                    
+                    payment_debit_line = payment_line.id
                 recocile_vals = {
                     'exchange_move_id': invoice.move_id.id,
                 }
@@ -70,17 +75,14 @@ class PaymentAllocation(models.Model):
                     'full_reconcile_id': reconcile_id.id,
                     'amount':  self.payment_id.amount,
                     'credit_move_id':  credit_line,
-                    'debit_move_id': debit_line,
-                    'credit_amount_currency': self.payment_id.amount,
-                    'debit_amount_currency': self.payment_id.amount,
+                    'debit_move_id': payment_debit_line,
+                    'credit_amount_currency': invoice.allocate_amount,
+                    'debit_amount_currency': invoice.allocate_amount,
                 }
                 payment = self.env['account.partial.reconcile'].create(vals)
                 
                 
-#                 invoice.move_id.update({
-#                     'payment_state': 'paid'
-#                 }
-
+                
     
 class PaymentAllocationLine(models.Model):
     _name = 'payment.allocation.wizard.line'
@@ -108,4 +110,22 @@ class InvoiceAllocationLine(models.Model):
     invoice_amount = fields.Float(string='Invoice Amount')
     unallocate_amount = fields.Float(string='Unallocated Amount')
     allocate = fields.Boolean(string='Allocate')
-    allocate_amount = fields.Float(string='allocate Amount')    
+    allocate_amount = fields.Float(string='allocate Amount')
+    
+    @api.onchange('allocate')
+    def onchange_allocate(self):
+        if self.allocate == True: 
+            payment_amount = 0.0
+            inv_amount = 0.0
+            amount = 0.0
+            for payment in self.allocation_id.payment_line_ids:
+                payment_amount = payment.allocate_amount     
+            for inv in self.allocation_id.invoice_line_ids:
+                if inv.allocate == True:
+                    inv_amount += inv.allocate_amount
+            if  payment_amount <  inv_amount:
+                amount = inv_amount - payment_amount
+                raise UserError(_('Allocate Amount cannot be greater than '+str(amount)))
+
+            
+            
