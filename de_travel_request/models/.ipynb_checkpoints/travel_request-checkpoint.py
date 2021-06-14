@@ -41,6 +41,18 @@ class TravelRequest(models.Model):
 
     def action_approve(self):
         self.state = 'approved'
+        year_balance = self.env['travel.balance'].search([('crnt_year', '=', datetime.now().year)], limit=1)
+        if year_balance:
+            for line in year_balance.balance_line_ids:
+                if line.employee_id.id == self.employee_id.id:
+                    allocated_balance = line.allocated_balance 
+                    remaining_balance = allocated_balance - line.used_balance
+                    line.update({
+                        'used_balance':   line.used_balance + 1,
+                        'remaining_balance':   remaining_balance,
+                        })
+                        
+        
 
     def action_set_to_draft(self):
         self.state = 'draft'
