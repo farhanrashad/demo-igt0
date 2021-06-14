@@ -46,7 +46,7 @@
                                     <field name='mpt' sum="Total MRP"/>
                                     <field name='mytel' sum="Total Mytel"/>
                                     <field name='total' sum="Total"/>
-                                    <field name='remarks'/>
+                                    <field name='remarks' attrs="{'required': [('parent.additional_req','=',True)]}"/>
                                 </tree>
                             </field>
                         </page>
@@ -60,7 +60,7 @@
                                     <field name='mpt' sum="Total MRP"/>
                                     <field name='mytel' sum="Total Mytel"/>
                                     <field name='total' sum="Total"/>
-                                    <field name='remarks'/>
+                                    <field name='remarks' attrs="{'required': [('parent.type','=','category use')]}"/>
                                 </tree>
                             </field>
                         </page>

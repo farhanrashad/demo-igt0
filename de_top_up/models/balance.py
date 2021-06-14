@@ -124,9 +124,9 @@ class TopUpBalance(models.Model):
     def _compute_previous_period(self):
         curr_date = fields.date.today()
         pre_date = fields.date.today() - timedelta(days=30)
-        self.pre_period = str(pre_date.strftime('%B-%Y'))
-        self.curr_period = str(curr_date.strftime('%B-%Y'))
-        self.balance_month = str(self.date.strftime('%B-%Y'))
+        self.pre_period = pre_date.strftime('%B-%Y')
+        self.curr_period = curr_date.strftime('%B-%Y')
+        self.balance_month = self.date.strftime('%B-%Y')
 
 
 class TopUpBalanceLine(models.Model):
