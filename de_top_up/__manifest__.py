@@ -6,7 +6,7 @@
     'author': "Dynexcel",
     'website': "http://www.dynexcel.co",
     'category': 'Uncategorized',
-    'version': '14',
+    'version': '14.0.0.1',
     'depends': ['base', 'hr','digest','base_setup'],
     'data': [
         'security/ir.model.access.csv',
