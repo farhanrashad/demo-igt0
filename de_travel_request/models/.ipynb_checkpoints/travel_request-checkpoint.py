@@ -93,7 +93,6 @@ class TravelRequestLine(models.Model):
     _name = 'travel.request.line'
 
     travel_request_id = fields.Many2one('travel.request')
-
     hotel_detail = fields.Char(string="Hotel Detail")
     check_in = fields.Datetime(string="Check In")
     check_out = fields.Datetime(string="Check Out")
