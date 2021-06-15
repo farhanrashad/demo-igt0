@@ -83,7 +83,7 @@ class PurchaseSubscriptionPlanSchedule(models.Model):
 class PurchaseSubscription(models.Model):
     _inherit = 'purchase.subscription'
     
-  @api.depends('recurring_price')
+    @api.depends('recurring_price')
     def _compute_original_amount(self):
         self.original_amount = self.recurring_price
         
