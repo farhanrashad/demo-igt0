@@ -83,8 +83,44 @@ class PurchaseSubscriptionPlanSchedule(models.Model):
 class PurchaseSubscription(models.Model):
     _inherit = 'purchase.subscription'
     
-    invoicing_mode = fields.Selection(related='subscription_plan_id.invoicing_mode')
+  @api.depends('recurring_price')
+    def _compute_original_amount(self):
+        self.original_amount = self.recurring_price
+        
+        
+    @api.depends('purchase_subscription_schedule_line.recurring_total')
+    def _compute_total_commitment(self):
+        for order in self:
+            recurring_amount = 0.0
+            for line in order.purchase_subscription_schedule_line:
+                recurring_amount += line.recurring_total
+            order.update({
+                'total_comitment': recurring_amount,
+            })
+            
+    @api.depends('purchase_subscription_schedule_line.recurring_price')
+    def compute_current_amount(self):
+        for order in self:
+            recurring_amount = 0.0
+            start_date = fields.date.today()
+            start_end = fields.date.today()
+            for line in order.purchase_subscription_schedule_line:
 
+                if str (line.date_from) >= str (start_date) and str (start_end) <= str (line.date_to):
+                    recurring_amount = line.recurring_price
+                    break
+            order.update({
+                'amount_current': recurring_amount,
+                
+            })            
+
+    
+    invoicing_mode = fields.Selection(related='subscription_plan_id.invoicing_mode')
+    rfi_date = fields.Date(string="RFI Date")
+    original_amount = fields.Float(string='Original Amount', compute='_compute_original_amount')
+    current_amount = fields.Float(string='Current Amount', copy=False)
+    amount_current = fields.Float(string='Current Amount', copy=False, compute='compute_current_amount')
+    total_comitment = fields.Float(string='Total Commitment', compute='_compute_total_commitment')
         
     def generate_recurring_invoice(self):
         plan_limit = False
