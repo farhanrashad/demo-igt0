@@ -4,26 +4,26 @@ from odoo.exceptions import UserError
 
 
 class GenerateXLSXReport(models.Model):
-    _name = 'report.de_po_deviation_report.po_deviation_report_xlsx'
+    _name = 'report.de_pr_deviation_report.pr_deviation_report_xlsx'
     _inherit = 'report.report_xlsx.abstract'
 
     def generate_xlsx_report(self, workbook, data, lines):
 
         format1 = workbook.add_format({'font_size': '12', 'align': 'vcenter', 'bold': True})
-        sheet = workbook.add_worksheet('PO Deviation Report')
+        sheet = workbook.add_worksheet('PR Deviation Report')
         sheet.write(3, 0, 'Order Reference', format1)
-        sheet.write(3, 1, 'Old PO / Current PO', format1)
+        sheet.write(3, 1, 'Old PR / Current PR', format1)
         sheet.write(3, 2, 'Product', format1)
         sheet.write(3, 3, 'User Name', format1)
         sheet.write(3, 4, 'Currency', format1)
-        sheet.write(3, 5, 'Original PO Quantity', format1)
-        sheet.write(3, 6, 'PO Updated Quantity', format1)
+        sheet.write(3, 5, 'Original PR Quantity', format1)
+        sheet.write(3, 6, 'PR Updated Quantity', format1)
         sheet.write(3, 7, 'Total Deviation Quantity', format1)
-        sheet.write(3, 8, 'Original PO Unit Price', format1)
-        sheet.write(3, 9, 'PO Updated Unit Price', format1)
+        sheet.write(3, 8, 'Original PR Unit Price', format1)
+        sheet.write(3, 9, 'PR Updated Unit Price', format1)
         sheet.write(3, 10, 'Total Deviation Unit Price', format1)
-        sheet.write(3, 11, 'Original PO Amount', format1)
-        sheet.write(3, 12, 'PO Updated Amount', format1)
+        sheet.write(3, 11, 'Original PR Amount', format1)
+        sheet.write(3, 12, 'PR Updated Amount', format1)
         sheet.write(3, 13, 'Total Deviation Value', format1)
         sheet.write(3, 14, 'History Create Date', format1)
         sheet.write(3, 15, 'History Record', format1)
@@ -87,7 +87,7 @@ class GenerateXLSXReport(models.Model):
                     updated_price = line.price_unit
                     updated_po_amount  = line.price_total_base
                     
-                    purchase_req = self.env['purchase.order'].search([('product_id', '=', line.product_id.id),('name','=',name)])
+                    purchase_req = self.env['purchase.requisition'].search([('product_id', '=', line.product_id.id),('name','=',name)])
                     po_amount = 0
                     quantity = 0
                     price = 0
@@ -183,7 +183,7 @@ class GenerateXLSXReport(models.Model):
                     lines.append(line.product_id.id)
                 for revision_line in id.old_revision_ids[-1]:
                     original_po_name = revision_line.name   
-                purchase_order = self.env['purchase.order'].search([('name','=',original_po_name)])
+                purchase_order = self.env['purchase.requisition'].search([('name','=',original_po_name)])
                 updated_po_amount = 0
                 updated_quantity = 0
                 updated_price = 0

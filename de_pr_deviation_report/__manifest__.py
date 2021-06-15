@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "PO Deviation Report",
-    'summary': """Generate PO Deviation Report""",
+    'name': "PR Deviation Report",
+    'summary': """Generate PR Deviation Report""",
     'description': """
-        Generate PO Deviation Report
+        Generate PR Deviation Report
     """,
     'author': "Dynexcel",
     'website': "https://www.dynexcel.co",
@@ -14,7 +14,7 @@
     'data': [
         # 'security/ir.model.access.csv',
         #'views/view_purchase_order.xml',
-        'reports/po_deviation_report.xml',
+        'reports/pr_deviation_report.xml',
     ],
     "installable": True,
     "application": True,
