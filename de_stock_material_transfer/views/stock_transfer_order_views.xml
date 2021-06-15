@@ -53,7 +53,7 @@
                     <button name="action_refuse" string="Refuse" type="object" 
                         attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
                     <button name="action_cancel" string="Cancel" type="object" 
-                        attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+                        attrs="{'invisible': [('stage_category', 'not in', ['progress','confirm'])]}"/>
                     
                     <!--<button name="%(action_move_in_refund_type_transfer_order)d" type="action" states="confirm,delivery,return" context="{'default_stock_transfer_order_id':id,'default_move_type':'in_refund', 'default_partner_id': partner_id}" string="Penalty Bills" class="btn-primary"/>-->
                     

@@ -727,10 +727,6 @@ class StockTransferOrder(models.Model):
                 'stage_id' : self.prv_stage_id.id,
                 'date_order': fields.Datetime.now(),
             })
-        else:
-            self.update({
-                'stage_id': stage_id.id,
-            })
     
     def action_cancel(self):
         for order in self.sudo():
