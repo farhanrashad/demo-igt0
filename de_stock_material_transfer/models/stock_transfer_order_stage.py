@@ -39,8 +39,8 @@ class StockTransferOrderStage(models.Model):
         ('Cancel', 'Cancelled'),
     ], string='Category', default='draft')
     
-    next_stage_id = fields.Many2one('stock.transfer.order.stage', string='Next Stage', copy=False)
-    prv_stage_id = fields.Many2one('stock.transfer.order.stage', string='Previous Stage', copy=False)
+    next_stage_id = fields.Many2one('stock.transfer.order.stage', string='Next Stage' )
+    prv_stage_id = fields.Many2one('stock.transfer.order.stage', string='Previous Stage')
 
     group_id = fields.Many2one('res.groups', string='Security Group')
 
