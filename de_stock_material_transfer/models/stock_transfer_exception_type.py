@@ -7,14 +7,14 @@ class TransferOrderException(models.Model):
     _description = "Transfer Exception"
     _order = 'sequence, id'
 
-    code = fields.Char(string='Code', size=3, copy=False, required=True)
-    name = fields.Char(string='Name', required=True)
+    code = fields.Char(string='Code', size=3, copy=False)
+    name = fields.Char(string='Name', )
     message_type = fields.Selection([
         ('none', 'None'),
         ('warning', 'Warning'),
         ('block', 'Block Message'),
-    ], string='Message Type', default='none', required=True)
-    message = fields.Char(string='Message', required=True)
+    ], string='Message Type', default='none', )
+    message = fields.Char(string='Message', )
     sequence = fields.Integer(default=1)
     transfer_order_type_id = fields.Many2one('stock.transfer.order.type', string='Transfer Type', copy=False)
     transfer_order_category_id = fields.Many2one('stock.transfer.order.category', string='Transfer Category', copy=False, domain="[('transfer_order_type_id','=',transfer_order_type_id)]")
