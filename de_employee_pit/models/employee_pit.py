@@ -161,10 +161,22 @@ class EmployeeIncomeTaxLine(models.Model):
     months = fields.Char('Months')
     month_salary = fields.Float(string="Month Salary")
     month_tax = fields.Float(string="Monthly Tax", compute='compute_monthly_tax')
+    conversion_rate = fields.Float(string="Conversion rate")
+    converted_tax_amount = fields.Float("Converted Tax amount", compute='compute_converted_tax')
+    arrears = fields.Float("Arrears")
     
     
+    @api.depends('conversion_rate')
+    def compute_converted_tax(self):
+        self.converted_tax_amount = 0
+        for rec in self:
+            if rec.conversion_rate > 0:
+                rec.converted_tax_amount = rec.month_tax * rec.conversion_rate               
+                
+    @api.onchange('month_salary')
     def compute_monthly_tax(self):
         for rec in self:
             rec.month_tax = rec.employee_income_tax_id.monthly_tax
             rec.month_salary = rec.employee_income_tax_id.wage
+            
             
