@@ -142,8 +142,10 @@
                             <field name="txn_stage_ids" string="TXN Stages" invisible="1" widget="many2many_tags"/>
                             <field name="curr_txn_stage_id" invisible="1" />
                             
-                            <field name="transfer_exception_type_id" string="Transaction" invisible="1"/>
+                            <field name="transfer_exception_type_id" string="Transaction" invisible="0"/>
                             <field name="transaction_code" string="T Code" invisible="1"/>
+                            <field name="picking_ids" widget="many2many_tags" invisible="1"/>
+                            <field name="picking_state" invisible="1"/>
 
                             <field name="message_type" invisible="1"/>
                             <field name="exception_message" attrs="{'invisible':[('message_type','!=','none')]}"/>

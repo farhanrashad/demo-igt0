@@ -54,6 +54,9 @@ class StockTransferOrder(models.Model):
     stage_id = fields.Many2one('stock.transfer.order.stage', string='Stage', compute='_compute_stage_id',
         store=True, readonly=False, ondelete='restrict', tracking=True, index=True,
         default=_get_default_stage_id, copy=False)
+    picking_state = fields.Char(string='Picking State', compute='_compute_picking_state',
+        store=True, copy=False, readonly=True,)
+    
     next_stage_id = fields.Many2one('stock.transfer.order.stage',compute='_compute_next_stage')
     prv_stage_id = fields.Many2one('stock.transfer.order.stage',related='stage_id.prv_stage_id')
     stage_category = fields.Selection(related='stage_id.stage_category')
@@ -248,13 +251,23 @@ class StockTransferOrder(models.Model):
     def _compute_next_stage(self):
         next_stage = self.stage_id.id
         for order in self:
-            if not order.curr_txn_stage_id.id == order.stage_id.id:
-                if order.curr_txn_stage_id.next_stage_id.id == order.stage_id.next_stage_id.id:
-                    next_stage = self.curr_txn_stage_id.id
+            if order.curr_txn_type_id.exec_stage_id.id == order.stage_id.id:
+                next_stage = order.curr_txn_stage_id.id
+            else:
+                if not order.curr_txn_stage_id.id == order.stage_id.id:
+                    if order.curr_txn_stage_id.next_stage_id.id == order.stage_id.next_stage_id.id:
+                        next_stage = self.curr_txn_stage_id.id
+                    else:
+                       next_stage = self.stage_id.next_stage_id.id 
                 else:
                     next_stage = self.stage_id.next_stage_id.id
-            else:
-                next_stage = self.stage_id.next_stage_id.id
+            #if not order.curr_txn_stage_id.id == order.stage_id.id:
+             #   if order.curr_txn_stage_id.next_stage_id.id == order.stage_id.next_stage_id.id:
+              #      next_stage = self.curr_txn_stage_id.id
+               # else:
+                #    next_stage = self.stage_id.next_stage_id.id
+            #else:
+                #next_stage = self.stage_id.next_stage_id.id
             order.next_stage_id = next_stage
         #for order in self:
         #    if not order.txn_stage_id.id == order.stage_id.id:
@@ -447,18 +460,66 @@ class StockTransferOrder(models.Model):
         cr.commit()
         if auto_commit:
             cr.commit()
-            
+    
     @api.depends('picking_ids.state')
+    def _compute_picking_state(self):
+        for order in self:
+            #if order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id):
+            if order.picking_ids:
+                if all(picking.state not in ('done','cancel') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)):
+                    order.picking_state = 'PK'
+                else:
+                    if any(picking.state != 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)):
+                        order.picking_state = 'PS'
+                    elif all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)):
+                        if any(picking.state in ('waiting','confirmed','assigned') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
+                            order.picking_state = 'RT'
+                        if all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
+                            order.picking_state = 'CL'
+                        else:
+                            order.picking_state = 'FS'
+            #elif order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id):
+                
+            #else:
+                #order.picking_state = False
+                        
+    @api.depends('picking_state')
     def _compute_stage_id(self):
         for order in self:
-            if order.transfer_order_type_id not in order.stage_id.transfer_order_type_ids:
-                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_category','=','draft')],limit=1).id
-            elif any(picking.state != 'done' for picking in order.picking_ids):
-                #partially Shipped
+            order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PK')],limit=1).id
+
+            if order.picking_state == 'PK':
+                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PK')],limit=1).id
+            elif order.picking_state == 'PS':
                 order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PS')],limit=1).id
-            elif all(picking.state == 'done' for picking in order.picking_ids):
-                #fully Shipped
+            elif order.picking_state == 'FS':
                 order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','FS')],limit=1).id
+            elif order.picking_state == 'RT':
+                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','RT')],limit=1).id
+            elif order.picking_state == 'CL':
+                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','CL')],limit=1).id
+            
+
+
+
+                
+    #@api.depends('picking_ids','picking_ids.state')
+    def _compute_stage_id0(self):
+        for order in self:
+            if order.picking_ids:
+                if all(picking.state not in ('done','cancel') for picking in order.picking_ids):
+                    #Waiting
+                    order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PK')],limit=1).id
+                else:
+                    if any(picking.state != 'done' for picking in order.picking_ids):
+                        #partially Shipped
+                        order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PS')],limit=1).id
+                    elif all(picking.state == 'done' for picking in order.picking_ids):
+                        #fully Shipped
+                        order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','FS')],limit=1).id
+            if not order.stage_id.id:
+                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PK')],limit=1).id
+                    
     
     def _stage_find(self, type_id=None, category_id=None, domain=None, order='sequence'):
         if category_id:
@@ -571,6 +632,7 @@ class StockTransferOrder(models.Model):
         self.date_delivered = ddt
         self.date_returned = rdt
         
+    @api.depends('date_delivered')
     def _compute_return_deadline(self):  
         dt = False
         days = 0
@@ -724,7 +786,13 @@ class StockTransferOrder(models.Model):
         self._create_delivery()
         if self.action_type != 'normal':
             self._create_return()
-        self.stage_id = self.next_stage_id.id,
+        self.update({
+            'stage_id' : self.next_stage_id.id,
+            'date_order': fields.Datetime.now(),
+            'picking_state': 'PK',
+        })
+        #for order in self:
+         #   order.stage_id = order.next_stage_id.id,
         #return self.action_subscription_invoice()
         
     def _create_delivery(self):

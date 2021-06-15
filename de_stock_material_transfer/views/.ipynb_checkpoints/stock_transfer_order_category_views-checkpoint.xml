@@ -47,8 +47,8 @@
                                 <field name="picking_type_code" readonly="1"/>
                                 <field name="location_src_id" required="1" />
                                 <field name="location_dest_id" required="1" />
-                                <field name="return_picking_type_id" attrs="{'invisible':[('action_type','=','normal')]}" readonly="1"/>
-                                <field name="return_location_id" attrs="{'invisible':[('action_type','=','normal')]}" readonly="1"/>
+                                <field name="return_picking_type_id" attrs="{'invisible':[('action_type','=','normal')]}" />
+                                <field name="return_location_id" attrs="{'invisible':[('action_type','=','normal')]}" />
                             </group>
                             <group string="Delivery Validity" name="delivery_validity" attrs="{'invisible':[('action_type','=','normal')]}">
                                 <label for="default_delivery_validity" attrs="{'invisible':[('action_type','=','normal')]}"/>
