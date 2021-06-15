@@ -6,7 +6,7 @@ class TransferOrderException(models.Model):
     _name = "stock.transfer.exception.type"
     _description = "Transfer Exception"
 
-    code = fields.Char(string='Code', size=2, required=True)
+    code = fields.Char(string='Code', size=3, copy=False, required=True)
     name = fields.Char(string='Name', required=True)
     message_type = fields.Selection([
         ('none', 'None'),

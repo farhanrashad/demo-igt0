@@ -25,6 +25,7 @@ class StockTransferOrderType(models.Model):
     automated_sequence = fields.Boolean('Automated Sequence?',
         help="If checked, the Approval Requests will have an automated generated name based on the given code.")
     sequence_code = fields.Char(string="Code")
+    
     group_id = fields.Many2one('res.groups', string='Security Group')
 
     #kanban counts

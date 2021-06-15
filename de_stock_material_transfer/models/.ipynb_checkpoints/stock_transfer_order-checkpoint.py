@@ -471,13 +471,19 @@ class StockTransferOrder(models.Model):
                 else:
                     if any(picking.state != 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)):
                         order.picking_state = 'PS'
-                    elif all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)):
-                        if any(picking.state in ('waiting','confirmed','assigned') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
-                            order.picking_state = 'RT'
-                        if all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
-                            order.picking_state = 'CL'
-                        else:
-                            order.picking_state = 'FS'
+                    elif all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)) and all(picking.state == 'draft' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
+                        order.picking_state = 'FS'
+                    elif all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)) and any(picking.state in ('waiting','confirmed','assigned') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
+                        order.picking_state = 'RT'
+                    elif all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)) and any(picking.state in ('waiting','confirmed','assigned') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
+                        order.picking_state = 'CL'
+                             
+                        #if any(picking.state in ('waiting','confirmed','assigned') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
+                            #order.picking_state = 'RT'
+                        #if all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
+                            #order.picking_state = 'CL'
+                        #else:
+                            #order.picking_state = 'FS'
             #elif order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id):
                 
             #else:

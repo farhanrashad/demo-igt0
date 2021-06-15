@@ -65,7 +65,7 @@ class StockMoveLine(models.Model):
             else:
                 line.stock_transfer_order_id = False
             
-    @api.onchange('product_id')
+    #@api.onchange('product_id')
     def _onchange_product_id(self):
         for line in self:
             if line.picking_id.stock_transfer_order_id:
