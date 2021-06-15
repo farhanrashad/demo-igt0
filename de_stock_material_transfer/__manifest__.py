@@ -3,7 +3,7 @@
     'name': "Internal Requisition (Stock Transfer)",
 
     'summary': """
-    Material Requisition - (Internal)
+    Material Requisition - (Internal) 
         """,
 
     'description': """
