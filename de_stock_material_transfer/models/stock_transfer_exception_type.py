@@ -5,6 +5,7 @@ from odoo import api, fields, models, _
 class TransferOrderException(models.Model):
     _name = "stock.transfer.exception.type"
     _description = "Transfer Exception"
+    _order = 'sequence, id'
 
     code = fields.Char(string='Code', size=3, copy=False, required=True)
     name = fields.Char(string='Name', required=True)
