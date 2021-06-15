@@ -20,6 +20,7 @@
 		<field name="current_amount" />
 		<field name="amount_current" />
 		<field name="total_comitment" />
+		<field name="open_comitment" />
             </xpath>
         </field>
     </record>
