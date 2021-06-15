@@ -12,11 +12,14 @@ class PaymentAllocation(models.Model):
     
     partner_id = fields.Many2one('res.partner', string='Partner', required=True)
     company_id = fields.Many2one('res.company', string='Company')
-    account_id = fields.Many2one('account.account', string='Account', required=True)
+    is_payment = fields.Boolean(string='Is Payment')
+    is_invoice = fields.Boolean(string='Is Invoice')
+    account_id = fields.Many2one('account.account', string='Account', required=False)
     amount = fields.Float(string='Amount')
     payment_line_ids = fields.One2many('payment.allocation.wizard.line', 'allocation_id', string='Payment Lines')
     invoice_line_ids = fields.One2many('invoice.allocation.wizard.line', 'allocation_id', string='Invoice Lines')
     payment_id = fields.Many2one('account.payment', string='Payment')
+    move_id = fields.Many2one('account.move', string='Move')
     journal_id = fields.Many2one(related='payment_id.journal_id')
     payment_type = fields.Selection(related='payment_id.payment_type')
     payment_method_id = fields.Many2one('account.payment.method', string='Payment Method',
@@ -46,11 +49,59 @@ class PaymentAllocation(models.Model):
             else:
                 wizard.payment_method_id = False
                 
+                
+    def action_allocate_invoice_payment(self):
+       
+        for payment in self.payment_line_ids:
+            if payment.allocate == True:
+                debit_line = 0
+                credit_line = 0
+                payment_debit_line = 0
+                for line in self.move_id.line_ids:
+                    if line.credit != 0.0:
+                        credit_line = line.id 
+                    if line.credit == 0.0:
+                        debit_line = line.id  
+                        
+                for payment_line in payment.payment_id.move_id.line_ids:                    
+                    payment_debit_line = payment_line.id
+                recocile_vals = {
+                    'exchange_move_id': self.move_id.id,
+                }
+                reconcile_id = self.env['account.full.reconcile'].create(recocile_vals)
+                
+                vals = {
+                    'full_reconcile_id': reconcile_id.id,
+                    'amount':  payment.allocate_amount,
+                    'credit_move_id':  credit_line,
+                    'debit_move_id': payment_debit_line,
+                    'credit_amount_currency': payment.allocate_amount,
+                    'debit_amount_currency': payment.allocate_amount,
+                }
+                partial_payment = self.env['account.partial.reconcile'].create(vals)
+                payment.update({
+                    'amount_residual': self.payment_id.amount_residual + payment.allocate_amount
+                })
+                
+        
+                
     
     
     def action_allocate_payment(self):
         invoice_line = []
         line_ids = []
+        if self.payment_id.amount == self.payment_id.amount_residual:
+            raise UserError(_('This Payment Already reconciled'))  
+        tot_invoice_amount = 0.0  
+        tot_payment_amount = 0.0    
+        for invoice in self.invoice_line_ids:
+            if invoice.allocate == True:
+                tot_invoice_amount = tot_invoice_amount + invoice.allocate_amount  
+                
+        for payment_line in self.payment_line_ids:                    
+            tot_payment_amount = tot_payment_amount + payment_line.allocate_amount
+        if tot_invoice_amount  > tot_payment_amount:
+            raise UserError(_('You Are Not Allowed To Enter Amount greater than '+str(tot_payment_amount)))     
         for invoice in self.invoice_line_ids:
             if invoice.allocate == True:
                 invoice_line.append(invoice.move_id.invoice_line_ids.ids)
@@ -73,14 +124,16 @@ class PaymentAllocation(models.Model):
                 
                 vals = {
                     'full_reconcile_id': reconcile_id.id,
-                    'amount':  self.payment_id.amount,
+                    'amount':  invoice.allocate_amount,
                     'credit_move_id':  credit_line,
                     'debit_move_id': payment_debit_line,
                     'credit_amount_currency': invoice.allocate_amount,
                     'debit_amount_currency': invoice.allocate_amount,
                 }
                 payment = self.env['account.partial.reconcile'].create(vals)
-                
+                self.payment_id.update({
+                    'amount_residual': self.payment_id.amount_residual + invoice.allocate_amount
+                })
                 
                 
     
@@ -96,6 +149,22 @@ class PaymentAllocationLine(models.Model):
     unallocate_amount = fields.Float(string='Unallocated Amount')
     allocate = fields.Boolean(string='Allocate')
     allocate_amount = fields.Float(string='allocate Amount')
+    
+    
+    @api.onchange('allocate')
+    def onchange_allocate(self):
+        invoice_amount = 0.0
+        payment_amount = 0.0
+        amount = 0.0
+        invoice_amount = self.allocation_id.move_id.amount_residual     
+        for inv in self:
+            if inv.allocate == True:
+                payment_amount = payment_amount + inv.allocate_amount
+                    
+        if  invoice_amount <  payment_amount:
+            amount = payment_amount - invoice_amount
+            raise UserError(_('Allocate Amount cannot be greater than '+str(amount)))
+
     
     
 class InvoiceAllocationLine(models.Model):
@@ -114,18 +183,18 @@ class InvoiceAllocationLine(models.Model):
     
     @api.onchange('allocate')
     def onchange_allocate(self):
-        if self.allocate == True: 
-            payment_amount = 0.0
-            inv_amount = 0.0
-            amount = 0.0
-            for payment in self.allocation_id.payment_line_ids:
-                payment_amount = payment.allocate_amount     
-            for inv in self.allocation_id.invoice_line_ids:
-                if inv.allocate == True:
-                    inv_amount += inv.allocate_amount
-            if  payment_amount <  inv_amount:
-                amount = inv_amount - payment_amount
-                raise UserError(_('Allocate Amount cannot be greater than '+str(amount)))
+        payment_amount = 0.0
+        inv_amount = 0.0
+        amount = 0.0
+        for payment in self.allocation_id.payment_line_ids:
+            payment_amount = payment.allocate_amount     
+        for inv in self:
+            if inv.allocate == True:
+                inv_amount = inv_amount + inv.allocate_amount
+                    
+        if  payment_amount <  inv_amount:
+            amount = inv_amount - payment_amount
+            raise UserError(_('Allocate Amount cannot be greater than '+str(amount)))
 
             
             

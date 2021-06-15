@@ -20,53 +20,57 @@ import warnings
 class AccountMove(models.Model):
     _inherit = 'account.move'
     
-    
-    @api.depends('move_type', 'line_ids.amount_residual')
-    def _compute_payments_widget_reconciled_info(self):
         
-        for move in self:
-            payments_widget_vals = {'title': _('Less Payment'), 'outstanding': False, 'content': []}
-
-            if move.state == 'posted' and move.is_invoice(include_receipts=True):
-                payments_widget_vals['content'] = move._get_reconciled_info_JSON_values()
-
-            if payments_widget_vals['content']:
-                move.invoice_payments_widget = json.dumps(payments_widget_vals, default=date_utils.json_default)
-            else:
-                move.invoice_payments_widget = json.dumps(False)
-                
-       
-    
-    
-    def _get_reconciled_info_JSON_values(self):
-        self.ensure_one()
-
-        reconciled_vals = []
-        for partial, amount, counterpart_line in self._get_reconciled_invoices_partials():
-            if counterpart_line.move_id.ref:
-                reconciliation_ref = '%s (%s)' % (counterpart_line.move_id.name, counterpart_line.move_id.ref)
-            else:
-                reconciliation_ref = counterpart_line.move_id.name
-
-            reconciled_vals.append({
-                'name': counterpart_line.name,
-                'journal_name': counterpart_line.journal_id.name,
-                'amount': amount,
-                'currency': self.currency_id.symbol,
-                'digits': [69, self.currency_id.decimal_places],
-                'position': self.currency_id.position,
-                'date': counterpart_line.date,
-                'payment_id': counterpart_line.id,
-                'partial_id': partial.id,
-                'account_payment_id': counterpart_line.payment_id.id,
-                'payment_method_name': counterpart_line.payment_id.payment_method_id.name if counterpart_line.journal_id.type == 'bank' else None,
-                'move_id': counterpart_line.move_id.id,
-                'ref': reconciliation_ref,
-            })
-        return reconciled_vals
-    
-    
     
     def allocate_invoice_payment(self):
-        pass
-
+        payment_list = []
+        invoice_list = []
+        partner = []
+        
+        payments = self.env['account.payment'].search([('partner_id','=',self.partner_id.id),('state','=','posted'),('is_reconciled','=', False)])     
+        for  payment in  payments:
+            payment_amount = 0.0
+            if payment.amount_residual == 0.0:
+                payment_amount = payment.amount
+            else:
+                payment_amount = payment.amount_residual
+            payment_list.append((0,0,{
+                    'payment_id': payment.id,
+                    'payment_date': payment.date,
+                    'payment_amount': payment.amount,
+                    'unallocate_amount': payment_amount,
+                    'allocate': False,
+                    'allocate_amount': payment_amount,
+                
+            }))
+            
+        for rec in self:
+            selected_ids = rec.env.context.get('active_ids', [])
+            selected_records = rec.env['account.move'].browse(selected_ids)
+            
+            for  inv in selected_records:
+                invoice_list.append((0,0,{
+                    'move_id': inv.id,
+                    'payment_date': inv.invoice_date,
+                    'due_date': inv.invoice_date_due,
+                    'invoice_amount': inv.amount_total,
+                    'unallocate_amount': inv.amount_residual,
+                    'allocate': True,
+                    'allocate_amount': inv.amount_residual,
+                }))    
+        return {
+            'name': ('Payment Allocation'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'payment.allocation.wizard',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'context': {'default_payment_line_ids': payment_list, 
+                        'default_invoice_line_ids': invoice_list, 
+                        'default_company_id': self.env.company.id,
+                        'default_is_invoice': True,
+                        'default_partner_id': self.partner_id.id,
+                        'default_move_id': self.id,
+                       },
+        }

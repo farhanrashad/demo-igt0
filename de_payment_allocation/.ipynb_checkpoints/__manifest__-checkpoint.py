@@ -29,7 +29,7 @@
         'data/ir_server_actions_views.xml',
         'wizard/payment_allocation_wizard_views.xml',
         'security/ir.model.access.csv',
-        'views/views.xml',
+        'views/account_payment_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
