@@ -88,62 +88,35 @@ class GenerateXLSXReport(models.Model):
                     updated_po_amount  = line.price_total_base
                     
                     purchase_req = self.env['purchase.order'].search([('product_id', '=', line.product_id.id),('name','=',name)])
-                    po_amount = 0
-                    quantity = 0
-                    price = 0
+                    
+                    p_po_amount = 0
+                    p_quantity = 0
+                    p_price = 0
                     if purchase_req:
                         for order in purchase_req:
                             if order.order_line:
                                 for line_model in order.order_line:
-                                    if line_model.product_id.id == line.product_id.id:
-                                        quantity = line_model.product_qty
-                                        price = line.price_unit
-                                        po_amount  = line.price_total_base
-                                        total_deviation_qty = updated_quantity - quantity
-                                        total_deviation_price = updated_price - price
-                                        total_deviation_amount = updated_po_amount - po_amount
-
-                                        sheet.write(row, 0, name, format2)
-                                        sheet.write(row, 1, id.name, format2)
-                                        sheet.write(row, 2, product, format2)
-                                        sheet.write(row, 3, username, format2)
-                                        sheet.write(row, 4, currency, format2)
-                                        sheet.write(row, 5, quantity, format2)
-                                        sheet.write(row, 6, updated_quantity, format2)
-                                        sheet.write(row, 7, total_deviation_qty, format2)
-                                        sheet.write(row, 8, price, format2)
-                                        sheet.write(row, 9, updated_price, format2)
-                                        sheet.write(row, 10, total_deviation_price, format2)
-                                        sheet.write(row, 11, po_amount, format2)
-                                        sheet.write(row, 12, updated_po_amount, format2)
-                                        sheet.write(row, 13, total_deviation_amount, format2)
-                                        sheet.write(row, 14, history_create_date, format2)
-                                        sheet.write(row, 15, history_record, format2)
-                                        sheet.write(row, 16, reason, format2)
-
-                                        row = row + 1
-                                        break
                                     
-                                    else:
-                                        quantity = line_model.product_qty
-                                        price = line.price_unit
-                                        po_amount  = line.price_total_base
-                                        total_deviation_qty = updated_quantity - quantity
-                                        total_deviation_price = updated_price - price
-                                        total_deviation_amount = updated_po_amount - po_amount
+                                    if line_model.product_id.id == line.product_id.id:
+                                        p_quantity = line_model.product_qty
+                                        p_price = line_model.price_unit
+                                        p_po_amount  = line_model.price_total_base
+                                        total_deviation_qty = updated_quantity - p_quantity
+                                        total_deviation_price = updated_price - p_price
+                                        total_deviation_amount = updated_po_amount - p_po_amount
 
                                         sheet.write(row, 0, name, format2)
                                         sheet.write(row, 1, id.name, format2)
                                         sheet.write(row, 2, product, format2)
                                         sheet.write(row, 3, username, format2)
                                         sheet.write(row, 4, currency, format2)
-                                        sheet.write(row, 5, quantity, format2)
+                                        sheet.write(row, 5, p_quantity, format2)
                                         sheet.write(row, 6, updated_quantity, format2)
                                         sheet.write(row, 7, total_deviation_qty, format2)
-                                        sheet.write(row, 8, price, format2)
+                                        sheet.write(row, 8, p_price, format2)
                                         sheet.write(row, 9, updated_price, format2)
                                         sheet.write(row, 10, total_deviation_price, format2)
-                                        sheet.write(row, 11, po_amount, format2)
+                                        sheet.write(row, 11, p_po_amount, format2)
                                         sheet.write(row, 12, updated_po_amount, format2)
                                         sheet.write(row, 13, total_deviation_amount, format2)
                                         sheet.write(row, 14, history_create_date, format2)
@@ -151,24 +124,25 @@ class GenerateXLSXReport(models.Model):
                                         sheet.write(row, 16, reason, format2)
 
                                         row = row + 1
-                                        break
+
+                                    
                     else:
-                        total_deviation_qty = updated_quantity - quantity
-                        total_deviation_price = updated_price - price
-                        total_deviation_amount = updated_po_amount - po_amount
+                        total_deviation_qty = updated_quantity - p_quantity
+                        total_deviation_price = updated_price - p_price
+                        total_deviation_amount = updated_po_amount - p_po_amount
 
                         sheet.write(row, 0, name, format2)
                         sheet.write(row, 1, id.name, format2)
                         sheet.write(row, 2, product, format2)
                         sheet.write(row, 3, username, format2)
                         sheet.write(row, 4, currency, format2)
-                        sheet.write(row, 5, quantity, format2)
+                        sheet.write(row, 5, p_quantity, format2)
                         sheet.write(row, 6, updated_quantity, format2)
                         sheet.write(row, 7, total_deviation_qty, format2)
-                        sheet.write(row, 8, price, format2)
+                        sheet.write(row, 8, p_price, format2)
                         sheet.write(row, 9, updated_price, format2)
                         sheet.write(row, 10, total_deviation_price, format2)
-                        sheet.write(row, 11, po_amount, format2)
+                        sheet.write(row, 11, p_po_amount, format2)
                         sheet.write(row, 12, updated_po_amount, format2)
                         sheet.write(row, 13, total_deviation_amount, format2)
                         sheet.write(row, 14, history_create_date, format2)
@@ -192,25 +166,25 @@ class GenerateXLSXReport(models.Model):
                         for po_line in po_order.order_line:
                             if po_line.product_id.id not in lines:
                                 product = po_line.product_id.name
-                                quantity = po_line.product_qty
-                                price = po_line.price_unit
-                                po_amount  = po_line.price_total_base
-                                total_deviation_qty = updated_quantity - quantity
-                                total_deviation_price = updated_price - price
-                                total_deviation_amount = updated_po_amount - po_amount
+                                p_quantity = po_line.product_qty
+                                p_price = po_line.price_unit
+                                p_po_amount  = po_line.price_total_base
+                                total_deviation_qty = updated_quantity - p_quantity
+                                total_deviation_price = updated_price - p_price
+                                total_deviation_amount = updated_po_amount - p_po_amount
                                 
                                 sheet.write(row, 0, name, format2)
                                 sheet.write(row, 1, id.name, format2)
                                 sheet.write(row, 2, product, format2)
                                 sheet.write(row, 3, username, format2)
                                 sheet.write(row, 4, currency, format2)
-                                sheet.write(row, 5, quantity, format2)
+                                sheet.write(row, 5, p_quantity, format2)
                                 sheet.write(row, 6, updated_quantity, format2)
                                 sheet.write(row, 7, total_deviation_qty, format2)
-                                sheet.write(row, 8, price, format2)
+                                sheet.write(row, 8, p_price, format2)
                                 sheet.write(row, 9, updated_price, format2)
                                 sheet.write(row, 10, total_deviation_price, format2)
-                                sheet.write(row, 11, po_amount, format2)
+                                sheet.write(row, 11, p_po_amount, format2)
                                 sheet.write(row, 12, updated_po_amount, format2)
                                 sheet.write(row, 13, total_deviation_amount, format2)
                                 sheet.write(row, 14, history_create_date, format2)
