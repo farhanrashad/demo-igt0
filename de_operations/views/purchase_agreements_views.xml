@@ -14,6 +14,14 @@
             <xpath expr="//button[1]" position="after">
                 <button name="%(action_purchase_subscription_plan_wizard)d" string="Plan Subscription" type="action" class="btn-primary" attrs="{'invisible': [('stage_category','!=', 'draft')]}" />
             </xpath>
+	    <xpath expr="//field[@name='subscription_plan_id']" position="after">
+		<field name="rfi_date" />
+		<field name="original_amount" />
+		<field name="current_amount" />
+		<field name="amount_current" />
+		<field name="total_comitment" />
+		<field name="open_comitment" />
+            </xpath>
         </field>
     </record>
     
