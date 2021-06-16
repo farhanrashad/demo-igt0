@@ -40,11 +40,7 @@ class ProjectTask(models.Model):
                                             column2="attachment_id",
                                             string="Attachment")
 
-	# attachment_id = fields.Many2many('ir.attachment', relation="files_rel_project_task",
-	# 								 column1="doc_id",
-	# 								 column2="attachment_id",
-	# 								 string="Attachment")
-    
+	
     def action_material_import(self):
         
         keys = ['transfer_order_type_id',  'user_id', 'transfer_order_category_id', 'company_id', 'purchase_id', 'transporter_id']
@@ -113,6 +109,7 @@ class ProjectTask(models.Model):
 
         data =  {
                 'transfer_order_type_id' : transfer_type.id,
+                'sequence_code': transfer_type.code,
                 'user_id' : user_id.id,
                 'transfer_order_category_id':category.id,
                 'company_id':company.id,
@@ -171,7 +168,7 @@ class ProjectTask(models.Model):
     
     def find_transporter(self,transporter):
         request_transporter =self.env['res.partner']
-        transporter_search = request_transporter.search([('name','=',transporter)])
+        transporter_search = request_transporter.search([('name','=',transporter)], limit=1)
         if transporter_search:
             return transporter_search
         else:
