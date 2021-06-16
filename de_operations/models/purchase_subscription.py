@@ -6,6 +6,22 @@ from odoo.exceptions import UserError, AccessError, ValidationError
 from odoo.tools.safe_eval import safe_eval
 from odoo.tools.misc import format_date
 
+class PurchaseSubscriptionStage(models.Model):
+    _inherit = 'purchase.subscription.stage'
+    
+    stage_category = fields.Selection([
+        ('draft', 'Draft'),
+        ('progress', 'In Progress'),
+        ('confirm', 'Confirmed'),
+        ('closed', 'Closed'),
+        ('Cancel', 'Cancelled'),
+    ], string='Category', default='draft')
+    
+    group_id = fields.Many2one('res.groups', string='Security Group')
+    
+    next_stage_id = fields.Many2one('purchase.subscription.stage', string='Next Stage' )
+    prv_stage_id = fields.Many2one('purchase.subscription.stage', string='Previous Stage')
+    
 class PurchaseSubscriptionType(models.Model):
     _inherit = 'purchase.subscription.type'
     
@@ -17,6 +33,7 @@ class PurchaseSubscriptionType(models.Model):
     journal_id = fields.Many2one('account.journal', string="Accounting Journal",
                                  domain="[('type', '=', 'purchase')]", company_dependent=True,
                                  check_company=True,)
+    group_id = fields.Many2one('res.groups', string='Security Group')
     
     def create_deduction_invoice(self):
         self.ensure_one()
@@ -82,6 +99,9 @@ class PurchaseSubscriptionPlanSchedule(models.Model):
     
 class PurchaseSubscription(models.Model):
     _inherit = 'purchase.subscription'
+    
+    next_stage_id = fields.Many2one('purchase.subscription.stage',related='stage_id.next_stage_id')
+    prv_stage_id = fields.Many2one('purchase.subscription.stage',related='stage_id.prv_stage_id')
     
     @api.depends('recurring_price')
     def _compute_original_amount(self):
@@ -160,6 +180,56 @@ class PurchaseSubscription(models.Model):
                 current_date = self._get_recurring_next_date(self.recurring_interval_type, self.recurring_interval * 1, new_date, self.recurring_invoice_day)
         return True
     
+    def action_submit(self):
+        #self.ensure_one()
+        for order in self.sudo():
+            group_id = order.subscription_type_id.group_id
+            if group_id:
+                if not (group_id & self.env.user.groups_id):
+                #if not self.env.user.has_group(self.transfer_order_category_id.group_id.name):
+                    raise UserError(_("You are not authorize to submit agreement in type '%s'.", self.subscription_type_id.name))
+        self.update({
+            'stage_id' : self.next_stage_id.id,
+        })
+        
+    def action_confirm(self):
+        for order in self.sudo():
+            group_id = order.stage_id.group_id
+            if group_id:
+                if not (group_id & self.env.user.groups_id):
+                    raise UserError(_("You are not authorize to approve '%s'.", order.stage_id.name))                    
+        self.update({
+            'stage_id' : self.next_stage_id.id,
+        })
+        
+    def action_refuse(self):
+        for order in self.sudo():
+            group_id = order.stage_id.group_id
+            if group_id:
+                if not (group_id & self.env.user.groups_id):
+                    raise UserError(_("You are not authorize to refuse '%s'.", order.stage_id.name))
+        if self.prv_stage_id:
+            self.update({
+                'stage_id' : self.prv_stage_id.id,
+            })
+            
+    def action_close(self):
+        for order in self.sudo():
+            stage_id = self.env['purchase_subscription.stage'].search([('subscription_type_ids','=',self.subscription_type_id.id),('stage_category','=','done')],limit=1)
+    
+    def action_cancel(self):
+        for order in self.sudo():
+            group_id = order.stage_id.group_id
+            if group_id:
+                if not (group_id & self.env.user.groups_id):
+                    raise UserError(_("You are not authorize to cancel '%s'.", order.stage_id.name))
+        stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',self.transfer_order_type_id.id),('transfer_order_category_ids','=',self.transfer_order_category_id.id),('stage_category','=','cancel')],limit=1)
+        self.update({
+            'stage_id': stage_id.id,
+        })
+        
+
+        
     
 class PurchaseSubscriptionLine(models.Model):
     _inherit = 'purchase.subscription.line'

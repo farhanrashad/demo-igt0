@@ -71,13 +71,13 @@ class StockMoveLine(models.Model):
             #if line.picking_id.stock_transfer_order_id:
                 #line.location_dest_id = line.move_id.stock_transfer_order_line_id.location_dest_id.id
                 
-    @api.model_create_multi
-    def create(self, vals_list):
-        for vals in vals_list:
-            if vals.get('move_id'):
-                vals['company_id'] = self.env['stock.move'].browse(vals['move_id']).company_id.id
-            elif vals.get('picking_id'):
-                vals['company_id'] = self.env['stock.picking'].browse(vals['picking_id']).company_id.id
-            vals['location_dest_id'] = self.env['stock.move'].browse(vals['move_id']).stock_transfer_order_line_id.location_dest_id.id
+    #@api.model_create_multi
+    #def create(self, vals_list):
+        #for vals in vals_list:
+            #if vals.get('move_id'):
+                #vals['company_id'] = self.env['stock.move'].browse(vals['move_id']).company_id.id
+            #elif vals.get('picking_id'):
+                #vals['company_id'] = self.env['stock.picking'].browse(vals['picking_id']).company_id.id
+            #vals['location_dest_id'] = self.env['stock.move'].browse(vals['move_id']).stock_transfer_order_line_id.location_dest_id.id
 
-        mls = super().create(vals_list)
+        #mls = super().create(vals_list)
