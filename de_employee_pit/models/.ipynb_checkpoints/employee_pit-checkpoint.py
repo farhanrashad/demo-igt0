@@ -43,7 +43,6 @@ class EmployeeIncomeTax(models.Model):
 
     current_date = date.today()
     end_date = current_date + timedelta(days=30)
-    
 
     employee_id = fields.Many2one('hr.employee', string="Employee")
     department_id = fields.Many2one('hr.department', string='Department', related='employee_id.department_id')
@@ -51,9 +50,11 @@ class EmployeeIncomeTax(models.Model):
     marital_stat = fields.Selection([
         ('single', 'Single'),
         ('married', 'Married'),
-        ], string='Marital Status', readonly=True, copy=False, index=True, default='single')
+    ], string='Marital Status', readonly=True, copy=False, index=True, default='single')
     no_of_dependant = fields.Integer(string="No. of Dependants")
     no_of_children = fields.Integer(string="No. of Children", compute='employee_count')
+    parent_count = fields.Integer(string="Parent count", compute='employee_count')
+    wife_count = fields.Integer(string="Wife Count", compute='employee_count')
     father = fields.Boolean(string="Father", readonly=True)
     mother = fields.Boolean(string="Mother", readonly=True)
     child = fields.Boolean(string="Child", readonly=True)
@@ -61,31 +62,30 @@ class EmployeeIncomeTax(models.Model):
     tax_income = fields.Float(string="Tax Income", compute='employee_count')
     monthly_tax = fields.Float('Monthly tax amount')
     ss_amount = fields.Float('Social Security Amount')
-    
+
     employee_income_tax_ids = fields.One2many('employee.income.tax.line', 'employee_income_tax_id')
-            
-        
-    @api.onchange('ss_amount','employee_id')
+
+    @api.onchange('ss_amount', 'employee_id')
     def employee_count(self):
         count = 0
         parent_count = 0
         tax_per = 0
         tax_total = 0
         wife_count = 0
-        child_count =  0
+        child_count = 0
         for rec in self:
             if rec.employee_id.contract_id:
                 for contract in rec.employee_id.contract_id:
                     if contract.state == 'open':
-                        rec.wage = contract.wage 
-                        rec.annual_wage = contract.wage * 12 
+                        rec.wage = contract.wage
+                        rec.annual_wage = contract.wage * 12
                     else:
                         rec.wage = 0
                         rec.annual_wage = 0
             else:
                 rec.wage = 0
                 rec.annual_wage = 0
-                
+
             if rec.employee_id.employee_family_ids:
                 for dependant in rec.employee_id.employee_family_ids:
                     if dependant.relation_ship == "father":
@@ -98,49 +98,54 @@ class EmployeeIncomeTax(models.Model):
                         rec.child = True
                         child_count = rec.no_of_children + 1
                         rec.update({
-                            'no_of_children' : child_count,
+                            'no_of_children': child_count,
                         })
                     if dependant.relation_ship == "wife":
                         wife_count = wife_count + 1
                         rec.update({
-                            'marital_stat' : 'married',
+                            'marital_stat': 'married',
                         })
                     count = count + 1
             rec.no_of_dependant = count
             rec.no_of_children = child_count
-            
-            if (rec.annual_wage*0.20) > 10000000:
-                rec.tax_income = (rec.annual_wage-10000000) - ((rec.no_of_children * 500000) + (parent_count * 1000000) + (rec.ss_amount*12) + (wife_count * 1000000))
-#             if (rec.annual_wage*20) < 10000000:
+            rec.parent_count = parent_count
+            rec.wife_count = wife_count
+
+            if (rec.annual_wage * 0.20) > 10000000:
+                rec.tax_income = (rec.annual_wage - 10000000) - (
+                        (rec.no_of_children * 500000) + (parent_count * 1000000) + (rec.ss_amount * 12) + (
+                        wife_count * 1000000))
+            #             if (rec.annual_wage*20) < 10000000:
             else:
-                rec.tax_income = (rec.annual_wage*0.80) - ((rec.no_of_children * 500000) + (parent_count * 1000000) + (rec.ss_amount*12) + (wife_count * 1000000))
-            
+                rec.tax_income = (rec.annual_wage * 0.80) - (
+                        (rec.no_of_children * 500000) + (parent_count * 1000000) + (rec.ss_amount * 12) + (
+                        wife_count * 1000000))
+
             if rec.tax_income > 1 and rec.tax_income <= 2000000:
                 tax_per = 0
             if rec.tax_income > 2000001 and rec.tax_income <= 5000000:
-                tax_total = ((rec.tax_income - 2000000)*0.05)
+                tax_total = ((rec.tax_income - 2000000) * 0.05)
                 tax_per = 5
             if rec.tax_income > 5000001 and rec.tax_income <= 10000000:
-                tax_total = (((rec.tax_income - 5000000)*0.10)+150000)
+                tax_total = (((rec.tax_income - 5000000) * 0.10) + 150000)
                 tax_per = 10
             if rec.tax_income > 10000001 and rec.tax_income <= 20000000:
-                tax_total = (((rec.tax_income - 10000000)*0.15)+650000)
+                tax_total = (((rec.tax_income - 10000000) * 0.15) + 650000)
                 tax_per = 15
             if rec.tax_income > 20000001 and rec.tax_income <= 30000000:
-                tax_total = (((rec.tax_income - 20000000)*0.20)+2150000)
+                tax_total = (((rec.tax_income - 20000000) * 0.20) + 2150000)
                 tax_per = 20
             if rec.tax_income > 30000001:
-                tax_total = (((rec.tax_income - 30000000)*0.25)+4150000)
+                tax_total = (((rec.tax_income - 30000000) * 0.25) + 4150000)
                 tax_per = 25
-                
-            
+
             total_annual_tax = tax_total
             rec.monthly_tax = total_annual_tax / 12
-            
+
     @api.onchange("employee_id")
     def compute_wage(self):
         if self.employee_id:
-            list_months=['jan','feb','march','april','may','june','jul','aug','sep','oct','nov','dec']
+            list_months = ['jan', 'feb', 'march', 'april', 'may', 'june', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
             if self.employee_income_tax_ids:
                 for line in self.employee_income_tax_ids:
                     line.unlink()
@@ -148,80 +153,68 @@ class EmployeeIncomeTax(models.Model):
                 vals = {
                     'months': list_months[i],
                     'employee_income_tax_id': self.id
-                    }
+                }
                 self.employee_income_tax_ids.create(vals)
-                
-            
 
-            
+
 class EmployeeIncomeTaxLine(models.Model):
     _name = 'employee.income.tax.line'
 
     employee_income_tax_id = fields.Many2one('employee.income.tax')
     months = fields.Char('Months')
     month_salary = fields.Float(string="Month Salary", compute='compute_monthly_salary')
-    month_tax = fields.Float(string="Monthly Tax", compute='compute_gross_ammount')
+    month_tax = fields.Float(string="Monthly Tax")
     conversion_rate = fields.Float(string="Conversion rate")
     converted_tax_amount = fields.Float("Converted Tax amount", compute='compute_converted_tax')
     arrears = fields.Float("Arrears")
     gross_salary = fields.Float('Gross Salary', compute='compute_gross_ammount')
-            
+    taxable_income = fields.Float('Taxable Income')
+
     @api.onchange('month_salary')
     def compute_monthly_salary(self):
         for rec in self:
             rec.month_salary = rec.employee_income_tax_id.wage
 
-            
     @api.depends('conversion_rate')
     def compute_converted_tax(self):
         self.converted_tax_amount = 0
         for rec in self:
             if rec.conversion_rate > 0:
                 rec.converted_tax_amount = rec.month_tax * rec.conversion_rate
-    
-    
+
     @api.depends('arrears')
     def compute_gross_ammount(self):
         self.gross_salary = 0
+        taxable_total = 0
         for rec in self:
-            if rec.arrears or rec.month_salary:
-                rec.gross_salary = rec.arrears + rec.month_salary
-                rec.month_tax = rec.gross_salary / 12
-            else:
-                rec.gross_salary = 0
-                rec.month_tax = 0
-                 
-                    
-#     @api.onchange('month_tax')          
-#     def update_line_tax_income(self):
-#         count = 0
-#         tax_per = 0
-#         tax_total = 0
-#         for rec in self.employee_income_tax_id:
-#             for line in self:
-#                 if (line.gross_salary*0.20) > 10000000:
-#                     line.month_tax = (line.gross_salary-10000000) - ((rec.no_of_children * 500000) + (rec.parent_count * 1000000) + (rec.ss_amount*12) + (rec.wife_count * 1000000))
-#                 else:
-#                     line.month_tax = (line.gross_salary*0.80) - ((rec.no_of_children * 500000) + (rec.parent_count * 1000000) + (rec.ss_amount*12) + (rec.wife_count * 1000000))
+            for record in self.employee_income_tax_id:
+                if rec.arrears or rec.month_salary:
+                    rec.gross_salary = rec.arrears + rec.month_salary
+                #                 rec.month_tax = rec.gross_salary / 12
+                else:
+                    rec.gross_salary = 0
+                #                 rec.month_tax = 0
 
-#                 if line.month_tax > 1 and line.month_tax <= 2000000:
-#                     tax_per = 0
-#                 if line.month_tax > 2000001 and line.month_tax <= 5000000:
-#                     tax_total = ((line.month_tax - 2000000)*0.05)
-#                     tax_per = 5
-#                 if line.month_tax > 5000001 and line.month_tax <= 10000000:
-#                     tax_total = (((line.month_tax - 5000000)*0.10)+150000)
-#                     tax_per = 10
-#                 if line.month_tax > 10000001 and line.month_tax <= 20000000:
-#                     tax_total = (((line.month_tax - 10000000)*0.15)+650000)
-#                     tax_per = 15
-#                 if line.month_tax > 20000001 and line.month_tax <= 30000000:
-#                     tax_total = (((line.month_tax - 20000000)*0.20)+2150000)
-#                     tax_per = 20
-#                 if line.month_tax > 30000001:
-#                     tax_total = (((line.month_tax - 30000000)*0.25)+4150000)
-#                     tax_per = 25
+                if ((rec.gross_salary*12) * 0.20) > 10000000:
+                    rec.taxable_income = (record.annual_wage - 10000000) - (
+                            (record.no_of_children * 500000) + (record.parent_count * 1000000) + (
+                            record.ss_amount * 12) + (record.wife_count * 1000000))
+                #             if (rec.annual_wage*20) < 10000000:
+                else:
+                    rec.taxable_income = ((rec.gross_salary*12) * 0.80) - (
+                            (record.no_of_children * 500000) + (record.parent_count * 1000000) + (
+                            record.ss_amount * 12) + (record.wife_count * 1000000))
 
+                if rec.taxable_income > 1 and rec.taxable_income <= 2000000:
+                    if rec.taxable_income > 2000001 and rec.taxable_income <= 5000000:
+                        taxable_total = ((rec.taxable_income - 2000000) * 0.05)
+                if rec.taxable_income > 5000001 and rec.taxable_income <= 10000000:
+                    taxable_total = (((rec.taxable_income - 5000000) * 0.10) + 150000)
+                if rec.taxable_income > 10000001 and rec.taxable_income <= 20000000:
+                    taxable_total = (((rec.taxable_income - 10000000) * 0.15) + 650000)
+                if rec.taxable_income > 20000001 and rec.taxable_income <= 30000000:
+                    taxable_total = (((rec.taxable_income - 20000000) * 0.20) + 2150000)
+                if rec.taxable_income > 30000001:
+                    taxable_total = (((rec.taxable_income - 30000000) * 0.25) + 4150000)
 
-#                 total_annual_tax = tax_total
-#                 line.month_tax = total_annual_tax / 12
+                rec.month_tax = taxable_total
