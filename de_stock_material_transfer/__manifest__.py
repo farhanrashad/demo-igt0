@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Internal Requisition (Stock Transfer)",
+    'name': "Internal Requisition - Stock Transfer",
 
     'summary': """
     Material Requisition - (Internal)
