@@ -159,24 +159,69 @@ class EmployeeIncomeTaxLine(models.Model):
 
     employee_income_tax_id = fields.Many2one('employee.income.tax')
     months = fields.Char('Months')
-    month_salary = fields.Float(string="Month Salary")
-    month_tax = fields.Float(string="Monthly Tax", compute='compute_monthly_tax')
+    month_salary = fields.Float(string="Month Salary", compute='compute_monthly_salary')
+    month_tax = fields.Float(string="Monthly Tax", compute='compute_gross_ammount')
     conversion_rate = fields.Float(string="Conversion rate")
     converted_tax_amount = fields.Float("Converted Tax amount", compute='compute_converted_tax')
     arrears = fields.Float("Arrears")
-    
-    
+    gross_salary = fields.Float('Gross Salary', compute='compute_gross_ammount')
+            
+    @api.onchange('month_salary')
+    def compute_monthly_salary(self):
+        for rec in self:
+            rec.month_salary = rec.employee_income_tax_id.wage
+
+            
     @api.depends('conversion_rate')
     def compute_converted_tax(self):
         self.converted_tax_amount = 0
         for rec in self:
             if rec.conversion_rate > 0:
-                rec.converted_tax_amount = rec.month_tax * rec.conversion_rate               
-                
-    @api.onchange('month_salary')
-    def compute_monthly_tax(self):
+                rec.converted_tax_amount = rec.month_tax * rec.conversion_rate
+    
+    
+    @api.depends('arrears')
+    def compute_gross_ammount(self):
+        self.gross_salary = 0
         for rec in self:
-            rec.month_tax = rec.employee_income_tax_id.monthly_tax
-            rec.month_salary = rec.employee_income_tax_id.wage
-            
-            
+            if rec.arrears or rec.month_salary:
+                rec.gross_salary = rec.arrears + rec.month_salary
+                rec.month_tax = rec.gross_salary / 12
+            else:
+                rec.gross_salary = 0
+                rec.month_tax = 0
+                 
+                    
+#     @api.onchange('month_tax')          
+#     def update_line_tax_income(self):
+#         count = 0
+#         tax_per = 0
+#         tax_total = 0
+#         for rec in self.employee_income_tax_id:
+#             for line in self:
+#                 if (line.gross_salary*0.20) > 10000000:
+#                     line.month_tax = (line.gross_salary-10000000) - ((rec.no_of_children * 500000) + (rec.parent_count * 1000000) + (rec.ss_amount*12) + (rec.wife_count * 1000000))
+#                 else:
+#                     line.month_tax = (line.gross_salary*0.80) - ((rec.no_of_children * 500000) + (rec.parent_count * 1000000) + (rec.ss_amount*12) + (rec.wife_count * 1000000))
+
+#                 if line.month_tax > 1 and line.month_tax <= 2000000:
+#                     tax_per = 0
+#                 if line.month_tax > 2000001 and line.month_tax <= 5000000:
+#                     tax_total = ((line.month_tax - 2000000)*0.05)
+#                     tax_per = 5
+#                 if line.month_tax > 5000001 and line.month_tax <= 10000000:
+#                     tax_total = (((line.month_tax - 5000000)*0.10)+150000)
+#                     tax_per = 10
+#                 if line.month_tax > 10000001 and line.month_tax <= 20000000:
+#                     tax_total = (((line.month_tax - 10000000)*0.15)+650000)
+#                     tax_per = 15
+#                 if line.month_tax > 20000001 and line.month_tax <= 30000000:
+#                     tax_total = (((line.month_tax - 20000000)*0.20)+2150000)
+#                     tax_per = 20
+#                 if line.month_tax > 30000001:
+#                     tax_total = (((line.month_tax - 30000000)*0.25)+4150000)
+#                     tax_per = 25
+
+
+#                 total_annual_tax = tax_total
+#                 line.month_tax = total_annual_tax / 12

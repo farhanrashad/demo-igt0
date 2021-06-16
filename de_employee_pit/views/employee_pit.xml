@@ -40,10 +40,11 @@
                                 <tree editable="bottom">
                                     <field name="months"/>
                                     <field name="month_salary"/>
+                                    <field name="arrears"/>
+                                    <field name="gross_salary"/>
                                     <field name="month_tax" force_tax="1"/>
                                     <field name="conversion_rate"/>
                                     <field name="converted_tax_amount"/>
-                                    <field name="arrears"/>
                                 </tree>
                             </field>
                         </page>
