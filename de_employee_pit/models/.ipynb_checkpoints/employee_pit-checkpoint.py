@@ -3,7 +3,6 @@ from odoo.exceptions import UserError
 from datetime import date, timedelta, datetime
 
 
-
 class EmployeeIncomeTax(models.Model):
     _name = 'employee.income.tax'
     _description = 'Employee PIT model'
