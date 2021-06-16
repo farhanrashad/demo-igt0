@@ -214,7 +214,7 @@ class PurchaseBudgetLines(models.Model):
                               ('date', '<=', date_to),
                               ]
                 elif line.categ_id:
-                    domain = [('account_id', '=', line.analytic_account_id.id)
+                    domain = [('account_id', '=', line.analytic_account_id.id),
                               ('product_id', 'in', product_ids),
                               ('date', '>=', date_from),
                               ('date', '<=', date_to),
@@ -265,7 +265,7 @@ class PurchaseBudgetLines(models.Model):
                               ('date', '<=', self.date_to),
                               ]
             elif self.categ_id:
-                    action['domain'] = [('account_id', '=', self.analytic_account_id.id)
+                    action['domain'] = [('account_id', '=', self.analytic_account_id.id),
                               ('product_id', 'in', product_ids),
                               ('date', '>=', self.date_from),
                               ('date', '<=', self.date_to),
