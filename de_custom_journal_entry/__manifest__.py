@@ -22,6 +22,7 @@
     # always loaded
     'data': [
         'security/account_security.xml',
+        'wizard/custom_entry_refuse_wizard.xml',
         'security/ir.model.access.csv',
         'views/custom_entry_menu.xml',
         'views/custom_entry_type_views.xml',
