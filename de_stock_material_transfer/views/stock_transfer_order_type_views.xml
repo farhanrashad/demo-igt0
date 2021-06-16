@@ -37,6 +37,8 @@
                                 <field name="disallow_staging"/>
                                 <field name="automated_sequence"/>
                                 <field name="sequence_code" attrs="{'invisible':[('automated_sequence','=',False)]}"/>
+                                <field name="sequence_id" attrs="{'invisible':[('automated_sequence','=',False)]}"/>
+
                             </group>
                             <group>
                                 <field name="company_id"/>

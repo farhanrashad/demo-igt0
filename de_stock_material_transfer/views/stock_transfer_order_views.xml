@@ -181,6 +181,7 @@
                                 <tree string="Transfer Order lines" editable="bottom">
                                     <field name="product_id" id="product_filtered" domain="[('categ_id', 'in', categ_control_ids)]" options="{'no_create':True}" required="1"/>
                                     
+                                    
 
                                     <field name="categ_control_ids" invisible="1"/>
                                     <field name="name"/>

@@ -5,22 +5,23 @@ from odoo import api, fields, models, _
 class TransferOrderException(models.Model):
     _name = "stock.transfer.exception.type"
     _description = "Transfer Exception"
+    _order = 'sequence, id'
 
-    code = fields.Char(string='Code', size=2, required=True)
-    name = fields.Char(string='Name', required=True)
+    code = fields.Char(string='Code', size=3, copy=False)
+    name = fields.Char(string='Name', )
     message_type = fields.Selection([
         ('none', 'None'),
         ('warning', 'Warning'),
         ('block', 'Block Message'),
-    ], string='Message Type', default='none', required=True)
-    message = fields.Char(string='Message', required=True)
+    ], string='Message Type', default='none', )
+    message = fields.Char(string='Message', )
     sequence = fields.Integer(default=1)
-    transfer_order_type_id = fields.Many2one('stock.transfer.order.type', string='Transfer Type', copy=False)
-    transfer_order_category_id = fields.Many2one('stock.transfer.order.category', string='Transfer Category', copy=False, domain="[('transfer_order_type_id','=',transfer_order_type_id)]")
+    transfer_order_type_id = fields.Many2one('stock.transfer.order.type', string='Transfer Type', )
+    transfer_order_category_id = fields.Many2one('stock.transfer.order.category', string='Transfer Category', domain="[('transfer_order_type_id','=',transfer_order_type_id)]")
 
-    stage_id = fields.Many2one('stock.transfer.order.stage', domain="[('transfer_order_type_ids','=',transfer_order_type_id)]", string='Add Stage', copy=False)
-    apply_stage_id = fields.Many2one('stock.transfer.order.stage', domain="[('transfer_order_type_ids','=',transfer_order_type_id)]", string='Apply On', copy=False)
-    exec_stage_id = fields.Many2one('stock.transfer.order.stage', domain="[('transfer_order_type_ids','=',transfer_order_type_id)]", string='Execute On', copy=False)
+    stage_id = fields.Many2one('stock.transfer.order.stage', domain="[('transfer_order_type_ids','=',transfer_order_type_id)]", string='Add Stage')
+    apply_stage_id = fields.Many2one('stock.transfer.order.stage', domain="[('transfer_order_type_ids','=',transfer_order_type_id)]", string='Apply On')
+    exec_stage_id = fields.Many2one('stock.transfer.order.stage', domain="[('transfer_order_type_ids','=',transfer_order_type_id)]", string='Execute On')
     stage_auto_apply = fields.Boolean(string='Stage Auto Apply')
     picking_type_id = fields.Many2one('stock.picking.type', 'Operation Type', )
     location_src_id = fields.Many2one('stock.location', string='Source Location',  )

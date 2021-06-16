@@ -65,11 +65,11 @@ class StockMoveLine(models.Model):
             else:
                 line.stock_transfer_order_id = False
             
-    @api.onchange('product_id')
-    def _onchange_product_id(self):
-        for line in self:
-            if line.picking_id.stock_transfer_order_id:
-                line.location_dest_id = line.move_id.stock_transfer_order_line_id.location_dest_id.id
+    #@api.onchange('product_id')
+    #def _onchange_product_id(self):
+        #for line in self:
+            #if line.picking_id.stock_transfer_order_id:
+                #line.location_dest_id = line.move_id.stock_transfer_order_line_id.location_dest_id.id
                 
     @api.model_create_multi
     def create(self, vals_list):
