@@ -3,7 +3,7 @@
     'name': "Purchase Budget",
 
     'summary': """
-        Purchase Budget
+        Purchase Budget 
         """,
 
     'description': """
