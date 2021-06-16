@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <report
+                id="employee_details_report"
+                model="hr.employee"
+                string="Employee Details Report"
+                report_type="xlsx"
+                name="de_hr_employee_details_report.hr_employee_report_xlsx"
+                file="Employee Details Report"
+        />
+    </data>
+</odoo>
