@@ -121,7 +121,7 @@ class ReportGeneralLedger(models.AbstractModel):
         account_res = []
         for account in accounts:
             if account_name:
-                if account_name == account.id:
+                if  account.id in account_name:
                     currency = account.currency_id and account.currency_id or account.company_id.currency_id
                     res = dict((fn, 0.0) for fn in ['credit', 'debit', 'balance', 'bc_balance'])
                     res['code'] = account.code
@@ -177,7 +177,7 @@ class ReportGeneralLedger(models.AbstractModel):
                      self.env['account.journal'].search([('id', 'in', data['form']['journal_ids'])])]
 
         accounts = docs if model == 'account.account' else self.env['account.account'].search([])
-        account_id = docs.account_id.id
+        account_id = docs.account_id.ids
         currency_id = int(data['currency_id'])
         bc_company_id = self.env.company.id
         company = self.env['res.company'].search([('id', '=', bc_company_id)])

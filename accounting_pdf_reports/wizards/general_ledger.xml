@@ -11,7 +11,7 @@
             <field name="sortby" widget="radio"/>
             <field name="display_account" widget="radio"/>
             <field name="initial_balance"/>
-            <field name="account_id"/>
+            <field name="account_id"  widget='many2many_tags'/>
             <field name="currency_id"/>
             <newline/>
         </xpath>
