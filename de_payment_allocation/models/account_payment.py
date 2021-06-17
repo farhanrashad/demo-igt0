@@ -16,10 +16,10 @@ class AccountPayment(models.Model):
             for move_line in payment.move_id.line_ids:
                 if move_line.credit == 0.0:
                     for credit_line in move_line.matched_credit_ids:
-                        if payment.currency_id.id ==  credit_line.currency_id.id:
+                        if payment.currency_id.id ==  credit_line.credit_move_id.move_id.currency_id.id:
                             reconcile_amount = reconcile_amount + credit_line.credit_amount_currency
                         else:
-                            reconcile_amount = reconcile_amount + payment.currency_id._convert(credit_line.credit_amount_currency, credit_line.currency_id, credit_line.company_id, credit_line.move_id.date) 
+                            reconcile_amount = reconcile_amount + payment.currency_id._convert(credit_line.credit_amount_currency, credit_line.credit_move_id.move_id.currency_id, credit_line.credit_move_id.move_id.company_id, credit_line.credit_move_id.move_id.date) 
             payment.update({
                 'reconcile_amount' : reconcile_amount
             })
