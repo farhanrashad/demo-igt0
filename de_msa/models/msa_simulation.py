@@ -11,7 +11,7 @@ class msa_simulation(models.Model):
     
     msa_id = fields.Many2one('master.service.agreement', 'Master Service Agreement')
     site_billing_info_id = fields.Many2one('site.billing.info', 'Site Billing Info')
-    site_id = fields.Char('Site', readonly=True)
+    site_id = fields.Many2one('project.project', string='Site', readonly=True)
     region_factor = fields.Float('Region Factor')
     year = fields.Float(string='Year')
     head_lease_full_extra = fields.Boolean('Head Lease Full Extra', readonly=True)

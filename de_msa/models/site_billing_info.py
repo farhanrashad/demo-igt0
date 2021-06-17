@@ -1,10 +1,24 @@
 # -*- encoding: utf-8 -*-
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError
 
 
 class site_billing_info(models.Model):
     _name = 'site.billing.info'
+
+    
+    @api.model
+    def create(self, vals):
+        record_exists = self.search([('site_id', '=', vals['site_id'])])
+
+        if record_exists:
+            raise UserError(('Site ('+str(record_exists.site_id.name)+') in the current MSA already exists!'))
+        else:
+            pass
+           
+        rec = super(site_billing_info, self).create(vals)
+        return rec
 
     name = fields.Char('Customer Site Reference')
     site_id = fields.Many2one('project.project', string='Site')
@@ -22,3 +36,5 @@ class site_billing_info(models.Model):
     network_type_id = fields.Many2one('network.type', 'Network Type')
     site_class = fields.Selection([('critical', 'Critical'), ('normal', 'Normal')], 'Site Class')
     msa_id = fields.Many2one('master.service.agreement', 'Master Service Agreement')  
+    
+    

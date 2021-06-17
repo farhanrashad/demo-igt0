@@ -9,39 +9,70 @@ from odoo.exceptions import UserError
 class master_service_agreement(models.Model):
     _name = 'master.service.agreement'
 
-    def tower_capex_rate(self):
+    def tower_capex_rate(self, site, period):
         tower_capex_rate = 0
         if self.tower_without_power_ids:
-            tower_line = self.env['tower.without.power'].search([('msa_id','=',self.id)], order="id desc", limit=1)
-            tower_capex_rate = tower_line.ip_fee_capex
+            model = self.env['monthly.tower.model'].search([('msa_id','=',self.id),('site_id','=',site.id),('period','=',period)], order="id desc", limit=1)
+            
+            if model:
+                id = model.tower_model.id
+                
+                for line in self.tower_without_power_ids:
+                    if line.tower_type.id == id:
+                        tower_capex_rate = line.ip_fee_capex
+                    
         return tower_capex_rate
     
-    def tower_opex_rate(self):
+    
+    def tower_opex_rate(self, site, period):
         tower_opex_rate = 0
         if self.tower_without_power_ids:
-            tower_line = self.env['tower.without.power'].search([('msa_id','=',self.id)], order="id desc", limit=1)
-            tower_opex_rate = tower_line.ip_fee_capex
+            model = self.env['monthly.tower.model'].search([('msa_id','=',self.id),('site_id','=',site.id),('period','=',period)], order="id desc", limit=1)
+            
+            if model:
+                id = model.tower_model.id
+                
+                for line in self.tower_without_power_ids:
+                    if line.tower_type.id == id:
+                        tower_opex_rate = line.ip_fee_opex
+
         return tower_opex_rate
     
-    def regional_factor(self):
+    def regional_factor(self, region):
         regional_factor = 0
         if self.location_factor_ids:
-            factor_line = self.env['location.factor'].search([('msa_id','=',self.id)], order="id desc", limit=1)
-            regional_factor = factor_line.factor
+            for loc_fac in self.location_factor_ids:
+                if loc_fac.state_id.id == region.id:
+                    regional_factor = loc_fac.factor
         return regional_factor
         
-    def wind_factor(self):        
+    def wind_factor(self, site, period):        
         wind_factor = 0
         if self.wind_factor_ids:
-            wind_line = self.env['wind.factor'].search([('msa_id','=',self.id)], order="id desc", limit=1)
-            wind_factor = wind_line.factor
+            model = self.env['monthly.tower.model'].search([('msa_id','=',self.id),('site_id','=',site.id),('period','=',period)], order="id desc", limit=1)
+            
+            if model:
+                id = model.tower_model.wind_factor.id
+                
+                if id:
+                    for line in self.wind_factor_ids:
+                        if line.name.id == id:
+                            wind_factor = line.factor
+            
         return wind_factor
     
-    def sla_factor(self):        
+    def sla_factor(self, site, period):        
         sla_factor = 0
         if self.sla_factor_ids:
-            sla_line = self.env['sla.factor'].search([('msa_id','=',self.id)], order="id desc", limit=1)
-            sla_factor = sla_line.factor
+            model = self.env['monthly.sla.factor'].search([('msa_id','=',self.id),('site_id','=',site.id),('period','=',period)], order="id desc", limit=1)
+            
+            if model:
+                id = model.sla_factor.id
+                
+                if id:
+                    for line in self.sla_factor_ids:
+                        if line.name.id == id:
+                            sla_factor = line.factor
         return sla_factor
         
     def collocation_discount_capex(self):
@@ -77,11 +108,19 @@ class master_service_agreement(models.Model):
                     opex_cpi = opex_cpi + opex_line.cpi
         return opex_cpi
     
-    def power_price_capex(self):
+    def power_price_capex(self, site, period):
         power_price_capex = 0
+        
         if self.power_prices_ids:
-            power_line = self.env['power.prices'].search([('msa_id','=',self.id)], order="id desc", limit=1)
-            power_price_capex = power_line.ip_fee_capex
+            model = self.env['monthly.power.model'].search([('msa_id','=',self.id),('site_id','=',site.id),('period','=',period)], order="id desc", limit=1)
+            
+            if model:
+                id = model.power_model.id
+                
+                for line in self.power_prices_ids:
+                    if line.power_type.id == id:
+                        power_price_capex = line.ip_fee_capex
+        
         return power_price_capex
             
     
@@ -123,59 +162,77 @@ class master_service_agreement(models.Model):
         invoicing_days = self.number_days_in_month
         monthly_lease_amount = self.monthly_lease_amount()[0] 
         
-        print('self.tower_capex_rate()',self.tower_capex_rate()) 
-        print('self.regional_factor()',self.regional_factor())
-        print('self.wind_factor_ids()',self.wind_factor())
-        print('self.collocation_discount()',self.collocation_discount_capex())
-        print('month_days',month_days)
-        print('invoicing_days',invoicing_days)
+        #period from date
+        month = self.simulation_date_from.month
+        month = str(month).zfill(2)
+        year = self.simulation_date_from.year
+        period = month+'/'+str(year)
+        
+        
+#         print('self.tower_capex_rate()',self.tower_capex_rate()) 
+#         print('self.regional_factor()',self.regional_factor())
+#         print('self.wind_factor_ids()',self.wind_factor())
+#         print('self.collocation_discount()',self.collocation_discount_capex())
+#         print('month_days',month_days)
+#         print('invoicing_days',invoicing_days)
         print('self.capex_cpi()',self.capex_cpi())
-#         ( (Tower Capex Rate*Regional Factor*Wind Factor*Collocation Discount)/No. of Days in Month)*Invoicing Days*Capex CPI
-        tower_without_power_capex = ((self.tower_capex_rate() * self.regional_factor() * self.wind_factor() * self.collocation_discount_capex()) / month_days) * invoicing_days * self.capex_cpi()
-
-#         ((Tower Opex Rate*Regional Factor*SLA Factor*Collocation Discount*Exchange Rate)/No. of Days in Month)* Invoicing Days
-#         Power Opex Rate ==fixme
-        tower_without_power_opex = ((self.tower_opex_rate() * self.regional_factor() * self.collocation_discount_opex() * self.exchange_rate) / month_days) * invoicing_days
-
-#         ((Power Capex Rate*Regional Factor*Collocation Discount)/No. of Days in Month)*Invoicing Days*Capex CPI
-        power_capex =  ((self.power_price_capex() * self.regional_factor() * self.collocation_discount_capex()) / month_days) * invoicing_days * self.capex_cpi()
-        
-#         (200-(Monthly Lease Amount/Exchange Rate))/(No.of Tenants+1)
-        lease_sharing = (200-(monthly_lease_amount / self.exchange_rate)) / (self.no_of_tenants()+1)
-
-#         Tower w/o Power Capex + Power Capex
-        ip_fees_capex = tower_without_power_capex - power_capex
-        
-#         ((Tower w/o Power Opex)+Lease Sharing)*Opex CPI
-        ip_fees_opex_tml =  (tower_without_power_opex + lease_sharing) * self.opex_cpi()
-        
-#         (Tower w/o Power Opex)+((Tower w/o Power Opex-Lease Amount))*Opex CPI
-        ip_fees_opex_oml = tower_without_power_opex + (tower_without_power_opex - monthly_lease_amount) * self.opex_cpi()
         
         
-        line = {
-            'region_factor': self.regional_factor(),
-            'ip_fee_capex': tower_without_power_capex,
-            'ip_fee_opex': tower_without_power_opex,
-            'opex_cpi': self.opex_cpi(),
-            'capex_escalation': self.capex_cpi(),
-            'collocation_capex': self.collocation_discount_capex(),
-            'collocation_opex': self.collocation_discount_opex(),
-            'power_fee_capex': power_capex,
-            'gross_ip_fee_capex': self.tower_capex_rate(),
-            'gross_ip_fee_opex': self.tower_opex_rate(),
-            'wind_factor': self.wind_factor(),
-            'sla_factor': self.sla_factor(),
-            'num_of_tenant': self.no_of_tenants(),
-            'invoicing_days': invoicing_days,
-            'head_lease': lease_sharing,
-            'simulation_date': self.simulation_date_from,
-            'ip_start_date': self.monthly_lease_amount()[1],
-            'site_id': self.monthly_lease_amount()[2],
-            'msa_id': self.id,
+        for line in self.site_billing_info_ids:
+            print('line.site_id',line.site_id.name)
+            #region from site
+            site_region = line.site_id.state_id
+            site = line.site_id
             
-        }
-        simulation_rec = self.msa_simulation_ids.create(line)
+#             raise UserError(self.sla_factor(line.site_id, period))
+    #         ( (Tower Capex Rate*Regional Factor*Wind Factor*Collocation Discount)/No. of Days in Month)*Invoicing Days*Capex CPI
+            tower_without_power_capex = ((self.tower_capex_rate(site, period) * self.regional_factor(site_region) * self.wind_factor(site, period) * self.collocation_discount_capex()) / month_days) * invoicing_days * self.capex_cpi()
+    
+    #         ((Tower Opex Rate*Regional Factor*SLA Factor*Collocation Discount*Exchange Rate)/No. of Days in Month)* Invoicing Days
+    #         Power Opex Rate ==fixme
+            tower_without_power_opex = ((self.tower_opex_rate(site, period) * self.regional_factor(site_region) * self.collocation_discount_opex() * self.exchange_rate) / month_days) * invoicing_days
+    
+    #         ((Power Capex Rate*Regional Factor*Collocation Discount)/No. of Days in Month)*Invoicing Days*Capex CPI
+            power_capex =  ((self.power_price_capex(site, period) * self.regional_factor(site_region) * self.collocation_discount_capex()) / month_days) * invoicing_days * self.capex_cpi()
+            
+    #         (200-(Monthly Lease Amount/Exchange Rate))/(No.of Tenants+1)
+            lease_sharing = (200-(monthly_lease_amount / self.exchange_rate)) / (self.no_of_tenants()+1)
+    
+    #         Tower w/o Power Capex + Power Capex
+            ip_fees_capex = tower_without_power_capex - power_capex
+            
+    #         ((Tower w/o Power Opex)+Lease Sharing)*Opex CPI
+            ip_fees_opex_tml =  (tower_without_power_opex + lease_sharing) * self.opex_cpi()
+            
+    #         (Tower w/o Power Opex)+((Tower w/o Power Opex-Lease Amount))*Opex CPI
+            ip_fees_opex_oml = tower_without_power_opex + (tower_without_power_opex - monthly_lease_amount) * self.opex_cpi()
+            
+            
+            line = {
+                'region_factor': self.regional_factor(site_region),
+                'ip_fee_capex': tower_without_power_capex,
+                'ip_fee_opex': tower_without_power_opex,
+                'opex_cpi': self.opex_cpi(),
+                'capex_escalation': self.capex_cpi(),
+                'collocation_capex': self.collocation_discount_capex(),
+                'collocation_opex': self.collocation_discount_opex(),
+                'power_fee_capex': power_capex,
+                'gross_ip_fee_capex': self.tower_capex_rate(site, period),
+                'gross_ip_fee_opex': self.tower_opex_rate(site, period),
+                'wind_factor': self.wind_factor(site, period),
+                'sla_factor': self.sla_factor(site, period),
+                'num_of_tenant': self.no_of_tenants(),
+                'invoicing_days': invoicing_days,
+                'head_lease': lease_sharing,
+                'simulation_date': self.simulation_date_from,
+                'ip_start_date': self.monthly_lease_amount()[1],
+#                 'site_id': self.monthly_lease_amount()[2],
+                'site_id': site.id,
+                'site_billing_info_id': line.id,
+                'msa_id': self.id,
+                
+            }
+            simulation_rec = self.msa_simulation_ids.create(line)
 #         raise UserError((tower_without_power_capex, tower_without_power_opex))
     
     def create_opex_invoice(self):
