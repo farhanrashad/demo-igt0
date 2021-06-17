@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <report
+                id="payslip_batch_report"
+                model="pay.slip.batch"
+                string="Payslip Batch Report"
+                report_type="xlsx"
+                name="de_payslip_batch_report.payslip_batch_report_xlsx"
+                file="Payslip Batch Report"
+        />
+    </data>
+</odoo>
