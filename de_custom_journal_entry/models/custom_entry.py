@@ -248,9 +248,21 @@ class CustomEntry(models.Model):
 
     def action_refuse(self):
         
-        self.update({
-            'stage_id' : self.stage_id.prv_stage_id.id,
-        })
+
+        
+        for rec in self:
+            selected_ids = rec.env.context.get('active_ids', [])
+            selected_records = rec.env['account.custom.entry'].browse(selected_ids)
+            return {
+            'name': ('Reason'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'custom.entry.refuse.wizard',
+            'view_id': False,
+            'type': 'ir.actions.act_window',
+            'target': 'new',
+            'context': {'default_custom_entry_id': self.id, 
+                       },}
         
         
     def action_submit(self):
