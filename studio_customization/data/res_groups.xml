@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="studio_customization.internal_requisition_29342efe-30c7-46a5-96c2-044a0f0a9dac" model="res.groups" context="{'studio': True}">
+    <field name="color" eval="False"/>
+    <field name="comment" eval="False"/>
+    <field name="implied_ids" eval="[(6, 0, [])]"/>
+    <field name="name">Stock Availability check by WH</field>
+    <field name="share" eval="False"/>
+  </record>
+  <record id="studio_customization.internal_requisition_913b2e54-9b45-4137-a707-326bac8ea29c" model="res.groups" context="{'studio': True}">
+    <field name="color" eval="False"/>
+    <field name="comment" eval="False"/>
+    <field name="implied_ids" eval="[(6, 0, [])]"/>
+    <field name="name">Verify By Asset Management</field>
+    <field name="share" eval="False"/>
+  </record>
+</odoo>

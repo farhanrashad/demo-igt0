@@ -1,0 +1,26 @@
+The following relational data haven't been exported because they either refer
+to a model that Studio doesn't export, or have no XML id:
+
+Record: studio_customization.internal_requisition_29342efe-30c7-46a5-96c2-044a0f0a9dac
+Model: res.groups
+Field: category_id
+Type: many2one
+Value: ir.module.category(150,) ('Internal Requisition')
+
+Record: studio_customization.internal_requisition_29342efe-30c7-46a5-96c2-044a0f0a9dac
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 312, 330, 400, 414, 421, 486, 549, 562) ('Administrator', 'Aung Zay Ya', 'Cho Thet Su', 'Kyaw Naing Win', 'L. Lay Lay Mee', 'May Myat Thu', 'Saw Thiri Khin', 'Yekhaing lin', 'Zaw Win Maung')
+
+Record: studio_customization.internal_requisition_913b2e54-9b45-4137-a707-326bac8ea29c
+Model: res.groups
+Field: category_id
+Type: many2one
+Value: ir.module.category(150,) ('Internal Requisition')
+
+Record: studio_customization.internal_requisition_913b2e54-9b45-4137-a707-326bac8ea29c
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 482) ('Administrator', 'Sartaj Ahmed')

@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="studio_customization.project_project_task_296b01c5-a479-4a33-8a13-4e70a3a37b5c" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="studio_customization.project_task_documen_9747d489-3924-4373-9a90-7958c5bfd40a"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Project Task Documents</field>
+    <field name="parent_id" ref="project.menu_main_pm"/>
+    <field name="sequence">101</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+</odoo>
