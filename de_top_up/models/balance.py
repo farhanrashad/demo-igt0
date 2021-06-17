@@ -5,6 +5,7 @@ from datetime import date, timedelta, datetime
 
 class TopUpBalance(models.Model):
     _name = 'topup.balance'
+    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _description = 'Top Up Balance model'
 
     def unlink(self):
@@ -29,7 +30,7 @@ class TopUpBalance(models.Model):
         ('confirmed', 'Confirmed'),
         ('closed', 'Closed'),
         ('cancelled', 'Cancelled'),
-    ], string='State', index=True, copy=False, default='draft', track_visibility='onchange')
+    ], string='State', index=True, copy=False, default='draft', tracking=True)
 
     topup_balance_lines = fields.One2many('topup.balance.line', 'balance_id')
 
@@ -53,9 +54,6 @@ class TopUpBalance(models.Model):
                 line_data.append((0,0,{
                 'operator': balanceline.operator,
                 'opening_balance': balanceline.balance,
-#                 'purchase_qty':  balanceline.purchase_qty,
-#                 'distributed_qty':balanceline.distributed_qty,
-#                 'balance': balanceline.balance,
                 'remarks': ' ',
                 }))
         else:
@@ -95,7 +93,7 @@ class TopUpBalance(models.Model):
 
     
 
-    date = fields.Date(string="Date", default=fields.date.today())
+    date = fields.Date(string="Date", default=fields.date.today(), tracking=True)
     pre_period = fields.Char(string="Previous Period", compute='_compute_previous_period')
     curr_period = fields.Char(string="Current Period",  compute='_compute_previous_period')
     is_populated = fields.Boolean('Is Populated')

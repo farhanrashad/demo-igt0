@@ -5,7 +5,7 @@ from datetime import date, timedelta, datetime
 
 class TopUpRequest(models.Model):
     _name = 'topup.request'
-    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin', 'sequence.mixin']
+    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _description = 'Top Up Request model'
 
 
@@ -33,7 +33,7 @@ class TopUpRequest(models.Model):
         ('approved', 'Approved'),
         ('cancelled', 'Cancelled'),
         ('distributed', 'Distributed')
-    ], string='State', index=True, copy=False, default='draft', track_visibility='onchange')
+    ], string='State', index=True, copy=False, default='draft' , tracking=True)
 
     topup_request_lines = fields.One2many('topup.request.line', 'request_id')
     topup_request_lines_category = fields.One2many('topup.request.category.line', 'request_id')
@@ -60,6 +60,34 @@ class TopUpRequest(models.Model):
 
     def action_distributed(self):
         self.state = 'distributed'
+        balance = self.env['topup.balance'].search([('curr_period','=',self.period),('state','=', 'confirmed')], limit=1)
+        telenor = 0
+        oredoo = 0
+        mpt = 0
+        mytel = 0
+        for request_line in  self.topup_request_lines:
+            telenor += request_line.telenor
+            oredoo += request_line.ooredoo
+            mpt += request_line.mpt  
+            mytel += request_line.mytel
+            
+        for balance_line in balance.topup_balance_lines:
+            if  balance_line.operator == 'telenor':       
+                balance_line.update({
+                    'distributed_qty': balance_line.distributed_qty + telenor
+                })
+            if  balance_line.operator == 'ooredoo':       
+                balance_line.update({
+                    'distributed_qty': balance_line.distributed_qty + oredoo
+                })
+            if  balance_line.operator == 'mpt':       
+                balance_line.update({
+                    'distributed_qty': balance_line.distributed_qty + mpt
+                })
+            if  balance_line.operator == 'mytel':       
+                balance_line.update({
+                    'distributed_qty': balance_line.distributed_qty + mytel
+                })    
 
     current_date = date.today()
     end_date = current_date + timedelta(days=30)
@@ -67,7 +95,7 @@ class TopUpRequest(models.Model):
     description = fields.Text(String="Description")
     period = fields.Char(string='Period', compute='_compute_account_period')
     
-    requester = fields.Many2one('res.users', default=lambda self: self.env.user, String="Requester", readonly=True)
+    requester = fields.Many2one('res.users', default=lambda self: self.env.user, String="Requester", readonly=True, tracking=True)
     department = fields.Many2one('hr.department', String="Department", related='requester.employee_id.department_id')
     representative_batch = fields.Selection(
         [('c-level', 'C-Level'), ('admin & fleet', 'Admin & Fleet'), ('documentation', 'Documentation'),
@@ -82,8 +110,8 @@ class TopUpRequest(models.Model):
          ('rollout & colocation', 'Rollout & Colocation'), ('procurement', 'Procurement'),
          ('supply chain', 'Supply Chain')],
         String="Representative Batch")
-    date = fields.Date(String="Date", default=fields.date.today())
-    type = fields.Selection([('employee benfit', 'Employee Benfit'), ('category use', 'Category Use')],
+    date = fields.Date(String="Date", default=fields.date.today(),  tracking=True)
+    type = fields.Selection([('employee benfit', 'Employee Benefit'), ('category use', 'Category Use')],
                             String="Type")
     is_level = fields.Boolean(String='Is C-Level?')
     additional_req = fields.Boolean(String="Additional Request?")
@@ -91,7 +119,15 @@ class TopUpRequest(models.Model):
     @api.depends('date')
     def _compute_account_period(self):
         for record in self:
-            record.period = record.date.strftime("%m/%Y")
+            record.period = record.date.strftime("%B-%Y")
+            
+    @api.onchange('date')
+    def onchange_date(self):        
+        employees = self.env['hr.employee'].search([('active_emp','=', True)])
+        for employee in employees:
+            employee.update({
+                'active_emp': False
+            })        
     
     
     @api.onchange('additional_req')
@@ -111,7 +147,7 @@ class EmployeeRequestLine(models.Model):
 
     request_id = fields.Many2one('topup.request')
 
-    employee = fields.Many2one('hr.employee', string="Employee")
+    employee = fields.Many2one('hr.employee', string="Employee", domain="[('active_emp','=', False)]")
     department = fields.Many2one('hr.department', string="Department", related="employee.department_id")
     telenor = fields.Integer(string="Telenor")
     ooredoo = fields.Integer(string="Ooredoo")
@@ -119,6 +155,15 @@ class EmployeeRequestLine(models.Model):
     mytel = fields.Integer(string="MYTEL")
     total = fields.Integer(string="Total", compute="_compute_total")
     remarks = fields.Char(string="Remarks")
+    
+    
+    @api.onchange('employee')
+    def onchange_employee(self):        
+        for line  in self:
+            line.employee.update({
+                'active_emp': True
+            })
+    
 
     @api.onchange('total')
     def total_const(self):
