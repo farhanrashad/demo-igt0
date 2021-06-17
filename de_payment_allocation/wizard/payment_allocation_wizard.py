@@ -106,16 +106,16 @@ class PaymentAllocation(models.Model):
     def action_allocate_payment(self):
         invoice_line = []
         line_ids = []
-        if self.payment_id.amount == self.payment_id.amount_residual:
+        if self.payment_id.amount == self.payment_id.reconcile_amount:
             raise UserError(_('This Payment Already reconciled'))  
         tot_invoice_amount = 0.0  
         tot_payment_amount = 0.0    
         for invoice in self.invoice_line_ids:
             if invoice.allocate == True:
-                if invoice.move_id.currency_id.id == self.payment_id.currency_id.id:
-                    tot_invoice_amount = tot_invoice_amount + invoice.allocate_amount  
-                else:
-                    tot_invoice_amount = tot_invoice_amount + invoice.move_id.currency_id._convert(invoice.allocate_amount, self.payment_id.currency_id, self.payment_id.company_id, self.payment_id.payment_date)  
+#                 if invoice.move_id.currency_id.id == self.payment_id.currency_id.id:
+                tot_invoice_amount = tot_invoice_amount + invoice.allocate_amount  
+#                 else:
+#                     tot_invoice_amount = tot_invoice_amount + invoice.move_id.currency_id._convert(invoice.allocate_amount, self.payment_id.currency_id, self.payment_id.company_id, self.payment_id.payment_date)  
         for payment_line in self.payment_line_ids:                    
             tot_payment_amount = tot_payment_amount + payment_line.allocate_amount
         if tot_invoice_amount  > tot_payment_amount:
@@ -170,6 +170,11 @@ class PaymentAllocationLine(models.Model):
     unallocate_amount = fields.Float(string='Unallocated Amount')
     allocate = fields.Boolean(string='Allocate')
     allocate_amount = fields.Float(string='allocate Amount')
+    currency_id = fields.Many2one('res.currency', store=True, readonly=True, tracking=True, required=False,
+        string='Currency')
+    original_currency_id = fields.Many2one('res.currency', store=True, readonly=True, tracking=True, required=False,
+        string='Payment Currency')
+    
     
     
     @api.onchange('allocate')
@@ -204,6 +209,10 @@ class InvoiceAllocationLine(models.Model):
     unallocate_amount = fields.Float(string='Unallocated Amount')
     allocate = fields.Boolean(string='Allocate')
     allocate_amount = fields.Float(string='allocate Amount')
+    currency_id = fields.Many2one('res.currency', store=True, readonly=True, tracking=True, required=False,
+        string='Currency')
+    original_currency_id = fields.Many2one('res.currency', store=True, readonly=True, tracking=True, required=False,
+        string='Invoice Currency')
     
     
     @api.onchange('allocate')

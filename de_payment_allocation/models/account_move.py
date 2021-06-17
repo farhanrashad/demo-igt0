@@ -30,10 +30,15 @@ class AccountMove(models.Model):
         payments = self.env['account.payment'].search([('partner_id','=',self.partner_id.id),('state','=','posted'),('is_reconciled','=', False)])     
         for  payment in  payments:
             payment_amount = 0.0
-            if payment.amount_residual == 0.0:
-                payment_amount = payment.amount
+            currency = 0
+            if payment.currency_id.id == self.currency_id.id:
+                payment_amount = payment.amount - payment.reconcile_amount
+                currency = self.currency_id.id
             else:
-                payment_amount = payment.amount_residual
+                process_amount = payment.amount - payment.reconcile_amount
+                payment_amount = payment.currency_id._convert(process_amount, self.currency_id, self.company_id, self.date)
+                currency = self.currency_id.id
+                
             payment_list.append((0,0,{
                     'payment_id': payment.id,
                     'payment_date': payment.date,
@@ -41,7 +46,8 @@ class AccountMove(models.Model):
                     'unallocate_amount': payment_amount,
                     'allocate': False,
                     'allocate_amount': payment_amount,
-                
+                    'original_currency_id': payment.currency_id.id,
+                    'currency_id': currency,                
             }))
             
         for rec in self:
@@ -59,6 +65,8 @@ class AccountMove(models.Model):
                     'unallocate_amount': inv.amount_residual,
                     'allocate': True,
                     'allocate_amount': inv.amount_residual,
+                    'original_currency_id': inv.currency_id.id,
+                    'currency_id': inv.currency_id.id,
                 }))    
         return {
             'name': ('Payment Allocation'),

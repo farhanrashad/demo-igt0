@@ -57,21 +57,33 @@ class AccountPayment(models.Model):
                     'unallocate_amount': payment_amount,
                     'allocate': True,
                     'allocate_amount': payment_amount,
+                    'currency_id': payment.currency_id.id,
+                    'original_currency_id': payment.currency_id.id,
                 }))
                 partner.append(payment.partner_id.id)
         uniq_partner =  set(partner) 
         for ppartner in uniq_partner:
-            invoices = self.env['account.move'].search([('partner_id','=',ppartner),('state','=','posted'),('payment_state','in', ('not_paid','partial'))]) 
-            
+            invoices = self.env['account.move'].search([('partner_id','=',ppartner),('state','=','posted'),('payment_state','in', ('not_paid','partial'))])             
             for  inv in invoices:
+                amount = 0.0
+                currency = 0
+                if inv.currency_id.id == self.currency_id.id:
+                    amount = inv.amount_residual
+                    currency = inv.currency_id.id 
+                else:
+                    amount = inv.currency_id._convert(inv.amount_residual, self.currency_id, self.company_id, self.date)
+                    currency = self.currency_id.id 
+
                 invoice_list.append((0,0,{
                     'move_id': inv.id,
                     'payment_date': inv.invoice_date,
                     'due_date': inv.invoice_date_due,
                     'invoice_amount': inv.amount_total,
-                    'unallocate_amount': inv.amount_residual,
+                    'unallocate_amount': amount,
                     'allocate': False,
-                    'allocate_amount': inv.amount_residual,
+                    'allocate_amount': amount,
+                    'currency_id': currency,
+                    'original_currency_id': inv.currency_id.id, 
                 }))    
         return {
             'name': ('Payment Allocation'),
