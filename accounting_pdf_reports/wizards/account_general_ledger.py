@@ -10,7 +10,7 @@ class AccountReportGeneralLedger(models.TransientModel):
     _description = "General Ledger Report"
     
     
-    account_id = fields.Many2one('account.account', string='Account')
+    account_id = fields.Many2many('account.account', string='Account')
     initial_balance = fields.Boolean(string='Include Initial Balances',
                                      help='If you selected date, this field allow you to add a row to display the amount of debit/credit/balance that precedes the filter you\'ve set.')
     sortby = fields.Selection([('sort_date', 'Date'), ('sort_journal_partner', 'Journal & Partner')], string='Sort by',
@@ -26,6 +26,6 @@ class AccountReportGeneralLedger(models.TransientModel):
             raise UserError(_("You must define a Start Date"))
         records = self.env[data['model']].browse(data.get('ids', []))
         data = {'form': data['form'], 'currency_id': self.currency_id.id,
-                'currency_symbol': self.currency_id.symbol, 'account_id': self.account_id.id}
+                'currency_symbol': self.currency_id.symbol, 'account_id': self.account_id.ids}
         return self.env.ref('accounting_pdf_reports.action_report_general_ledger').with_context(
             landscape=True).report_action(records, data=data)
