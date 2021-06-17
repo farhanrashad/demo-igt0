@@ -62,6 +62,9 @@
                 <!--                <field name='employee'/>-->
                 <field name='name'/>
                 <field name="state"/>
+                <field name='date'/>
+                <field name='pre_period'/>
+                <field name='curr_period'/>
             </tree>
         </field>
     </record>

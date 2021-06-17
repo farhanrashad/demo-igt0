@@ -84,6 +84,14 @@
                 <!--                <field name='employee'/>-->
                 <field name='department'/>
                 <field name="state"/>
+                <field name='description'/>
+                <field name='period'/>
+                <field name='requester'/>
+                <field name='representative_batch'/>
+                <field name='date'/>
+                <field name='type'/>
+                <field name='is_level' string="Is C-Level?"/>
+                <field name='additional_req'/>
             </tree>
         </field>
     </record>
