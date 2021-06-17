@@ -49,6 +49,8 @@ class AccountMove(models.Model):
             selected_records = rec.env['account.move'].browse(selected_ids)
             
             for  inv in selected_records:
+                if inv.state == 'draft':
+                    raise UserError(_('Only Posted Invoice are allow to Reconcile!'))
                 invoice_list.append((0,0,{
                     'move_id': inv.id,
                     'payment_date': inv.invoice_date,

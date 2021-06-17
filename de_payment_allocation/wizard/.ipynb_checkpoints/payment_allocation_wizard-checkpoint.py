@@ -51,6 +51,21 @@ class PaymentAllocation(models.Model):
                 
                 
     def action_allocate_invoice_payment(self):
+        tot_payment_amount = 0.0
+        tot_invoice_amount = 0.0  
+        for invoice in self.invoice_line_ids:
+            if invoice.allocate == True:
+                tot_invoice_amount = tot_invoice_amount + invoice.allocate_amount  
+                
+        for payment_line in self.payment_line_ids: 
+            if payment_line.allocate == True:
+                if payment_line.payment_id.currency_id.id == self.move_id.currency_id.id:
+                    tot_payment_amount = tot_payment_amount + payment_line.allocate_amount
+                else:
+                    tot_payment_amount = tot_payment_amount + payment_line.payment_id.currency_id._convert(payment_line.allocate_amount, self.move_id.currency_id, self.move_id.company_id, self.move_id.date)
+
+        if tot_payment_amount > tot_invoice_amount :
+            raise UserError(_('You Are Not Allowed To Enter Amount greater than '+str(tot_invoice_amount)))
        
         for payment in self.payment_line_ids:
             if payment.allocate == True:
@@ -69,19 +84,20 @@ class PaymentAllocation(models.Model):
                     'exchange_move_id': self.move_id.id,
                 }
                 reconcile_id = self.env['account.full.reconcile'].create(recocile_vals)
-                
+                amount_reconcile = 0.0
+                if payment.payment_id.currency_id.id == self.move_id.currency_id.id:
+                    amount_reconcile = payment.allocate_amount
+                else:
+                    amount_reconcile = payment.payment_id.currency_id._convert(payment.allocate_amount, self.move_id.currency_id, self.move_id.company_id, self.move_id.date)    
                 vals = {
                     'full_reconcile_id': reconcile_id.id,
                     'amount':  payment.allocate_amount,
                     'credit_move_id':  credit_line,
                     'debit_move_id': payment_debit_line,
-                    'credit_amount_currency': payment.allocate_amount,
-                    'debit_amount_currency': payment.allocate_amount,
+                    'credit_amount_currency': amount_reconcile,
+                    'debit_amount_currency': amount_reconcile,
                 }
                 partial_payment = self.env['account.partial.reconcile'].create(vals)
-                payment.update({
-                    'amount_residual': self.payment_id.amount_residual + payment.allocate_amount
-                })
                 
         
                 
@@ -96,8 +112,10 @@ class PaymentAllocation(models.Model):
         tot_payment_amount = 0.0    
         for invoice in self.invoice_line_ids:
             if invoice.allocate == True:
-                tot_invoice_amount = tot_invoice_amount + invoice.allocate_amount  
-                
+                if invoice.move_id.currency_id.id == self.payment_id.currency_id.id:
+                    tot_invoice_amount = tot_invoice_amount + invoice.allocate_amount  
+                else:
+                    tot_invoice_amount = tot_invoice_amount + invoice.move_id.currency_id._convert(invoice.allocate_amount, self.payment_id.currency_id, self.payment_id.company_id, self.payment_id.payment_date)  
         for payment_line in self.payment_line_ids:                    
             tot_payment_amount = tot_payment_amount + payment_line.allocate_amount
         if tot_invoice_amount  > tot_payment_amount:
@@ -121,7 +139,13 @@ class PaymentAllocation(models.Model):
                     'exchange_move_id': invoice.move_id.id,
                 }
                 reconcile_id = self.env['account.full.reconcile'].create(recocile_vals)
+                 
                 
+                amount_reconcile = 0.0
+                if invoice.move_id.currency_id.id == self.payment_id.currency_id.id:
+                    amount_reconcile = invoice.allocate_amount
+                else:
+                    amount_reconcile = invoice.move_id.currency_id._convert(invoice.allocate_amount, self.payment_id.currency_id, self.payment_id.company_id, self.payment_id.payment_date) 
                 vals = {
                     'full_reconcile_id': reconcile_id.id,
                     'amount':  invoice.allocate_amount,
@@ -131,9 +155,6 @@ class PaymentAllocation(models.Model):
                     'debit_amount_currency': invoice.allocate_amount,
                 }
                 payment = self.env['account.partial.reconcile'].create(vals)
-                self.payment_id.update({
-                    'amount_residual': self.payment_id.amount_residual + invoice.allocate_amount
-                })
                 
                 
     
@@ -159,11 +180,14 @@ class PaymentAllocationLine(models.Model):
         invoice_amount = self.allocation_id.move_id.amount_residual     
         for inv in self:
             if inv.allocate == True:
-                payment_amount = payment_amount + inv.allocate_amount
-                    
+                if inv.payment_id.currency_id.id == self.allocation_id.move_id.id:                              
+                    payment_amount = payment_amount + inv.allocate_amount   
+                else:
+                    payment_amount = payment_amount +  inv.payment_id.currency_id._convert(inv.allocate_amount, inv.allocation_id.move_id.currency_id, inv.allocation_id.move_id.company_id, inv.allocation_id.move_id.date)
+
         if  invoice_amount <  payment_amount:
             amount = payment_amount - invoice_amount
-            raise UserError(_('Allocate Amount cannot be greater than '+str(amount)))
+            raise UserError(_('Allocate Amount cannot be greater than '+str(payment_amount)))
 
     
     
@@ -181,6 +205,7 @@ class InvoiceAllocationLine(models.Model):
     allocate = fields.Boolean(string='Allocate')
     allocate_amount = fields.Float(string='allocate Amount')
     
+    
     @api.onchange('allocate')
     def onchange_allocate(self):
         payment_amount = 0.0
@@ -190,11 +215,15 @@ class InvoiceAllocationLine(models.Model):
             payment_amount = payment.allocate_amount     
         for inv in self:
             if inv.allocate == True:
-                inv_amount = inv_amount + inv.allocate_amount
-                    
+                if inv.move_id.currency_id.id == inv.allocation_id.payment_id.currency_id.id:                
+                    inv_amount = inv_amount + inv.allocate_amount
+                else:
+                    inv_amount = inv_amount + inv.move_id.currency_id._convert(inv.allocate_amount, inv.allocation_id.payment_id.currency_id, inv.allocation_id.payment_id.company_id, inv.allocation_id.payment_id.payment_date)
+
+
         if  payment_amount <  inv_amount:
             amount = inv_amount - payment_amount
-            raise UserError(_('Allocate Amount cannot be greater than '+str(amount)))
+            raise UserError(_('Allocate Amount cannot be greater than '+str(payment_amount)))
 
             
             

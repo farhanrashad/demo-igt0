@@ -15,8 +15,11 @@ class AccountPayment(models.Model):
             reconcile_amount = 0.0
             for move_line in payment.move_id.line_ids:
                 if move_line.credit == 0.0:
-                    for credit_line in move_line.match_credit_ids:
-                        reconcile_amount = reconcile_amount + credit_line.credit_amount_currency
+                    for credit_line in move_line.matched_credit_ids:
+                        if payment.currency_id.id ==  credit_line.currency_id.id:
+                            reconcile_amount = reconcile_amount + credit_line.credit_amount_currency
+                        else:
+                            reconcile_amount = reconcile_amount + payment.currency_id._convert(credit_line.credit_amount_currency, credit_line.currency_id, credit_line.company_id, credit_line.move_id.date) 
             payment.update({
                 'reconcile_amount' : reconcile_amount
             })
@@ -40,15 +43,13 @@ class AccountPayment(models.Model):
             
             
         for  payment in  selected_records:
-            if self.is_reconciled == True:
-                raise UserError_(('This Payment Already Reconciled'))
-            else:
-                payment_amount = 0.0
-                if payment.amount_residual == 0.0:
-                    payment_amount = payment.amount
-                else:
-                    payment_amount = payment.amount_residual
-
+            if payment.state == 'draft':
+                raise UserError(_('Only Posted Payment are allow to Reconcile!'))
+            if payment.is_reconciled == True:
+                raise UserError(_('This Payment Already Reconciled'))
+            else:                
+                payment_amount = payment.amount - payment.reconcile_amount
+               
                 payment_list.append((0,0,{
                     'payment_id': payment.id,
                     'payment_date': payment.date,
