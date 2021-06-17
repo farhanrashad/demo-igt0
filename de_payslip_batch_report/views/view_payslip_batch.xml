@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="view_payslip_batch" model="ir.ui.view">
+            <field name="name">hr.payslip.run.form</field>
+            <field name="model">hr.payslip.run</field>
+            <field name="inherit_id" ref="	hr_payroll.hr_payslip_run_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="%(de_payslip_batch_report.action_payslip_batch_wizard)d"
+                            string="Generate Payslip Report"
+                            type="action"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_payslip_batch_wizard" model="ir.ui.view">
+            <field name="name">pay.slip.batch.wizard</field>
+            <field name="model">pay.slip.batch</field>
+            <field name="arch" type="xml">
+                <form string="Payblip Batch wizard">
+                    <group>
+                        <field name="name"/>
+                    </group>
+<!--                    <footer>-->
+<!--                        <button name="" type="object" string="Create New" class="oe_highlight"/>-->
+<!--                        or-->
+<!--                        <button string="Cancel" class="oe_link" special="cancel"/>-->
+<!--                    </footer>-->
+                </form>
+            </field>
+        </record>
+
+        <record id="action_payslip_batch_wizard" model="ir.actions.act_window">
+            <field name="name">Payslip Batch Data</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pay.slip.batch</field>
+            <field name="view_id" ref="view_payslip_batch_wizard"/>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</odoo>
