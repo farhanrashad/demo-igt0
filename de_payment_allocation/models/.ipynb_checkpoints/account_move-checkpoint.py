@@ -23,6 +23,14 @@ class AccountMove(models.Model):
         
     
     def allocate_invoice_payment(self):
+        currency_accuracy = self.env['decimal.precision'].search([('name','=','Currency Conversion')], limit=1)
+        if not currency_accuracy:
+            decimal_vals = {
+                'name' : 'Currency Conversion',
+                'digits':  10,
+            }
+            accuracy = self.env['decimal.precision'].create(decimal_vals)
+            
         payment_list = []
         invoice_list = []
         partner = []

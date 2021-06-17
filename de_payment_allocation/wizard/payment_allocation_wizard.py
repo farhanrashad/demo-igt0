@@ -112,10 +112,8 @@ class PaymentAllocation(models.Model):
         tot_payment_amount = 0.0    
         for invoice in self.invoice_line_ids:
             if invoice.allocate == True:
-#                 if invoice.move_id.currency_id.id == self.payment_id.currency_id.id:
                 tot_invoice_amount = tot_invoice_amount + invoice.allocate_amount  
-#                 else:
-#                     tot_invoice_amount = tot_invoice_amount + invoice.move_id.currency_id._convert(invoice.allocate_amount, self.payment_id.currency_id, self.payment_id.company_id, self.payment_id.payment_date)  
+
         for payment_line in self.payment_line_ids:                    
             tot_payment_amount = tot_payment_amount + payment_line.allocate_amount
         if tot_invoice_amount  > tot_payment_amount:
@@ -145,14 +143,14 @@ class PaymentAllocation(models.Model):
                 if invoice.move_id.currency_id.id == self.payment_id.currency_id.id:
                     amount_reconcile = invoice.allocate_amount
                 else:
-                    amount_reconcile = invoice.move_id.currency_id._convert(invoice.allocate_amount, self.payment_id.currency_id, self.payment_id.company_id, self.payment_id.payment_date) 
+                    amount_reconcile = self.payment_id.currency_id._convert(invoice.allocate_amount, invoice.move_id.currency_id, invoice.move_id.company_id, invoice.move_id.date) 
                 vals = {
                     'full_reconcile_id': reconcile_id.id,
                     'amount':  invoice.allocate_amount,
                     'credit_move_id':  credit_line,
                     'debit_move_id': payment_debit_line,
-                    'credit_amount_currency': invoice.allocate_amount,
-                    'debit_amount_currency': invoice.allocate_amount,
+                    'credit_amount_currency': amount_reconcile,
+                    'debit_amount_currency': amount_reconcile,
                 }
                 payment = self.env['account.partial.reconcile'].create(vals)
                 
@@ -227,7 +225,7 @@ class InvoiceAllocationLine(models.Model):
                 if inv.move_id.currency_id.id == inv.allocation_id.payment_id.currency_id.id:                
                     inv_amount = inv_amount + inv.allocate_amount
                 else:
-                    inv_amount = inv_amount + inv.move_id.currency_id._convert(inv.allocate_amount, inv.allocation_id.payment_id.currency_id, inv.allocation_id.payment_id.company_id, inv.allocation_id.payment_id.payment_date)
+                    inv_amount = inv_amount + inv.move_id.currency_id._convert(inv.allocate_amount, inv.allocation_id.payment_id.currency_id, inv.allocation_id.payment_id.company_id, inv.allocation_id.payment_id.date)
 
 
         if  payment_amount <  inv_amount:
