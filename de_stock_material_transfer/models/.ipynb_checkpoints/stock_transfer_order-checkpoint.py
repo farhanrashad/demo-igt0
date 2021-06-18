@@ -475,7 +475,7 @@ class StockTransferOrder(models.Model):
                         order.picking_state = 'FS'
                     elif all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)) and any(picking.state in ('waiting','confirmed','assigned') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
                         order.picking_state = 'RT'
-                    elif all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)) and any(picking.state in ('waiting','confirmed','assigned') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
+                    elif all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)) and all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
                         order.picking_state = 'CL'
                              
                         #if any(picking.state in ('waiting','confirmed','assigned') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
@@ -746,6 +746,7 @@ class StockTransferOrder(models.Model):
         })
         for txn in self.stock_transfer_txn_line:
             txn.txn_action = 'open'
+            txn.sudo().unlink()
             
     def action_submit(self):
         #self.ensure_one()
@@ -771,6 +772,31 @@ class StockTransferOrder(models.Model):
         self.write({'state': 'done'})
         
     def process_txn_stage(self):
+        exceptions = self.env['stock.transfer.exception.type'].search([('transfer_order_type_id','=',self.transfer_order_type_id.id),('transfer_order_category_id','=',self.transfer_order_category_id.id),('apply_stage_id','=',self.stage_id.id),('stage_auto_apply','=',True)])
+        #self.stock_transfer_txn_line.filtered(filtered(lambda mo: mo.state not in ['cancel', 'draft', 'done'])
+        for exception in exceptions:
+            #self.stock_transfer_txn_line.filtered(filtered(lambda txn: txn.transfer_exception_type_id.id == exception.id).unlink()
+            for line in self.stock_transfer_txn_line:
+                if line.transfer_exception_type_id.id == exception.id:
+                    line.unlink()
+            self.env['stock.transfer.txn.line'].create({
+                'stock_transfer_order_id': self.id,
+                'transfer_exception_type_id': exception.id,
+            })
+
+            #if self.stock_transfer_txn_line:
+             #   for line in self.stock_transfer_txn_line:
+              #      if not line.transfer_exception_type_id.id == exception.id:
+               #         self.env['stock.transfer.txn.line'].create({
+                #            'stock_transfer_order_id': self.id,
+                 #           'transfer_exception_type_id': exception.id,
+                  #      })
+            #else:
+             #   self.env['stock.transfer.txn.line'].create({
+              #      'stock_transfer_order_id': self.id,
+               #     'transfer_exception_type_id': exception.id, 
+                #})
+                
         for order in self:
             if order.next_stage_id.id == order.curr_txn_stage_id.id or order.curr_txn_type_id.exec_stage_id.id == order.stage_id.id:
                 for txn in self.stock_transfer_txn_line.filtered(lambda t: t.transfer_exception_type_id.id == order.curr_txn_type_id.id):
@@ -783,6 +809,8 @@ class StockTransferOrder(models.Model):
                     #for line in order.stock_transfer_return_line:
                      #   if txn.transfer_exception_type_id.location_dest_id:
                       #      line.location_dest_id = txn.transfer_exception_type_id.location_dest_id.id
+        
+            
     
     def create_delivery(self):
         self._create_delivery()
