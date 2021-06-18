@@ -14,7 +14,7 @@
     'maintainer': 'Dynexcel',
     'support': 'info@dynexcel.com',
     'website': 'https://www.dynexcel.com',
-    'depends': ['account'],
+    'depends': ['account', 'de_account_fin_period', 'de_account_analytic_default'],
     'demo': [],
     'data': [
         'security/ir.model.access.csv',
