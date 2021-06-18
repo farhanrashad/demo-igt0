@@ -217,4 +217,4 @@ class EmployeeIncomeTaxLine(models.Model):
                 if rec.taxable_income > 30000001:
                     taxable_total = (((rec.taxable_income - 30000000) * 0.25) + 4150000)
 
-                rec.month_tax = taxable_total
+                rec.month_tax = (taxable_total/12)
