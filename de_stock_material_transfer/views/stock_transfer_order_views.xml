@@ -382,8 +382,13 @@
                 <separator/>
                 <filter name="draft" string="Draft" domain="[('stage_category', '=', 'draft')]"/>
                 <filter name="pending" string="Pending" domain="[('stage_category', '=', 'progress')]"/>
-                <filter name="confirm" string="Confirmed" domain="[('user_id', '=', ['confirm','close'])]"/>
+                <filter name="confirm" string="Confirmed" domain="[('stage_category', '=', ['confirm','transfer'])]"/>
                 <separator/>
+                <filter name="expired" string="Closed" domain="[('stage_category', '=', ['confirm','close'])]"/>
+                <separator/>
+                <filter name="confirm" string="Cancelled" domain="[('stage_category', '=', ['confirm','cancel'])]"/>
+                <separator/>
+                
                 <group expand="0" string="Group By">
                     <filter string="Requisition Type" name="transfer_order_type_id" context="{'group_by': 'transfer_order_type_id'}"/>
                     <filter string="Category" name="transfer_order_category_id" context="{'group_by': 'transfer_order_category_id'}"/>
@@ -493,7 +498,7 @@
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_transfer_returnable_order_line_tree_view')})]"/>
             <field name="search_view_id" ref="stock_transfer_order_line_search_view"/>
           <field name="context">{'create':False}</field>
-          <field name="domain">[('action_type','!=','normal')]</field>
+          <field name="domain">[('action_type','!=','normal'))]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Returnable Products
