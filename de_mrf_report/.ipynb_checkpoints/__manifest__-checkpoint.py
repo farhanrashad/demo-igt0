@@ -9,8 +9,9 @@
     "description": """"Generate MRF Report """,
     "author": "Dynexcel",
     "website": "http://www.dynexcel.co",
-    'depends': ['base','stock','purchase'],
+    'depends': ['base','stock','purchase','hr','de_stock_material_transfer'],
     'data': [
+        'views/view_stock_transfer_order.xml',
         'reports/mrf_report.xml',
     ],
     "installable": True,
