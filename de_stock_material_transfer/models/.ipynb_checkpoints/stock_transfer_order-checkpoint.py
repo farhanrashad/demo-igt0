@@ -142,7 +142,9 @@ class StockTransferOrder(models.Model):
     def _compute_all_picking(self):
         for order in self:
             picking_type_id = return_picking_type_id = False
-            location_src_id = location_dest_id = return_location_id = False
+            location_src_id = False
+            location_dest_id = False
+            return_location_id = False
             
             for txn in order.stock_transfer_txn_line:
                 if txn.transfer_exception_type_id.picking_type_id:
@@ -178,12 +180,12 @@ class StockTransferOrder(models.Model):
             
             for line in order.stock_transfer_order_line:
                 if not line.location_dest_id:
-                    line.location_dest_id = location_dest_id
-                line.location_src_id = location_src_id
+                    line.location_dest_id = order.location_dest_id.id
+                line.location_src_id = order.location_src_id.id
             for rline in order.stock_transfer_return_line:
-                line.location_dest_id = return_location_id
+                line.location_dest_id = order.return_location_id.id
                 if not line.location_src_id:
-                    line.location_src_id = location_dest_id
+                    line.location_src_id = order.location_dest_id.id
                     
                 
         
@@ -1129,7 +1131,7 @@ class StockTransferReturnLine(models.Model):
     supplier_id = fields.Many2one('res.partner', string='Supplier')
     project_id = fields.Many2one('project.project', string='Project')
     state = fields.Selection(related='stock_transfer_order_id.state')
-    location_src_id = fields.Many2one('stock.location', string='From', domain="[('id', 'child_of', parent.location_dest_id)]",)
+    location_src_id = fields.Many2one('stock.location', string='From', )
     location_dest_id = fields.Many2one('stock.location', string='To', )
     return_status = fields.Selection([
         ('draft', 'New'), ('cancel', 'Cancelled'),
@@ -1154,7 +1156,7 @@ class StockTransferReturnLine(models.Model):
             line.received_qty = self.env.cr.fetchone()[0] or 0.0
             
     @api.onchange('product_id')
-    def _onchange_product_id(self):
+    def _onchange_return_product_id(self):
         if self.product_id:
             self.name = self.product_id.product_tmpl_id.name
             self.product_uom = self.product_id.uom_po_id
