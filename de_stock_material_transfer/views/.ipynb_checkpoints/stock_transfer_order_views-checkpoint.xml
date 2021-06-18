@@ -380,13 +380,12 @@
                 <field name="stage_id"/>
                 <filter name="my_requisitions" string="My Requisitions" domain="[('user_id', '=', uid)]"/>
                 <separator/>
-                <filter name="draft" string="Draft" domain="[('stage_category', '=', 'draft')]"/>
-                <filter name="pending" string="Pending" domain="[('stage_category', '=', 'progress')]"/>
-                <filter name="confirm" string="Confirmed" domain="[('stage_category', '=', ['confirm','transfer'])]"/>
+                <filter name="filter_draft" string="Draft" domain="[('stage_category', '=', 'draft')]"/>
+                <filter name="filter_pending" string="Pending" domain="[('stage_category', '=', 'progress')]"/>
+                <filter name="filter_confirmed" string="Confirmed" domain="[('stage_category', 'in', ['confirm','transfer'])]"/>
                 <separator/>
-                <filter name="expired" string="Closed" domain="[('stage_category', '=', ['confirm','close'])]"/>
-                <separator/>
-                <filter name="confirm" string="Cancelled" domain="[('stage_category', '=', ['confirm','cancel'])]"/>
+                <filter name="filter_expired" string="Closed" domain="[('stage_category', 'in', ['close'])]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('stage_category', '=', 'cancel')]"/>
                 <separator/>
                 
                 <group expand="0" string="Group By">
@@ -497,8 +496,8 @@
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_transfer_returnable_order_line_tree_view')})]"/>
             <field name="search_view_id" ref="stock_transfer_order_line_search_view"/>
-          <field name="context">{'create':False}</field>
-          <field name="domain">[('action_type','!=','normal'))]</field>
+          <field name="context">{'create':False, 'search_default_filter_confirmed':True}</field>
+          <field name="domain">[('action_type','!=','normal')]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Returnable Products
