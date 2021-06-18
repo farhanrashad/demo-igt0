@@ -53,7 +53,7 @@ class PurchaseRequisition(models.Model):
         if self.env.context.get('requisition_revision_history'):
             prev_name = self.name
             revno = self.revision_number
-            self.write({'revision_number': revno + 1,'name': 'R' + %s-%02d' % (self.unrevisioned_name,revno + 1)})
+            self.write({'revision_number': revno + 1,'name': 'R' + '%s-%02d' % (self.unrevisioned_name,revno + 1)})
             defaults.update({'name': prev_name,'revision_number': revno,'revised':True,'active': True,'state': 'cancel','current_revision_id': self.id,'unrevisioned_name': self.unrevisioned_name,})
         return super(PurchaseRequisition, self).copy(defaults)
 
