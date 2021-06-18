@@ -12,7 +12,7 @@
                         <field name="doe"/>
                         <field name="debit_ac_no"/>
                         <field name="currency"/>
-
+                        <field name="batch_id" invisible="1"/>
                     </group>
                    <footer>
                        <button name="print_report" type="object" string="Generate Payslip xls Report" class="oe_highlight"/>
