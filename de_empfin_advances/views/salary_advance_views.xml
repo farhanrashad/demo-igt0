@@ -69,23 +69,24 @@
 		                    <group>
                                 <field name="currency_id" groups="base.group_multi_currency" attrs="{'readonly':[('state','!=','draft')]}" />
                                 <field name="company_id"  groups="base.group_multi_currency" attrs="{'readonly':[('state','!=','draft')]}" />
-                                <field name="employee_contract_id" required="1" groups="hr.group_hr_manager,hr.group_hr_user"/>
+                                <field name="employee_contract_id" required="1" invisible="1" groups="hr.group_hr_manager,hr.group_hr_user"/>
+                                <field name="product_id" required="1" string="Advance/Expense Type" attrs="{'readonly':[('state','!=','draft')]}" />
 	                    	</group>
                     	</group>
                         <notebook>
                             <page string="Lines">
-                               <field name="cash_line_ids">  
+                               <field name="cash_line_ids" attrs="{'readonly':[('state','in',('paid','cancel','close','reject'))]}" >
                                 <tree editable="bottom">
                                     <field name="currency_id" invisible="1" />
                                   <field name="type_id" attrs="{'readonly':[('state','!=','draft')]}" />
-                                 <field name="product_id" attrs="{'readonly':[('state','!=','draft')]}" />
+                                 <field name="product_id" attrs="{'readonly':[('state','!=','draft')]}" optional="hide"/>
                                  <field name="description" attrs="{'readonly':[('state','!=','draft')]}" />
                                  <field name="quantity" attrs="{'readonly':[('state','!=','draft')]}" />
                                  <field name="unit_price" attrs="{'readonly':[('state','!=','draft')]}" />
                                  <field name="total_amount" sum="Total"/>  
-                                 <field name="approved_amount" sum="Approved Amount" attrs="{'readonly':[('state','in',('paid','close','cancel', 'reject'))]}" />  
+                                 <field name="approved_amount" sum="Approved Amount" attrs="{'readonly':[('state','in',('paid','close','cancel', 'reject'))]}" groups="de_empfin_advances.group_hr_advance_finance_manager, de_empfin_advances.group_hr_advance_hr_manager"/>  
                                  <field name="remarks" attrs="{'readonly':[('state','!=','draft')]}" /> 
-                                 <field name="finance_remarks" attrs="{'readonly':[('state','!=','draft')]}" />   
+                                 <field name="finance_remarks" attrs="{'readonly':[('state','!=','draft')]}" groups="de_empfin_advances.group_hr_advance_finance_manager"/>   
                                  <field name="approved" attrs="{'readonly':[('state','!=','draft')]}" />
                                 <field name="state" readonly="1"/> 
                                 <field name="advance_id" invisible="1"/>
@@ -100,13 +101,13 @@
                                     <field name="amount_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
                                 </group>
                             </page>
-                            <page string="Accounting Information" name="accounting_info">
+                            <page string="Accounting Information" name="accounting_info" groups="de_empfin_advances.group_hr_advance_finance_manager">
                                 <group>
                                     <group string="Bill/Payment">
                                         <field name="deductable" />
                                         <field name="journal_type" invisible="1" />
-                                        <field name="partner_id" />
-                                        <field name="journal_id"  />
+                                        <field name="partner_id" attrs="{'required':[('state','=','approved')]}" />
+                                        <field name="journal_id"  attrs="{'required':[('state','=','approved')]}" />
                                         <field name="payment_id" attrs="{'invisible':[('journal_type','=','purchase')]}" />
                                         <field name="invoice_id" attrs="{'invisible':[('journal_type','!=','purchase')]}" />
                                         <field name="payment_date"  />
@@ -117,10 +118,10 @@
                                     </group>
                                     <group string="Expense">
                                         <field name="hr_expense_id" />
-                                        <field name="hr_expense_sheet_id" />
-                                        <field name="expense_deadline" string="Remittance Due Date"/>
-                                        <field name="remittance_outstanding_days" />
-                                        <field name="remittance_overdue_days" />
+                                        <field name="hr_expense_sheet_id" invisible="1"/>
+                                        <field name="expense_deadline" widget="remaining_days" string="Remittance Date"/>
+                                        <field name="remittance_outstanding_days" invisible="1"/>
+                                        <field name="remittance_overdue_days" invisible="1"/>
                                     </group>
                                 </group>
                             </page>
@@ -138,6 +139,8 @@
                     <field name="name"/>
                     <field name="employee_id"/>
                     <field name="date"/>
+                    <field name="expense_deadline" widget="remaining_days" string="Remittance Date"/>
+
                     <field name="amount_total"/>
                     <field name="state"/>
                 </tree>

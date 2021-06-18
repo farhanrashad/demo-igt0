@@ -35,11 +35,14 @@ class SalaryAdvancePayment(models.Model):
                               ('finance_approval', 'Waiting Finance Approval'),
                               ('accepted', 'Waiting Account Entries'),
                               ('approved', 'Waiting Payment'),
-                              ('paid', 'Paid'),
+                              ('paid', 'Open'),
                               ('close', 'Close'),
                               ('cancel', 'Cancelled'),
                               ('reject', 'Rejected')], string='Status', default='draft', track_visibility='onchange')
-    employee_contract_id = fields.Many2one('hr.contract', string='Contract', default=_default_get_contract, domain="[('employee_id','=',employee_id),('state','=','open')]")        
+    employee_contract_id = fields.Many2one('hr.contract', string='Contract', default=_default_get_contract, domain="[('employee_id','=',employee_id),('state','=','open')]")
+    
+    product_id = fields.Many2one('product.product', string='Product', domain="[('can_be_expensed','=', True)]", required=True, change_default=True)
+
         
     deductable = fields.Boolean(string='Deductable', default=False)
     partner_id = fields.Many2one('res.partner', 'Employee Partner', readonly=False, states={'paid': [('readonly', True)]},)
@@ -61,7 +64,7 @@ class SalaryAdvancePayment(models.Model):
     #expense details
     hr_expense_sheet_id = fields.Many2one('hr.expense.sheet', string='Expense Sheet', compute='_compute_expense_id')
     hr_expense_id = fields.Many2one('hr.expense', string='Expense', compute='_compute_expense_id')
-    expense_deadline = fields.Datetime(string='Expense Deadline', readonly=False, compute='_compute_expense_deadline', )
+    expense_deadline = fields.Datetime(string='Expense Deadline', compute='_compute_expense_deadline', )
     remittance_outstanding_days = fields.Integer(string='Remittance Outstanding day(s)', compute='_compute_remittance_days')
     remittance_overdue_days = fields.Integer(string='Remittance Overdue day(s)', compute='_compute_remittance_days')
 
@@ -81,15 +84,14 @@ class SalaryAdvancePayment(models.Model):
                 request.remittance_outstanding_days = 0
                 request.remittance_overdue_days = 0
             
-        
+    @api.depends('date')    
     def _compute_expense_deadline(self):  
         dt = False
         days = 0
         for request in self:
-            if request.hr_expense_sheet_id:
-                days = 30
-                dt = fields.Date.to_string(request.date + timedelta(days))
-        self.expense_deadline = dt
+            days = 30
+            dt = fields.Date.to_string(request.date + timedelta(days))
+            request.expense_deadline = dt
 
     
     def _compute_expense_id(self):
@@ -173,6 +175,8 @@ class SalaryAdvancePayment(models.Model):
         return result
 
     def submit_to_manager(self):
+        if not self.cash_line_ids:
+                raise UserError(_("You cannot submit advance request '%s' because there is no  line.", self.name))
         self.state = 'confirmed'
         for cash_line in self.cash_line_ids:
             cash_line.update({
@@ -258,7 +262,11 @@ class SalaryAdvancePayment(models.Model):
     
     def action_payment(self):
         invoice = False
-        account_id = self.account_id
+        if self.account_id:
+            account_id = self.account_id.id
+        else:
+            account_id = False
+            
         if self.journal_id.type == 'purchase':
             invoice = self.env['account.move']
             lines_data = []
@@ -271,7 +279,7 @@ class SalaryAdvancePayment(models.Model):
                     'product_id': line.product_id.id,
                     'name': line.description,
                     'price_unit': line.approved_amount,
-                    'account_id': account_id.id,
+                    'account_id': account_id,
                     'quantity': 1,
                 }])
             invoice.create({
@@ -325,7 +333,8 @@ class AdvancePayment(models.Model):
     _rec_name='description'
     
     type_id = fields.Many2one('hr.advance.type', string='Type')
-    product_id = fields.Many2one('product.product', string='Product', domain="[('can_be_expensed','=', True)]", required=True)
+    #product_id = fields.Many2one('product.product', string='Product', domain="[('can_be_expensed','=', True)]", required=True, change_default=True)
+    product_id = fields.Many2one('product.product', related='advance_id.product_id')
     description = fields.Char(related='product_id.name', string='Description')
     quantity = fields.Float(string='Qunatity', required=1, default=1.0)
     unit_price = fields.Float(string='Unit Price', required=True, default=1.0)

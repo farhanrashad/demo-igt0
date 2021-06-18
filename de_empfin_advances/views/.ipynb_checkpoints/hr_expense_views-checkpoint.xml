@@ -3,6 +3,7 @@
     <data>
         
         <!-- HR Expense Sheet -->
+        <!--
         <record model="ir.ui.view" id="view_hr_expense_sheet_form_inherit_advance">
             <field name="name">view.hr.expense.sheet.form.inherit.advance</field>
             <field name="model">hr.expense.sheet</field>
@@ -16,6 +17,7 @@
                 </xpath>
             </field>
         </record>
+-->
         
         <!-- HR Expense -->
         <record model="ir.ui.view" id="hr_expense_from_view_line">
@@ -24,8 +26,7 @@
             <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='product_id']" position="before">
-                    <field name="hr_salary_advance_id" options="{'no_create':True}"/>
-                    <field name="advance_line_id" options="{'no_create':True}"/>
+                    <field name="hr_salary_advance_id" domain="[('employee_id','=',employee_id),('state','=','paid')]" options="{'no_create':True}" attrs="{'readonly':[('state','!=','draft')]}"/>
                 </xpath>
             </field>
         </record>

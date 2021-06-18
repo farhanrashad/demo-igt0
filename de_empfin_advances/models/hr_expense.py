@@ -1,21 +1,60 @@
 # -*- coding: utf-8 -*-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import fields, models, _, api
+import re
+
+from odoo import api, fields, models, _
+from odoo.exceptions import UserError, ValidationError
+from odoo.tools import email_split, float_is_zero
 
 class HrExpenseSheet(models.Model):
     _inherit = 'hr.expense.sheet'
     
     hr_salary_advance_id  = fields.Many2one('hr.salary.advance', string='Advances Request', domain='[("employee_id","=", employee_id), ("state","in", ("paid","close"))]')
     
+    # --------------------------------------------
+    # Actions
+    # --------------------------------------------
+
+    def action_sheet_move_create(self):
+        samples = self.mapped('expense_line_ids.sample')
+        if samples.count(True):
+            if samples.count(False):
+                raise UserError(_("You can't mix sample expenses and regular ones"))
+            self.write({'state': 'post'})
+            return
+
+        if any(sheet.state != 'approve' for sheet in self):
+            raise UserError(_("You can only generate accounting entry for approved expense(s)."))
+
+        if any(not sheet.journal_id for sheet in self):
+            raise UserError(_("Expenses must have an expense journal specified to generate accounting entries."))
+
+        expense_line_ids = self.mapped('expense_line_ids')\
+            .filtered(lambda r: not float_is_zero(r.total_amount, precision_rounding=(r.currency_id or self.env.company.currency_id).rounding))
+        
+        res = expense_line_ids.action_move_create()
+        for sheet in self.filtered(lambda s: not s.accounting_date):
+            sheet.accounting_date = sheet.account_move_id.date
+        to_post = self.filtered(lambda sheet: sheet.payment_mode == 'own_account' and sheet.expense_line_ids)
+        to_post.write({'state': 'post'})
+        (self - to_post).write({'state': 'done'})
+        self.activity_update()
+        # change status of advances
+        for expense in expense_line_ids:
+            expense.hr_salary_advance_id.state = 'close'
+            expense.hr_salary_advance_id.hr_expense_id = expense.id
+        return res
+        
 
 class HrExpense(models.Model):
     _inherit = 'hr.expense'
     
     #hr_salary_advance_id  = fields.Many2one('hr.salary.advance', string='Advances Request', domain='[("employee_id","=", employee_id), ("state","in", ("paid","close"))]')
 
-    hr_salary_advance_id  = fields.Many2one('hr.salary.advance', string='Advances Request', domain='[("employee_id","=", employee_id), ("state","in", ("paid","close"))]')
+    hr_salary_advance_id  = fields.Many2one('hr.salary.advance', string='Advances Request', )
 
-    advance_line_id  = fields.Many2one('hr.salary.advance.line', string='Advances Line', domain='[("advance_id","=", hr_salary_advance_id)]')
+    #advance_line_id  = fields.Many2one('hr.salary.advance.line', string='Advances Line', domain='[("advance_id","=", hr_salary_advance_id)]')
 
     
     @api.depends('product_id', 'company_id')
@@ -33,11 +72,14 @@ class HrExpense(models.Model):
     
     
     
-    @api.onchange('advance_line_id')
+    @api.onchange('hr_salary_advance_id')
     def onchange_advaces(self):
-        if self.advance_line_id:
+        if self.hr_salary_advance_id:
             self.update({
-                'product_id': self.advance_line_id.product_id.id,
-                'unit_amount': self.advance_line_id.approved_amount,
+                'name': self.hr_salary_advance_id.name, 
+                'product_id': self.hr_salary_advance_id.product_id.id,
+                'unit_amount': self.hr_salary_advance_id.amount_total,
+                'quantity': 1,
+                'payment_mode': 'own_account',
             })
 
