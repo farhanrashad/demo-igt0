@@ -7,15 +7,60 @@
             <field name="inherit_id" ref="project.view_task_form2" />
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
-                        <button name="action_material_import" string="Material Requisition" type="object" class="oe_highlight" />
+                        <button name="action_material_import" string="Material Requisition" type="object" class="oe_highlight" attrs="{'invisible':[('is_processed','=',True)]}" />
 
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="after">
-                    <field name="attachment_id"  widget="many2many_binary"></field> 
+                    <field name="transfer_category_id" />
+                    <field name="attachment_id"  widget="many2many_binary"></field>
+                    <field name="is_processed"  invisible="1"/>
+                    <field name="un_processed"  invisible="1" />
                 </xpath>
+
+
               
            </field>
         </record>
+
+
+         <record id="action_view_un_processed_task" model="ir.actions.act_window">
+            <field name="name">Un-Processed Tasks</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="context">{'search_default_my_tasks': 1, 'all_task': 0}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No tasks found. Let's create one!
+                </p><p>
+                     To get things done, use activities and status on tasks.<br/>
+                    Chat in real time or by email to collaborate efficiently.
+                </p>
+            </field>
+        </record>
+
+         <record id="action_view_processed_task" model="ir.actions.act_window">
+            <field name="name">Processed Tasks</field>
+            <field name="res_model">project.task</field>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="context">{'search_default_is_processed': True, 'all_task': 0}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No tasks found. Let's create one!
+                </p><p>
+                     To get things done, use activities and status on tasks.<br/>
+                    Chat in real time or by email to collaborate efficiently.
+                </p>
+            </field>
+        </record>
+
+
+
+         <menuitem name="Un-Process Tasks" id="menu_un_processed" parent="de_stock_material_transfer.stock_requisition_config_menu"
+            action="action_view_un_processed_task" sequence="2" />
+
+         <menuitem name="Processed Tasks" id="menu_processed" parent="de_stock_material_transfer.stock_requisition_config_menu"
+            action="action_view_processed_task" sequence="2" />
+
 
        
     </data>

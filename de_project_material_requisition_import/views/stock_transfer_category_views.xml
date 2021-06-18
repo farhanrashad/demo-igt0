@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        
+<!--        <record id="view_stock_transfer_order_category" model="ir.ui.view">-->
+<!--            <field name="name">stock.transfer.order.category.import</field>-->
+<!--            <field name="model">stock.transfer.order.category</field>-->
+<!--            <field name="inherit_id" ref="de_stock_material_transfer.stock_transfer_order_category_form_view" />-->
+<!--            <field name="arch" type="xml">-->
+
+<!--                <xpath expr="//field[@name='action_type']" position="after">-->
+<!--                    <field name="no_of_attachment" />-->
+<!--                </xpath>-->
+<!--              -->
+<!--           </field>-->
+<!--        </record>-->
+
+       
+    </data>
+</odoo>

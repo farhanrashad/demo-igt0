@@ -24,8 +24,10 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/project_task_views.xml',
+        'views/project_task_template.xml',
+        'views/stock_transfer_category_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
