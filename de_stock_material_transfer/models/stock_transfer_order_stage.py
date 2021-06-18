@@ -14,8 +14,8 @@ class StockTransferOrderStage(models.Model):
         default_transfer_order_type_id = self.env.context.get('default_transfer_order_type_id')
         return [default_transfer_order_type_id] if default_transfer_order_type_id else None
     
-    name = fields.Char(string='Stage Name', required=True, translate=True)
-    stage_code = fields.Char(string='Code', size=2)
+    name = fields.Char(string='Stage Name', translate=True)
+    stage_code = fields.Char(string='Code', size=3, copy=False)
     active = fields.Boolean('Active', default=True, help="If unchecked, it will allow you to hide the stage without removing it.")
 
     description = fields.Text(
@@ -39,9 +39,10 @@ class StockTransferOrderStage(models.Model):
         ('Cancel', 'Cancelled'),
     ], string='Category', default='draft')
     
-    next_stage_id = fields.Many2one('stock.transfer.order.stage', string='Next Stage', copy=False)
-    prv_stage_id = fields.Many2one('stock.transfer.order.stage', string='Previous Stage', copy=False)
+    next_stage_id = fields.Many2one('stock.transfer.order.stage', string='Next Stage' )
+    prv_stage_id = fields.Many2one('stock.transfer.order.stage', string='Previous Stage')
 
+    group_id = fields.Many2one('res.groups', string='Security Group')
 
     _sql_constraints = [
         ('code_uniq', 'unique (stage_code)', "Code already exists!"),

@@ -39,6 +39,8 @@ class StockTransferOrderCategory(models.Model):
         ('replacement', 'Replacement'),
         ], string='Action Type', required=True, readonly=False, default='normal')
     
+    auto_expiry = fields.Boolean(string='Enable Auto Expiry', default=False, help='Enable auto expiery of the document.')
+    
     description = fields.Text("Requirements", help="Enter here the details of transfer category.")
     default_delivery_validity = fields.Integer('Delivery validity')
     delivery_lead_days = fields.Integer('Delivery Lead time')
@@ -50,13 +52,16 @@ class StockTransferOrderCategory(models.Model):
     return_picking_type_id = fields.Many2one('stock.picking.type',related='picking_type_id.return_picking_type_id')
     location_src_id = fields.Many2one('stock.location', string='Source Location',  required=True, )
     location_dest_id = fields.Many2one('stock.location', string='Destination Location', )
-    return_location_id = fields.Many2one('stock.location', string='Return Location', default=_get_default_return_location,)
+    return_location_id = fields.Many2one('stock.location', string='Return Location', domain="[('return_location','=',True)]")
+
     filter_products = fields.Boolean('Filter Products by Category')
     categ_control_ids = fields.Many2many('product.category', string="Product Categories", help="Select categories to allow for transfer")
     
+    group_id = fields.Many2one('res.groups', string='Security Group')
+    
     #has_penalty = fields.Boolean(string="Allow Penalty", default=False)
     #has_closed = fields.Boolean(string="Forcefully Close", default=False)
-    
+    has_partner = fields.Selection(CATEGORY_SELECTION, string="Has Partner", default="no", required=True,)
     has_reference = fields.Selection(CATEGORY_SELECTION, string="Has Reference", default="no", required=True,)
     has_purchase_order = fields.Selection(CATEGORY_SELECTION, string="Has Purchase Order", default="no", required=True,)
     has_transfer_order = fields.Selection(CATEGORY_SELECTION, string="Has Transfer Order", default="no", required=True,)
@@ -65,6 +70,9 @@ class StockTransferOrderCategory(models.Model):
     has_analytic_tags = fields.Selection(CATEGORY_SELECTION, string="Has Analytic Tags", default="no", required=True,)
     has_tower_info = fields.Selection(CATEGORY_SELECTION, string="Has Tower info", default="no", required=True,)
     has_supplier = fields.Selection(CATEGORY_SELECTION, string="Has Supplier", default="no", required=True,)
+    
+    partner_category_ids = fields.Many2many('res.partner.category', 'res_partner_category_rel', column1='partner_id', column2='category_id', string='Tags')
+    transporter_category_ids = fields.Many2many('res.partner.category', 'res_transporter_category_rel', column1='transporter_id', column2='category_id', string='Tags')
 
 
 

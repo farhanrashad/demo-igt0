@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record model="ir.cron" id="transfer_order_return_expiration_cron">
-        <field name="name">Trnsfer Order: Return expiration</field>
+    <record model="ir.cron" id="transfer_order_delivery_expiration_cron">
+        <field name="name">Transfer Order: Delivery expiration</field>
         <field name="model_id" ref="de_stock_material_transfer.model_stock_transfer_order"/>
         <field name="state">code</field>
-        <field name="code">model.cron_expire_order()</field>
+        <field name="code">model.cron_delivery_order_expiry()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="nextcall" eval="(datetime.now() + timedelta(minutes=5)).strftime('%Y-%m-%d %H:%M:%S')"/>
+        <field name="doall" eval="False"/>
+    </record>
+    
+    <record model="ir.cron" id="transfer_order_return_expiration_cron">
+        <field name="name">Transfer Order: Return expiration</field>
+        <field name="model_id" ref="de_stock_material_transfer.model_stock_transfer_order"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_return_order_expiry()</field>
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
         <field name="numbercall">-1</field>
@@ -15,7 +27,7 @@
     <data noupdate="1">
         <!-- Sequences for Transfer Order -->
         <record id="seq_cma_order" model="ir.sequence">
-            <field name="name">CMA Order</field>
+            <field name="name">Transfer Order</field>
             <field name="code">stock.transfer.order</field>
             <field name="prefix"></field>
             <field name="padding">5</field>

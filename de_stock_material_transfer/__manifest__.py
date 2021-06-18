@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Internal Requisition (Stock Transfer)",
+    'name': "Internal Requisition-Stock Transfer",
 
     'summary': """
     Material Requisition - (Internal)
@@ -18,8 +18,8 @@ Stock Material Transfer
     'author': "Dynexcel",
     'website': "https://www.dynexcel.com",
     'category': 'Warehouse',
-    'version': '14.0.2.1',
-    'depends': ['base', 'stock','purchase','account','project'],
+    'version': '14.0.3.8',
+    'depends': ['base', 'stock','stock_barcode','purchase','account','project'],
     'data': [
         'security/requisition_security.xml',
         'security/ir.model.access.csv',
@@ -36,8 +36,5 @@ Stock Material Transfer
         'views/account_move_views.xml',
         'views/stock_picking_views.xml',
         'views/stock_transfer_order_views.xml',
-    ],
-    'demo': [
-        'demo/demo.xml',
     ],
 }

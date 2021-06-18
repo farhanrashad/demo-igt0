@@ -25,9 +25,9 @@
                 <sheet>
                     <group>
                         <group>
-                            <field name="name"/>
+                            <field name="name" required="1"/>
                             <field name="sequence" groups="base.group_no_one"/>
-                            <field name="stage_code"/>
+                            <field name="stage_code" required="1"/>
                             <field name="transfer_order_type_ids" widget="many2many_tags" />
                             <field name="transfer_order_category_ids" widget="many2many_tags" />
                             <field name="next_stage_id"/>
@@ -36,6 +36,7 @@
                         <group>
                             <field name="fold"/>
                             <field name="stage_category" widget="radio"/>
+                            <field name="group_id" options="{'no_create':True}"/>
                         </group>
                     </group>
                     <separator string="Requirements"/>

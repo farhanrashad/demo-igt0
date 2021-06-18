@@ -19,15 +19,31 @@
             <field name="arch" type="xml">
                 <form string="Transfer Order Types">
                     <sheet>
+                        <field name="active" invisible="1" />
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="image" widget="image" class="oe_avatar" options='{"preview_image": "image", "size": [80, 80]}'/>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Approvals Type Name"/>
+                            </h1>
+                            <h3>
+                                <field name="code"/>
+                            </h3>
+                        </div>
+
                         <group>
                             <group>
-                                <field name="name"/>
-                                <field name="code"/>
                                 <field name="disallow_staging"/>
+                                <field name="automated_sequence"/>
+                                <field name="sequence_code" attrs="{'invisible':[('automated_sequence','=',False)]}"/>
+                                <field name="sequence_id" attrs="{'invisible':[('automated_sequence','=',False)]}"/>
+
                             </group>
                             <group>
                                 <field name="company_id"/>
                                 <field name="sequence_id" invisible="1"/>
+                                <field name="group_id" options="{'no_create':True}"/>
                             </group>
                         </group>
                         <group>
