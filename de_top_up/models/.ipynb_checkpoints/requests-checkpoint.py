@@ -29,9 +29,12 @@ class TopUpRequest(models.Model):
     state = fields.Selection([
         ('draft', 'Draft'),
         ('submitted', 'Submitted'),
-        ('waiting for approval', 'Waiting For Approval'),
+        ('waiting for approval', 'Waiting For LM Approval'),
         ('approved', 'Approved'),
+        ('approved_hr', 'Waiting for HR Approval'),
+        ('approved_admin', 'Waiting for Admin Approval'),
         ('cancelled', 'Cancelled'),
+        ('refused', 'Refused'),
         ('distributed', 'Distributed')
     ], string='State', index=True, copy=False, default='draft' , tracking=True)
 
@@ -53,10 +56,24 @@ class TopUpRequest(models.Model):
         self.state = 'waiting for approval'
 
     def action_approved(self):
+        if self.is_level == True:
+            self.state = 'approved'
+        elif self.additional_req == True:
+            self.state = 'approved_hr'
+        else:
+            self.state = 'approved_admin'
+        
+    def action_approved_hr(self):
+        self.state = 'approved_admin'
+        
+    def action_approved_admin(self):
         self.state = 'approved'
 
     def action_cancel(self):
         self.state = 'cancelled'
+        
+    def action_refuse(self):
+        self.state = 'refused'
 
     def action_distributed(self):
         self.state = 'distributed'
@@ -96,6 +113,7 @@ class TopUpRequest(models.Model):
     period = fields.Char(string='Period', compute='_compute_account_period')
     
     requester = fields.Many2one('res.users', default=lambda self: self.env.user, String="Requester", readonly=True, tracking=True)
+    manager = fields.Many2one('hr.employee', String="Line Manager", related='requester.employee_id.parent_id')
     department = fields.Many2one('hr.department', String="Department", related='requester.employee_id.department_id')
     representative_batch = fields.Selection(
         [('c-level', 'C-Level'), ('admin & fleet', 'Admin & Fleet'), ('documentation', 'Documentation'),
