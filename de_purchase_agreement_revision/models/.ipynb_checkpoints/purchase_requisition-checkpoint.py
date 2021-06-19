@@ -2,6 +2,17 @@ from odoo import api, fields, models, _
 
 class PurchaseRequisition(models.Model):
     _inherit = "purchase.requisition"
+    
+    @api.model
+    def create(self,vals):
+        if vals.get('revision_name',_('New')) == _('New'):
+            vals['revision_name'] = self.env['ir.sequence'].next_by_code('purchase.agreement.revision.seq') or _('New')
+        res = super(PurchaseRequisition,self).create(vals)
+        return res
+
+    revision_name = fields.Char(
+        'Reference', copy=False, readonly=True, default=lambda x: _('New'))
+    
    
     current_revision_id = fields.Many2one('purchase.requisition','Current revision',readonly=True,copy=True)
     old_revision_ids = fields.One2many('purchase.requisition','current_revision_id','Old revisions',readonly=True,context={'active_test': False})
@@ -30,6 +41,17 @@ class PurchaseRequisition(models.Model):
         view_id = view_ref and view_ref[1] or False,
         self.with_context(requisition_revision_history=True).copy()
         self.write({'state': 'draft'})
+        revision_seq= 1
+        revision_r = self.name.__contains__("-R0")
+        if revision_r: 
+            revision_seq= int (self.name[-1:]) +1 
+        final_revision_seq= str ('-R0') + str (revision_seq) 
+        if not revision_r:
+            self.name = self.name + str (final_revision_seq)
+        if revision_r:
+#            self.name[-1:] = self.name[-1:].replace (self.name[-1:], str (revision_seq))
+#              string[:position] + new_character + string[position+1:]
+           self.name = self.name[:-1] + str (revision_seq) 
         #self.order_line.write({'state': 'draft'})
 
         return {
@@ -53,8 +75,8 @@ class PurchaseRequisition(models.Model):
         if self.env.context.get('requisition_revision_history'):
             prev_name = self.name
             revno = self.revision_number
-            self.write({'revision_number': revno + 1,'name': '%s-%02d' % (self.unrevisioned_name,revno + 1)})
-            defaults.update({'name': prev_name,'revision_number': revno,'revised':True,'active': True,'state': 'cancel','current_revision_id': self.id,'unrevisioned_name': self.unrevisioned_name,})
+            self.write({'revision_number': revno + 1,  })
+            defaults.update({'revision_number': revno,'revised':True,'active': True,'state': 'cancel','current_revision_id': self.id,'unrevisioned_name': self.unrevisioned_name,})
         return super(PurchaseRequisition, self).copy(defaults)
 
 
