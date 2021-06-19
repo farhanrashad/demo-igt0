@@ -50,6 +50,7 @@ class StockMove(models.Model):
         return condition_id
     
     stock_transfer_order_line_id = fields.Many2one('stock.transfer.order.line')
+    stock_transfer_return_line_id = fields.Many2one('stock.transfer.return.line')
     stock_material_condition_id = fields.Many2one('stock.transfer.material.condition', string="Condition", default=_get_default_condition)
     
 class StockMoveLine(models.Model):

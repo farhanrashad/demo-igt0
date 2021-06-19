@@ -142,7 +142,9 @@ class StockTransferOrder(models.Model):
     def _compute_all_picking(self):
         for order in self:
             picking_type_id = return_picking_type_id = False
-            location_src_id = location_dest_id = return_location_id = False
+            location_src_id = False
+            location_dest_id = False
+            return_location_id = False
             
             for txn in order.stock_transfer_txn_line:
                 if txn.transfer_exception_type_id.picking_type_id:
@@ -178,12 +180,12 @@ class StockTransferOrder(models.Model):
             
             for line in order.stock_transfer_order_line:
                 if not line.location_dest_id:
-                    line.location_dest_id = location_dest_id
-                line.location_src_id = location_src_id
+                    line.location_dest_id = order.location_dest_id.id
+                line.location_src_id = order.location_src_id.id
             for rline in order.stock_transfer_return_line:
-                line.location_dest_id = return_location_id
+                line.location_dest_id = order.return_location_id.id
                 if not line.location_src_id:
-                    line.location_src_id = location_dest_id
+                    line.location_src_id = order.location_dest_id.id
                     
                 
         
@@ -302,12 +304,13 @@ class StockTransferOrder(models.Model):
     def set_close(self, type):
         #today = fields.Date.from_string(fields.Date.context_today(self))
         today = fields.Datetime.now()
-        picking_type_id = picking_return_type_id = self.picking_type_id.id
+        picking_type_id = picking_return_type_id = self.env['stock.picking.type']
         pickings = self.env['stock.picking']
         vals = {}
         reason_id = self.env['stock.transfer.close.reason'].search([('reason_type','=',type)],limit=1)
-        stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',self.transfer_order_type_id.id),('stage_category','=','close')])
         for order in self:
+            stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_category','=','close'),('stage_code','=','CL')],limit=1)
+
             if order.transfer_order_category_id.auto_expiry:
                 if type == 'delivery':
                     if not order.date_delivered:
@@ -342,40 +345,7 @@ class StockTransferOrder(models.Model):
                 picking.sudo().action_cancel()
         return type
     
-    def set_close(self, type):
-        #today = fields.Date.from_string(fields.Date.context_today(self))
-        today = fields.Datetime.now()
-        picking_type_id = picking_return_type_id = self.picking_type_id.id
-        pickings = self.env['stock.picking']
-        vals = {}
-        reason_id = self.env['stock.transfer.close.reason'].search([('reason_type','=',type)],limit=1)
-        stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',self.transfer_order_type_id.id),('stage_category','=','close')],limit=1)
-        for order in self:
-            if order.transfer_order_category_id.auto_expiry:
-                if type == 'delivery':
-                    if not order.date_delivered:
-                        picking_type_id = order.transfer_order_category_id.picking_type_id.id
-                        picking_return_type_id = order.transfer_order_category_id.return_picking_type_id.id
-                        vals = {
-                            'stage_id': stage_id.id, 
-                            'date_closed': today,
-                            'close_reason_id' : reason_id.id,
-                            'close_reason_message' : 'Auto Closed',
-                        }
-                elif type == 'return':
-                    if order.return_deadline < today and not (order.date_returned):
-                        picking_return_type_id = order.transfer_order_category_id.return_picking_type_id.id
-                        vals = {
-                            'stage_id': stage_id.id, 
-                            'date_closed': today,
-                            'close_reason_id' : reason_id.id,
-                            'close_reason_message' : 'Auto Closed',
-                        }
-                order.sudo().write(vals)
-            #for picking in pickings.search([('stock_transfer_order_id','=',order.id),('state','!=','done')])
-                for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id in (picking_type_id, picking_return_type_id) and p.state not in ('done','cancel')):
-                    picking.sudo().action_cancel()
-        return type
+    
     
     @api.model
     def cron_expire_order(self):        
@@ -475,7 +445,7 @@ class StockTransferOrder(models.Model):
                         order.picking_state = 'FS'
                     elif all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)) and any(picking.state in ('waiting','confirmed','assigned') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
                         order.picking_state = 'RT'
-                    elif all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)) and any(picking.state in ('waiting','confirmed','assigned') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
+                    elif all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.picking_type_id.id)) and all(picking.state == 'done' for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
                         order.picking_state = 'CL'
                              
                         #if any(picking.state in ('waiting','confirmed','assigned') for picking in order.picking_ids.filtered(lambda p: p.picking_type_id.id == order.transfer_order_category_id.return_picking_type_id.id)):
@@ -492,18 +462,18 @@ class StockTransferOrder(models.Model):
     @api.depends('picking_state')
     def _compute_stage_id(self):
         for order in self:
-            order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PK')],limit=1).id
-
-            if order.picking_state == 'PK':
-                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PK')],limit=1).id
-            elif order.picking_state == 'PS':
-                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PS')],limit=1).id
-            elif order.picking_state == 'FS':
-                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','FS')],limit=1).id
-            elif order.picking_state == 'RT':
-                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','RT')],limit=1).id
-            elif order.picking_state == 'CL':
-                order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','CL')],limit=1).id
+            #order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PK')],limit=1).id
+            if not order.close_reason_id:
+                if order.picking_state == 'PK':
+                    order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PK')],limit=1).id
+                elif order.picking_state == 'PS':
+                    order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','PS')],limit=1).id
+                elif order.picking_state == 'FS':
+                    order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','FS')],limit=1).id
+                elif order.picking_state == 'RT':
+                    order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','RT')],limit=1).id
+                elif order.picking_state == 'CL':
+                    order.stage_id = self.env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',order.transfer_order_type_id.id),('stage_code','=','CL')],limit=1).id
             
 
 
@@ -638,7 +608,7 @@ class StockTransferOrder(models.Model):
         self.date_delivered = ddt
         self.date_returned = rdt
         
-    @api.depends('date_delivered')
+    @api.depends('picking_state')
     def _compute_return_deadline(self):  
         dt = False
         days = 0
@@ -746,6 +716,7 @@ class StockTransferOrder(models.Model):
         })
         for txn in self.stock_transfer_txn_line:
             txn.txn_action = 'open'
+            txn.sudo().unlink()
             
     def action_submit(self):
         #self.ensure_one()
@@ -771,6 +742,31 @@ class StockTransferOrder(models.Model):
         self.write({'state': 'done'})
         
     def process_txn_stage(self):
+        exceptions = self.env['stock.transfer.exception.type'].search([('transfer_order_type_id','=',self.transfer_order_type_id.id),('transfer_order_category_id','=',self.transfer_order_category_id.id),('apply_stage_id','=',self.stage_id.id),('stage_auto_apply','=',True)])
+        #self.stock_transfer_txn_line.filtered(filtered(lambda mo: mo.state not in ['cancel', 'draft', 'done'])
+        for exception in exceptions:
+            #self.stock_transfer_txn_line.filtered(filtered(lambda txn: txn.transfer_exception_type_id.id == exception.id).unlink()
+            for line in self.stock_transfer_txn_line:
+                if line.transfer_exception_type_id.id == exception.id:
+                    line.unlink()
+            self.env['stock.transfer.txn.line'].create({
+                'stock_transfer_order_id': self.id,
+                'transfer_exception_type_id': exception.id,
+            })
+
+            #if self.stock_transfer_txn_line:
+             #   for line in self.stock_transfer_txn_line:
+              #      if not line.transfer_exception_type_id.id == exception.id:
+               #         self.env['stock.transfer.txn.line'].create({
+                #            'stock_transfer_order_id': self.id,
+                 #           'transfer_exception_type_id': exception.id,
+                  #      })
+            #else:
+             #   self.env['stock.transfer.txn.line'].create({
+              #      'stock_transfer_order_id': self.id,
+               #     'transfer_exception_type_id': exception.id, 
+                #})
+                
         for order in self:
             if order.next_stage_id.id == order.curr_txn_stage_id.id or order.curr_txn_type_id.exec_stage_id.id == order.stage_id.id:
                 for txn in self.stock_transfer_txn_line.filtered(lambda t: t.transfer_exception_type_id.id == order.curr_txn_type_id.id):
@@ -783,6 +779,8 @@ class StockTransferOrder(models.Model):
                     #for line in order.stock_transfer_return_line:
                      #   if txn.transfer_exception_type_id.location_dest_id:
                       #      line.location_dest_id = txn.transfer_exception_type_id.location_dest_id.id
+        
+            
     
     def create_delivery(self):
         self._create_delivery()
@@ -806,6 +804,7 @@ class StockTransferOrder(models.Model):
             for line in order.stock_transfer_order_line:
                 lines_data.append([0,0,{
                     #'reference': order.name,
+                    'company_id': order.company_id.id,
                     'product_id': line.product_id.id,
                     'product_uom': line.product_id.uom_po_id.id,
                     'product_uom_qty': line.product_uom_qty,
@@ -819,6 +818,7 @@ class StockTransferOrder(models.Model):
         picking.create({
             'picking_type_id':self.picking_type_id.id,
             'partner_id': order.partner_id.id,
+            'company_id': order.company_id.id,
             'location_id': self.location_src_id.id,
             'location_dest_id':self.location_dest_id.id,
             'scheduled_date':self.date_scheduled,
@@ -843,6 +843,7 @@ class StockTransferOrder(models.Model):
             for line in order.stock_transfer_return_line:
                 lines_data.append([0,0,{
                     #'reference': order.name,
+                    'company_id': order.company_id.id,
                     'product_id': line.product_id.id,
                     'product_uom': line.product_id.uom_po_id.id,
                     'product_uom_qty': line.product_uom_qty,
@@ -851,7 +852,7 @@ class StockTransferOrder(models.Model):
                     'date_deadline': order.date_scheduled,
                     'location_id': line.location_dest_id.id,
                     'location_dest_id': order.transfer_order_category_id.return_location_id.id,
-                    'stock_transfer_order_line_id': line.id,
+                    'stock_transfer_return_line_id': line.id,
                     'origin_returned_move_id': self.env['stock.move'].search([('stock_transfer_order_line_id','=',line.id),('picking_id','=',origin_picking_id.id)]).id
                 }])
             picking.create({
@@ -859,6 +860,7 @@ class StockTransferOrder(models.Model):
                 'partner_id': order.partner_id.id,
                 'location_id': order.location_dest_id.id,
                 'location_dest_id':order.transfer_order_category_id.return_location_id.id,
+                'company_id': order.company_id.id,
                 'scheduled_date':self.date_scheduled,
                 'origin': 'return of ' + origin_picking_id.name,
                 'stock_transfer_order_id':self.id,
@@ -1008,7 +1010,7 @@ class StockTransferOrderLine(models.Model):
     def _compute_product_return(self):
         for line in self:
             qty = 0
-            returns = self.env['stock.transfer.return.line'].search([('stock_transfer_order_id','=',self.stock_transfer_order_id.id),('categ_id','=',self.categ_id.id)])
+            returns = self.env['stock.transfer.return.line'].search([('stock_transfer_order_id','=',line.stock_transfer_order_id.id),('categ_id','=',line.categ_id.id)])
             for rtn in returns:
                 qty += rtn.product_uom_qty
             line.return_product_uom_qty = qty
@@ -1129,7 +1131,7 @@ class StockTransferReturnLine(models.Model):
     supplier_id = fields.Many2one('res.partner', string='Supplier')
     project_id = fields.Many2one('project.project', string='Project')
     state = fields.Selection(related='stock_transfer_order_id.state')
-    location_src_id = fields.Many2one('stock.location', string='From', domain="[('id', 'child_of', parent.location_dest_id)]",)
+    location_src_id = fields.Many2one('stock.location', string='From', )
     location_dest_id = fields.Many2one('stock.location', string='To', )
     return_status = fields.Selection([
         ('draft', 'New'), ('cancel', 'Cancelled'),
@@ -1154,7 +1156,7 @@ class StockTransferReturnLine(models.Model):
             line.received_qty = self.env.cr.fetchone()[0] or 0.0
             
     @api.onchange('product_id')
-    def _onchange_product_id(self):
+    def _onchange_return_product_id(self):
         if self.product_id:
             self.name = self.product_id.product_tmpl_id.name
             self.product_uom = self.product_id.uom_po_id
