@@ -49,8 +49,6 @@ class PurchaseRequisition(models.Model):
         if not revision_r:
             self.name = self.name + str (final_revision_seq)
         if revision_r:
-#            self.name[-1:] = self.name[-1:].replace (self.name[-1:], str (revision_seq))
-#              string[:position] + new_character + string[position+1:]
            self.name = self.name[:-1] + str (revision_seq) 
         #self.order_line.write({'state': 'draft'})
 
