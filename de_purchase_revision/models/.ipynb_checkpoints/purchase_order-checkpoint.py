@@ -28,6 +28,16 @@ class PurchaseOrder(models.Model):
         self.with_context(purchase_revision_history=True).copy()
         self.write({'state': 'draft'})
         self.order_line.write({'state': 'draft'})
+        revision_seq= 1
+        revision_r = self.name.__contains__("-R0")
+        if revision_r: 
+            revision_seq= int (self.name[-1:]) +1 
+        final_revision_seq= str ('-R0') + str (revision_seq) 
+        if not revision_r:
+            self.name = self.name + str (final_revision_seq)
+        if revision_r:
+           self.name = self.name[:-1] + str (revision_seq) 
+        
 #         self.mapped('order_line').write(
 #             {'sale_line_id': False})
         return {
@@ -51,8 +61,8 @@ class PurchaseOrder(models.Model):
         if self.env.context.get('purchase_revision_history'):
             prev_name = self.name
             revno = self.revision_number
-            self.write({'revision_number': revno + 1,'name': '%s-%02d' % (self.unrevisioned_name,revno + 1)})
-            defaults.update({'name': prev_name,'revision_number': revno,'revised':True,'active': True,'state': 'cancel','current_revision_id': self.id,'unrevisioned_name': self.unrevisioned_name,})
+            self.write({'revision_number': revno + 1,})
+            defaults.update({'revision_number': revno,'revised':True,'active': True,'state': 'cancel','current_revision_id': self.id,'unrevisioned_name': self.unrevisioned_name,})
         return super(PurchaseOrder, self).copy(defaults)
 
 
