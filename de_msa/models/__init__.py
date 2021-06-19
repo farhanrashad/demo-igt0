@@ -18,3 +18,4 @@ from . import msa_simulation
 from . import target_pass_through
 from . import product_product
 from . import monthly_models
+from . import account_move

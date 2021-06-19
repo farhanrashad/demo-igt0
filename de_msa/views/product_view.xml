@@ -10,7 +10,7 @@
 	                <field name="is_product_category_power" />
 	                <field name="is_product_category_tower" />
 	                
-	                <field name="wind_factor" />
+	                <field name="wind_factor" readonly="False"/>
 	            </xpath>
 	
 	        </field>

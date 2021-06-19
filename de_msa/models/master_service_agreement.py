@@ -8,7 +8,24 @@ from odoo.exceptions import UserError
 
 class master_service_agreement(models.Model):
     _name = 'master.service.agreement'
-
+    
+    def get_tower_type(self, site, period):
+        id = None
+        model = self.env['monthly.tower.model'].search([('msa_id','=',self.id),('site_id','=',site.id),('period','=',period)], order="id desc", limit=1)
+            
+        if model:
+            id = model.tower_model.id
+        return id
+    
+    def get_power_model(self, site, period):
+        id = None
+        model = self.env['monthly.power.model'].search([('msa_id','=',self.id),('site_id','=',site.id),('period','=',period)], order="id desc", limit=1)
+        
+        if model:
+            id = model.power_model.id
+        return id
+    
+    
     def tower_capex_rate(self, site, period):
         tower_capex_rate = 0
         if self.tower_without_power_ids:
@@ -155,9 +172,11 @@ class master_service_agreement(models.Model):
                         no_of_tenants = no_of_tenants+1
         return no_of_tenants
     
-    def create_capax_invoice(self):
-        print('no_of_tenants-----',self.no_of_tenants())
-        print('monthly_lease_amount-------',self.monthly_lease_amount())
+    
+    def refresh_simulation(self):
+        for line in self.msa_simulation_ids:
+            line.unlink()
+            
         month_days = self.number_days_in_month
         invoicing_days = self.number_days_in_month
         monthly_lease_amount = self.monthly_lease_amount()[0] 
@@ -167,16 +186,7 @@ class master_service_agreement(models.Model):
         month = str(month).zfill(2)
         year = self.simulation_date_from.year
         period = month+'/'+str(year)
-        
-        
-#         print('self.tower_capex_rate()',self.tower_capex_rate()) 
-#         print('self.regional_factor()',self.regional_factor())
-#         print('self.wind_factor_ids()',self.wind_factor())
-#         print('self.collocation_discount()',self.collocation_discount_capex())
-#         print('month_days',month_days)
-#         print('invoicing_days',invoicing_days)
-        print('self.capex_cpi()',self.capex_cpi())
-        
+
         
         for line in self.site_billing_info_ids:
             print('line.site_id',line.site_id.name)
@@ -199,7 +209,7 @@ class master_service_agreement(models.Model):
             lease_sharing = (200-(monthly_lease_amount / self.exchange_rate)) / (self.no_of_tenants()+1)
     
     #         Tower w/o Power Capex + Power Capex
-            ip_fees_capex = tower_without_power_capex - power_capex
+            ip_fees_capex = tower_without_power_capex + power_capex
             
     #         ((Tower w/o Power Opex)+Lease Sharing)*Opex CPI
             ip_fees_opex_tml =  (tower_without_power_opex + lease_sharing) * self.opex_cpi()
@@ -210,7 +220,7 @@ class master_service_agreement(models.Model):
             
             line = {
                 'region_factor': self.regional_factor(site_region),
-                'ip_fee_capex': tower_without_power_capex,
+                'ip_fee_capex': ip_fees_capex,
                 'ip_fee_opex': tower_without_power_opex,
                 'opex_cpi': self.opex_cpi(),
                 'capex_escalation': self.capex_cpi(),
@@ -225,9 +235,12 @@ class master_service_agreement(models.Model):
                 'invoicing_days': invoicing_days,
                 'head_lease': lease_sharing,
                 'simulation_date': self.simulation_date_from,
-                'ip_start_date': self.monthly_lease_amount()[1],
+                'ip_start_date': line.ip_start_date,
 #                 'site_id': self.monthly_lease_amount()[2],
                 'site_id': site.id,
+                'month_year': period,
+                'inv_tower_type': self.get_tower_type(site, period),
+                'inv_power_model': self.get_power_model(site, period),
                 'site_billing_info_id': line.id,
                 'msa_id': self.id,
                 
@@ -235,8 +248,64 @@ class master_service_agreement(models.Model):
             simulation_rec = self.msa_simulation_ids.create(line)
 #         raise UserError((tower_without_power_capex, tower_without_power_opex))
     
+    def create_capax_invoice(self):
+        line_vals = []
+        
+        if self.msa_simulation_ids:
+            for line in self.msa_simulation_ids:
+                line_vals.append((0, 0, {
+#                     'product_id': line.site_id.name,
+                    'name': line.site_id.name,
+                    'quantity': 1,  
+#                     'currency_id': line.currency_id.id,
+                    'price_unit': line.ip_fee_capex,
+                    'partner_id': self.partner_id.id,
+#                     'product_uom_id': line.product_uom.id,
+                }))
+                line_vals.append(line_vals)
+        
+            vals = {
+                'partner_id': self.partner_id.id,
+#                 'invoice_date_due': self.end_date,
+                'invoice_date': fields.Date.today(),
+                'move_type': 'out_invoice',
+#                 'type': 'out_invoice',
+                'invoice_origin': self.name,
+                'invoice_line_ids': line_vals,
+            }
+            move = self.env['account.move'].create(vals)
+            move.msa_id = self.id
+            move.category = 'Capex'
+
+    
     def create_opex_invoice(self):
-        pass
+        line_vals = []
+        
+        if self.msa_simulation_ids:
+            for line in self.msa_simulation_ids:
+                line_vals.append((0, 0, {
+#                     'product_id': line.site_id.name,
+                    'name': line.site_id.name,
+                    'quantity': 1,  
+#                     'currency_id': line.currency_id.id,
+                    'price_unit': line.ip_fee_opex,
+                    'partner_id': self.partner_id.id,
+#                     'product_uom_id': line.product_uom.id,
+                }))
+                line_vals.append(line_vals)
+        
+            vals = {
+                'partner_id': self.partner_id.id,
+#                 'invoice_date_due': self.end_date,
+                'invoice_date': fields.Date.today(),
+                'move_type': 'out_invoice',
+#                 'type': 'out_invoice',
+                'invoice_origin': self.name,
+                'invoice_line_ids': line_vals,
+            }
+            move = self.env['account.move'].create(vals)
+            move.msa_id = self.id
+            move.category = 'Opex'
     
 
 
@@ -247,6 +316,14 @@ class master_service_agreement(models.Model):
         else:
             self.number_days_in_month = None
     
+    
+    def compute_final_total_fees(self):
+        total = 0
+        for rec in self:
+            if rec.msa_simulation_ids:
+                for line in rec.msa_simulation_ids:
+                    total = total + line.ip_fee_capex
+            rec.total_gross_capex = total
     
     
     name = fields.Char('Reference', required=True)
@@ -274,7 +351,7 @@ class master_service_agreement(models.Model):
     penalty_ids = fields.One2many('msa.penalty', 'msa_id', string='Penalties')
     site_load_ids = fields.One2many('site.load', 'msa_id', string='Site Load')
     msa_simulation_ids = fields.One2many('msa.simulation', 'msa_id', string='Price Details')
-    total_gross_capex = fields.Float(string='Total IP Fee CAPEX')
+    total_gross_capex = fields.Float(string='Total IP Fee CAPEX', compute='compute_final_total_fees')
     total_gross_opex = fields.Float(string='Total IP Fee OPEX')
     number_days_in_month = fields.Float(string='Number Days In Month', compute='get_number_of_days')
     diff_billing = fields.Boolean('Differential Billing')
@@ -285,16 +362,8 @@ class master_service_agreement(models.Model):
     gross_ip_fee = fields.Float(string='Total Gross IP Fee')
     ip_fee = fields.Float(string='Total IP Fee')
     account_invoice_ids = fields.One2many('msa.invoice.line', 'msa_id')
+    invoice_ids = fields.One2many('account.move', 'msa_id')
     collocation_power_capex_ids = fields.One2many('collocation.discount.power.capex', 'msa_id', string='Collocation Discount for Power CAPEX')
     collocation_power_capex = fields.Text('Comment for Power CAPEX')
     target_pass_through_ids = fields.One2many('target.pass.through', 'msa_id', string='Target Pass-Through')
 
-#         --------------- old fields ------------------
-#     total_gross_ip_fee = fields.function(_cal_total, type='float', string='Total Gross IP Fee', multi='_cal_gross')
-#     total_ip_fee = fields.function(_cal_total, type='float', string='Total IP Fee', multi='_cal_gross')
-#     exchange_rate = fields.Float('Exchange Rate (from USD to MMK)', help="1 USD = ? MMK. '?' is the Exchange Rate.")
-#     total_gross_capex = fields.function(_cal_total, type='float', string='Total IP Fee CAPEX', multi='_cal_gross')
-#     total_gross_opex = fields.function(_cal_total, type='float', string='Total IP Fee OPEX', multi='_cal_gross')
-#     number_days_in_month = fields.function(get_number_days_in_month, type='float', string='Number Days In Month'
-#                                 store={'master.service.agreement': (lambda self, cr, uid, ids, context=None: ids, ['simulation_date'], 10)})
-#         ---------------- Ends Here -------------------

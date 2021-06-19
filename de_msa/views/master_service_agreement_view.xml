@@ -200,8 +200,13 @@
                     				<field name="number_days_in_month"/>
                     			</group>
                     			<group>
-                    				<button name='create_capax_invoice' string="Create Capex Invoice" type="object" class='oe_highlight' />
-                    				<button name='create_opex_invoice' string="Create Opex Invoice" type="object" class='oe_highlight' />
+                    				<group>
+                    					<button name='refresh_simulation' string="Refresh Simulation" type="object" class='btn-success' />
+                    				</group>
+                    				<group>
+                    					<button name='create_capax_invoice' string="Create Capex Invoice" type="object" class='oe_highlight' />
+                    					<button name='create_opex_invoice' string="Create Opex Invoice" type="object" class='oe_highlight' />
+                    				</group>
                     			</group>
                     		</group> 
                     		<separator string=" Totals"/>
@@ -217,7 +222,7 @@
                     		<field name="msa_simulation_ids">
                     			<tree string="Price Details" >
                     				<field name="site_id"/>
-                    				<field name="year"/>
+                    				<field name="year" invisible="True"/>
                     				<field name="month_year"/>
                     				<field name="ip_start_date"/>
                     				<field name="head_lease"/>
@@ -250,7 +255,21 @@
                     		</field>
                     	</page>
                         
-<!--                         Invoices -->
+                        <!-- invoicess new -->
+                        <page string="Invoices">
+                    		<field name="invoice_ids"/>
+                    	</page>
+                        
+                        <!-- <page string="*Invoices*">
+                    		<field name="invoice_ids">
+	                    		<tree>
+	                    			<field name="partner_id"/>
+	                    		</tree>
+                    		</field>
+                    	</page>
+                        
+                        
+                        
                         <page string="Invoices">
                     		<field name="account_invoice_ids">
                     			<tree string="Invoice">
@@ -270,7 +289,7 @@
                                     <field name="msa_id" invisible="1"/>
                     			</tree>
                     		</field>
-                    	</page>
+                    	</page> -->
                         
 <!--                         Target Pass-Through -->
                         <page string="Target Pass-Through">

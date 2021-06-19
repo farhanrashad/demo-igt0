@@ -11,16 +11,24 @@ class site_billing_info(models.Model):
 #     @api.model
 #     def create(self, vals):
 #         record_exists = self.search([('site_id', '=', vals['site_id'])])
-
+# 
 #         if record_exists:
 #             raise UserError(('Site ('+str(record_exists.site_id.name)+') in the current MSA already exists!'))
 #         else:
 #             pass
-           
+#            
 #         rec = super(site_billing_info, self).create(vals)
 #         return rec
+    
+    def compute_name(self):
+        for rec in self:
+            if rec.site_id:
+                rec.name = rec.site_id.name
+            else:
+                rec.name = None
+    
 
-    name = fields.Char('Customer Site Reference')
+    name = fields.Char('Customer Site Reference', compute='compute_name')
     site_id = fields.Many2one('project.project', string='Site')
     site_tower_type = fields.Many2one('product.product', 'Site Tower Type')
     inv_tower_type = fields.Many2one('product.product', 'Invoiced Tower Type')
