@@ -44,10 +44,29 @@ class ProjectTask(models.Model):
     attachment_id = fields.Many2many('ir.attachment', relation="files_rel_project_task",
                                             column1="doc_id",
                                             column2="attachment_id",
-                                            string="Attachment")
+                                            string="Requisition Attachment")
 
+    fir_attachment_id = fields.Many2many('ir.attachment', relation="files_rel_project_task_fir",
+                                     column1="doc_id",
+                                     column2="fir_attachment_id",
+                                     string="FIR Report")
+
+
+    is_attachment = fields.Boolean(string='Is Attachment')
     is_processed = fields.Boolean(string='Processed')
     un_processed = fields.Boolean(string='Un-Processed')
+
+    @api.constrains('attachment_id', 'fir_attachment_id')
+    def _check_attachment(self):
+        if self.fir_attachment_id:
+            self.is_attachment = True
+            self.un_processed = True
+        if self.attachment_id:
+            self.is_attachment = True
+            self.un_processed = True
+
+
+
 
     def action_submit(self):
         no_attachment = self.transfer_category_id.no_of_attachment
@@ -55,88 +74,151 @@ class ProjectTask(models.Model):
         attachments = self.env['ir.attachment'].search([('res_id','=',self.id)])
         for attach in attachments:
             count_attachment  = count_attachment + 1
-        # if no_attachment == count_attachment :
-        #     pass
-        # else:
-        #     raise UserError(_('Need To Add At least '+str(no_attachment)+' Attachment!'))
 
 
 	
     def action_material_import(self):
-        keys = ['transfer_order_type_id', 'user_id', 'transfer_order_category_id', 'company_id', 'purchase_id',
-                'transporter_id', 'partner_id', 'date_request', 'date_order', 'date_scheduled', 'delivery_deadline',
-                'date_delivered', 'date_returned', 'transfer_exception_type_id', 'reference', 'stock_transfer_order_id',
-                'picking_type_id', 'location_src_id', 'location_dest_id', 'return_location_id']
-        try:
-            csv_data = base64.b64decode(self.attachment_id.datas)
-            data_file = io.StringIO(csv_data.decode("utf-8"))
-            data_file.seek(0)
-            file_reader = []
-            values = {}
-            csv_reader = csv.reader(data_file, delimiter=',')
-            file_reader.extend(csv_reader)
-        except:
-            raise UserError(_("Invalid file!"))
+        for material in self:
+            keys = ['transfer_order_type_id', 'user_id', 'transfer_order_category_id', 'company_id', 'purchase_id',
+                    'transporter_id', 'partner_id', 'date_request', 'date_order', 'date_scheduled', 'delivery_deadline',
+                    'date_delivered', 'date_returned', 'transfer_exception_type_id', 'reference', 'stock_transfer_order_id',
+                    'picking_type_id', 'location_src_id', 'location_dest_id', 'return_location_id']
+            try:
+                csv_data = base64.b64decode(material.attachment_id.datas)
+                data_file = io.StringIO(csv_data.decode("utf-8"))
+                data_file.seek(0)
+                file_reader = []
+                values = {}
+                csv_reader = csv.reader(data_file, delimiter=',')
+                file_reader.extend(csv_reader)
+            except:
+                try:
+                    fp = tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx")
+                    fp.write(binascii.a2b_base64(material.attachment_id.datas))
+                    fp.seek(0)
+                    values = {}
+                    workbook = xlrd.open_workbook(fp.name)
+                    sheet = workbook.sheet_by_index(0)
 
-    
-        for i in range(len(file_reader)):
-            field = list(map(str, file_reader[i]))
-            values = dict(zip(keys, field))
-            line_values = dict(zip(keys, field))
+                except:
+                    raise UserError(_("Invalid file Format!"))
 
-            if values:
-                if i == 0:
-                    continue
-                else:
+                for row_no in range(sheet.nrows):
+                    val = {}
+                    if row_no <= 0:
+                        fields = map(lambda row: row.value.encode('utf-8'), sheet.row(row_no))
+                    else:
 
-                    values.update({
-                            'partner_id': field[0],
-                            'transfer_order_type_id' : field[1],
-                            'user_id' : field[2],
-                            'transfer_order_category_id' : field[3],
-                            'company_id'  : field[4],
-                            'purchase_id'  : field[5],
-                            'transporter_id': field[6],
-                            'date_request': field[7],
-                            'date_order': field[8],
-                            'date_scheduled': field[9],
-                            'delivery_deadline': field[10],
-                           'date_delivered': field[11],
-                           'date_returned': field[12],
-                          'transfer_exception_type_id': field[13],
-                          'reference': field[14],
-                          'stock_transfer_order_id': field[15],
-                          'location_src_id': field[16],
-                          'location_dest_id': field[17],
-                          'return_location_id': field[18],
-                    })
-                    if values.get("transfer_order_type_id") != "":
-                        res_id = 0
-                    line_values.update({
-                        'product_id': field[19],
-                        'name': field[20],
-                        'project_id': field[21],
-                        'site_type': field[22],
-                        'tower_height': field[23],
-                        'kpa': field[24],
-                        'wind_zone': field[25],
-                        'delivered_qty': field[26],
-                        'remaining_qty': field[27],
-                        'product_uom': field[28],
-                        'supplier_id': field[29],
-                        'product_uom_qty': field[30],
-                        'date_scheduled': field[31],
-                        'location_src_id': field[32],
-                        'location_dest_id': field[33],
-                    })
-                    if values.get("transfer_order_type_id") != "":
-                        res = self.create_transfer_order(values)
-                        res_id = res.id
-                        res_line = self.create_transfer_order_line( line_values , res_id)
-                    elif values.get("product_id") != "":
-                        res_line = self.create_transfer_order_line(line_values, res_id)
+                        line = list(map(
+                            lambda row: isinstance(row.value, bytes) and row.value.encode('utf-8') or str(row.value),
+                            sheet.row(row_no)))
 
-        self.is_processed = True
+                        values.update({
+                            'partner_id': line[0],
+                            'transfer_order_type_id': line[1],
+                            'user_id': line[2],
+                            'transfer_order_category_id': line[3],
+                            'company_id': line[4],
+                            'purchase_id': line[5],
+                            'transporter_id': line[6],
+                            'date_request': line[7],
+                            'date_order': line[8],
+                            'date_scheduled': line[9],
+                            'delivery_deadline': line[10],
+                            'date_delivered': line[11],
+                            'date_returned': line[12],
+                            'transfer_exception_type_id': line[13],
+                            'reference': line[14],
+                            'stock_transfer_order_id': line[15],
+                            'location_src_id': line[16],
+                            'location_dest_id': line[17],
+                            'return_location_id': line[18],
+                        })
+                        if values.get("transfer_order_type_id") != "":
+                            res_id = 0
+                        line_values.update({
+                            'product_id': line[19],
+                            'name': line[20],
+                            'project_id': line[21],
+                            'site_type': line[22],
+                            'tower_height': line[23],
+                            'kpa': line[24],
+                            'wind_zone': line[25],
+                            'delivered_qty': line[26],
+                            'remaining_qty': line[27],
+                            'product_uom': line[28],
+                            'supplier_id': line[29],
+                            'product_uom_qty': line[30],
+                            'date_scheduled': line[31],
+                            'location_src_id': line[32],
+                            'location_dest_id': line[33],
+                        })
+                        if values.get("transfer_order_type_id") != "":
+                            res = material.create_transfer_order(values)
+                            res_id = res.id
+                            res_line = material.create_transfer_order_line(line_values, res_id)
+                        elif values.get("product_id") != "":
+                            res_line = material.create_transfer_order_line(line_values, res_id)
+
+            for i in range(len(file_reader)):
+                field = list(map(str, file_reader[i]))
+                values = dict(zip(keys, field))
+                line_values = dict(zip(keys, field))
+
+                if values:
+                    if i == 0:
+                        continue
+                    else:
+
+                        values.update({
+                                'partner_id': field[0],
+                                'transfer_order_type_id' : field[1],
+                                'user_id' : field[2],
+                                'transfer_order_category_id' : field[3],
+                                'company_id'  : field[4],
+                                'purchase_id'  : field[5],
+                                'transporter_id': field[6],
+                                'date_request': field[7],
+                                'date_order': field[8],
+                                'date_scheduled': field[9],
+                                'delivery_deadline': field[10],
+                               'date_delivered': field[11],
+                               'date_returned': field[12],
+                              'transfer_exception_type_id': field[13],
+                              'reference': field[14],
+                              'stock_transfer_order_id': field[15],
+                              'location_src_id': field[16],
+                              'location_dest_id': field[17],
+                              'return_location_id': field[18],
+                        })
+                        if values.get("transfer_order_type_id") != "":
+                            res_id = 0
+                        line_values.update({
+                            'product_id': field[19],
+                            'name': field[20],
+                            'project_id': field[21],
+                            'site_type': field[22],
+                            'tower_height': field[23],
+                            'kpa': field[24],
+                            'wind_zone': field[25],
+                            'delivered_qty': field[26],
+                            'remaining_qty': field[27],
+                            'product_uom': field[28],
+                            'supplier_id': field[29],
+                            'product_uom_qty': field[30],
+                            'date_scheduled': field[31],
+                            'location_src_id': field[32],
+                            'location_dest_id': field[33],
+                        })
+                        if values.get("transfer_order_type_id") != "":
+                            res = material.create_transfer_order(values)
+                            res_id = res.id
+                            res_line = material.create_transfer_order_line( line_values , res_id)
+                        elif values.get("product_id") != "":
+                            res_line = material.create_transfer_order_line(line_values, res_id)
+
+            material.is_processed = True
+            material.un_processed = False
     
     def create_transfer_order(self,values):
 

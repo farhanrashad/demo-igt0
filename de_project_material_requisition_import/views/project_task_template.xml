@@ -68,66 +68,88 @@
                                         <span class="hidden" data-for="contactus_form" data-oe-id="2822" data-oe-xpath="/data/xpath/span" data-oe-model="ir.ui.view" data-oe-field="arch" data-values="{'leave_type_id': '', 'employee_id': '', 'date_start': '', 'date_end': '', 'description': ''}"></span>
             <div id="docs_section" data-oe-id="3374" data-oe-xpath="/data/xpath[2]/div" data-oe-model="ir.ui.view" data-oe-field="arch">
                     <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
-                        <div class="container">
-                            <form id="material_docs" data-toggle="validator" action="/material/document/save" enctype="multipart/form-data" method="post">
+                         <div class="container">
+          <form action="/website_form/" method="post" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-success-mode="redirect" data-success-page="/contactus-thank-you" data-model_name="project.task">
+            <div class="s_website_form_rows row s_col_no_bgcolor">
+              <div class="form-group s_website_form_field col-12  s_website_form_model_required  " data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="jj2vbwrauk">
+                    <span class="s_website_form_label_content">Task Title</span>
+                    <span class="s_website_form_mark"> *</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="text" class="form-control s_website_form_input" name="name" required="true" id="jj2vbwrauk"/>
+                  </div>
+                </div>
+              </div>
 
-                                <div class="s_website_form_rows row s_col_no_bgcolor">
-                                    <div class="form-group col-12 s_website_form_field s_website_form_required" data-type="char" data-name="Field">
-                                        <div class="row s_col_no_resize s_col_no_bgcolor">
-                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="opportunity1">
-                                                <span class="s_website_form_label_content">Task Title</span>
-                                                <span class="s_website_form_mark"> *</span>
-                                            </label>
-                                            <div class="col-sm">
-                                                <input type="char" class="form-control s_website_form_input" name="name" required="True"/>
+               <div class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="xpkcz5sny2">
+                    <span class="s_website_form_label_content">Transfer Category</span>
+                  </label>
+                  <div class="col-sm">
+                    <select class="form-control  o_website_form_input" name="transfer_category_id" readonly="1">
+                        <t t-foreach="categories" t-as="categ">
+                            <option t-att-value="categ.id">
+                                <t t-esc="categ.name"    />
+                            </option>
+                        </t>
+                    </select>
+                  </div>
+                </div>
+              </div>
 
+              <div class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="xpkcz5sny2">
+                    <span class="s_website_form_label_content">Description</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="text" class="form-control s_website_form_input" name="description" id="xpkcz5sny2"/>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group s_website_form_field col-12 pt24" data-type="many2many" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class=" col-sm-auto s_website_form_label " style="width: 200px" for="xl89fa1ymg">
+                    <span class="s_website_form_label_content">Requisition Attachment</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="file" class="form-control-file s_website_form_input" name="attachment_id" multiple="1" id="xl89fa1ymg"/>
+                  </div>
+                </div>
+              </div>
 
-                                            </div>
-                                        </div>
-                                    </div>
+                <div class="form-group s_website_form_field col-12    " data-type="many2many" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class=" col-sm-auto s_website_form_label " style="width: 200px" for="f7cosz92x0r">
+                    <span class="s_website_form_label_content">FIR Report</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="file" class="form-control-file s_website_form_input" name="fir_attachment_id" multiple="1" id="f7cosz92x0r"/>
+                  </div>
+                </div>
+              </div>
 
-                                     <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
-                                        <div class="row s_col_no_resize s_col_no_bgcolor">
-                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="opportunity2">
-                                                <span class="s_website_form_label_content">Project</span>
-                                            </label>
-                                            <div class="col-sm">
-                                                <select class="form-control  o_website_form_input" name="project_id" readonly="1">
-                                                                    <t t-foreach="projects" t-as="project">
-                                                                        <option t-att-value="project.id">
-                                                                            <t t-esc="project.name"    />
-                                                                        </option>
-                                                                    </t>
-                                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                      <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
-                                        <div class="row s_col_no_resize s_col_no_bgcolor">
-                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="category1">
-                                                <span class="s_website_form_label_content">Category</span>
-                                            </label>
-                                            <div class="col-sm">
-                                                <select class="form-control  o_website_form_input" name="category_id" readonly="1">
-                                                                    <t t-foreach="categories" t-as="categ">
-                                                                        <option t-att-value="categ.id">
-                                                                            <t t-esc="categ.name"    />
-                                                                        </option>
-                                                                    </t>
-                                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
-                                        <div style="width: 200px;" class="s_website_form_label"></div>
-                                        <button type="submit" class="btn btn-primary pull-left">Submit</button>
-                                        <span id="s_website_form_result"></span>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
+              <div class="form-group s_website_form_field col-12    s_website_form_dnone" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px">
+                    <span class="s_website_form_label_content"/>
+                  </label>
+                  <div class="col-sm">
+                    <input type="hidden" class="form-control s_website_form_input" name="project_id" value="7343"/>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                <div style="width: 200px;" class="s_website_form_label"/>
+                <a href="#" role="button" class="btn btn-primary btn-lg s_website_form_send o_default_snippet_text">Submit</a>
+                <span id="s_website_form_result"/>
+              </div>
+            </div>
+          </form>
+        </div>
                     </section>
                 </div>
 			</div>
