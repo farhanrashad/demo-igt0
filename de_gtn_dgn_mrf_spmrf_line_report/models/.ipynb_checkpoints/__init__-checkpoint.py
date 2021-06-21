@@ -1,2 +1,1 @@
-from . import sales_analysis
-from . import sales_analysis_report_xlsx
+from . import gtn_dgn_mrf_spmrf_xlsx
