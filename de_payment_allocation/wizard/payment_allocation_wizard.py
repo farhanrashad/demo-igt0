@@ -20,18 +20,35 @@ class PaymentAllocation(models.TransientModel):
     invoice_move_ids = fields.One2many('invoice.allocation.wizard.line', 'allocation_id', string='Invoice Lines')
     payment_id = fields.Many2one('account.payment', string='Payment')
     move_id = fields.Many2one('account.move', string='Move')
+    allocated_amount = fields.Float(string='Allocated Amount', compute='_amount_all')
     journal_id = fields.Many2one(related='payment_id.journal_id')
     payment_type = fields.Selection(related='payment_id.payment_type')
     payment_method_id = fields.Many2one('account.payment.method', string='Payment Method',
         readonly=False, store=True,
-        compute='_compute_payment_method_id',
-        
+        compute='_compute_payment_method_id',        
         help="Manual: Get paid by cash, check or any other method outside of Odoo.\n"\
         "Electronic: Get paid automatically through a payment acquirer by requesting a transaction on a card saved by the customer when buying or subscribing online (payment token).\n"\
         "Check: Pay bill by check and print it from Odoo.\n"\
         "Batch Deposit: Encase several customer checks at once by generating a batch deposit to submit to your bank. When encoding the bank statement in Odoo, you are suggested to reconcile the transaction with the batch deposit.To enable batch deposit, module account_batch_payment must be installed.\n"\
         "SEPA Credit Transfer: Pay bill from a SEPA Credit Transfer file you submit to your bank. To enable sepa credit transfer, module account_sepa must be installed ")
     
+    
+    @api.depends('invoice_move_ids.allocate_amount', 'payment_line_ids.allocate_amount')
+    def _amount_all(self):
+        for order in self:
+            amount_untaxed = 0.0
+            if self.payment_id:
+                for line in order.invoice_move_ids:
+                    if line.allocate == True:
+                        amount_untaxed += line.allocate_amount
+            else:
+                for payment_line in order.payment_line_ids:
+                    if payment_line.allocate == True:
+                        amount_untaxed += payment_line.allocate_amount
+            order.update({
+                'allocated_amount': amount_untaxed 
+            })
+            
     
     @api.depends('journal_id')
     def _compute_payment_method_id(self):
@@ -90,7 +107,6 @@ class PaymentAllocation(models.TransientModel):
                 else:
                     amount_reconcile = payment.allocate_amount
                     
-#                 raise UserError((str(amount_reconcile)))    
                 vals = {
                     'full_reconcile_id': reconcile_id.id,
                     'amount':  payment.allocate_amount,
@@ -101,32 +117,7 @@ class PaymentAllocation(models.TransientModel):
                 }
                 partial_payment = self.env['account.partial.reconcile'].create(vals)
                 
-#                 if reconcile_amount == payment.allocate_amount:
-                    
-#                     exchange_amount = payment._id.amount_residual 
-                    
-#                     exchange_moves = self.action_exchange_rate(payment.currency_id.id, exchange_amount)
-#                     ext_payment_debit_line = 0
-#                     for ext_line in exchange_moves.line_ids:
-#                         ext_payment_debit_line = ext_line.id
-#                         break
-#                     for ext_line in exchange_moves.line_ids:
-#                         if ext_line.account_id.id == self.payment_id.destination_account_id.id:
-#                             ext_payment_debit_line = ext_line.id
-#                     ext_recocile_vals = {
-#                         'exchange_move_id': invoice.move_id.id,
-#                         }
-                        
-#                     reconcile_id = self.env['account.full.reconcile'].create(ext_recocile_vals)                       
-#                     ext_vals = {
-#                         'full_reconcile_id': reconcile_id.id,
-#                         'amount':  invoice.allocate_amount,
-#                         'credit_move_id':  credit_line,
-#                         'debit_move_id': ext_payment_debit_line,
-#                         'credit_amount_currency': exchange_amount,
-#                         'debit_amount_currency': exchange_amount,
-#                         }
-#                     inv_payment = self.env['account.partial.reconcile'].create(ext_vals)
+
                     
                 
         

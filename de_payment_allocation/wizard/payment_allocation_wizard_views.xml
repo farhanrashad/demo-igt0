@@ -16,6 +16,7 @@
                     <group>
                        <field name='account_id'  attrs="{'invisible': [('is_invoice','=',True)], 'required': [('is_payment','=',True)]}"  />
                        <field name='company_id' />
+                        <field name='allocated_amount' />
                        <field name='journal_id'  invisible='1'/>
                        <field name='payment_type'  invisible='1'/>
                         <field name='move_id'  invisible='1'/>
