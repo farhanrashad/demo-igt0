@@ -141,18 +141,6 @@ class master_service_agreement(models.Model):
         return power_price_capex
             
     
-    def monthly_lease_amount(self):
-        monthly_lease_amount = 0 
-        ip_start_date = None
-        site = None
-        if self.site_billing_info_ids:
-            for site_line in self.site_billing_info_ids:
-                if self.simulation_date_from >= site_line.ip_start_date and self.simulation_date <= site_line.ip_start_date:
-                    monthly_lease_amount = site_line.billable_lease_amount
-                    ip_start_date = site_line.ip_start_date
-                    site = site_line.site_id
-        return [monthly_lease_amount, ip_start_date, site]
-    
     def no_of_tenants(self):
         no_of_tenants = 0
         if self.collocation_capex_ids:
@@ -179,7 +167,6 @@ class master_service_agreement(models.Model):
             
         month_days = self.number_days_in_month
         invoicing_days = self.number_days_in_month
-        monthly_lease_amount = self.monthly_lease_amount()[0] 
         
         #period from date
         month = self.simulation_date_from.month
@@ -193,54 +180,56 @@ class master_service_agreement(models.Model):
             #region from site
             site_region = line.site_id.state_id
             site = line.site_id
-            
-#             raise UserError(self.sla_factor(line.site_id, period))
-    #         ( (Tower Capex Rate*Regional Factor*Wind Factor*Collocation Discount)/No. of Days in Month)*Invoicing Days*Capex CPI
-            tower_without_power_capex = ((self.tower_capex_rate(site, period) * self.regional_factor(site_region) * self.wind_factor(site, period) * self.collocation_discount_capex()) / month_days) * invoicing_days * self.capex_cpi()
-    
-    #         ((Tower Opex Rate*Regional Factor*SLA Factor*Collocation Discount*Exchange Rate)/No. of Days in Month)* Invoicing Days
-    #         Power Opex Rate ==fixme
-            tower_without_power_opex = ((self.tower_opex_rate(site, period) * self.regional_factor(site_region) * self.collocation_discount_opex() * self.exchange_rate) / month_days) * invoicing_days
-    
-    #         ((Power Capex Rate*Regional Factor*Collocation Discount)/No. of Days in Month)*Invoicing Days*Capex CPI
-            power_capex =  ((self.power_price_capex(site, period) * self.regional_factor(site_region) * self.collocation_discount_capex()) / month_days) * invoicing_days * self.capex_cpi()
-            
-    #         (200-(Monthly Lease Amount/Exchange Rate))/(No.of Tenants+1)
-            lease_sharing = (200-(monthly_lease_amount / self.exchange_rate)) / (self.no_of_tenants()+1)
-    
-    #         Tower w/o Power Capex + Power Capex
-            ip_fees_capex = tower_without_power_capex + power_capex
-            
-    #         ((Tower w/o Power Opex)+Lease Sharing)*Opex CPI
-            ip_fees_opex_tml =  (tower_without_power_opex + lease_sharing) * self.opex_cpi()
-            
-    #         (Tower w/o Power Opex)+((Tower w/o Power Opex-Lease Amount))*Opex CPI
-            ip_fees_opex_oml = tower_without_power_opex + (tower_without_power_opex - monthly_lease_amount) * self.opex_cpi()
-            
+#             
+#     #         ( (Tower Capex Rate*Regional Factor*Wind Factor*Collocation Discount)/No. of Days in Month)*Invoicing Days*Capex CPI
+#             tower_without_power_capex = ((self.tower_capex_rate(site, period) * self.regional_factor(site_region) * self.wind_factor(site, period) * self.collocation_discount_capex()) / month_days) * invoicing_days * self.capex_cpi()
+#     
+#     #         ((Tower Opex Rate*Regional Factor*SLA Factor*Collocation Discount*Exchange Rate)/No. of Days in Month)* Invoicing Days
+#     #         Power Opex Rate ==fixme
+#             tower_without_power_opex = ((self.tower_opex_rate(site, period) * self.regional_factor(site_region) * self.collocation_discount_opex() * self.exchange_rate) / month_days) * invoicing_days
+#     
+#     #         ((Power Capex Rate*Regional Factor*Collocation Discount)/No. of Days in Month)*Invoicing Days*Capex CPI
+#             power_capex =  ((self.power_price_capex(site, period) * self.regional_factor(site_region) * self.collocation_discount_capex()) / month_days) * invoicing_days * self.capex_cpi()
+#             
+#     #         (200-(Monthly Lease Amount/Exchange Rate))/(No.of Tenants+1)
+#             lease_sharing = (200-(line.billable_lease_amount / self.exchange_rate)) / (self.no_of_tenants()+1)
+#     
+#     #         Tower w/o Power Capex + Power Capex
+#             ip_fees_capex = tower_without_power_capex + power_capex
+#             
+#     #         ((Tower w/o Power Opex)+Lease Sharing)*Opex CPI
+#             ip_fees_opex_tml =  (tower_without_power_opex + lease_sharing) * self.opex_cpi()
+#             
+#     #         (Tower w/o Power Opex)+((Tower w/o Power Opex-Lease Amount))*Opex CPI
+#             ip_fees_opex_oml = tower_without_power_opex + (tower_without_power_opex - line.billable_lease_amount) * self.opex_cpi()
+#             
             
             line = {
                 'region_factor': self.regional_factor(site_region),
-                'ip_fee_capex': ip_fees_capex,
-                'ip_fee_opex': tower_without_power_opex,
+#                 'ip_fee_capex': ip_fees_capex,
+#                 'ip_fee_opex': tower_without_power_opex,
                 'opex_cpi': self.opex_cpi(),
                 'capex_escalation': self.capex_cpi(),
                 'collocation_capex': self.collocation_discount_capex(),
                 'collocation_opex': self.collocation_discount_opex(),
-                'power_fee_capex': power_capex,
+#                 'power_fee_capex': power_capex,
                 'gross_ip_fee_capex': self.tower_capex_rate(site, period),
                 'gross_ip_fee_opex': self.tower_opex_rate(site, period),
                 'wind_factor': self.wind_factor(site, period),
                 'sla_factor': self.sla_factor(site, period),
                 'num_of_tenant': self.no_of_tenants(),
                 'invoicing_days': invoicing_days,
-                'head_lease': lease_sharing,
+#                 'head_lease': lease_sharing,
                 'simulation_date': self.simulation_date_from,
                 'ip_start_date': line.ip_start_date,
-#                 'site_id': self.monthly_lease_amount()[2],
                 'site_id': site.id,
                 'month_year': period,
                 'inv_tower_type': self.get_tower_type(site, period),
                 'inv_power_model': self.get_power_model(site, period),
+                'month_days': month_days,
+                'power_price_capex': self.power_price_capex(site, period),
+                'monthly_lease_amount': line.billable_lease_amount,
+                'no_of_tenants_capex': self.no_of_tenants(),
                 'site_billing_info_id': line.id,
                 'msa_id': self.id,
                 
