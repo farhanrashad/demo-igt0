@@ -73,7 +73,7 @@ class TopUpRequest(models.Model):
         self.state = 'cancelled'
         
     def action_refuse(self):
-        self.state = 'refused'
+        self.state = 'draft'
 
     def action_distributed(self):
         self.state = 'distributed'
