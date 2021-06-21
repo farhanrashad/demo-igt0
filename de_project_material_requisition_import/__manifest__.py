@@ -29,6 +29,7 @@
         'views/project_task_views.xml',
         'views/project_task_template.xml',
         'views/stock_transfer_category_views.xml',
+        'views/stock_tansfer_type_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

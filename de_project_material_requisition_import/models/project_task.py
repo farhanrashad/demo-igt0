@@ -51,8 +51,34 @@ class ProjectTask(models.Model):
                                      column2="fir_attachment_id",
                                      string="FIR Report")
 
+    expiry_attachment_id = fields.Many2many('ir.attachment', relation="files_rel_project_task_expiry",
+                                         column1="doc_id",
+                                         column2="expiry_attachment_id",
+                                         string="Expiry Attachment")
+    check_attachment_id = fields.Many2many('ir.attachment', relation="files_rel_project_task_check",
+                                         column1="doc_id",
+                                         column2="check_attachment_id",
+                                         string="Health Check Form")
+
+    accident_attachment_id = fields.Many2many('ir.attachment', relation="files_rel_project_task_accident",
+                                           column1="doc_id",
+                                           column2="accident_attachment_id",
+                                           string="Accident Report")
+
+    checklist_attachment_id = fields.Many2many('ir.attachment', relation="files_rel_project_task_checklist",
+                                              column1="doc_id",
+                                              column2="checklist_attachment_id",
+                                              string="Hoto Checklist")
+
 
     is_attachment = fields.Boolean(string='Is Attachment')
+    is_requisition = fields.Boolean(string='Is Requisition')
+    is_fir = fields.Boolean(string='Is FIR')
+    is_check_form = fields.Boolean(string='Is Check Form')
+    is_checklist = fields.Boolean(string='Is Checklist')
+    is_accidnent = fields.Boolean(string='Is Accident')
+    is_expiry = fields.Boolean(string='Is Expiry')
+
     is_processed = fields.Boolean(string='Processed')
     un_processed = fields.Boolean(string='Un-Processed')
 
@@ -216,7 +242,7 @@ class ProjectTask(models.Model):
                             res_line = material.create_transfer_order_line( line_values , res_id)
                         elif values.get("product_id") != "":
                             res_line = material.create_transfer_order_line(line_values, res_id)
-
+            material.user_id = self.env.user
             material.is_processed = True
             material.un_processed = False
     
