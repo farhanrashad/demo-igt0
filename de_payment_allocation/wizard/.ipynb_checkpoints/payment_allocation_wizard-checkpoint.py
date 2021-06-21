@@ -153,8 +153,81 @@ class PaymentAllocation(models.Model):
                     'debit_amount_currency': amount_reconcile,
                 }
                 payment = self.env['account.partial.reconcile'].create(vals)
-                
-                
+                if invoice.currency_id.id != self.payment_id.currency_id.id:
+                    reconcile_amount = invoice.currency_id._convert(invoice.move_id.amount_residual, self.payment_id.currency_id, self.payment_id.company_id, self.payment_id.date)
+                    
+                    if reconcile_amount == invoice.allocate_amount:
+                        exchange_amount = invoice.amount_residual - amount_reconcile 
+                        exchange_journal = self.env['account.journal'].search([('name','=','Exchange Difference')], limit=1),
+                        raise UserError('test')
+                        if not exchange_journal :
+                            journal_vals = {
+                                'name': 'Exchange Difference',
+                                'code': 'EXCH',
+                                'company_id': self.env.company,
+                            }
+                            exchange_journal = self.env['account.journal'].create(journal_vals)
+
+                        exchange_vals = {
+                            'date': fields.date.today(),
+                            'journal_id': exchange_journal.id,
+                            'currency_id': self.payment_id.currency_id.id,                    
+                        }
+                        exchange_move = self.env['account.move'].create(exchange_vals)
+                        procuretags = self.env['account.analytic.tag'].search([('name','=','Procurement & Vendor Management')], limit=1)
+                        if not procuretags:
+                            procure_tag = {
+                                'name': 'Procurement & Vendor Management',
+                            }
+                            procuretags = self.env['account.analytic.tag'].create(procure_tag) 
+
+                        exchange_line_vals = {
+                            'move_id': exchange_move.id,
+                           'account_id':  self.payment_id.destination_account_id.id,
+                           'partner_id':  self.payment_id.partner_id.id,
+                            'name': 'Currency exchange rate difference',
+                            'amount_currency': exchange_amount,
+                            'currency_id':  invoice.currency_id.id,
+                            'analytic_tag_ids': [(6, 0, procuretags.ids)],
+                        }
+                        exchange1_move_line = self.env['account.move.line'].create(exchange_line_vals)
+                        
+                        ext_account = self.env['account.account'].search([('name' ,'=', '441000 - Foreign Exchange Gain')], limi=1)
+                        if not ext_account:
+                            account_vals = {
+                                'name': '441000 - Foreign Exchange Gain',
+                                'compny_id': self.env.company,
+                                'user_type_id': 13 ,
+                            }
+                            ext_account = self.env['account.account'].create(account_vals)
+                        exchange2_line_vals = {
+                            'move_id': exchange_move.id,
+                            'account_id':  ext_account.id,
+                            'partner_id':  self.payment_id.partner_id.id,
+                            'name': 'Currency exchange rate difference',
+                            'amount_currency': exchange_amount,
+                            'currency_id':  invoice.currency_id.id,
+                            'analytic_tag_ids': [(6, 0, procuretags.ids)],
+                        }
+                        exchange2_move_line = self.env['account.move.line'].create(exchange2_line_vals)
+
+                        for ext_line in exchange_move.line_ids:
+                            if ext_line.account_id == self.payment_id.destination_account_id.id:
+                                ext_payment_debit_line = ext_line.id
+                        ext_recocile_vals = {
+                        'exchange_move_id': invoice.move_id.id,
+                        }
+                        
+                        reconcile_id = self.env['account.full.reconcile'].create(ext_recocile_vals)                       
+                        ext_vals = {
+                        'full_reconcile_id': reconcile_id.id,
+                        'amount':  invoice.allocate_amount,
+                        'credit_move_id':  credit_line,
+                        'debit_move_id': ext_payment_debit_line,
+                        'credit_amount_currency': exchange_amount,
+                        'debit_amount_currency': exchange_amount,
+                        }
+                        inv_payment = self.env['account.partial.reconcile'].create(ext_vals)
     
 class PaymentAllocationLine(models.Model):
     _name = 'payment.allocation.wizard.line'
