@@ -12,7 +12,7 @@
     "sequence": 1,
     "author": "Dynexcel",
     "website": "http://www.dynexcel.co",
-    "version": '14.1.0.0',
+    "version": '14.1.0.8',
     "depends": ['product','project'],
     "data": [
         'security/ir.model.access.csv',
