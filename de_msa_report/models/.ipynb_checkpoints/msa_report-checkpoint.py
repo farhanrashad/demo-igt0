@@ -100,7 +100,7 @@ class GenerateXLSXReport(models.Model):
         sheet.write(4, 1, str(msa_obj.number_days_in_month), format2)
         sheet.write(6, 1, str(msa_obj.total_gross_capex), format2)
         sheet.write(6, 3, str(msa_obj.total_gross_opex), format2)
-        sheet.write(10, 0, str(msa_obj.msa_simulation_ids.site_id), format2)
+#         sheet.write(2, 1, str(msa_obj.simulation_date_from), format2)
 #         sheet.write(2, 1, str(msa_obj.simulation_date_from), format2)
 #         sheet.write(2, 1, str(msa_obj.simulation_date_from), format2)
 #         sheet.write(2, 1, str(msa_obj.simulation_date_from), format2)
