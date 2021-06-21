@@ -100,12 +100,36 @@ class GenerateXLSXReport(models.Model):
         sheet.write(4, 1, str(msa_obj.number_days_in_month), format2)
         sheet.write(6, 1, str(msa_obj.total_gross_capex), format2)
         sheet.write(6, 3, str(msa_obj.total_gross_opex), format2)
-#         sheet.write(2, 1, str(msa_obj.simulation_date_from), format2)
+        for line in msa_obj.msa_simulation_ids:
+            sheet.write(10, 0, line.site_id.name, format2)
+            sheet.write(10, 6, line.month_year, format2)
+            sheet.write(10, 9, line.head_lease, format2)
+            sheet.write(10, 10, line.head_lease_extra, format2)
+            sheet.write(10, 11, line.region_factor, format2)
+            sheet.write(10, 12, line.collocation_capex, format2)
+            sheet.write(10, 13, line.collocation_opex, format2)
+            sheet.write(10, 14, line.inv_tower_type.name, format2)
+            sheet.write(10, 16, line.wind_factor, format2)
+            sheet.write(10, 17, line.inv_power_model.name, format2)
+            sheet.write(10, 18, line.ip_fee_capex, format2)
+            sheet.write(10, 19, line.ip_fee_opex, format2)
+            sheet.write(10, 20, line.invoiced_rent_adjustment, format2)
+            sheet.write(10, 21, line.power_fee_capex, format2)
+            sheet.write(10, 22, line.capex_escalation, format2)
+            sheet.write(10, 23, line.opex_cpi, format2)
+            sheet.write(10, 24, line.gross_ip_fee_capex, format2)
+            sheet.write(10, 25, line.ip_fee_capex_billed, format2)
+            sheet.write(10, 26, line.diff_capex, format2)
+            sheet.write(10, 27, line.gross_ip_fee_opex, format2)
+            sheet.write(10, 28, line.ip_fee_opex_billed, format2)
+            sheet.write(10, 29, line.diff_opex, format2)
+        
+        
 #         sheet.write(2, 1, str(msa_obj.simulation_date_from), format2)
 #         sheet.write(2, 1, str(msa_obj.simulation_date_from), format2)
 #         sheet.write(2, 1, str(msa_obj.simulation_date_from), format2)
 
-        row = row + 1
+#         row = row + 1
 #         sheet.write(row, 1, str(msa_obj.partner_id.name), format2)
 #         sheet.write(row, 1, str(msa_obj.partner_id.name), format2)
 #         sheet.write(row, 1, str(msa_obj.partner_id.name), format2)
