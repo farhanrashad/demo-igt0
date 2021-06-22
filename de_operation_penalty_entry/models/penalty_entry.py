@@ -74,7 +74,7 @@ class PenaltyEntry(models.Model):
     has_purchase_subscription = fields.Selection(related="penalty_entry_type_id.has_purchase_subscription")
     
     #fleet form
-    has_fleet_fields = fields.Selection(related="penalty_entry_type_id.has_fleet_fields")
+    has_penalty_fields = fields.Selection(related="penalty_entry_type_id.has_penalty_fields")
     #fleet form field datatype define
     ref_fleet = fields.Char('Reference', copy=False)
     supplier_inv_no_fleet = fields.Char(string='Supplier Invoice Number')
@@ -155,7 +155,7 @@ class PenaltyEntry(models.Model):
     def _compute_amount_total_all(self):
         for record in self:
             amount_total = 0.0
-            if record.penalty_entry_type_id.has_fleet_fields == 'required':
+            if record.penalty_entry_type_id.has_penalty_fields == 'required':
                 for line in record.penalty_entry_line:
                     amount_total = line.amount + amount_total
                 record.update({
@@ -316,7 +316,7 @@ class PenaltyEntry(models.Model):
         invoice = self.env['account.move']
         lines_data = []
         
-        if self.penalty_entry_type_id.has_fleet_fields != 'no':
+        if self.penalty_entry_type_id.has_penalty_fields != 'no':
             for line in self.penalty_entry_line:
                 lines_data.append([0,0,{
                     'name': self.name + ' , ' + line.job_scope + ' , ' + line.car_details.name + ' , ' + str(self.duration_from) + ' - ' + str(self.duration_to),

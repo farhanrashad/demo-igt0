@@ -103,20 +103,18 @@
                                 <field name="supplier_inv_no_fleet" required='1' attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
                                 <field name="invoice_no_fleet" groups="de_penalty_journal_entry.group_show_taxes_custom_journal_entry"/>
                                 <field name="amount_total_all"/>
-<!--                                 <field name="amount_total_fleet"
-                                       attrs="{'invisible':[('has_fleet_fields','==','no')], 'required': [('has_fleet_fields','==','required')]}"/> -->
+
                                 
-                                
-                                <label for="duration_from" attrs="{'invisible':[('has_fleet_fields','==','no')]}"/>
-                                <div name="duration_from_div" class="d-flex" attrs="{'invisible':[('has_fleet_fields','==','no')]}">
-                                <field name="duration_from" attrs="{'invisible':[('has_fleet_fields','==','no')], 'required': [('has_fleet_fields','==','required')]}"/>
+                                <label for="duration_from" attrs="{'invisible':[('has_penalty_fields','==','no')]}"/>
+                                <div name="duration_from_div" class="d-flex" attrs="{'invisible':[('has_penalty_fields','==','no')]}">
+                                <field name="duration_from" attrs="{'invisible':[('has_penalty_fields','==','no')], 'required': [('has_penalty_fields','==','required')]}"/>
                                 <span class="oe_inline o_form_label mx-3 oe_read_only"> to </span>
                 <!-- Bigger margin on the left because in edit mode the external link button covers the text -->
                                 <span class="oe_inline o_form_label mr-3 ml-5 oe_edit_only"> to </span>
-                                <field name="duration_to" attrs="{'invisible':[('has_fleet_fields','==','no')], 'required': [('has_fleet_fields','==','required')]}"/>
+                                <field name="duration_to" attrs="{'invisible':[('has_penalty_fields','==','no')], 'required': [('has_penalty_fields','==','required')]}"/>
                                 </div>
-                                <field name="taxes_fleet" attrs="{'invisible':[('has_fleet_fields','==','no')]}" groups='de_custom_journal_entry.group_show_taxes_custom_journal_entry'/>
-                                <field name="period_fleet" attrs="{'invisible':[('has_fleet_fields','==','no')]}" groups='de_custom_journal_entry.group_show_taxes_custom_journal_entry'/>
+                                <field name="taxes_fleet" attrs="{'invisible':[('has_penalty_fields','==','no')]}" groups='de_custom_journal_entry.group_show_taxes_custom_journal_entry'/>
+                                <field name="period_fleet" attrs="{'invisible':[('has_penalty_fields','==','no')]}" groups='de_custom_journal_entry.group_show_taxes_custom_journal_entry'/>
                             </group>
                         </group>
                         <group>
@@ -171,7 +169,7 @@
                         </group>
 
                         <field name="has_partner" invisible="1"/>
-                        <field name="has_fleet_fields" invisible="1"/>
+                        <field name="has_penalty_fields" invisible="1"/>
                         <field name="has_travel_fields" invisible="1"/>
                         <field name="has_accommodation_fields" invisible="1"/>
                         <notebook>
@@ -185,27 +183,27 @@
                                         <!--                                     #fleet fields line-model -->
 
                                         <field name="car_details"
-                                               attrs="{'column_invisible':[('parent.has_fleet_fields','==','no')], 'required': [('parent.has_fleet_fields','==','required')]}"
+                                               attrs="{'column_invisible':[('parent.has_penalty_fields','==','no')], 'required': [('parent.has_penalty_fields','==','required')]}"
                                                options="{'no_create':True}"/>
                                         <field name="driver"
-                                               attrs="{'column_invisible':[('parent.has_fleet_fields','==','no')], 'required': [('parent.has_fleet_fields','==','required')]}"
+                                               attrs="{'column_invisible':[('parent.has_penalty_fields','==','no')], 'required': [('parent.has_penalty_fields','==','required')]}"
                                                options="{'no_create':True}"/>
                                         <field name="user"
-                                               attrs="{'column_invisible':[('parent.has_fleet_fields','==','no')], 'required': [('parent.has_fleet_fields','==','required')]}"
+                                               attrs="{'column_invisible':[('parent.has_penalty_fields','==','no')], 'required': [('parent.has_penalty_fields','==','required')]}"
                                                options="{'no_create':True}"/>
                                         <field name="job_scope"
-                                               attrs="{'column_invisible':[('parent.has_fleet_fields','==','no')], 'required': [('parent.has_fleet_fields','==','required')]}"
+                                               attrs="{'column_invisible':[('parent.has_penalty_fields','==','no')], 'required': [('parent.has_penalty_fields','==','required')]}"
                                                options="{'no_create':True}"/>
                                         <field name="job_scope_account" invisible="1"
                                                options="{'no_create':True}"/>
                                         <field name="days"
-                                               attrs="{'column_invisible':[('parent.has_fleet_fields','==','no')], 'required': [('parent.has_fleet_fields','==','required')]}"
+                                               attrs="{'column_invisible':[('parent.has_penalty_fields','==','no')], 'required': [('parent.has_penalty_fields','==','required')]}"
                                                options="{'no_create':True}"/>
                                         <field name="amount"
-                                               attrs="{'column_invisible':[('parent.has_fleet_fields','==','no')], 'required': [('parent.has_fleet_fields','==','required')]}"
+                                               attrs="{'column_invisible':[('parent.has_penalty_fields','==','no')], 'required': [('parent.has_penalty_fields','==','required')]}"
                                                options="{'no_create':True}" sum="Amount"/>
                                         <field name="remark"
-                                               attrs="{'column_invisible':[('parent.has_fleet_fields','==','no')]}"
+                                               attrs="{'column_invisible':[('parent.has_penalty_fields','==','no')]}"
                                                options="{'no_create':True}"/>
 
 

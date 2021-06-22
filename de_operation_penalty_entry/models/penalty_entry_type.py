@@ -39,10 +39,10 @@ class PenaltyEntryType(models.Model):
 
     
     #Main Type fields
-    has_fleet_fields = fields.Selection(CATEGORY_SELECTION, string="Fleet", default="no", required=True,)
-    has_travel_fields = fields.Selection(CATEGORY_SELECTION, string="Travel", default="no", required=True,)
-    has_accommodation_fields = fields.Selection(CATEGORY_SELECTION, string="Accommodation", default="no", required=True,)
-    
+    has_penalty_fields = fields.Selection(CATEGORY_SELECTION, string="Penalty Alarm & Invoices", default="no", required=True,)
+    has_travel_fields = fields.Selection(CATEGORY_SELECTION, string="Asset Lifetime Invoices", default="no", required=True,)
+    has_accommodation_fields = fields.Selection(CATEGORY_SELECTION, string="HSE Invoice", default="no", required=True,)
+    has_pm_fields = fields.Selection(CATEGORY_SELECTION, string="PM Invoice", default="no", required=True,)
     
     #header fields    
     has_partner = fields.Selection(CATEGORY_SELECTION, string="Partner", default="no", required=True,)
@@ -87,13 +87,6 @@ class PenaltyEntryType(models.Model):
     has_extra_charges = fields.Selection(CATEGORY_SELECTION, string="Extra Charges", default="no", required=True,)
     
     
-#     has_project = fields.Selection(CATEGORY_SELECTION, string="Project", default="no", required=True,)
-#     has_product = fields.Selection(CATEGORY_SELECTION, string="Product", default="no", required=True,)
-#     has_analytic = fields.Selection(CATEGORY_SELECTION, string="Analytic", default="no", required=True,)
-
-#     has_rent_vechile = fields.Selection(CATEGORY_SELECTION, string="Rent Vehicle", default="no", required=True,)
-#     has_travel = fields.Selection(CATEGORY_SELECTION, string="Travel", default="no", required=True,)
-#     has_hotel = fields.Selection(CATEGORY_SELECTION, string="Hotel", default="no", required=True,)
 
 
     @api.model
