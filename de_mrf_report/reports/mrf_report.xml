@@ -211,7 +211,9 @@
                                 <b>Mobile No./ Designation</b>
                             </td>
                             <td colspan="2" style="border:2px solid black;">
-<!--                                 <span t-field="docs.partner_id"/> -->
+                                <span t-field="docs.mobile_phone"/>
+                                <b>/</b>
+                                <span t-field="docs.job_title"/>
                             </td>
                             <td colspan="2" style="border:2px solid black;">
                                 <b>MRF Approved By</b>
@@ -223,7 +225,9 @@
                                 <b>Mobile No./ Designation</b>
                             </td>
                             <td colspan="2" style="border:2px solid black;">
-<!--                                 <span t-field="docs.partner_id"/> -->
+                                <span t-field="docs.mobile_phone"/>
+                                <b>/</b>
+                                <span t-field="docs.job_title"/>
                             </td>
                         </tr>
                         <tr>

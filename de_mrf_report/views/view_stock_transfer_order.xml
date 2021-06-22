@@ -6,7 +6,9 @@
             <field name="inherit_id" ref="de_stock_material_transfer.stock_transfer_order_form_view"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='user_id']" position="after">
-                    <field name="mobile_no"/>
+                    <field name="mobile_phone"/>
+                    <field name="job_title"/>
+                    
                 </xpath>
             </field>
         </record>

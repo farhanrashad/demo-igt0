@@ -4,5 +4,6 @@ from odoo import models, api,fields
 class StockTransferOrderInherit(models.Model):
     _inherit = 'stock.transfer.order'
     
-    mobile_no = fields.Char(string = 'Mobile No', related='user_id.mobile_phone')
+    mobile_phone = fields.Char(string = 'Work Mobile', related='user_id.employee_id.work_phone')
+    job_title = fields.Many2one('hr.job',string='Job Position',related='user_id.employee_id.job_id')
     
