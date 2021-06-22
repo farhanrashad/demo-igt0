@@ -560,12 +560,12 @@
                     <span class="s_website_form_label_content"/>
                   </label>
                   <div class="col-sm">
-                      <input type="text" class="form-control s_website_form_input" name="is_expiry" id="expiry" t-att-value="is_expiry_vals"/>
-                    <input type="text" class="form-control s_website_form_input" name="is_accidnent" id="accidnent" t-att-value="is_accidnent_vals"/>
-                    <input type="text" class="form-control s_website_form_input" name="is_checklist" id="checklist" t-att-value="is_checklist_vals"/>
-                    <input type="text" class="form-control s_website_form_input" name="is_check_form" id="check_form" t-att-value="is_check_form_vals"/>
-                    <input type="text" class="form-control s_website_form_input" name="is_fir" id="fir" t-att-value="is_fir"/>
-                    <input type="text" class="form-control s_website_form_input" name="is_requisition" id="requisition" t-att-value="is_requisition"/>
+                      <input type="hidden" class="form-control s_website_form_input" name="is_expiry" id="expiry" t-att-value="is_expiry_vals"/>
+                    <input type="hidden" class="form-control s_website_form_input" name="is_accidnent" id="accidnent" t-att-value="is_accidnent_vals"/>
+                    <input type="hidden" class="form-control s_website_form_input" name="is_checklist" id="checklist" t-att-value="is_checklist_vals"/>
+                    <input type="hidden" class="form-control s_website_form_input" name="is_check_form" id="check_form" t-att-value="is_check_form_vals"/>
+                    <input type="hidden" class="form-control s_website_form_input" name="is_fir" id="fir" t-att-value="is_fir"/>
+                    <input type="hidden" class="form-control s_website_form_input" name="is_requisition" id="requisition" t-att-value="is_requisition"/>
 
                       <input type="hidden" class="form-control s_website_form_input" name="name" t-att-value="transfer_types.name"/>
                     <input type="hidden" class="form-control s_website_form_input" name="project_id" t-att-value="projects"/>
