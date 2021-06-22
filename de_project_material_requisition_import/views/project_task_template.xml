@@ -328,10 +328,17 @@
                                 $("#hoto_checklist").hide();
                                 $("#health_check_form").hide();
                                 $("#fir_report").hide();
+                                $("#requisition_attach").prop('required',false);
+                                $("#expiry_attachment").prop('required',false);
+                                $("#accident_report").prop('required',false);
+                                $("#hoto_checklist").prop('required',false);
+                                $("#health_check_form").prop('required',false);
+                                $("#fir_report").prop('required',false);
 
                                 var requisition = $( "#requisition" ).val();
                                 if ( requisition == "True" ) {
                                     $("#requisition_attach").show();
+                                    $("#requisition_attach").prop('required',true);
 
                                   }
                                 if ( requisition == "False" ) {
@@ -340,7 +347,7 @@
                                 var expiry = $( "#expiry" ).val();
                                 if ( expiry == "True" ) {
                                     $("#expiry_attachment").show();
-
+                                    $("#expiry_attachment").prop('required',true);
                                   }
                                 if ( expiry == "False" ) {
                                     $("#expiry_attachment").hide();
@@ -348,7 +355,7 @@
                              var accidnent = $( "#accidnent" ).val();
                                 if ( accidnent == "True" ) {
                                     $("#accident_report").show();
-
+                                    $("#accident_report").prop('required',true);
                                   }
                                 if ( accidnent == "False" ) {
                                     $("#accident_report").hide();
@@ -356,7 +363,7 @@
                              var checklist = $( "#checklist" ).val();
                                 if ( checklist == "True" ) {
                                     $("#hoto_checklist").show();
-
+                                    $("#hoto_checklist").prop('required',true);
                                   }
                                 if ( checklist == "False" ) {
                                     $("#hoto_checklist").hide();
@@ -364,7 +371,7 @@
                              var check_form = $( "#check_form" ).val();
                                 if ( check_form == "True" ) {
                                     $("#health_check_form").show();
-
+                                    $("#health_check_form").prop('required',true);
                                   }
                                 if ( check_form == "False" ) {
                                     $("#health_check_form").hide();
@@ -372,7 +379,7 @@
                              var fir = $( "#fir" ).val();
                                 if ( fir == "True" ) {
                                     $("#fir_report").show();
-
+                                    $("#fir_report").prop('required',true);
                                   }
                                 if ( fir == "False" ) {
                                     $("#fir_report").hide();
@@ -385,7 +392,7 @@
                                 var requisition = $( "#requisition" ).val();
                                 if ( requisition === "True" ) {
                                     $("#requisition_attach").show();
-
+                                    $("#requisition_attach").prop('required',true);
                                   }
                                 if ( requisition === "False" ) {
                                     $("#requisition_attach").hide();
@@ -393,7 +400,7 @@
                                 var expiry = $( "#expiry" ).val();
                                 if ( expiry === "True" ) {
                                     $("#expiry_attachment").show();
-
+                                    $("#expiry_attachment").prop('required',true);
                                   }
                                 if ( expiry === "False" ) {
                                     $("#expiry_attachment").hide();
@@ -401,7 +408,7 @@
                              var accidnent = $( "#accidnent" ).val();
                                 if ( accidnent === "True" ) {
                                     $("#accident_report").show();
-
+                                    $("#accident_report").prop('required',true);
                                   }
                                 if ( accidnent === "False" ) {
                                     $("#accident_report").hide();
@@ -409,7 +416,7 @@
                              var checklist = $( "#checklist" ).val();
                                 if ( checklist === "True" ) {
                                     $("#hoto_checklist").show();
-
+                                    $("#hoto_checklist").prop('required',true);
                                   }
                                 if ( checklist === "False" ) {
                                     $("#hoto_checklist").hide();
@@ -417,7 +424,7 @@
                              var check_form = $( "#check_form" ).val();
                                 if ( check_form === "True" ) {
                                     $("#health_check_form").show();
-
+                                    $("#health_check_form").prop('required',true);
                                   }
                                 if ( check_form === "False" ) {
                                     $("#health_check_form").hide();
@@ -425,7 +432,7 @@
                              var fir = $( "#fir" ).val();
                                 if ( fir === "True" ) {
                                     $("#fir_report").show();
-
+                                    $("#fir_report").prop('required',true);
                                   }
                                 if ( fir === "False" ) {
                                     $("#fir_report").hide();
@@ -560,12 +567,12 @@
                     <span class="s_website_form_label_content"/>
                   </label>
                   <div class="col-sm">
-                      <input type="hidden" class="form-control s_website_form_input" name="is_expiry" id="expiry" t-att-value="is_expiry_vals"/>
-                    <input type="hidden" class="form-control s_website_form_input" name="is_accidnent" id="accidnent" t-att-value="is_accidnent_vals"/>
-                    <input type="hidden" class="form-control s_website_form_input" name="is_checklist" id="checklist" t-att-value="is_checklist_vals"/>
-                    <input type="hidden" class="form-control s_website_form_input" name="is_check_form" id="check_form" t-att-value="is_check_form_vals"/>
-                    <input type="hidden" class="form-control s_website_form_input" name="is_fir" id="fir" t-att-value="is_fir"/>
-                    <input type="hidden" class="form-control s_website_form_input" name="is_requisition" id="requisition" t-att-value="is_requisition"/>
+                      <input type="text" class="form-control s_website_form_input" name="is_expiry" id="expiry" t-att-value="is_expiry_vals"/>
+                    <input type="text" class="form-control s_website_form_input" name="is_accidnent" id="accidnent" t-att-value="is_accidnent_vals"/>
+                    <input type="text" class="form-control s_website_form_input" name="is_checklist" id="checklist" t-att-value="is_checklist_vals"/>
+                    <input type="text" class="form-control s_website_form_input" name="is_check_form" id="check_form" t-att-value="is_check_form_vals"/>
+                    <input type="text" class="form-control s_website_form_input" name="is_fir" id="fir" t-att-value="is_fir"/>
+                    <input type="text" class="form-control s_website_form_input" name="is_requisition" id="requisition" t-att-value="is_requisition"/>
 
                       <input type="hidden" class="form-control s_website_form_input" name="name" t-att-value="transfer_types.name"/>
                     <input type="hidden" class="form-control s_website_form_input" name="project_id" t-att-value="projects"/>
@@ -631,9 +638,13 @@
     </address>
 
             <div class="alert alert-warning" data-oe-model="ir.ui.view" data-oe-id="2176" data-oe-field="arch" data-oe-xpath="/data/xpath/t[2]/div[1]">
-                <i class="fa fa-plus-circle"></i>
-                The Google map option is enabled but <a href="/web#action=portal.action_website_configuration">not properly configured</a>.
-            </div>
+                      <a
+                            role="button"
+                            class="btn-primary"
+                            style="margin: 0 10px; font-size: 12px; line-height: 1.5; border-radius: 3px; padding: 8px 10px; color: #ffffff;"
+                        >
+                            <i class="fa fa-download" /> Material Requisition CSV file
+                        </a>            </div>
 
 
 
