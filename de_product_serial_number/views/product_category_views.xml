@@ -1,0 +1,21 @@
+<odoo>
+  <data>
+      
+       <record id="view_product_category_sequence" model="ir.ui.view">
+            <field name="name">product.category.sequence</field>
+            <field name="model">product.category</field>
+            <field name="inherit_id" ref="product.product_category_form_view" />
+            <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="is_requisition"  invisible="1"/>                   
+                </xpath>
+
+              
+
+
+              
+           </field>
+        </record>
+  </data>
+</odoo>
