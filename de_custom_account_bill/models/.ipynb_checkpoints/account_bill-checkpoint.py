@@ -14,11 +14,14 @@ from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tools.misc import formatLang, get_lang
 
 READONLY_STATES = {
-    'confirm': [('readonly', True)],
+    'submit': [('readonly', True)],
+    'operations': [('readonly', True)],
+    'finance': [('readonly', True)],
     'provision': [('readonly', True)],
     'paid': [('readonly', True)],
     'done': [('readonly', True)],
     'cancel': [('readonly', True)],
+    'refuse': [('readonly', True)],
 }
 
 class AccountBill(models.Model):
@@ -38,11 +41,14 @@ class AccountBill(models.Model):
 
     state = fields.Selection([
         ('draft', 'New'),
-        ('confirm', 'Confirmed'),
+        ('submit', 'Submitted'),
+        ('operations', 'Waiting for Approval (Operations)'),
+        ('finance', 'Waiting for Approval (Finance)'),
         ('provision', 'Paid in Advance'),
         ('paid', 'Actual Paid'),
         ('done', 'Closed'),
         ('cancel', 'Cancelled'),
+        ('refuse', 'Refused'),
         ], string='Status', readonly=True, copy=False, index=True, tracking=4, default='draft')
 
     date_from = fields.Date('From Date', required=True, states=READONLY_STATES, index=True, copy=False,)
@@ -99,8 +105,18 @@ class AccountBill(models.Model):
         }
 
     def action_confirm(self):
-        self.state = 'confirm'
+        self.state = 'submit'
         self.date_confirm = fields.Datetime.now()
+    
+    def action_refuse(self):
+        self.state = 'refuse'
+        self.date_confirm = fields.Datetime.now()
+    
+    def action_operations(self):
+        self.state = 'operations'
+    
+    def action_finance(self):
+        self.state = 'finance'
 
     def action_approved(self):
         self.state = 'approved'
