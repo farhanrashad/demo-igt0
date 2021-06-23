@@ -7,24 +7,28 @@
             <field name="arch" type="xml">
                 <form string="Electricity Bill">
                     <header>
-                        <button name='action_confirm' string="Submit" type="object" states='draft'                                 class='oe_highlight'/>
-                        <button name='action_refuse' string="Refused" type="object" states='confirm'
+<!--                         <button name='action_confirm' string="Submit" type="object" states='draft' class='oe_highlight'/> -->
+                        <button name='action_refuse' string="Refused" type="object" states='operations,finance' class='oe_highlight'/>
+                        
+                        <button name='action_submit_approval' string="Submit For Approval" type="object" states='submit_approval'
                                 class='oe_highlight'/>
                         
-                        <button name='action_operations' string="Waiting for Approval (Operations)" type="object" states='confirm'
+                        <button name='action_operations' string="Approved" type="object" states='operations'
                                 class='oe_highlight'/>
                         
-                        <button name='action_finance' string="Waiting for Approval (Finance)" type="object" states='confirm'
+                        <button name='action_finance' string="Approved" type="object" states='finance'
                                 class='oe_highlight'/>
                         
                         <button name='create_actual_bill' string="Generate Bill" type="object"
-                                class='oe_highlight' states="provision"/>
-
-                        <button name='action_done' string="Done" type="object" states='approved'
+                                class='oe_highlight' states="approved"/>
+                        
+                        <button name='action_cancel' string="Cancel" type="object" states='provision'
                                 class='oe_highlight'/>
 
-                        <field name="state" widget="statusbar"
-                               statusbar_visible="draft,submit,operations,finance,provision,paid,done,refuse"/>
+                        <button name='action_done' string="Done" type="object" states='provision'
+                                class='oe_highlight'/>
+
+                        <field name="state" widget="statusbar"/>
                     </header>
 
                     <sheet>

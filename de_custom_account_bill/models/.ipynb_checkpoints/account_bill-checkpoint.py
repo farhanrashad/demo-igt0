@@ -13,16 +13,17 @@ from odoo.tools.float_utils import float_is_zero
 from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tools.misc import formatLang, get_lang
 
-READONLY_STATES = {
-    'submit': [('readonly', True)],
-    'operations': [('readonly', True)],
-    'finance': [('readonly', True)],
-    'provision': [('readonly', True)],
-    'paid': [('readonly', True)],
-    'done': [('readonly', True)],
-    'cancel': [('readonly', True)],
-    'refuse': [('readonly', True)],
-}
+# READONLY_STATES = {
+#     'submit': [('readonly', True)],
+#     'submit_approval' : [('readonly', True)],
+#     'operations': [('readonly', True)],
+#     'finance': [('readonly', True)],
+#     'provision': [('readonly', True)],
+#     'paid': [('readonly', True)],
+#     'done': [('readonly', True)],
+#     'cancel': [('readonly', True)],
+#     'refuse': [('readonly', True)],
+# }
 
 class AccountBill(models.Model):
     _name = 'account.custom.bill'
@@ -30,35 +31,37 @@ class AccountBill(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Order Reference', required=True, copy=False, readonly=True, index=True, default=lambda self: _('New'))
-    company_id = fields.Many2one('res.company', 'Company', copy=False, required=True, index=True, default=lambda s: s.env.company, states=READONLY_STATES)
-    currency_id = fields.Many2one('res.currency', 'Currency', required=True, states=READONLY_STATES,
+    company_id = fields.Many2one('res.company', 'Company', copy=False, required=True, index=True, default=lambda s: s.env.company)
+    currency_id = fields.Many2one('res.currency', 'Currency', required=True,
                                   default=lambda self: self.env.company.currency_id.id)
     user_id = fields.Many2one('res.users', string='Purchase Representative', index=True, tracking=True,
-        default=lambda self: self.env.user, check_company=True,states=READONLY_STATES,)
+        default=lambda self: self.env.user, check_company=True,)
     
-    custom_bill_type_id = fields.Many2one('account.custom.bill.type', string='Bill Type', index=True, required=True, states=READONLY_STATES,)
+    custom_bill_type_id = fields.Many2one('account.custom.bill.type', string='Bill Type', index=True, required=True)
 
 
     state = fields.Selection([
-        ('draft', 'New'),
-        ('submit', 'Submitted'),
-        ('operations', 'Waiting for Approval (Operations)'),
-        ('finance', 'Waiting for Approval (Finance)'),
+        ('draft', 'Draft'),
+#         ('submit', 'Submitted'),
+        ('submit_approval','Submit for Approval'),
+        ('operations', 'Waiting for Operations Approval'),
+        ('finance', 'Waiting for Finance Approval'),
+        ('approved', 'Approved'),
         ('provision', 'Paid in Advance'),
         ('paid', 'Actual Paid'),
-        ('done', 'Closed'),
+        ('done', 'Done'),
         ('cancel', 'Cancelled'),
         ('refuse', 'Refused'),
-        ], string='Status', readonly=True, copy=False, index=True, tracking=4, default='draft')
+        ], string='Status', readonly=True, copy=False, default='draft')
 
-    date_from = fields.Date('From Date', required=True, states=READONLY_STATES, index=True, copy=False,)
-    date_to = fields.Date('To Date', required=True, states=READONLY_STATES, index=True, copy=False,)
+    date_from = fields.Date('From Date', required=True, index=True, copy=False,)
+    date_to = fields.Date('To Date', required=True, index=True, copy=False,)
 
     ref = fields.Char(string='Reference')
     description = fields.Char('Description')
     
-    invoice_date = fields.Date('Bill Date', required=True, states=READONLY_STATES,)
-    partner_id = fields.Many2one('res.partner', 'Partner', required=True, states=READONLY_STATES,)
+    invoice_date = fields.Date('Bill Date', required=True)
+    partner_id = fields.Many2one('res.partner', 'Partner', required=True)
     
     date_confirm = fields.Datetime('Confirm Date', readonly=True)
     date_advance_payment = fields.Date('Advance Payment Date', readonly=True)
@@ -103,7 +106,12 @@ class AccountBill(models.Model):
             'target': 'current',
             'view_mode': 'tree,form',
         }
-
+        
+    @ api.model 
+    def create (self, vals): 
+        vals ['state'] = 'submit_approval' 
+        return super (AccountBill, self) .create (vals) 
+    
     def action_confirm(self):
         self.state = 'submit'
         self.date_confirm = fields.Datetime.now()
@@ -112,14 +120,20 @@ class AccountBill(models.Model):
         self.state = 'refuse'
         self.date_confirm = fields.Datetime.now()
     
-    def action_operations(self):
+    def action_submit_approval(self):
         self.state = 'operations'
     
-    def action_finance(self):
+    def action_operations(self):
         self.state = 'finance'
-
-    def action_approved(self):
+    
+    def action_finance(self):
         self.state = 'approved'
+
+#     def action_approved(self):
+#         self.state = 'provision'
+    
+    def action_cancel(self):
+        self.state = 'cancel'
 
     def action_done(self):
         self.state = 'done'
@@ -180,7 +194,7 @@ class AccountBill(models.Model):
             'invoice_line_ids': line_vals,
         }
         move = self.env['account.move'].create(vals)
-        self.state = 'paid'
+        self.state = 'provision'
         self.date_actual_bill = fields.Datetime.now()
 
 class AccountBillLine(models.Model):
