@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models, _
+from odoo.exceptions import UserError, AccessError, ValidationError
+
 
 class ProductSerialGenerate(models.TransientModel):
     _name = "product.serial.generate"
@@ -15,7 +17,9 @@ class ProductSerialGenerate(models.TransientModel):
     def action_generate_serial(self):
         for product_tmpl in self.product_ids:
             product = self.env['product.product'].search([('product_tmpl_id','=', product_tmpl.id)])
-            for product_serial in range(self.serial_count):                
+            for product_serial in range(self.serial_count):  
+                if not product_tmpl.categ_id.sequence_id.next_by_id():
+                    raise UserError('Please Select Sequence Code on Product Category!')               
                 serial_vals = {
                     'name': product_tmpl.categ_id.sequence_id.next_by_id(),
                     'product_id': product.id,
