@@ -39,10 +39,8 @@ class PenaltyEntry(models.Model):
     company_id = fields.Many2one('res.company', 'Company', copy=False, required=True, index=True, default=lambda s: s.env.company)
     currency_id = fields.Many2one('res.currency', 'Currency', required=True, 
                                   default=lambda self: self.env.company.currency_id.id)
-    text = fields.Text(string="")
-    user_id = fields.Many2one('res.users', string='Purchase Representative', index=True, tracking=True,
-        default=lambda self: self.env.user, check_company=True,)
-   
+
+    text = fields.Text()
 
     state = fields.Selection([
         ('draft', 'New'),
@@ -57,35 +55,23 @@ class PenaltyEntry(models.Model):
     stage_id = fields.Many2one('account.penalty.entry.stage', string='Stage', compute='_compute_stage_id', store=True, readonly=False, ondelete='restrict', tracking=True, index=True, default=_get_default_stage_id, copy=False)
     stage_category = fields.Selection(related='stage_id.stage_category')
                                    
-    expense_advance = fields.Boolean(related='penalty_entry_type_id.expense_advance')
- 
+
     penalty_entry_line = fields.One2many('account.penalty.entry.line', 'penalty_entry_id', string='Entry Line', copy=True, auto_join=True)
     
     #account related fields
-    expense_advance = fields.Boolean(related='penalty_entry_type_id.expense_advance')
     journal_id = fields.Many2one('account.journal',related='penalty_entry_type_id.journal_id')
     
     has_partner = fields.Selection(related="penalty_entry_type_id.has_partner")
-    has_ref = fields.Selection(related="penalty_entry_type_id.has_ref")
-    has_purchase_requisition = fields.Selection(related="penalty_entry_type_id.has_purchase_requisition")
-    has_purchase = fields.Selection(related="penalty_entry_type_id.has_purchase")
-    has_picking = fields.Selection(related="penalty_entry_type_id.has_picking")
     has_invoice = fields.Selection(related="penalty_entry_type_id.has_invoice")
-    has_purchase_subscription = fields.Selection(related="penalty_entry_type_id.has_purchase_subscription")
-    
-    #fleet form
+
     has_penalty_fields = fields.Selection(related="penalty_entry_type_id.has_penalty_fields")
-    #fleet form field datatype define
-    ref_fleet = fields.Char('Reference', copy=False)
-    supplier_inv_no_fleet = fields.Char(string='Supplier Invoice Number')
-#     amount_total_fleet = fields.Float(string='Amount Total', compute="_compute_total_fleet")
-    duration_from = fields.Date(string='Duration')
-    duration_to = fields.Date(string='')
-    period_fleet = fields.Date(string='Period')
-    taxes_fleet = fields.Many2one('account.tax', string='Taxes')
+    taxe_ids = fields.Many2one('account.tax', string='Taxes')
+    amount_total = fields.Float(string='Amount Total')
+    confirmed_amount_total = fields.Float(string='Confirmed Amount Total')
+    month  = fields.Char(string='Month')
+
       
     #travel form
-    has_travel_fields = fields.Selection(related="penalty_entry_type_id.has_travel_fields")
     #travel form field datatype define
     ref_travel = fields.Char('Reference', copy=False)
     supplier_inv_no_travel = fields.Char(string='Supplier Invoice Number')
@@ -94,13 +80,11 @@ class PenaltyEntry(models.Model):
          ('Vehicle', 'Vehicle Rental')],
         string='Travel By', track_visibility="always")
     customer_type = fields.Selection([('local', 'Local'), ('expat', 'Expat')], string='Customer Type')
-#     amount_total_travel = fields.Float(string='Amount Total', compute="_compute_total_travel")
     effective_date = fields.Date(string='Effected Date')
     date_of_sub = fields.Date(string='Date of Subscription')
     taxes_travel = fields.Many2one('account.tax', string='Taxes')
        
     #accommodation form
-    has_accommodation_fields = fields.Selection(related="penalty_entry_type_id.has_accommodation_fields")
     #accommodation form field datatype define
     ref_accom = fields.Char('Reference', copy=False)
     supplier_inv_no_accom = fields.Char(string='Supplier Invoice Number')
@@ -113,7 +97,7 @@ class PenaltyEntry(models.Model):
     
 #     partner_id = fields.Many2one('res.partner', string='Vendor', required=True, states=READONLY_STATES, change_default=True, tracking=True, domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]", help="You can find a vendor by its Name, TIN, Email or Internal Reference.")
     partner_id = fields.Many2one('res.partner',  String="Supplier")
-    amount_total_all = fields.Float(string="Total Amount", compute="_compute_amount_total_all")
+    amount_total_all = fields.Float(string="Total Amount")
     ref = fields.Char('Reference', copy=False)
     invoice_no_fleet = fields.Many2one('account.move', string='Invoice Number', compute="_compute_invoice_no_fleet", readonly=True)
     purchase_requisition_id = fields.Many2one('purchase.requisition', string="Requisition", check_company=True)
@@ -149,35 +133,6 @@ class PenaltyEntry(models.Model):
                 search_domain.append(('penalty_entry_type_ids', '=', section_id))
         search_domain += list(domain)
         return self.env['account.penalty.entry.stage'].search(search_domain, order=order, limit=1).id
-                               
-            
-    @api.depends('penalty_entry_line.amount','penalty_entry_line.amount_accom','penalty_entry_line.amount_travel')
-    def _compute_amount_total_all(self):
-        for record in self:
-            amount_total = 0.0
-            if record.penalty_entry_type_id.has_penalty_fields == 'required':
-                for line in record.penalty_entry_line:
-                    amount_total = line.amount + amount_total
-                record.update({
-                    'amount_total_all': amount_total,
-                })
-            elif record.penalty_entry_type_id.has_accommodation_fields == 'required':
-                for line in record.penalty_entry_line:
-                    amount_total = line.amount_accom + amount_total
-                record.update({
-                    'amount_total_all': amount_total,
-                })
-            elif record.penalty_entry_type_id.has_travel_fields == 'required':
-                for line in record.penalty_entry_line:
-                    amount_total = line.amount_travel + amount_total
-                record.update({
-                    'amount_total_all': amount_total,
-                })
-            else:
-                record.update({
-                    'amount_total_all': 0.0,
-                })
-    
 
            
     
@@ -187,16 +142,7 @@ class PenaltyEntry(models.Model):
             invoices = entry.mapped('penalty_entry_line.invoice_lines.move_id')
             entry.invoice_ids = invoices
             entry.invoice_count = len(invoices)
-            
-            
-    def _compute_invoice_no_fleet(self):
-        for entry in self:
-            related_invoice = self.env['account.move'].search([('invoice_origin','=',entry.name)],limit=1)
-            entry.update({
-                'invoice_no_fleet' : related_invoice.id,
-            })
-            
-            
+
    
     def button_draft(self):
         self.write({'state': 'draft'})
@@ -324,7 +270,7 @@ class PenaltyEntry(models.Model):
                     'price_unit': line.amount or 0.0,
                     'quantity': 1.0,
                     'account_id' : line.job_scope_account.id,
-                    'tax_ids': [(self.taxes_fleet.id)] if self.taxes_fleet.id else False,
+                    'tax_ids': [(self.taxe_ids.id)] if self.taxe_ids.id else False,
                 }])
             invoice.create({
                 'move_type': 'in_invoice',
@@ -335,31 +281,11 @@ class PenaltyEntry(models.Model):
                 'currency_id': self.currency_id.id,
                 'journal_id': self.penalty_entry_type_id.journal_id.id,
                 'invoice_origin': self.name,
-                #'fiscal_position_id': fpos.id,
                 'invoice_payment_term_id': self.partner_id.property_supplier_payment_term_id.id,
                 'narration': self.name,
                 'invoice_user_id': self.user_id.id,
-                #'partner_bank_id': company.partner_id.bank_ids.filtered(lambda b: not b.company_id or b.company_id == company)[:1].id,
                 'invoice_line_ids':lines_data,
             })
-            
-            
-        elif self.penalty_entry_type_id.has_travel_fields != 'no':
-            for line in self.penalty_entry_line:
-                lines_data.append([0,0,{
-                    'name': self.name + ' - ' + self.travel_by + ' - ' + str(line.user.name) + ' - ' + str(line.fromm) + ' - ' + str(line.to) + ' - ' + str(line.departure_date) + ' - ' + str(line.arrival_date),
-                    'penalty_entry_line_id': line.id,
-                    'price_unit': line.amount_travel or 0.0,
-                    #'discount': line.discount,
-                    'quantity': 1.0,
-                    'account_id' : line.travel_account.id,
-    #                 'product_uom_id': line.product_uom_id.id,
-    #                 'product_id': line.product_id.id,
-                    'tax_ids': [(self.taxes_travel.id)] if self.taxes_travel.id else False,
-    #                 'analytic_account_id': line.analytic_account_id.id,
-    #                 'analytic_tag_ids': [(6, 0, line.analytic_tag_ids.ids)],
-    #                 'project_id': line.project_id.id,
-                }])
             invoice.create({
                 'move_type': 'in_invoice',
                 'penalty_entry_id': self.id,
@@ -369,47 +295,13 @@ class PenaltyEntry(models.Model):
                 'currency_id': self.currency_id.id,
                 'journal_id': self.penalty_entry_type_id.journal_id.id,
                 'invoice_origin': self.name,
-                #'fiscal_position_id': fpos.id,
                 'invoice_payment_term_id': self.partner_id.property_supplier_payment_term_id.id,
                 'narration': self.name,
                 'invoice_user_id': self.user_id.id,
-                #'partner_bank_id': company.partner_id.bank_ids.filtered(lambda b: not b.company_id or b.company_id == company)[:1].id,
                 'invoice_line_ids':lines_data,
             })
             
-        elif self.penalty_entry_type_id.has_accommodation_fields != 'no':
-            for line in self.penalty_entry_line:
-                lines_data.append([0,0,{
-                    'name': self.name + ' - ' + str(line.category_accom) + str(line.check_in) + ' - ' + str(line.check_out) + ' - ' + str(line.user_accom.name),
-                    'penalty_entry_line_id': line.id,
-                    'price_unit': line.amount_accom or 0.0,
-                    #'discount': line.discount,
-                    'quantity': 1.0,
-                    'account_id' : line.accom_account.id,
-    #                 'product_uom_id': line.product_uom_id.id,
-    #                 'product_id': line.product_id.id,
-                    'tax_ids': [(self.taxes_accom.id)] if self.taxes_accom.id else False,
-    #                 'analytic_account_id': line.analytic_account_id.id,
-    #                 'analytic_tag_ids': [(6, 0, line.analytic_tag_ids.ids)],
-    #                 'project_id': line.project_id.id,
-                }])
-            invoice.create({
-                'move_type': 'in_invoice',
-                'penalty_entry_id': self.id,
-                'invoice_date': fields.Datetime.now(),
-                'partner_id': self.partner_id.id,
-                'partner_shipping_id': self.partner_id.id,
-                'currency_id': self.currency_id.id,
-                'journal_id': self.penalty_entry_type_id.journal_id.id,
-                'invoice_origin': self.name,
-                #'fiscal_position_id': fpos.id,
-                'invoice_payment_term_id': self.partner_id.property_supplier_payment_term_id.id,
-                'narration': self.name,
-                'invoice_user_id': self.user_id.id,
-                #'partner_bank_id': company.partner_id.bank_ids.filtered(lambda b: not b.company_id or b.company_id == company)[:1].id,
-                'invoice_line_ids':lines_data,
-            })
-            
+
         return invoice
     
     
@@ -418,7 +310,6 @@ class PenaltyEntryLine(models.Model):
     _description = 'penalty Entry Line'
     
     penalty_entry_id = fields.Many2one('account.penalty.entry', string='Penalty Entry', required=True, ondelete='cascade', index=True, copy=False)
-#     note = fields.Char(string='Description')
     state = fields.Selection(related='penalty_entry_id.state', readonly=True)
     company_id = fields.Many2one(
         string='Company', related='penalty_entry_id.company_id',
@@ -427,46 +318,16 @@ class PenaltyEntryLine(models.Model):
 
     invoice_lines = fields.One2many('account.move.line', 'penalty_entry_line_id', string="Bill Lines", readonly=True, copy=False)
 
-    #fleet line-model field data type define
-    car_details = fields.Many2one('fleet.vehicle', string="Car Detail")
-    driver = fields.Many2one('res.partner', string="Driver")
-    user = fields.Many2one('hr.employee',string="User")
-    job_scope = fields.Selection(
-        [('car rental', 'Car Rental.'),
-         ('driver ot', 'Driver OT.'),
-         ('driver salary', 'Driver Salary.'),
-         ('maintenance fee', 'Maintenance Fee.'),
-         ('management fee', 'Management Fee.'),
-         ('on demand', 'On Demand.'),
-         ('petrol charges', 'Petrol Charges.'),
-         ('toll fee', 'Toll Fee.'),
-         ('replacement', 'Replacement.')],
-        string='Job Scope', track_visibility="always")
-    job_scope_account = fields.Many2one('account.account', string= "Account", compute='account_job_scope')
-    days = fields.Integer(string="Days")
-    amount = fields.Float(string="Amount (MMK)")
+    site_id = fields.Many2one('project.project', string='Site')
+    name = fields.Char(stirng='Description')
+    service_charge = fields.Float(string='Service Charge')
+    penalty_percent = fields.Float(string='% Penalty')
+    amount = fields.Float(string='Penalty Amount')
+    confirmed_amount = fields.Float(string='Confirmed Amount')
     remark = fields.Char(string="Remark")
     
-    #travel line-model field data type define
-    category = fields.Selection([
-        ('domestic', 'Domestic'),
-        ('international', 'International'),
-        ], string='Category', default='domestic')
-    fromm = fields.Char(string="From")
-    to = fields.Char(string="To")
-    departure_date = fields.Date(string="Departure Date")
-    arrival_date = fields.Date(string="Arrival Date")
-    number_of_days = fields.Float(string="Number of Days" , compute = '_number_of_days')
-    travel_reference = fields.Many2one('travel.request' , string="Travel Reference")
-    description = fields.Char(related='travel_reference.description_main',string="Description")
-    travel_for = fields.Selection(related='travel_reference.travel_type',string="Travel For")
-    unit_price = fields.Float(string="Unit Price")
-    extra_charges = fields.Float(string="Extra Charges")
-    user_travel = fields.Many2one('res.users',string="User")
-    amount_travel = fields.Float(string="Total Amount", compute='_compute_amount_travel')
-    remark_travel = fields.Char(string="Remark")
-    travel_account = fields.Many2one('account.account', string= "Account",)
-    
+
+
     
     @api.onchange('departure_date','arrival_date')
     def _number_of_days(self):
@@ -509,73 +370,12 @@ class PenaltyEntryLine(models.Model):
                 'amount_travel': total_amount_travel
             })
         
-    @api.depends('job_scope')
-    def account_job_scope(self):
-        for record in self:
-            for line in self:
-                if line.job_scope == 'car rental':
-                    line.update({
-                    'job_scope_account': self.env['account.account'].search([('code','=', '685200')]).id,
-                })
-                elif line.job_scope == 'driver ot':
-                    line.update({
-                    'job_scope_account': self.env['account.account'].search([('code','=', '685400')]).id,
-                })
-                elif line.job_scope == 'driver salary':
-                    line.update({
-                    'job_scope_account': self.env['account.account'].search([('code','=', '685400')]).id,
-                })
-                elif line.job_scope == 'maintenance fee':
-                    line.update({
-                    'job_scope_account': self.env['account.account'].search([('code','=', '685300')]).id,
-                })
-                elif line.job_scope == 'management fee':
-                    line.update({
-                    'job_scope_account': self.env['account.account'].search([('code','=', '685400')]).id,
-                })
-                elif line.job_scope == 'on demand':
-                    line.update({
-                    'job_scope_account': self.env['account.account'].search([('code','=', '685200')]).id,
-                })
-                elif line.job_scope == 'petrol charges':
-                    line.update({
-                    'job_scope_account': self.env['account.account'].search([('code','=', '685100')]).id,
-                })
-                elif line.job_scope == 'toll fee':
-                    line.update({
-                    'job_scope_account': self.env['account.account'].search([('code','=', '685500')]).id,
-                })
-                elif line.job_scope == 'replacement':
-                    line.update({
-                    'job_scope_account': self.env['account.account'].search([('code','=', '685200')]).id,
-                })
-                else:
-                    line.update({
-                    'job_scope_account': self.env['account.account'].search([('code','=', '685300')]).id,
-                })
+
                     
                     
                     
 
-    #accommodation line-model field data type define
-    category_accom = fields.Selection([
-        ('travel', 'Travel'),
-        ('housing allowance', 'Housing Allowance'),
-        ], string='Category', default='travel')
-    user_accom = fields.Many2one('res.users',string="User")
-    hotel_detail = fields.Char(string="Hotel Detail")
-    check_in = fields.Date(string="Check-In")
-    check_out = fields.Date(string="Check-Out")
-    number_of_nights = fields.Float(string="Number of Nights", compute='_number_of_nights')
-    travel_reference_accom = fields.Many2one('travel.request' , string="Travel Reference")
-    description_accom = fields.Char(related='travel_reference_accom.description_main',string="Description")
-    travel_for_accom = fields.Selection(related='travel_reference_accom.travel_type',string="Travel For")
-    unit_price_accom = fields.Float(string="Unit Price")
-    extra_charges_accom = fields.Float(string="Extra Charges")
-    remark_accom = fields.Char(string="Remark")
-    amount_accom = fields.Float(string="Total Amount", compute='_compute_amount_accom')
-    accom_account = fields.Many2one('account.account', string= "Account")
-    
+
     @api.depends('number_of_nights', 'unit_price_accom', 'extra_charges_accom')
     def _compute_amount_accom(self):
         total_amount = 0
