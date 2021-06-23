@@ -26,6 +26,7 @@
     'data': [
         'security/ir.model.access.csv',
         'wizard/product_serial_generate_views.xml',
+        'views/product_category_views.xml',
         'views/product_template_views.xml',
     ],
     # only loaded in demonstration mode
