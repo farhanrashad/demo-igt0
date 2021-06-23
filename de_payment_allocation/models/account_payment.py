@@ -98,7 +98,7 @@ class AccountPayment(models.Model):
             'type': 'ir.actions.act_window',
             'target': 'new',
             'context': {'default_payment_line_ids': payment_list, 
-                        'default_invoice_line_ids': invoice_list, 
+                        'default_invoice_move_ids': invoice_list, 
                         'default_company_id': self.env.company.id,
                         'default_partner_id': self.partner_id.id,
                         'default_is_payment': True,

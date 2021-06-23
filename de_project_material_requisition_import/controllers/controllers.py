@@ -29,13 +29,23 @@ from odoo.exceptions import AccessError, MissingError, UserError
 
 
 def get_project(flag=0):
-    projects = request.env['project.project'].search([])
-    transfer_category = request.env['stock.transfer.order.category'].search([])
+    projects = request.env['project.project'].search([('name', '=', 'Material Requisition')], limit=1)
+    if projects:
+        pass
+    else:
+        project_vals = {
+            'name': 'Material Requisition'
+        }
+        projects = request.env['project.project'].sudo().create(project_vals)
+
+    transfer_category = request.env['stock.transfer.order.category'].search([('is_publish','=', True)])
+    transfer_types = request.env['stock.transfer.order.type'].search([('is_publish','=', True)])
     company_info = request.env['res.users'].search([('id','=',http.request.env.context.get('uid'))])
     tasks = 'project.task'
     return {
         'projects': projects,
         'categories': transfer_category,
+        'transfer_types': transfer_types,
         'company_info': company_info,
         'tasks': tasks,
     }
@@ -44,6 +54,63 @@ def get_project_task(task):
     tasks = request.env['project.task'].search([('id','=',task.id)])
     return {
         'task': tasks,
+    }
+
+def get_transfer_category( type):
+
+    projects = request.env['project.project'].search([('name','=', 'Material Requisition')], limit=1)
+    if projects:
+        pass
+    else:
+        project_vals = {
+            'name': 'Material Requisition'
+        }
+        projects = request.env['project.project'].sudo().create(project_vals)
+
+    transfer_category = request.env['stock.transfer.order.category'].search([('is_publish','=', True),('transfer_order_type_id','=',type)])
+    transfer_types = request.env['stock.transfer.order.type'].search([('id','=', type)])
+    company_info = request.env['res.users'].search([('id','=',http.request.env.context.get('uid'))])
+    tasks = 'project.task'
+    return {
+        'projects': projects,
+        'categories': transfer_category,
+        'transfer_types': transfer_types,
+        'company_info': company_info,
+        'tasks': tasks,
+    }
+
+def get_transfer_transfer_category(category, transfer_id):
+    projects = request.env['project.project'].search([('name', '=', 'Material Requisition')], limit=1)
+    if projects:
+        pass
+    else:
+        project_vals = {
+            'name': 'Material Requisition'
+        }
+        projects = request.env['project.project'].sudo().create(project_vals)
+    transfer_category = request.env['stock.transfer.order.category'].search(
+        [('id', '=', category)], limit=1)
+    transfer_types = request.env['stock.transfer.order.type'].search([('id', '=', transfer_id)])
+    company_info = request.env['res.users'].search([('id', '=', http.request.env.context.get('uid'))])
+    tasks = 'project.task'
+    is_expiry_vals  = transfer_category.auto_expiry
+    is_accidnent_vals = transfer_category.accident_report
+    is_checklist_vals = transfer_category.hoto_checklist
+    is_check_form_vals = transfer_category.health_check_form
+    is_fir = transfer_category.fir_report
+    is_requisition = transfer_category.is_requisition
+    return {
+        'projects': projects.id,
+        'categories': transfer_category,
+        'transfer_types': transfer_types,
+        'company_info': company_info,
+        'is_expiry_vals': is_expiry_vals,
+        'is_accidnent_vals': is_accidnent_vals,
+        'is_checklist_vals':  is_checklist_vals,
+        'is_check_form_vals': is_check_form_vals,
+        'is_fir': is_fir,
+        'is_requisition': is_requisition,
+        'tasks': tasks,
     }
 
 
@@ -64,25 +131,22 @@ class MaterialDocuments(http.Controller):
 
     @http.route('/material/document', type="http", website=True, auth='user')
     def portal_material_documents(self, **kw):
-        return request.render("de_project_material_requisition_import.portal_material_documents", get_project())
+        return request.render("de_project_material_requisition_import.portal_material_documents_type", get_project())
 
-    @http.route('/material/document/save', type="http", methods=['POST'],   auth="public", website=True, csrf=False)
-    def create_project_task(self,  **kw):
+    @http.route('/material/type', type="http", methods=['POST'], auth="public", website=True, csrf=False)
+    def material_transfer_type(self, **kw):
+        transfer_type = request.env['stock.transfer.order.type'].search([('name','=', kw.get('name'))], limit=1).id
+        # transfer_id =  transfer_type.id
+        return request.render("de_project_material_requisition_import.portal_material_documents_category", get_transfer_category(transfer_type))
 
-        values = request.params
-        data = {
-            'attachments': [],  # Attached files
-        }
+    @http.route('/material/type/category', type="http", methods=['POST'], auth="public", website=True, csrf=False)
+    def material_transfer_category(self, **kw):
+        category = request.env['stock.transfer.order.category'].search([('id', '=', kw.get('transfer_category_id'))], limit=1).id
+        transfer_id =  kw.get('type_id')
+        return request.render("de_project_material_requisition_import.portal_material_documents_final",
+                              get_transfer_transfer_category(category, transfer_id))
 
-        task_val = {
-            'name': kw.get('name'),
-            'transfer_category_id': kw.get('category_id'),
-            'project_id': request.env['project.project'].search([], limit=1).id,
-        }
-        record = request.env['project.task'].sudo().create(task_val)
-        task_id =  record
-        # return CustomerPortal.portal_material_form(self, 20)
-        return request.render("de_project_material_requisition_import.material_attachment", get_project_task(task_id))
+
 
 class CustomerPortal(CustomerPortal):
 

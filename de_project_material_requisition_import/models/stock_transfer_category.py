@@ -16,4 +16,11 @@ import io
 class StockTransferCategory(models.Model):
     _inherit = 'stock.transfer.order.category'
 
-    no_of_attachment = fields.Integer(string='Number Of Attachment')
+    is_publish = fields.Boolean(string='Publish on Website')
+    is_requisition = fields.Boolean(string='Requisition Import')
+    health_check_form = fields.Boolean(string='Health Check Form')
+    fir_report = fields.Boolean(string='FIR Report')
+    accident_report = fields.Boolean(string='Accident Report')
+    hoto_checklist = fields.Boolean(string='HOTO Checklist')
+
+
