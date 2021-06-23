@@ -99,10 +99,10 @@ class TopUpBalance(models.Model):
     is_populated = fields.Boolean('Is Populated')
     balance_month = fields.Char(string="Current Period", store=True, compute='_compute_previous_period')
     
-    _sql_constraints = [
-        ('balance_month_uniq', 'unique(balance_month)',
-            'Balance can be requested once in a Month')       
-    ]
+    #_sql_constraints = [
+     #   ('balance_month_uniq', 'unique(balance_month)',
+      #      'Balance can be requested once in a Month')       
+    #]
 
     
     
