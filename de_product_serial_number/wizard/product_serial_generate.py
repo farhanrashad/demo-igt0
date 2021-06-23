@@ -18,7 +18,7 @@ class ProductSerialGenerate(models.TransientModel):
         for product_tmpl in self.product_ids:
             product = self.env['product.product'].search([('product_tmpl_id','=', product_tmpl.id)])
             for product_serial in range(self.serial_count):  
-                if not product_tmpl.categ_id.sequence_id.next_by_id():
+                if not product_tmpl.categ_id.sequence_id:
                     raise UserError('Please Select Sequence Code on Product Category!')               
                 serial_vals = {
                     'name': product_tmpl.categ_id.sequence_id.next_by_id(),
