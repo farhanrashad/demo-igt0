@@ -48,6 +48,9 @@ class ProjectTask(models.Model):
                                             string="Entry Attachment")
 
 
+    custom_entry_type_id = fields.Many2one('account.custom.entry.type', string='Entry Type')
+    entry_partner_id = fields.Many2one('res.partner', string='Contractor')
+
     is_entry_attachment = fields.Boolean(string='Is Entry Attachment')
     is_entry_processed = fields.Boolean(string='Entry Processed')
     un_processed_entry = fields.Boolean(string='Un-Processed Entry')
@@ -61,7 +64,6 @@ class ProjectTask(models.Model):
 	
     def action_journal_entry_import(self):
         keys = []
-        line_keys = []
         ir_model_fields_obj = self.env['ir.model.fields']
         custom_entry_obj = self.env['account.custom.entry']
         custom_entry_obj_line = self.env['account.custom.entry.line']
@@ -79,33 +81,47 @@ class ProjectTask(models.Model):
                 count = 0
                 for row in file_reader:
                     for row_val in  row:
-                        search_field = ir_model_fields_obj.sudo().search([
-                            ("model", "=", "account.custom.entry"),
-                            ("name", "=", row_val),
-                        ], limit=1)
-                        # if search_field:
-                        keys.append(search_field.name)
 
-                        search_line_field = ir_model_fields_obj.sudo().search([
+                        search_field = ir_model_fields_obj.sudo().search([
                             ("model", "=", "account.custom.entry.line"),
                             ("name", "=", row_val),
                         ], limit=1)
-                        # if search_line_field:
-                        line_keys.append(search_line_field.name)
+                        keys.append(search_field.name)
+
                     break
                 rowvals = []
                 vals = {}
                 line_vals = {}
+                custom_vals = {
+                    'date_entry': fields.datetime.now(),
+                    'partner_id': self.entry_partner_id.id,
+                    'custom_entry_type_id': self.custom_entry_type_id.id,
+                    'duration_from': fields.date.today(),
+                    'duration_to': fields.date.today(),
+                }
+                custom_entry = self.env['account.custom.entry'].create(custom_vals)
                 for data_row in file_reader:
                     index = 0
                     i = 0
                     for data_column in data_row:
+                        vals.update({
+                            'custom_entry_id': custom_entry.id
+                        })
                         rowvals.append(data_row)
                         search_field = ir_model_fields_obj.sudo().search([
-                            ("model", "=", "account.custom.entry"),
+                            ("model", "=", "account.custom.entry.line"),
                             ("name", "=", keys[i]),
                         ], limit=1)
-                        if search_field.ttype == 'many2one':
+                        if search_field.ttype == 'many2one' and search_field.name == 'car_details':
+
+                            many2one_vals = self.env[str(search_field.relation)].search([('display_name','=',data_column)], limit=1)
+
+                            vals.update({
+                                keys[i]: many2one_vals.id
+                            })
+                            index = index + 1
+                            i = i + 1
+                        elif search_field.ttype == 'many2one':
 
                             many2one_vals = self.env[str(search_field.relation)].search([('name','=',data_column)], limit=1)
 
@@ -139,35 +155,9 @@ class ProjectTask(models.Model):
                             index = index + 1
                             i = i + 1
 
-                        search_field_line = ir_model_fields_obj.sudo().search([
-                            ("model", "=", "account.custom.entry.line"),
-                            ("name", "=", line_keys[i]),
-                        ], limit=1)
-                #         if search_field_line:
-                #             if search_field_line.ttype == 'many2one':
-                #
-                #                 many2one_vals = self.env[str(search_field_line.relation)].search([('name', '=', data_column)],
-                #                                                                             limit=1)
-                #                 # raise UserError(str(search_field_line.name)+ ' '+str(many2one_vals.id)+' '+str(data_column))
-                #
-                #                 line_vals.update({
-                #                     line_keys[i]: many2one_vals.id
-                #                 })
-                #                 index = index + 1
-                #                 i = i + 1
-                #
-                #             else:
-                #                 if line_keys[i] != False:
-                #                     line_vals.update({
-                #                         line_keys[i]: data_column
-                #                     })
-                #                 index = index + 1
-                #                 i = i + 1
-                # raise UserError(str(vals) +' '+str(line_keys))
-                custom_entry_obj.create(vals)
-                custom_entry_obj_line.create(line_vals)
-
-
+                custom_entry_obj_line.create(vals)
                 custom.is_entry_processed = True
                 custom.un_processed_entry = False
-    
+                custom.user_id = self.env.user.id
+
+
