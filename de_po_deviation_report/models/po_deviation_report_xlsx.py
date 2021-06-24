@@ -8,6 +8,7 @@ class GenerateXLSXReport(models.Model):
     _inherit = 'report.report_xlsx.abstract'
 
     def generate_xlsx_report(self, workbook, data, lines):
+        
         format1 = workbook.add_format({'font_size': '12', 'align': 'vcenter', 'bold': True})
         sheet = workbook.add_worksheet('PO Deviation Report')
         sheet.write(3, 0, 'Order Reference', format1)
@@ -219,6 +220,7 @@ class GenerateXLSXReport(models.Model):
                                     row = row + 1
 
             else:
-                raise UserError("There is No Revision Available")
+                sheet.write(row,0,'There is No Revision Available',format1)
+                row = row + 1
         workbook.close()
 
