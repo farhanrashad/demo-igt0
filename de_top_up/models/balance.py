@@ -5,6 +5,7 @@ from datetime import date, timedelta, datetime
 
 class TopUpBalance(models.Model):
     _name = 'topup.balance'
+    _inherit = ['portal.mixin', 'mail.thread', 'mail.activity.mixin']
     _description = 'Top Up Balance model'
 
     def unlink(self):
@@ -29,7 +30,7 @@ class TopUpBalance(models.Model):
         ('confirmed', 'Confirmed'),
         ('closed', 'Closed'),
         ('cancelled', 'Cancelled'),
-    ], string='State', index=True, copy=False, default='draft', track_visibility='onchange')
+    ], string='State', index=True, copy=False, default='draft', tracking=True)
 
     topup_balance_lines = fields.One2many('topup.balance.line', 'balance_id')
 
@@ -53,9 +54,6 @@ class TopUpBalance(models.Model):
                 line_data.append((0,0,{
                 'operator': balanceline.operator,
                 'opening_balance': balanceline.balance,
-#                 'purchase_qty':  balanceline.purchase_qty,
-#                 'distributed_qty':balanceline.distributed_qty,
-#                 'balance': balanceline.balance,
                 'remarks': ' ',
                 }))
         else:
@@ -95,16 +93,16 @@ class TopUpBalance(models.Model):
 
     
 
-    date = fields.Date(string="Date", default=fields.date.today())
+    date = fields.Date(string="Date", default=fields.date.today(), tracking=True)
     pre_period = fields.Char(string="Previous Period", compute='_compute_previous_period')
     curr_period = fields.Char(string="Current Period",  compute='_compute_previous_period')
     is_populated = fields.Boolean('Is Populated')
     balance_month = fields.Char(string="Current Period", store=True, compute='_compute_previous_period')
     
-    _sql_constraints = [
-        ('balance_month_uniq', 'unique(balance_month)',
-            'Balance can be requested once in a Month')       
-    ]
+    #_sql_constraints = [
+     #   ('balance_month_uniq', 'unique(balance_month)',
+      #      'Balance can be requested once in a Month')       
+    #]
 
     
     
@@ -126,9 +124,10 @@ class TopUpBalance(models.Model):
     def _compute_previous_period(self):
         curr_date = fields.date.today()
         pre_date = fields.date.today() - timedelta(days=30)
-        self.pre_period = pre_date.strftime('%B-%Y')
-        self.curr_period = curr_date.strftime('%B-%Y')
-        self.balance_month = self.date.strftime('%B-%Y')
+        for record in self:
+        	record.pre_period = pre_date.strftime('%B-%Y')
+        	record.curr_period = curr_date.strftime('%B-%Y')
+        	record.balance_month = record.date.strftime('%B-%Y')
 
 
 class TopUpBalanceLine(models.Model):

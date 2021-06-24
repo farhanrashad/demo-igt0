@@ -11,7 +11,13 @@
                             class='oe_highlight'/>
                     <button name="action_submitted" string="Submit" type="object" states='draft'
                             class='oe_highlight'/>
-                    <button name="action_cancel" string="Cancel" type="object" states='waiting for approval'
+                    <button name="action_approved_hr" string="Approve" type="object" states='approved_hr'
+                            class='oe_highlight'/>
+                    <button name="action_approved_admin" string="Approve" type="object" states='approved_admin'
+                            class='oe_highlight'/>
+                    <button name="action_cancel" string="Cancel" type="object" states='draft'
+                            class='oe_highlight'/>
+                    <button name="action_refuse" string="Refuse" type="object" states='waiting for approval,approved_hr,approved_admin'
                             class='oe_highlight'/>
                     <button name="action_distributed" string="Distribute" type="object" states='approved'
                             class='oe_highlight'/>
@@ -27,6 +33,7 @@
                             <field name='description'/>
                             <field name='period'/>
                             <field name='requester'/>
+                            <field name='manager'/>
                             <field name='department'/>
                             <field name='representative_batch'/>
                             <field name='date'/>
@@ -46,7 +53,7 @@
                                     <field name='mpt' sum="Total MRP"/>
                                     <field name='mytel' sum="Total Mytel"/>
                                     <field name='total' sum="Total"/>
-                                    <field name='remarks'/>
+                                    <field name='remarks' attrs="{'required': [('parent.additional_req','=',True)]}"/>
                                 </tree>
                             </field>
                         </page>
@@ -60,12 +67,18 @@
                                     <field name='mpt' sum="Total MRP"/>
                                     <field name='mytel' sum="Total Mytel"/>
                                     <field name='total' sum="Total"/>
-                                    <field name='remarks'/>
+                                    <field name='remarks' attrs="{'required': [('parent.type','=','category use')]}"/>
                                 </tree>
                             </field>
                         </page>
                     </notebook>
                 </sheet>
+                 <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
             </form>
         </field>
     </record>
@@ -78,6 +91,14 @@
                 <!--                <field name='employee'/>-->
                 <field name='department'/>
                 <field name="state"/>
+                <field name='description'/>
+                <field name='period'/>
+                <field name='requester'/>
+                <field name='representative_batch'/>
+                <field name='date'/>
+                <field name='type'/>
+                <field name='is_level' string="Is C-Level?"/>
+                <field name='additional_req'/>
             </tree>
         </field>
     </record>
