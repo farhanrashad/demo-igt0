@@ -6,7 +6,7 @@
 			<field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
 			<field name="arch" type="xml">
 				<xpath expr="//header" position="inside">
-					<button name="action_revision" states="draft,ongoing,in_progress" type="object" string="Revision"/>
+					<button name="action_revision" states="draft,ongoing,in_progress,open,done" type="object" string="Revision"/>
 				</xpath>
 				
 
