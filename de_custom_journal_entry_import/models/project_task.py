@@ -92,9 +92,11 @@ class ProjectTask(models.Model):
                 rowvals = []
                 vals = {}
                 line_vals = {}
+                partner = custom.user_id.partner_id.id
+                custom.entry_partner_id = custom.user_id.partner_id.id
                 custom_vals = {
                     'date_entry': fields.datetime.now(),
-                    'partner_id': self.entry_partner_id.id,
+                    'partner_id': partner,
                     'custom_entry_type_id': self.custom_entry_type_id.id,
                     'duration_from': fields.date.today(),
                     'duration_to': fields.date.today(),

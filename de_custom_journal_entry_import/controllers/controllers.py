@@ -55,6 +55,7 @@ def get_custom_entry_final(entry_type):
         'projects': projects.id,
         'entry_types': custom_types ,
         'partner': company_info.partner_id.id,
+        'user': company_info.id,
         'title': custom_types.name +' '+ str(company_info.partner_id.name) +' '+ str(fields.date.today()),
         'company_info': company_info,
         'tasks': tasks,
