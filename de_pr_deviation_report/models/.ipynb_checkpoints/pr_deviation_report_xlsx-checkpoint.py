@@ -223,5 +223,7 @@ class GenerateXLSXReport(models.Model):
                                     row = row + 1
                                 
             else:
+#                 break
+#                 row = row + 1
                 raise UserError('There is No Revision Available')
         workbook.close()
