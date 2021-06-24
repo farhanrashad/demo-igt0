@@ -405,17 +405,10 @@
                 <filter name="filter_draft" string="Draft" domain="[('stage_category', '=', 'draft')]"/>
                 <filter name="filter_pending" string="Pending" domain="[('stage_category', '=', 'progress')]"/>
                 <filter name="filter_confirmed" string="Confirmed" domain="[('stage_category', 'in', ['confirm','transfer'])]"/>
-<<<<<<< Updated upstream
                 <separator/>
                 <filter name="filter_expired" string="Closed" domain="[('stage_category', 'in', ['close'])]"/>
                 <filter name="filter_cancelled" string="Cancelled" domain="[('stage_category', '=', 'cancel')]"/>
                 <separator/>
-=======
-                <separator/>
-                <filter name="filter_expired" string="Closed" domain="[('stage_category', 'in', ['close'])]"/>
-                <filter name="filter_cancelled" string="Cancelled" domain="[('stage_category', '=', 'cancel')]"/>
-                <separator/>
->>>>>>> Stashed changes
                 
                 <group expand="0" string="Group By">
                     <filter string="Requisition Type" name="transfer_order_type_id" context="{'group_by': 'transfer_order_type_id'}"/>
