@@ -108,7 +108,7 @@ class GenerateXLSXReport(models.Model):
             else:
                 employee_number = None
             if id.analytic_account_id:
-                cost_center = id.analytic_account_id
+                cost_center = id.analytic_account_id.name
             else:
                 cost_center = None
             if id.manager:
@@ -120,15 +120,15 @@ class GenerateXLSXReport(models.Model):
             else:
                 level = None
             if id.whatsapp:
-                whatsapp = id.whatsapp.name
+                whatsapp = id.whatsapp
             else:
                 whatsapp = None
             if id.assign_region:
-                assign_region = id.assign_region.name
+                assign_region = id.assign_region
             else:
                 assign_region = None
             if id.bank_account_local_id:
-                bank_account_local = id.bank_account_local_id
+                bank_account_local = id.bank_account_local_id.acc_number
             else:
                 bank_account_local = None
             if id.sinid:
@@ -182,12 +182,12 @@ class GenerateXLSXReport(models.Model):
             else:
                 fingerprint_id = None
             if id.myanmar_address_obsolete:
-                myanmar_address_obsolete = id.myanmar_address_obsolete.name
+                myanmar_address_obsolete = id.myanmar_address_obsolete
             else:
                 myanmar_address_obsolete = None
                 
             if id.myanmar_address_current:
-                myanmar_address_current = id.myanmar_address_current.name
+                myanmar_address_current = id.myanmar_address_current
             else:
                 myanmar_address_current = None
             
