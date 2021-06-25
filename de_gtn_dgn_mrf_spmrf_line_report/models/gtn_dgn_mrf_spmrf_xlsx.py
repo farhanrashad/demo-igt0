@@ -258,20 +258,29 @@ class GenerateXLSXReport(models.Model):
                         delivered_qty = product.delivered_qty
                     else:
                         delivered_qty = None
+                    if product.x_studio_material_condition:
+                        material_condition = product.x_studio_material_condition
+                    else:
+                        material_condition = None
+                    
+                    price_total = 0.0
                     if self.env['stock.picking'].search([('origin','=',spmrf_order.name)]):
                         deliveries = self.env['stock.picking'].search([('origin','=',spmrf_order.name)])[0]
                         if deliveries:
                             for delivery_product_orders in deliveries.move_ids_without_package:
+                                #raise UserError(delivery_product_orders.product_id.name)
+                                #raise UserError(product.product_id.name)
                                 if delivery_product_orders.product_id.name == product.product_id.name:
                                     price_total = delivery_product_orders.price_total
-                            if price_total:
-                                pass
-                            else:
-                                price_total = None
-                        else:
-                            price_total = None
-                    else:
-                        price_total = None
+                                    #raise UserError(price_total)
+#                             if price_total:
+#                                 pass
+#                             else:
+#                                 price_total = None
+#                         else:
+#                             price_total = None
+#                     else:
+#                         price_total = None
                     sheet.write(row, 0, gtn_number, format2)
                     sheet.write(row, 1, gtn_creation_date, format2)
                     sheet.write(row, 2, gtn_transfer_date, format2)
@@ -291,7 +300,7 @@ class GenerateXLSXReport(models.Model):
                     sheet.write(row, 16, description, format2)
                     sheet.write(row, 17, reference, format2)
                     sheet.write(row, 18, product_category, format2)
-                    #sheet.write(row, 19, product_category, format2)            
+                    sheet.write(row, 19, material_condition, format2)            
                     sheet.write(row, 20, demanded_qty, format2)
                     sheet.write(row, 21, delivered_qty, format2)
                     #sheet.write(row, 22, return_qty, format2)
@@ -597,20 +606,25 @@ class GenerateXLSXReport(models.Model):
                         delivered_qty = product.delivered_qty
                     else:
                         delivered_qty = None
+                    if product.x_studio_material_condition:
+                        material_condition = product.x_studio_material_condition
+                    else:
+                        material_condition = None
+                    price_total = 0.0
                     if self.env['stock.picking'].search([('origin','=',spmrf_order.name)]):
                         deliveries = self.env['stock.picking'].search([('origin','=',spmrf_order.name)])[0]
                         if deliveries:
                             for delivery_product_orders in deliveries.move_ids_without_package:
                                 if delivery_product_orders.product_id.name == product.product_id.name:
                                     price_total = delivery_product_orders.price_total
-                            if price_total:
-                                pass
-                            else:
-                                price_total = None
-                        else:
-                            price_total = None
-                    else:
-                        price_total = None
+#                             if price_total:
+#                                 pass
+#                             else:
+#                                 price_total = None
+#                         else:
+#                             price_total = None
+#                     else:
+#                         price_total = None
                     sheet1.write(row1, 0, gtn_number, format2)
                     sheet1.write(row1, 1, gtn_creation_date, format2)
                     sheet1.write(row1, 2, gtn_transfer_date, format2)
@@ -630,7 +644,7 @@ class GenerateXLSXReport(models.Model):
                     sheet1.write(row1, 16, description, format2)
                     sheet1.write(row1, 17, reference, format2)
                     sheet1.write(row1, 18, product_category, format2)
-                    #sheet1.write(row1, 19, product_category, format2)            
+                    sheet1.write(row1, 19, material_condition, format2)            
                     sheet1.write(row1, 20, demanded_qty, format2)
                     sheet1.write(row1, 21, delivered_qty, format2)
                     #sheet1.write(row1, 22, return_qty, format2)
