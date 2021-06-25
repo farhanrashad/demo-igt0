@@ -136,7 +136,7 @@ class GenerateXLSXReport(models.Model):
             else:
                 sin_id = None
             if id.ssb:
-                ssb_no = id.ssb.name
+                ssb_no = id.ssb
             else:
                 ssb_no = None
             if id.tax_book_no:
