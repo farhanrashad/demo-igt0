@@ -90,7 +90,7 @@ class ProjectTask(models.Model):
 
                     break
                 rowvals = []
-                vals = {}
+                vals = []
                 line_vals = {}
                 partner = custom.user_id.partner_id.id
                 custom.entry_partner_id = custom.user_id.partner_id.id
