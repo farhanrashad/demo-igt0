@@ -103,10 +103,11 @@ class ProjectTask(models.Model):
                 }
                 custom_entry = self.env['account.custom.entry'].create(custom_vals)
                 for data_row in file_reader:
+                    inner_vals = {}
                     index = 0
                     i = 0
                     for data_column in data_row:
-                        vals.update({
+                        inner_vals.update({
                             'custom_entry_id': custom_entry.id
                         })
                         rowvals.append(data_row)
@@ -118,7 +119,7 @@ class ProjectTask(models.Model):
 
                             many2one_vals = self.env[str(search_field.relation)].search([('display_name','=',data_column)], limit=1)
 
-                            vals.update({
+                            inner_vals.update({
                                 keys[i]: many2one_vals.id
                             })
                             index = index + 1
@@ -127,7 +128,7 @@ class ProjectTask(models.Model):
 
                             many2one_vals = self.env[str(search_field.relation)].search([('name','=',data_column)], limit=1)
 
-                            vals.update({
+                            inner_vals.update({
                                 keys[i]: many2one_vals.id
                             })
                             index = index + 1
@@ -135,7 +136,7 @@ class ProjectTask(models.Model):
                         elif search_field.ttype == 'date':
                             date_parse = parser.parse(data_column)
                             date_vals = date_parse.strftime("%Y-%m-%d")
-                            vals.update({
+                            inner_vals.update({
                                 keys[i]: date_vals
                             })
                             index = index + 1
@@ -143,7 +144,7 @@ class ProjectTask(models.Model):
                         elif search_field.ttype == 'datetime':
                             datetime_parse = parser.parse(data_column)
                             datetime_vals = datetime_parse.strftime("%Y-%m-%d %H:%M:%S")
-                            vals.update({
+                            inner_vals.update({
                                 keys[i]: datetime_vals
                             })
                             index = index + 1
@@ -151,13 +152,16 @@ class ProjectTask(models.Model):
 
                         else:
                             if keys[i] != False:
-                                vals.update({
+                                inner_vals.update({
                                         keys[i] : data_column
                                     })
                             index = index + 1
                             i = i + 1
-
-                custom_entry_obj_line.create(vals)
+                    vals.append(inner_vals)
+                try:
+                    custom_entry_obj_line.create(vals)
+                except Exception as e:
+                    raise UserError(e)
                 custom.is_entry_processed = True
                 custom.un_processed_entry = False
                 custom.user_id = self.env.user.id

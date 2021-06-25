@@ -78,7 +78,14 @@
                             </t>
                             <tr>
 
-                            </tr>   
+                            </tr>
+                            <tr>
+                                <div>
+                                    <t class="col-lg-7 col-md-8" >
+                                        <a href="/material/document" > <div class="btn btn-primary pull-left" style="height:30px; line-height:100%; ">Create</div> </a>
+                                    </t>
+                                </div>
+                            </tr>
                         </tbody>
                     </t>
                 </t>

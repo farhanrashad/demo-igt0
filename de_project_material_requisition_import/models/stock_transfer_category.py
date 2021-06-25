@@ -17,10 +17,12 @@ class StockTransferCategory(models.Model):
     _inherit = 'stock.transfer.order.category'
 
     is_publish = fields.Boolean(string='Publish on Website')
-    is_requisition = fields.Boolean(string='Requisition Import')
     health_check_form = fields.Boolean(string='Health Check Form')
     fir_report = fields.Boolean(string='FIR Report')
     accident_report = fields.Boolean(string='Accident Report')
     hoto_checklist = fields.Boolean(string='HOTO Checklist')
+    attachment_count = fields.Integer(string='Attachment Count', default=1)
+
+
 
 

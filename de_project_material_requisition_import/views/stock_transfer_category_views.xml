@@ -13,7 +13,6 @@
                     <field name="accident_report" />
                     <field name="hoto_checklist" />
                     <field name="is_publish" />
-                    <field name="is_requisition" />
                 </xpath>
 
            </field>

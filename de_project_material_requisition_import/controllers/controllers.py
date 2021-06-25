@@ -98,18 +98,17 @@ def get_transfer_transfer_category(category, transfer_id):
     is_checklist_vals = transfer_category.hoto_checklist
     is_check_form_vals = transfer_category.health_check_form
     is_fir = transfer_category.fir_report
-    is_requisition = transfer_category.is_requisition
     return {
         'projects': projects.id,
         'categories': transfer_category,
         'transfer_types': transfer_types,
         'company_info': company_info,
+        'user': company_info.id,
         'is_expiry_vals': is_expiry_vals,
         'is_accidnent_vals': is_accidnent_vals,
         'is_checklist_vals':  is_checklist_vals,
         'is_check_form_vals': is_check_form_vals,
         'is_fir': is_fir,
-        'is_requisition': is_requisition,
         'tasks': tasks,
     }
 
