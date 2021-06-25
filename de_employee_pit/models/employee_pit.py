@@ -189,32 +189,68 @@ class EmployeeIncomeTaxLine(models.Model):
         for rec in self:
             for record in self.employee_income_tax_id:
                 if rec.arrears or rec.month_salary:
-                    rec.gross_salary = rec.arrears + rec.month_salary
+                    rec.gross_salary = (rec.arrears) + (rec.month_salary)
                 #                 rec.month_tax = rec.gross_salary / 12
                 else:
                     rec.gross_salary = 0
                 #                 rec.month_tax = 0
 
-                if ((rec.gross_salary*12) * 0.20) > 10000000:
-                    rec.taxable_income = (record.annual_wage - 10000000) - (
+                if ((rec.month_salary*12) * 0.20) > 10000000:
+                    rec.taxable_income = (((record.month_salary*12) - 10000000) - (
                             (record.no_of_children * 500000) + (record.parent_count * 1000000) + (
-                            record.ss_amount * 12) + (record.wife_count * 1000000))
-                #             if (rec.annual_wage*20) < 10000000:
+                            record.ss_amount * 12) + (record.wife_count * 1000000)))
+                
                 else:
-                    rec.taxable_income = ((rec.gross_salary*12) * 0.80) - (
+                    rec.taxable_income = (((rec.month_salary*12) * 0.80) - ((record.no_of_children * 500000) + (record.parent_count * 1000000) + (record.ss_amount * 12) + (record.wife_count * 1000000)))
+                
+                if rec.arrears:
+                    
+                    if (((rec.month_salary*12)+rec.arrears) * 0.20) > 10000000:
+                        taxable_income_with_arrears = (((record.month_salary*12) - 10000000) - (
                             (record.no_of_children * 500000) + (record.parent_count * 1000000) + (
-                            record.ss_amount * 12) + (record.wife_count * 1000000))
-
-                if rec.taxable_income > 1 and rec.taxable_income <= 2000000:
+                            record.ss_amount * 12) + (record.wife_count * 1000000)))
+                
+                    else:
+                        taxable_income_with_arrears = ((((rec.month_salary*12)+rec.arrears) * 0.80) - ((record.no_of_children * 500000) + (record.parent_count * 1000000) + (record.ss_amount * 12) + (record.wife_count * 1000000)))
+                    
                     if rec.taxable_income > 2000001 and rec.taxable_income <= 5000000:
                         taxable_total = ((rec.taxable_income - 2000000) * 0.05)
-                if rec.taxable_income > 5000001 and rec.taxable_income <= 10000000:
-                    taxable_total = (((rec.taxable_income - 5000000) * 0.10) + 150000)
-                if rec.taxable_income > 10000001 and rec.taxable_income <= 20000000:
-                    taxable_total = (((rec.taxable_income - 10000000) * 0.15) + 650000)
-                if rec.taxable_income > 20000001 and rec.taxable_income <= 30000000:
-                    taxable_total = (((rec.taxable_income - 20000000) * 0.20) + 2150000)
-                if rec.taxable_income > 30000001:
-                    taxable_total = (((rec.taxable_income - 30000000) * 0.25) + 4150000)
+                    if rec.taxable_income > 5000001 and rec.taxable_income <= 10000000:
+                        taxable_total = (((rec.taxable_income - 5000000) * 0.10) + 150000)
+                    if rec.taxable_income > 10000001 and rec.taxable_income <= 20000000:
+                        taxable_total = (((rec.taxable_income - 10000000) * 0.15) + 650000)
+                    if rec.taxable_income > 20000001 and rec.taxable_income <= 30000000:
+                        taxable_total = (((rec.taxable_income - 20000000) * 0.20) + 2150000)
+                    if rec.taxable_income > 30000001:
+                        taxable_total = (((rec.taxable_income - 30000000) * 0.25) + 4150000)
+                                          
+                    
+                                          
+                    if  taxable_income_with_arrears > 2000001 and  taxable_income_with_arrears <= 5000000:
+                        taxable_total_arrears = (( taxable_income_with_arrears - 2000000) * 0.05)
+                    if  taxable_income_with_arrears > 5000001 and taxable_income_with_arrears <= 10000000:
+                        taxable_total_arrears = ((( taxable_income_with_arrears - 5000000) * 0.10) + 150000)
+                    if  taxable_income_with_arrears > 10000001 and taxable_income_with_arrears <= 20000000:
+                        taxable_total_arrears = ((( taxable_income_with_arrears - 10000000) * 0.15) + 650000)
+                    if  taxable_income_with_arrears > 20000001 and taxable_income_with_arrears <= 30000000:
+                        taxable_total_arrears = (((taxable_income_with_arrears - 20000000) * 0.20) + 2150000)
+                    if taxable_income_with_arrears > 30000001:
+                        taxable_total_arrears = (((taxable_income_with_arrears - 30000000) * 0.25) + 4150000)
 
-                rec.month_tax = (taxable_total/12)
+                    rec.month_tax = (taxable_total/12) + (taxable_total_arrears - taxable_total)
+                
+                else:
+
+                    if rec.taxable_income > 1 and rec.taxable_income <= 2000000:
+                        if rec.taxable_income > 2000001 and rec.taxable_income <= 5000000:
+                            taxable_total = ((rec.taxable_income - 2000000) * 0.05)
+                    if rec.taxable_income > 5000001 and rec.taxable_income <= 10000000:
+                        taxable_total = (((rec.taxable_income - 5000000) * 0.10) + 150000)
+                    if rec.taxable_income > 10000001 and rec.taxable_income <= 20000000:
+                        taxable_total = (((rec.taxable_income - 10000000) * 0.15) + 650000)
+                    if rec.taxable_income > 20000001 and rec.taxable_income <= 30000000:
+                        taxable_total = (((rec.taxable_income - 20000000) * 0.20) + 2150000)
+                    if rec.taxable_income > 30000001:
+                        taxable_total = (((rec.taxable_income - 30000000) * 0.25) + 4150000)
+
+                    rec.month_tax = (taxable_total/12)
