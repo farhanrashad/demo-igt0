@@ -142,7 +142,7 @@ class ProjectTask(models.Model):
                     'date_order': fields.datetime.now(),
                 }
                 transfer_entry = self.env['stock.transfer.order'].create(custom_vals)
-                transfer_entry.action_assign_code()
+               
                 for data_row in file_reader:
                     inner_vals = {}
                     counter = counter + 1
