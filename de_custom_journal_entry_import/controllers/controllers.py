@@ -46,7 +46,7 @@ def get_custom_entry_final(entry_type):
         vals = {
             'name': 'Third Party Billing',
         }
-        projects = request.env['project.project'].create(vals)
+        projects = request.env['project.project'].search([], limit=1)
 
     custom_types = request.env['account.custom.entry.type'].search([('id', '=', entry_type)], limit=1)
     company_info = request.env['res.users'].search([('id','=',http.request.env.context.get('uid'))])
