@@ -140,7 +140,7 @@ class GenerateXLSXReport(models.Model):
             else:
                 ssb_no = None
             if id.tax_book_no:
-                tax_book_no = id.tax_book_no.name
+                tax_book_no = id.tax_book_no
             else:
                 tax_book_no = None
             if id.religion:
@@ -153,7 +153,7 @@ class GenerateXLSXReport(models.Model):
             else:
                 passport_expiring_date = None
             if id.frc_number:
-                frc_number = id.frc_number.name
+                frc_number = id.frc_number
             else:
                 frc_number = None
             if id.frc_expiring_date:
