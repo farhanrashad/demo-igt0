@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="view_product_report_xlsx"
+                model="product.availablity.report"
+                string="Print to XLSX"
+                report_type="xlsx"
+                name="de_product_availability_report.product_xlsx_report"
+                file="Product Availability Report"
+        />
+    </data>
+</odoo>
