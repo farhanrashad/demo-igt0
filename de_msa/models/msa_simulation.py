@@ -1,6 +1,5 @@
 from datetime import datetime
 import math
-import openerp.addons.decimal_precision as dp
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
