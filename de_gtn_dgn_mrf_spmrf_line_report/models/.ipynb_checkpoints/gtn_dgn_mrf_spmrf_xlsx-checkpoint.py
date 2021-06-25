@@ -190,8 +190,11 @@ class GenerateXLSXReport(models.Model):
                     create_date = create_date.strftime("%Y/%m/%d %H:%M:%S")
                 else:
                     create_date = None
+                    
+                #raise UserError(str(spmrf_order.date_delivered))
                 if spmrf_order.date_delivered:
                     actual_date = spmrf_order.date_delivered
+                    
                     actual_date = actual_date.strftime("%Y/%m/%d %H:%M:%S")
                 else:
                     actual_date = None
@@ -258,10 +261,13 @@ class GenerateXLSXReport(models.Model):
                         delivered_qty = product.delivered_qty
                     else:
                         delivered_qty = None
-                    if product.x_studio_material_condition:
-                        material_condition = product.x_studio_material_condition
-                    else:
-                        material_condition = None
+#                     try:    
+#                         if product.x_studio_material_condition:
+#                             material_condition = product.x_studio_material_condition
+#                         else:
+#                             material_condition = None
+#                     except:
+#                         material_condition = None
                     
                     price_total = 0.0
                     if self.env['stock.picking'].search([('origin','=',spmrf_order.name)]):
@@ -300,7 +306,7 @@ class GenerateXLSXReport(models.Model):
                     sheet.write(row, 16, description, format2)
                     sheet.write(row, 17, reference, format2)
                     sheet.write(row, 18, product_category, format2)
-                    sheet.write(row, 19, material_condition, format2)            
+                    #sheet.write(row, 19, material_condition, format2)            
                     sheet.write(row, 20, demanded_qty, format2)
                     sheet.write(row, 21, delivered_qty, format2)
                     #sheet.write(row, 22, return_qty, format2)
@@ -606,10 +612,13 @@ class GenerateXLSXReport(models.Model):
                         delivered_qty = product.delivered_qty
                     else:
                         delivered_qty = None
-                    if product.x_studio_material_condition:
-                        material_condition = product.x_studio_material_condition
-                    else:
-                        material_condition = None
+#                     try:    
+#                         if product.x_studio_material_condition:
+#                             material_condition = product.x_studio_material_condition
+#                         else:
+#                             material_condition = None
+#                     except:
+#                         material_condition = None
                     price_total = 0.0
                     if self.env['stock.picking'].search([('origin','=',spmrf_order.name)]):
                         deliveries = self.env['stock.picking'].search([('origin','=',spmrf_order.name)])[0]
@@ -644,7 +653,7 @@ class GenerateXLSXReport(models.Model):
                     sheet1.write(row1, 16, description, format2)
                     sheet1.write(row1, 17, reference, format2)
                     sheet1.write(row1, 18, product_category, format2)
-                    sheet1.write(row1, 19, material_condition, format2)            
+                    #sheet1.write(row1, 19, material_condition, format2)            
                     sheet1.write(row1, 20, demanded_qty, format2)
                     sheet1.write(row1, 21, delivered_qty, format2)
                     #sheet1.write(row1, 22, return_qty, format2)
