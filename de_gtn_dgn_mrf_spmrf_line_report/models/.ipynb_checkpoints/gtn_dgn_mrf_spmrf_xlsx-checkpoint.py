@@ -191,7 +191,6 @@ class GenerateXLSXReport(models.Model):
                 else:
                     create_date = None
                     
-                #raise UserError(str(spmrf_order.date_delivered))
                 if spmrf_order.date_delivered:
                     actual_date = spmrf_order.date_delivered
                     
