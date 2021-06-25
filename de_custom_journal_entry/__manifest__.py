@@ -3,12 +3,12 @@
     'name': "Custom Journal Entry",
 
     'summary': """
-        Customize Journal Entry 
+        Customize Journal Entry
         """,
 
     'description': """
         Customize Journal Entry
-        Depends on Purchase Subscription
+        
     """,
 
     'author': "Dynexcel",
