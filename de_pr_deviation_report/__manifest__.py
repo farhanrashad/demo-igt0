@@ -9,7 +9,7 @@
     'website': "https://www.dynexcel.co",
     'sequence':1,
     'category': 'Agreement',
-    'version': '14.0.0.2',
+    'version': '14.0.0.3',
     'depends': ['base','stock','purchase','sale'],
     'data': [
         # 'security/ir.model.access.csv',
