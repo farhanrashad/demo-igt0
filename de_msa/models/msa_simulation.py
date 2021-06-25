@@ -1,5 +1,6 @@
 from datetime import datetime
 import math
+import openerp.addons.decimal_precision as dp
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
 
@@ -46,8 +47,8 @@ class msa_simulation(models.Model):
     power_fee_capex = fields.Float('Power CAPEX', compute='compute_values')
     opex_cpi = fields.Float(string='CPI OPEX')
     capex_escalation = fields.Float('CPI CAPEX')
-    collocation_capex = fields.Float(string='Collocation Discount for Tower CAPEX', digits = (12,3))
-    collocation_opex = fields.Float(string='Collocation Discount for Tower OPEX', digits = (12,3))
+    collocation_capex = fields.Float(string='Collocation Discount for Tower CAPEX')
+    collocation_opex = fields.Float(string='Collocation Discount for Tower OPEX')
     head_lease = fields.Float('Lease Agreement', compute='compute_values')
     head_lease_extra = fields.Float('Lease Agreement Extra')
     num_of_tenant = fields.Float(string='Number of Tenants')

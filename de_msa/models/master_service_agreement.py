@@ -97,7 +97,7 @@ class master_service_agreement(models.Model):
         if self.collocation_capex_ids:
             for collocation_line in self.collocation_capex_ids:
                 if int(collocation_line.year) == int(self.simulation_date_from.year):
-                    collocation_discount = collocation_discount + collocation_line.factor_for_1 
+                    collocation_discount = collocation_discount + collocation_line.factor_for_1 + collocation_line.factor_for_2 + collocation_line.factor_for_3 + collocation_line.factor_for_4 + collocation_line.factor_for_5 + collocation_line.factor_for_6
         return collocation_discount
     
     
@@ -106,7 +106,7 @@ class master_service_agreement(models.Model):
         if self.collocation_opex_ids:
             for collocation_line in self.collocation_opex_ids:
                 if int(collocation_line.year) == int(self.simulation_date_from.year):
-                    collocation_discount = collocation_discount + collocation_line.factor_for_1 
+                    collocation_discount = collocation_discount + collocation_line.factor_for_1 + collocation_line.factor_for_2 + collocation_line.factor_for_3 + collocation_line.factor_for_4 + collocation_line.factor_for_5 + collocation_line.factor_for_6
         return collocation_discount
     
     def capex_cpi(self):
@@ -178,7 +178,7 @@ class master_service_agreement(models.Model):
         for line in self.site_billing_info_ids:
             print('line.site_id',line.site_id.name)
             #region from site
-            site_region = line.site_id.region
+            site_region = line.site_id.state_id
             site = line.site_id
 #             
 #     #         ( (Tower Capex Rate*Regional Factor*Wind Factor*Collocation Discount)/No. of Days in Month)*Invoicing Days*Capex CPI
