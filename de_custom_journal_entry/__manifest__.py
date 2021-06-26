@@ -3,18 +3,21 @@
     'name': "Custom Journal Entry",
 
     'summary': """
-        Customize Journal Entry
-        """,
+           Custom Journal Entry
+           """,
 
     'description': """
-        Customize Journal Entry
-        
+           Custom Journal Entry
     """,
 
     'author': "Dynexcel",
     'website': "https://www.dynexcel.com",
+
+    # Categories can be used to filter modules in modules listing
+    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
+    # for the full list
     'category': 'Accounting',
-    'version': '14.0.0.7',
+    'version': '0.1',
 
     # any module necessary for this one to work correctly
     'depends': ['de_purchase_subscription','account', 'project','de_project_planning','stock','purchase_requisition','purchase','de_travel_request'],
@@ -34,3 +37,8 @@
         'demo/demo.xml',
     ],
 }
+
+
+
+
+
