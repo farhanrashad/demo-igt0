@@ -14,7 +14,7 @@
     'author': "Dynexcel",
     'website': "https://www.dynexcel.com",
     'category': 'Accounting',
-    'version': '14.0.0.6',
+    'version': '14.0.0.7',
 
     # any module necessary for this one to work correctly
     'depends': ['de_purchase_subscription','account', 'project','de_project_planning','stock','purchase_requisition','purchase','de_travel_request'],
