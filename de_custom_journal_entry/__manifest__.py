@@ -2,7 +2,7 @@
 {
     'name': "Third-Party Billing",
     'summary': """
-        Customize Journal Entries
+        Customize Journal Entries 
         """,
     'description': """
         Customize Journal Entry
