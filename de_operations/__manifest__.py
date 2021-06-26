@@ -3,7 +3,7 @@
     'name': "Operations",
 
     'summary': """
-    Operations - Accounting
+        Operations - Accounting
         """,
 
     'description': """
@@ -19,8 +19,8 @@
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
-    'category': 'Accounting',
-    'version': '14.0.0.7',
+    'category': 'Operations',
+    'version': '14.0.0.1',
 
     # any module necessary for this one to work correctly
     'depends': ['de_purchase_subscription','de_project_planning','de_account_stock_transfer','de_fuel_management'],
@@ -43,7 +43,6 @@
         'views/stock_fuel_views.xml',
         'views/account_journal_views.xml',
         'views/account_move_views.xml',
-        
     ],
     # only loaded in demonstration mode
     'demo': [
