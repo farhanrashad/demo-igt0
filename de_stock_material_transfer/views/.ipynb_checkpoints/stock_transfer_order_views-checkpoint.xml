@@ -85,6 +85,12 @@
                     <field name="next_stage_id" invisible="1" />
                      <field name="txn_stage_id" invisible="1" />
                     <field name="curr_txn_stage_id" invisible="1" />
+                    
+                    <field name="health_check_form" invisible="1" />
+                    <field name="fir_report" invisible="1" />
+                    <field name="accident_report" invisible="1" />
+                    <field name="hoto_checklist" invisible="1" />
+                    <field name="proof_attachment" invisible="1" />
                     <!--
                     <field name="has_penalty" invisible="1"/>
                     <field name="has_closed" invisible="1"/>
@@ -231,8 +237,8 @@
                                     <field name="analytic_tag_ids" widget="many2many_tags" optional="hide" attrs="{'invisible':[('parent.has_analytic_tags','==','no')], 'required': [('parent.has_analytic_tags','==','required')]}" groups="analytic.group_analytic_accounting,analytic.group_analytic_tags"/>
 
                                     <field name="product_uom_category_id" invisible="1"/>
-                                    <field name="location_src_id" readonly="1" required="1" optional="show" />
-                                    <field name="location_dest_id" required="1" optional="show" />
+                                    <field name="location_src_id" required="1" optional="show" />
+                                    <field name="location_dest_id" required="1" optional="hide" />
                                     <field name="return_status" optional="show"/>
                                 </tree>
                             </field>
@@ -265,6 +271,22 @@
                                     <field name="stage_id" invisible="1"/>
                                 </tree>
                             </field>
+                        </page>
+                        <page string="Documents" name="documents">
+                            <group string="Required Documents" name="required_documents">
+                                <field filename="file_health_check_filename" name="file_health_check" attrs="{'invisible':[('health_check_form','!=',True)], 'required':[('health_check_form','=',True)]}"/>
+                                
+                                <field filename="file_fir_filename" name="file_fir" attrs="{'invisible':[('fir_report','!=',True)], 'required':[('fir_report','=',True)]}"/>
+                                
+                                <field filename="file_accident_report_filename" name="file_accident_report" attrs="{'invisible':[('accident_report','!=',True)], 'required':[('accident_report','=',True)]}"/>
+                                <field filename="file_hoto_checklist_filename" name="file_hoto_checklist" attrs="{'invisible':[('hoto_checklist','!=',True)], 'required':[('hoto_checklist','=',True)]}"/>
+                                
+                                <field filename="file_proof_attachment_filename" name="file_proof_attachment" attrs="{'invisible':[('proof_attachment','!=',True)], 'required':[('proof_attachment','=',True)]}"/>
+
+
+
+
+                            </group>
                         </page>
                     </notebook>
                 </sheet>
@@ -380,10 +402,14 @@
                 <field name="stage_id"/>
                 <filter name="my_requisitions" string="My Requisitions" domain="[('user_id', '=', uid)]"/>
                 <separator/>
-                <filter name="draft" string="Draft" domain="[('stage_category', '=', 'draft')]"/>
-                <filter name="pending" string="Pending" domain="[('stage_category', '=', 'progress')]"/>
-                <filter name="confirm" string="Confirmed" domain="[('user_id', '=', ['confirm','close'])]"/>
+                <filter name="filter_draft" string="Draft" domain="[('stage_category', '=', 'draft')]"/>
+                <filter name="filter_pending" string="Pending" domain="[('stage_category', '=', 'progress')]"/>
+                <filter name="filter_confirmed" string="Confirmed" domain="[('stage_category', 'in', ['confirm','transfer'])]"/>
                 <separator/>
+                <filter name="filter_expired" string="Closed" domain="[('stage_category', 'in', ['close'])]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('stage_category', '=', 'cancel')]"/>
+                <separator/>
+                
                 <group expand="0" string="Group By">
                     <filter string="Requisition Type" name="transfer_order_type_id" context="{'group_by': 'transfer_order_type_id'}"/>
                     <filter string="Category" name="transfer_order_category_id" context="{'group_by': 'transfer_order_category_id'}"/>
@@ -492,7 +518,7 @@
             <field name="view_ids" eval="[(5, 0, 0),
                 (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_transfer_returnable_order_line_tree_view')})]"/>
             <field name="search_view_id" ref="stock_transfer_order_line_search_view"/>
-          <field name="context">{'create':False}</field>
+          <field name="context">{'create':False, 'search_default_filter_confirmed':True}</field>
           <field name="domain">[('action_type','!=','normal')]</field>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
