@@ -10,7 +10,9 @@
     'depends': ['base', 'hr','digest'],
     'data': [
         'security/ir.model.access.csv',
-        'data/form_name.xml',
+        'data/sequence.xml',
+        'views/ticket_allocation_view.xml',
+        'views/ticket_balance_view.xml',
         'views/travel_request_view.xml',
         'views/travel_request_menu.xml',
     ],
