@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_invoice_document_inherit" inherit_id="account.report_invoice_document">
+        <xpath expr="/t/t/div/p[1]" position="replace">
+            <br></br><br></br>
+             <p style = "page-break-after: always;">
+                 <b>Please use the following communication for your payment : &#32; <span><t t-esc="docs.number"/></span></b><br/>
+                    <t t-if="o.payment_term_id">
+                    <span>Payment Terms:&#32;<t t-esc="docs.payment_term_id.name"/></span>
+                    </t>
+            </p>
+<!--             <div style="height:350px; "> </div> -->
+                    <div class="split left">
+                                <p style="font-family: serif;">
+                                    
+                                    <h5><b><u>How to pay</u>&#32;:</b></h5>
+                                    <b>- <u> E-Transfer</u>&#32;:</b> Please send the payment to sales@ftldistribution.ca (this email is configured for auto-deposit no need for secret
+                                            question/answer) and mention your invoice number : &#32; <b><span><t t-esc="docs.number"/></span></b><br></br><br/>
+                                    <b>- <u> Wire/Bank Transfer &#32;</u>:</b> Please use the following details and mention your invoice number with the payment memo &#32;: <b><span><t t-esc="docs.number"/></span>.<br></br></b><br/>
+                                    <b> Beneficiary Account Name:</b> Follow The Leader Distribution Company<br></br>
+                                    <b> Beneficiary Account address :</b> 71 W 2ND AVE UNIT 504 VANCOUVER, BC V5Y 0G9 Canada<br></br>
+                                    <b>       Bank:</b> The Bank of Nova Scotia<br></br>
+                                    <b>  Bank Address:</b> 6300 NO. 3 ROAD RICHMOND, BC V6Y 2B3 Canada<br></br>
+                                    <div style="width:100%"><br/><br/>
+                                        <div style="width:50%; float:left;">
+                                        <b> Payment within Canada (CAD account):</b><br></br>
+                                            Transit number: 50690<br></br>
+                                            Institution number: 002<br></br>
+                                            Account number: 0294217<br></br>
+                                        </div>
+                                        <div style="width:50%; float:right;">
+                                        <b>International payments (USD account):</b><br></br>
+                                            Swift Code/BIC: NOSCCATT<br></br>
+                                            Canadian Clearing Code: CC002 50690<br></br>
+                                            Beneficiary Account Number: 50690 01772 10<br></br>
+                                        </div>
+                                        <br/><br/>
+                                    </div>
+                                    <br></br><br></br><br></br><br></br>
+                                    <div style="margin-top:10px;">
+                                        <b>- <u>Credit Card</u>&#32;:</b> Please ask us for a payment link. Please be aware that a convenience fee of 3% will be added to your invoice using this method.
+                                        <br></br><br/>
+                                        <b>- <u>Pay by Cheque/Draft (For Companies in Canada only)</u>&#32;:</b> Please send a cheque to Follow the Leader Distribution Company Ltd. 3070
+Kingsway Vancouver, BC V5R 5J7  with a tracking number
+                                        <br/>
+                                        <br/>
+                                        <br/>
+                                        <b><u>Terms of Service</u>:</b>
+                                        <br/>
+                                        <br/><b>All sales are final. All return must be emailed to returns@ftldistribution.ca for approval within five business days of the date
+your package was received. FTLD will refuse the return of any shipment without a valid RMA (Return Merchandise
+Authorization).</b>
+                                        <br/>
+                                        <br/>
+                                        <b>2% interest charge per month on all OAC late payments</b>
+                                        <br/>
+                                        <b>20% restocking fee on original, factory sealed product exchanges</b>
+                                        
+                                    </div>
+                                </p>
+                      </div>
+        </xpath>
+    </template>
+    <template id="external_layout_standard_custom" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[hasclass('o_standard_footer')]/div/div" position="after">
+            <div class="text-center" style="border-top: 1px solid black;">
+                <ul class="list-inline mb4 text-nowrap">
+                    <div><h6>GST: 78905 4277 RT0001</h6></div>
+                    <div><h6>PST: PST-1102-6894</h6></div>
+                </ul>
+            </div>
+        </xpath>
+    </template>
+</odoo>

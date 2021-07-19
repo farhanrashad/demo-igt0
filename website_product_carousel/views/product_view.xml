@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="product_carousel_template_form_view">
+        <field name="name">product.template.carousel.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <group name="sale" position="inside">
+                <group>
+                    <field name="is_discount"/>
+                    <field name="is_best_seller"/>
+                    <field name="is_new_arrival"/>
+                    <field name="is_special"/>
+                </group>
+            </group>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="product_ribbon_from_view">
+        <field name="name">product.template.product.ribbon.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="website_sale.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='accessory_product_ids']" position="after">
+                <field name="name_ribbon"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

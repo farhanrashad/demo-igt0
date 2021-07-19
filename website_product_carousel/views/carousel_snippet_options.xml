@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <!-- Snippet's Options -->
+    <template id="carousel_options" inherit_id="website.snippet_options">
+        <xpath expr="//div[@data-js='carousel']" position="after">
+            <div data-js='js_get_objects' data-selector=".js_get_objects"/>
+
+            <div data-js='js_get_objects_in_slide' data-selector=".js_get_objects">
+                <div class="dropdown-submenu">
+                    <a tabindex="-1" href="#" class="dropdown-item">Product Limit Per Slide</a>
+                    <div class="dropdown-menu" role="menu" data-no-preview="true">
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_in_slide="1">1</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_in_slide="2">2</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_in_slide="3">3</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_in_slide="4">4</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_in_slide="5">5</a>
+                    </div>
+                </div>
+            </div>
+
+            <div data-js='js_get_objects_selectFilter' data-selector=".js_get_objects">
+                <div class="dropdown-submenu">
+                    <a tabindex="-1" href="#" class="dropdown-item">Choose Filter</a>
+                    <div class="dropdown-menu" role="menu" data-no-preview="true">
+                        <a href="#" class="dropdown-item" role="menuitem" data-filter_by_filter_id="">No Filter</a>
+                    </div>
+                </div>
+            </div>
+            <div data-js='js_get_objects'
+                 data-selector=".js_get_objects.product_carousel_design">
+                <div class="dropdown-divider"/>
+                <a href="#" class="dropdown-item" data-toggle-class="headline_off">
+                    <i class="fa fa-eye-slash"/>Hide Headline
+                </a>
+                <a href="#" class="dropdown-item" data-toggle-class="price_off">
+                    <i class="fa fa-eye-slash"/>Hide Price
+                </a>
+                <a href="#" class="dropdown-item" data-toggle-class="rating_off">
+                    <i class="fa fa-eye-slash"/>Hide User Ratings
+                </a>
+                <a href="#" class="dropdown-item" data-toggle-class="wishlist_off">
+                    <i class="fa fa-eye-slash"/>Hide WishList
+                </a>
+                <a href="#" class="dropdown-item" data-toggle-class="cart_off">
+                    <i class="fa fa-eye-slash"/>Hide Add to Cart
+                </a>
+                <a href="#" class="dropdown-item" data-toggle-class="sale_label_off">
+                    <i class="fa fa-eye-slash"/>Hide Sale Label
+                </a>
+                <a href="#" class="dropdown-item" data-toggle-class="quick_off">
+                    <i class="fa fa-eye-slash"/>Hide Product Quick View
+                </a>
+            </div>
+
+
+            <div data-js='js_get_objects_limit' data-selector=".js_get_objects">
+                <div class="dropdown-submenu">
+                    <a tabindex="-1" href="#" class="dropdown-item">Product Limits</a>
+                    <div class="dropdown-menu" role="menu" data-no-preview="true">
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_limit="">All Objects</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_limit="1">1</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_limit="2">2</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_limit="4">4</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_limit="6">6</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_limit="8">8</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_limit="10">10</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_limit="12">12</a>
+                        <a href="#" class="dropdown-item" role="menuitem" data-objects_limit="15">15</a>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

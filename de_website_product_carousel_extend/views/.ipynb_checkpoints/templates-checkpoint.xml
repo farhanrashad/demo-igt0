@@ -1,0 +1,24 @@
+<odoo>
+    <!-- product carousel price -->
+    <template id="de_website_show_contact_price_product_carousel" inherit_id="website_product_carousel.rendering_product_item_inherit_cart">
+        <xpath expr="//div[@itemprop='offers']" position="after">
+            <div groups="base.group_public" class="s_btn text-center pt16 pb16" data-name="Buttons">
+                <a href="/register" class="btn btn-beta flat btn-sm">Contact for Price</a>
+            </div>
+        </xpath>
+        <xpath expr="//a[hasclass('product-carousel-add-to-cart')]" position="attributes">
+            <attribute name="groups">
+                base.group_user, base.group_portal
+            </attribute>
+        </xpath>
+    </template>
+    <template id="de_website_show_hide_price_product_carousel" inherit_id="website_product_carousel.rendering_product_item">
+        <xpath expr="//div[@itemprop='offers']" position="attributes">
+            <attribute name="groups">
+                base.group_user, base.group_portal
+            </attribute>
+        </xpath>
+    </template>
+
+        
+</odoo>

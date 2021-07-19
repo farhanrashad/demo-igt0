@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Less & JS Assets -->
+    <template id="assets_frontend_js" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <link href="/website_product_carousel/static/src/less/owl.carousel.css"
+                  rel="stylesheet" type="text/css"/>
+            <link href="/website_product_carousel/static/src/less/website_product_carousel.scss"
+                  rel="stylesheet" type="text/less"/>
+            <script type="text/javascript" src="/website_product_carousel/static/src/js/owl.carousel.js"/>
+            <script type="text/javascript" src="/website_product_carousel/static/src/js/c_frontend.js"/>
+        </xpath>
+    </template>
+
+    <!-- JS Editor Assets -->
+    <template id="assets_editor" inherit_id="website.assets_editor">
+        <xpath expr="." position="inside">
+            <script src="/website_product_carousel/static/src/js/c_editor.js" type="text/javascript"/>
+        </xpath>
+    </template>
+
+    <template id="snippet_product_carousel_place" inherit_id="website.snippets">
+        <xpath expr="//div[@id='snippet_feature']/div[hasclass('o_panel_body')]" position="inside">
+            <t t-snippet="website_product_carousel.snippet_product_carousel"
+               t-thumbnail="/website_product_carousel/static/src/img/icon.png"/>
+        </xpath>
+    </template>
+
+</odoo>

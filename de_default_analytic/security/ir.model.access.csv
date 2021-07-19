@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_de_default_analytic_de_default_analytic,de_default_analytic.de_default_analytic,model_de_default_analytic_de_default_analytic,,1,0,0,0

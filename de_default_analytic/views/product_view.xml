@@ -1,0 +1,87 @@
+<odoo>
+  <data>
+      <record id="product_template_form_view" model="ir.ui.view">
+    <field name="name">product_analytic_account.product.template.form</field>
+    <field name="model">product.template</field>
+    <field name="inherit_id" ref="account.product_template_form_view" />
+    <field name="arch" type="xml">
+        <field name="property_account_income_id" position="after">
+            <field name="income_analytic_tag_ids" widget="many2many_tags"/>
+        </field>
+        <field name="property_account_expense_id" position="after">
+            <field name="expense_analytic_tag_ids" widget="many2many_tags"/>
+        </field>
+    </field>
+</record>
+
+<record id="view_category_property_form" model="ir.ui.view">
+    <field name="name">product_analytic_account.product.categ.form</field>
+    <field name="model">product.category</field>
+    <field name="inherit_id" ref="account.view_category_property_form" />
+    <field name="arch" type="xml">
+        <field name="property_account_income_categ_id" position="after">
+            <field name="income_analytic_tag_ids" widget="many2many_tags"/>
+        </field>
+        <field name="property_account_expense_categ_id" position="after">
+            <field name="expense_analytic_tag_ids" widget="many2many_tags"/>
+        </field>
+    </field>
+</record>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="de_default_analytic.list">
+      <field name="name">de_default_analytic list</field>
+      <field name="model">de_default_analytic.de_default_analytic</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="de_default_analytic.action_window">
+      <field name="name">de_default_analytic window</field>
+      <field name="res_model">de_default_analytic.de_default_analytic</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="de_default_analytic.action_server">
+      <field name="name">de_default_analytic server</field>
+      <field name="model_id" ref="model_de_default_analytic_de_default_analytic"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="de_default_analytic" id="de_default_analytic.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="de_default_analytic.menu_1" parent="de_default_analytic.menu_root"/>
+    <menuitem name="Menu 2" id="de_default_analytic.menu_2" parent="de_default_analytic.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="de_default_analytic.menu_1_list" parent="de_default_analytic.menu_1"
+              action="de_default_analytic.action_window"/>
+    <menuitem name="Server to list" id="de_default_analytic" parent="de_default_analytic.menu_2"
+              action="de_default_analytic.action_server"/>
+    -->
+  </data>
+</odoo>
