@@ -1,0 +1,11 @@
+
+/* ---- My Orders page ---- */
+.orders_vertical_align {
+  display: -webkit-box; display: -webkit-flex; display: flex;
+  align-items: center;
+}
+
+.orders_label_text_align {
+  vertical-align: 15%;
+}
+

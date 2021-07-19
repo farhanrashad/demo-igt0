@@ -1,0 +1,599 @@
+2020-09-14 07:19:03,428 6 INFO ? odoo: Odoo version 12.0 
+2020-09-14 07:19:03,428 6 INFO ? odoo: Using configuration file at /home/odoo/.config/odoo/odoo.conf 
+2020-09-14 07:19:03,429 6 INFO ? odoo: addons paths: ['/home/odoo/data/addons/12.0', '/home/odoo/src/user', '/home/odoo/src/user/cancel_sale_order-12.0.1.0', '/home/odoo/src/user/farhanrashad/ftld-modules', '/home/odoo/src/user/product_variants-12.0.1.0.0', '/home/odoo/src/odoo/addons', '/home/odoo/src/odoo/odoo/addons', '/home/odoo/src/enterprise', '/home/odoo/src/themes'] 
+2020-09-14 07:19:03,429 6 INFO ? odoo: database: p_fltdca_odoo_uat800_1398569@192.168.1.1:5432 
+2020-09-14 07:19:03,440 6 INFO ? odoo: Could not determine if database fltdca-odoo-uat800-1398569 exists, skipping auto-creation: permission denied for relation pg_database
+ 
+2020-09-14 07:19:03,570 6 INFO ? odoo.addons.base.models.ir_actions_report: Will use the Wkhtmltopdf binary at /usr/local/bin/wkhtmltopdf 
+2020-09-14 07:19:03,936 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/data/addons/12.0 
+2020-09-14 07:19:03,937 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user 
+2020-09-14 07:19:03,937 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/cancel_sale_order-12.0.1.0 
+2020-09-14 07:19:03,937 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/farhanrashad/ftld-modules 
+2020-09-14 07:19:03,937 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/product_variants-12.0.1.0.0 
+2020-09-14 07:19:03,937 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/addons 
+2020-09-14 07:19:03,937 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/odoo/addons 
+2020-09-14 07:19:03,937 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/enterprise 
+2020-09-14 07:19:03,937 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/themes 
+2020-09-14 07:19:04,440 6 INFO ? odoo.service.server: AutoReload watcher running with inotify 
+2020-09-14 07:19:04,442 6 INFO ? odoo.service.server: HTTP service (werkzeug) running through socket activation 
+2020-09-14 07:19:04,525 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 1 modules... 
+2020-09-14 07:19:04,539 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries 
+2020-09-14 07:19:04,632 6 INFO ? odoo.http: HTTP Configuring static files 
+2020-09-14 07:19:04,751 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 167 modules... 
+2020-09-14 07:19:06,376 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model sale.line.product.confg has no _description 
+2020-09-14 07:19:06,581 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model product.pack has no _description 
+2020-09-14 07:19:06,582 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model wizard.product.bundle.bi has no _description 
+2020-09-14 07:19:06,723 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 167 modules loaded in 1.97s, 0 queries 
+2020-09-14 07:19:07,577 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: Modules loaded. 
+2020-09-14 07:19:07,626 6 INFO fltdca-odoo-uat800-1398569 odoo.addons.base.models.ir_http: Generating routing map 
+2020-09-14 07:19:07,870 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 104.197.210.220 - - [14/Sep/2020 07:19:07] "GET /web/webclient/version_info HTTP/1.0" 200 - 1 0.001 3.221
+2020-09-14 07:21:12,092 6 INFO fltdca-odoo-uat800-1398569 odoo.service.server: Initiating shutdown 
+2020-09-14 07:21:12,092 6 INFO fltdca-odoo-uat800-1398569 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2020-09-14 07:59:03,450 6 INFO ? odoo: Odoo version 12.0 
+2020-09-14 07:59:03,451 6 INFO ? odoo: Using configuration file at /home/odoo/.config/odoo/odoo.conf 
+2020-09-14 07:59:03,451 6 INFO ? odoo: addons paths: ['/home/odoo/data/addons/12.0', '/home/odoo/src/user', '/home/odoo/src/user/cancel_sale_order-12.0.1.0', '/home/odoo/src/user/farhanrashad/ftld-modules', '/home/odoo/src/user/product_variants-12.0.1.0.0', '/home/odoo/src/odoo/addons', '/home/odoo/src/odoo/odoo/addons', '/home/odoo/src/enterprise', '/home/odoo/src/themes'] 
+2020-09-14 07:59:03,451 6 INFO ? odoo: database: p_fltdca_odoo_uat800_1398569@192.168.1.1:5432 
+2020-09-14 07:59:03,463 6 INFO ? odoo: Could not determine if database fltdca-odoo-uat800-1398569 exists, skipping auto-creation: permission denied for relation pg_database
+ 
+2020-09-14 07:59:03,591 6 INFO ? odoo.addons.base.models.ir_actions_report: Will use the Wkhtmltopdf binary at /usr/local/bin/wkhtmltopdf 
+2020-09-14 07:59:03,946 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/data/addons/12.0 
+2020-09-14 07:59:03,946 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user 
+2020-09-14 07:59:03,946 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/cancel_sale_order-12.0.1.0 
+2020-09-14 07:59:03,946 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/farhanrashad/ftld-modules 
+2020-09-14 07:59:03,946 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/product_variants-12.0.1.0.0 
+2020-09-14 07:59:03,947 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/addons 
+2020-09-14 07:59:03,947 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/odoo/addons 
+2020-09-14 07:59:03,947 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/enterprise 
+2020-09-14 07:59:03,947 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/themes 
+2020-09-14 07:59:04,432 6 INFO ? odoo.service.server: AutoReload watcher running with inotify 
+2020-09-14 07:59:04,433 6 INFO ? odoo.service.server: HTTP service (werkzeug) running through socket activation 
+2020-09-14 07:59:04,493 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 1 modules... 
+2020-09-14 07:59:04,507 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries 
+2020-09-14 07:59:04,658 6 INFO ? odoo.http: HTTP Configuring static files 
+2020-09-14 07:59:04,749 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 167 modules... 
+2020-09-14 07:59:06,299 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model sale.line.product.confg has no _description 
+2020-09-14 07:59:06,455 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model product.pack has no _description 
+2020-09-14 07:59:06,457 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model wizard.product.bundle.bi has no _description 
+2020-09-14 07:59:06,560 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 167 modules loaded in 1.81s, 0 queries 
+2020-09-14 07:59:07,361 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: Modules loaded. 
+2020-09-14 07:59:07,378 6 INFO fltdca-odoo-uat800-1398569 odoo.addons.base.models.ir_http: Generating routing map 
+2020-09-14 07:59:07,605 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 104.197.210.220 - - [14/Sep/2020 07:59:07] "GET /web/webclient/version_info HTTP/1.0" 200 - 1 0.001 2.930
+2020-09-14 08:01:17,703 6 INFO fltdca-odoo-uat800-1398569 odoo.service.server: Initiating shutdown 
+2020-09-14 08:01:17,703 6 INFO fltdca-odoo-uat800-1398569 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2020-09-14 10:44:43,698 6 INFO ? odoo: Odoo version 12.0 
+2020-09-14 10:44:43,700 6 INFO ? odoo: Using configuration file at /home/odoo/.config/odoo/odoo.conf 
+2020-09-14 10:44:43,700 6 INFO ? odoo: addons paths: ['/home/odoo/data/addons/12.0', '/home/odoo/src/user', '/home/odoo/src/user/cancel_sale_order-12.0.1.0', '/home/odoo/src/user/farhanrashad/ftld-modules', '/home/odoo/src/user/product_variants-12.0.1.0.0', '/home/odoo/src/odoo/addons', '/home/odoo/src/odoo/odoo/addons', '/home/odoo/src/enterprise', '/home/odoo/src/themes'] 
+2020-09-14 10:44:43,700 6 INFO ? odoo: database: p_fltdca_odoo_uat800_1398569@192.168.1.1:5432 
+2020-09-14 10:44:43,711 6 INFO ? odoo: Could not determine if database fltdca-odoo-uat800-1398569 exists, skipping auto-creation: permission denied for relation pg_database
+ 
+2020-09-14 10:44:43,819 6 INFO ? odoo.addons.base.models.ir_actions_report: Will use the Wkhtmltopdf binary at /usr/local/bin/wkhtmltopdf 
+2020-09-14 10:44:44,190 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/data/addons/12.0 
+2020-09-14 10:44:44,190 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user 
+2020-09-14 10:44:44,190 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/cancel_sale_order-12.0.1.0 
+2020-09-14 10:44:44,190 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/farhanrashad/ftld-modules 
+2020-09-14 10:44:44,190 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/product_variants-12.0.1.0.0 
+2020-09-14 10:44:44,190 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/addons 
+2020-09-14 10:44:44,190 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/odoo/addons 
+2020-09-14 10:44:44,190 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/enterprise 
+2020-09-14 10:44:44,190 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/themes 
+2020-09-14 10:44:44,682 6 INFO ? odoo.service.server: AutoReload watcher running with inotify 
+2020-09-14 10:44:44,684 6 INFO ? odoo.service.server: HTTP service (werkzeug) running through socket activation 
+2020-09-14 10:44:44,737 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 1 modules... 
+2020-09-14 10:44:44,751 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries 
+2020-09-14 10:44:44,929 6 INFO ? odoo.http: HTTP Configuring static files 
+2020-09-14 10:44:44,989 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 167 modules... 
+2020-09-14 10:44:46,611 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model sale.line.product.confg has no _description 
+2020-09-14 10:44:46,813 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model product.pack has no _description 
+2020-09-14 10:44:46,814 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model wizard.product.bundle.bi has no _description 
+2020-09-14 10:44:46,946 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 167 modules loaded in 1.96s, 0 queries 
+2020-09-14 10:44:47,740 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: Modules loaded. 
+2020-09-14 10:44:47,758 6 INFO fltdca-odoo-uat800-1398569 odoo.addons.base.models.ir_http: Generating routing map 
+2020-09-14 10:44:50,173 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:50] "GET / HTTP/1.0" 200 - 1099 1.078 4.151
+2020-09-14 10:44:50,758 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:50] "GET /web/content/9374-b88e324/1/web.assets_common.js HTTP/1.0" 200 - 6 0.003 0.024
+2020-09-14 10:44:51,350 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:51] "GET /web/content/11206-148854b/1/web.assets_frontend.js HTTP/1.0" 200 - 4 0.002 0.023
+2020-09-14 10:44:51,819 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:51] "GET /web/image/res.company/1/secondary_logo?unique=f16e63e HTTP/1.0" 200 - 23 0.016 0.015
+2020-09-14 10:44:52,093 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:52] "GET /web/image/9711/ASCERA-XT-75-Jewellery-Black-&-White-Small.png HTTP/1.0" 304 - 4 0.003 0.011
+2020-09-14 10:44:52,101 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:52] "GET /web/image/7432/acf1-transparent-900px%20(1).png HTTP/1.0" 200 - 4 0.004 0.009
+2020-09-14 10:44:52,397 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:52] "POST /website/translations HTTP/1.0" 200 - 13 0.045 0.015
+2020-09-14 10:44:52,573 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:52] "GET /website_sale_stock/static/src/xml/website_sale_stock_product_availability.xml HTTP/1.0" 304 - - - -
+2020-09-14 10:44:52,621 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:52] "POST /web/dataset/call HTTP/1.0" 200 - 13 0.013 0.011
+2020-09-14 10:44:52,642 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:52] "GET /web/image/7625/clean-background.jpg HTTP/1.0" 200 - 4 0.003 0.009
+2020-09-14 10:44:52,660 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:52] "POST /payment/get_env HTTP/1.0" 200 - 9 0.011 0.008
+2020-09-14 10:44:52,719 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:52] "GET /web/image/9952/epac%202.1.png HTTP/1.0" 200 - 4 0.003 0.010
+2020-09-14 10:44:52,814 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:52] "GET /web_enterprise/static/src/fonts/Roboto/Roboto-Regular-webfont.woff HTTP/1.0" 200 - - - -
+2020-09-14 10:44:52,874 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:52] "GET /web/static/lib/fontawesome/fonts/fontawesome-webfont.woff2?v=4.7.0 HTTP/1.0" 200 - - - -
+2020-09-14 10:44:52,906 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:52] "GET /web_enterprise/static/src/fonts/Roboto/Roboto-Medium-webfont.woff HTTP/1.0" 200 - - - -
+2020-09-14 10:44:53,146 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:53] "GET /web/image/9713/Capture.png HTTP/1.0" 200 - 4 0.003 0.010
+2020-09-14 10:44:53,432 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:53] "GET /web/image/8251/042A0239_KB300.jpg HTTP/1.0" 200 - 4 0.002 0.021
+2020-09-14 10:44:53,547 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:53] "GET /web/image/8141/710Seal-2-(1).png HTTP/1.0" 304 - 4 0.003 0.007
+2020-09-14 10:44:53,701 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:53] "GET /web/image/2724/payment-methods1.png HTTP/1.0" 304 - 4 0.003 0.008
+2020-09-14 10:44:53,794 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:53] "GET /web/webclient/locale/en_US HTTP/1.0" 200 - 1 0.000 0.005
+2020-09-14 10:44:53,956 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:53] "GET /web/image/1942/footer-bg1.jpg HTTP/1.0" 304 - 4 0.003 0.009
+2020-09-14 10:44:54,061 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:54] "GET /website/static/src/xml/website.xml HTTP/1.0" 304 - - - -
+2020-09-14 10:44:54,229 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:54] "POST /website_mass_mailing/is_subscriber HTTP/1.0" 200 - 11 0.016 0.011
+2020-09-14 10:44:54,332 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:54] "GET /website/static/src/xml/website.editor.xml HTTP/1.0" 304 - - - -
+2020-09-14 10:44:54,582 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:54] "GET /web_editor/static/src/xml/editor.xml HTTP/1.0" 304 - - - -
+2020-09-14 10:44:54,857 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:54] "POST /web/dataset/call_kw/web_tour.tour/get_consumed_tours HTTP/1.0" 200 - 10 0.007 0.007
+2020-09-14 10:44:56,128 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:56] "GET /shop/cart?type=popover HTTP/1.0" 200 - 149 0.151 0.201
+2020-09-14 10:44:56,470 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:56] "GET /web/image/product.product/590/image_small?unique=4810c47 HTTP/1.0" 200 - 9 0.015 0.057
+2020-09-14 10:44:56,472 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:56] "GET /web/image/product.product/583/image_small?unique=68d5da6 HTTP/1.0" 200 - 9 0.017 0.053
+2020-09-14 10:44:56,474 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:56] "GET /web/image/product.product/637/image_small?unique=4810c47 HTTP/1.0" 200 - 9 0.014 0.060
+2020-09-14 10:44:56,477 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:56] "GET /web/image/product.product/639/image_small?unique=4810c47 HTTP/1.0" 200 - 9 0.020 0.060
+2020-09-14 10:44:57,635 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:57] "GET /web HTTP/1.0" 200 - 584 0.292 0.590
+2020-09-14 10:44:57,962 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:57] "GET /web/content/9371-edf50a2/web.assets_common.js HTTP/1.0" 200 - 4 0.005 0.031
+2020-09-14 10:44:57,962 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:57] "GET /web/content/8731-27c67b0/web_studio.assets.js HTTP/1.0" 200 - 4 0.008 0.026
+2020-09-14 10:44:57,976 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:44:57] "GET /web/content/11216-60d4649/web.assets_backend.js HTTP/1.0" 200 - 4 0.005 0.044
+2020-09-14 10:45:00,126 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:00] "GET /web/webclient/qweb?mods=base,web,bus,web_tour,mail,sales_team,product,portal,digest,account,payment,sale,barcodes,stock,sale_management,sale_stock,product_bundle_pack,calendar,utm,contacts,crm,web_editor,website,account_asset,account_accountant,website_form,website_partner,website_crm,website_payment,website_mail,rating,website_rating,website_sale,web_dashboard,website_sale_dashboard,purchase,account_bank_statement_import,base_import,account_bank_statement_import_csv,account_bank_statement_import_ofx,account_check_printing,web_settings_dashboard,iap,mail_enterprise,account_invoice_extract,account_online_sync,account_plaid,account_ponto,account_reports,account_yodlee,auth_signup,web_mobile,barcodes_mobile,cancel_sale_order,ct_searchbar_in_menu,de_theme_modification,de_website_age_verification,de_website_banner,de_website_header,de_website_product_image_swap,de_website_quick_view,delivery,delivery_easypost,google_calendar,google_drive,l10n_ca,l10n_ca_check_printing,l10n_generic_coa,l10n_us,l10n_us_check_printing,mail_bot,web_kanban_gauge,mass_mailing,marketing_automation,ocn_client,partner_autocomplete,payment_elavon_scs,payment_paypal,payment_transfer,product_tiered_pricing,product_variants,sh_shop_qty,sms,snailmail,website_theme_install,theme_common,web_cohort,web_diagram,web_enterprise,web_gantt,web_grid,web_studio,website_animate,website_google_map,website_crm_partner_assign,website_customer,website_enterprise,website_form_editor,website_links,website_mass_mailing,website_sale_wishlist,website_product_carousel,website_sale_coupon,website_sale_stock,website_sale_delivery,website_sale_link_tracker,website_sale_management,website_studio,mass_mailing_themes,theme_treehouse,website_blog,theme_bootswatch,theme_default HTTP/1.0" 200 - 1 0.000 0.094
+2020-09-14 10:45:00,365 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:00] "POST /web/dataset/call HTTP/1.0" 200 - 13 0.013 0.011
+2020-09-14 10:45:00,686 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:00] "POST /web/webclient/translations HTTP/1.0" 200 - 5 0.009 0.005
+2020-09-14 10:45:01,296 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:01] "POST /mail/init_messaging HTTP/1.0" 200 - 104 0.302 0.052
+2020-09-14 10:45:01,489 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:01] "POST /web/dataset/call_kw/ir.ui.menu/load_menus HTTP/1.0" 200 - 301 0.192 0.318
+2020-09-14 10:45:02,334 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:02] "POST /web/dataset/call_kw/res.users/systray_get_activities HTTP/1.0" 200 - 17 0.026 0.014
+2020-09-14 10:45:02,359 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:02] "GET /web_enterprise/static/src/fonts/Roboto/Roboto-Bold-webfont.woff HTTP/1.0" 200 - - - -
+2020-09-14 10:45:02,369 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:02] "POST /calendar/notify HTTP/1.0" 200 - 3 0.011 0.005
+2020-09-14 10:45:02,392 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:02] "GET /web/static/src/img/logo_inverse_white_206px.png HTTP/1.0" 304 - - - -
+2020-09-14 10:45:02,487 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:02] "GET /web_studio/static/src/img/studio_icon_small.png HTTP/1.0" 304 - - - -
+2020-09-14 10:45:02,601 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:02] "GET /web/image?model=res.users&field=image_small&id=2 HTTP/1.0" 304 - 14 0.009 0.013
+2020-09-14 10:45:02,615 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:02] "GET /web_enterprise/static/src/img/home-menu-bg-overlay.svg HTTP/1.0" 304 - - - -
+2020-09-14 10:45:02,660 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:02] "GET /account/static/description/icon.png HTTP/1.0" 304 - - - -
+2020-09-14 10:45:02,731 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:02] "GET /crm/static/description/icon.png HTTP/1.0" 304 - - - -
+2020-09-14 10:45:02,848 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:02] "GET /stock/static/description/icon.png HTTP/1.0" 304 - - - -
+2020-09-14 10:45:03,524 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:03] "GET /web_tour/static/src/xml/tip.xml HTTP/1.0" 304 - - - -
+2020-09-14 10:45:03,835 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:03] "GET /web_enterprise/static/src/fonts/Roboto/Roboto-RegularItalic-webfont.woff HTTP/1.0" 200 - - - -
+2020-09-14 10:45:05,076 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:05] "GET /web?debug=1 HTTP/1.0" 200 - 52 0.029 0.050
+2020-09-14 10:45:05,697 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:05] "GET /web/webclient/qweb?mods=base,web,bus,web_tour,mail,sales_team,product,portal,digest,account,payment,sale,barcodes,stock,sale_management,sale_stock,product_bundle_pack,calendar,utm,contacts,crm,web_editor,website,account_asset,account_accountant,website_form,website_partner,website_crm,website_payment,website_mail,rating,website_rating,website_sale,web_dashboard,website_sale_dashboard,purchase,account_bank_statement_import,base_import,account_bank_statement_import_csv,account_bank_statement_import_ofx,account_check_printing,web_settings_dashboard,iap,mail_enterprise,account_invoice_extract,account_online_sync,account_plaid,account_ponto,account_reports,account_yodlee,auth_signup,web_mobile,barcodes_mobile,cancel_sale_order,ct_searchbar_in_menu,de_theme_modification,de_website_age_verification,de_website_banner,de_website_header,de_website_product_image_swap,de_website_quick_view,delivery,delivery_easypost,google_calendar,google_drive,l10n_ca,l10n_ca_check_printing,l10n_generic_coa,l10n_us,l10n_us_check_printing,mail_bot,web_kanban_gauge,mass_mailing,marketing_automation,ocn_client,partner_autocomplete,payment_elavon_scs,payment_paypal,payment_transfer,product_tiered_pricing,product_variants,sh_shop_qty,sms,snailmail,website_theme_install,theme_common,web_cohort,web_diagram,web_enterprise,web_gantt,web_grid,web_studio,website_animate,website_google_map,website_crm_partner_assign,website_customer,website_enterprise,website_form_editor,website_links,website_mass_mailing,website_sale_wishlist,website_product_carousel,website_sale_coupon,website_sale_stock,website_sale_delivery,website_sale_link_tracker,website_sale_management,website_studio,mass_mailing_themes,theme_treehouse,website_blog,theme_bootswatch,theme_default HTTP/1.0" 304 - 1 0.000 0.075
+2020-09-14 10:45:05,866 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:05] "POST /web/dataset/call HTTP/1.0" 200 - 3 0.002 0.004
+2020-09-14 10:45:06,008 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:06] "POST /web/webclient/translations HTTP/1.0" 200 - 5 0.006 0.005
+2020-09-14 10:45:06,398 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:06] "POST /mail/init_messaging HTTP/1.0" 200 - 61 0.087 0.041
+2020-09-14 10:45:06,830 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:06] "POST /web/dataset/call_kw/ir.ui.menu/load_menus HTTP/1.0" 200 - 372 0.190 0.347
+2020-09-14 10:45:07,889 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:07] "POST /web/dataset/call_kw/res.users/check_access_rights HTTP/1.0" 200 - 2 0.002 0.009
+2020-09-14 10:45:07,890 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:07] "POST /web/dataset/call_kw/res.users/has_group HTTP/1.0" 200 - 2 0.002 0.007
+2020-09-14 10:45:07,904 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:07] "POST /web/dataset/call_kw/ir.model.data/xmlid_to_res_id HTTP/1.0" 200 - 1 0.001 0.007
+2020-09-14 10:45:07,911 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:07] "POST /web/dataset/call_kw/ir.ui.view/check_access_rights HTTP/1.0" 200 - 2 0.006 0.009
+2020-09-14 10:45:07,923 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:07] "POST /web/dataset/call_kw/res.users/systray_get_activities HTTP/1.0" 200 - 7 0.008 0.016
+2020-09-14 10:45:08,152 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:08] "POST /calendar/notify HTTP/1.0" 200 - 3 0.006 0.009
+2020-09-14 10:45:08,162 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:08] "GET /web/image?model=res.users&field=image_small&id=2 HTTP/1.0" 304 - 14 0.008 0.015
+2020-09-14 10:45:09,098 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:09] "GET /web_tour/static/src/xml/tip.xml?debug=1600080107204 HTTP/1.0" 200 - - - -
+2020-09-14 10:45:10,129 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:10] "POST /web/action/load HTTP/1.0" 200 - 62 0.087 0.053
+2020-09-14 10:45:10,849 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:10] "POST /web/dataset/call_kw/sale.order/load_views HTTP/1.0" 200 - 281 0.220 0.235
+2020-09-14 10:45:11,894 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:11] "POST /web/dataset/search_read HTTP/1.0" 200 - 195 0.140 0.321
+2020-09-14 10:45:12,817 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:12] "POST /sales/sale_quotation_onboarding_panel HTTP/1.0" 200 - 73 0.057 0.086
+2020-09-14 10:45:13,163 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:13] "GET /sale/static/src/img/sale_quotation_onboarding_bg.jpg HTTP/1.0" 304 - - - -
+2020-09-14 10:45:15,861 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:15] "POST /web/action/load HTTP/1.0" 200 - 26 0.027 0.023
+2020-09-14 10:45:16,240 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:16] "POST /web/dataset/call_kw/product.pricelist/load_views HTTP/1.0" 200 - 97 0.056 0.059
+2020-09-14 10:45:16,535 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:16] "POST /web/dataset/search_read HTTP/1.0" 200 - 12 0.007 0.010
+2020-09-14 10:45:29,370 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:29] "POST /longpolling/poll HTTP/1.0" 200 - 11 0.012 0.010
+2020-09-14 10:45:30,661 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:30] "POST /web/dataset/call_kw/res.country.group/load_views HTTP/1.0" 200 - 14 0.015 0.014
+2020-09-14 10:45:30,969 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:30] "POST /web/dataset/call_kw/product.pricelist/read HTTP/1.0" 200 - 18 0.028 0.015
+2020-09-14 10:45:31,249 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:31] "POST /web/dataset/call_kw/res.country.group/read HTTP/1.0" 200 - 2 0.002 0.012
+2020-09-14 10:45:31,249 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:31] "POST /web/dataset/call_kw/product.pricelist/read HTTP/1.0" 200 - 4 0.007 0.010
+2020-09-14 10:45:31,295 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:31] "POST /web/dataset/call_kw/product.pricelist.item/read HTTP/1.0" 200 - 8 0.031 0.023
+2020-09-14 10:45:31,577 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:45:31] "POST /web/dataset/call_kw/google.drive.config/get_google_drive_config HTTP/1.0" 200 - 5 0.005 0.005
+2020-09-14 10:46:19,634 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:46:19] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-14 10:47:09,901 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:47:09] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 10:48:00,171 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:48:00] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 10:48:50,437 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:48:50] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.009
+2020-09-14 10:49:40,702 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:49:40] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.009
+2020-09-14 10:50:30,970 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:50:30] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.007 0.012
+2020-09-14 10:51:21,238 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:51:21] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-14 10:52:11,498 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:52:11] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.009
+2020-09-14 10:53:01,776 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:53:01] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.006 0.012
+2020-09-14 10:53:52,043 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:53:52] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 10:54:42,310 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:54:42] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 10:55:32,597 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:55:32] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.009
+2020-09-14 10:56:22,871 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:56:22] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-14 10:57:13,137 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:57:13] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 10:58:03,455 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:58:03] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 10:58:51,940 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:58:51] "POST /web/dataset/call_kw/res.currency/get_formview_action HTTP/1.0" 200 - 1 0.001 0.004
+2020-09-14 10:58:52,256 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:58:52] "POST /web/dataset/call_kw/res.currency/load_views HTTP/1.0" 200 - 29 0.025 0.028
+2020-09-14 10:58:52,565 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:58:52] "POST /web/dataset/call_kw/res.currency/read HTTP/1.0" 200 - 4 0.014 0.006
+2020-09-14 10:58:52,844 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:58:52] "POST /web/dataset/call_kw/google.drive.config/get_google_drive_config HTTP/1.0" 200 - 3 0.002 0.006
+2020-09-14 10:58:53,848 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:58:53] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 10:59:44,114 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 10:59:44] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:00:15,093 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:00:15] "POST /web/action/load HTTP/1.0" 200 - 26 0.018 0.021
+2020-09-14 11:00:15,401 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:00:15] "POST /web/dataset/call_kw/res.currency.rate/load_views HTTP/1.0" 200 - 32 0.019 0.026
+2020-09-14 11:00:15,708 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:00:15] "POST /web/dataset/search_read HTTP/1.0" 200 - 16 0.014 0.015
+2020-09-14 11:00:19,333 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:00:19] "POST /web/dataset/call_kw/product.pricelist/read HTTP/1.0" 200 - 9 0.009 0.013
+2020-09-14 11:00:19,610 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:00:19] "POST /web/dataset/call_kw/product.pricelist/read HTTP/1.0" 200 - 4 0.003 0.007
+2020-09-14 11:00:19,863 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:00:19] "POST /web/dataset/call_kw/res.country.group/read HTTP/1.0" 200 - 2 0.001 0.005
+2020-09-14 11:00:20,133 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:00:20] "POST /web/dataset/call_kw/product.pricelist.item/read HTTP/1.0" 200 - 6 0.016 0.024
+2020-09-14 11:00:34,382 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:00:34] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:01:24,647 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:01:24] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 11:02:14,917 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:02:14] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:02:27,775 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:02:27] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:03:18,056 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:03:18] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:04:08,322 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:04:08] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:04:58,592 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:04:58] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.008
+2020-09-14 11:05:48,883 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:05:48] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.011
+2020-09-14 11:06:28,235 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:28] "POST /web/action/load HTTP/1.0" 200 - 34 0.041 0.030
+2020-09-14 11:06:28,881 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:28] "POST /web/dataset/call_kw/account.journal/load_views HTTP/1.0" 200 - 186 0.130 0.252
+2020-09-14 11:06:30,008 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:30] "POST /web/dataset/search_read HTTP/1.0" 200 - 333 0.405 0.165
+2020-09-14 11:06:30,314 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:30] "GET /web/static/lib/nvd3/d3.v3.js HTTP/1.0" 200 - - - -
+2020-09-14 11:06:30,807 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:30] "GET /web/static/lib/nvd3/nv.d3.css HTTP/1.0" 200 - - - -
+2020-09-14 11:06:31,070 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:31] "GET /web/static/lib/nvd3/nv.d3.js HTTP/1.0" 200 - - - -
+2020-09-14 11:06:31,822 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:31] "GET /web/static/src/js/libs/nvd3.js HTTP/1.0" 200 - - - -
+2020-09-14 11:06:32,195 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:32] "POST /account/account_dashboard_onboarding HTTP/1.0" 200 - 56 0.036 0.053
+2020-09-14 11:06:32,503 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:32] "GET /account/static/src/img/account_dashboard_onboarding_bg.jpg HTTP/1.0" 200 - - - -
+2020-09-14 11:06:39,153 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:39] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.010
+2020-09-14 11:06:51,450 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:51] "POST /web/action/load HTTP/1.0" 200 - 20 0.014 0.017
+2020-09-14 11:06:51,763 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:51] "POST /web/dataset/call_kw/res.currency/load_views HTTP/1.0" 200 - 37 0.021 0.033
+2020-09-14 11:06:52,090 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:52] "POST /web/dataset/search_read HTTP/1.0" 200 - 17 0.019 0.028
+2020-09-14 11:06:55,038 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:55] "POST /web/dataset/call_kw/res.currency/read HTTP/1.0" 200 - 4 0.002 0.006
+2020-09-14 11:06:55,315 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:55] "POST /web/dataset/call_kw/google.drive.config/get_google_drive_config HTTP/1.0" 200 - 3 0.003 0.005
+2020-09-14 11:06:59,979 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:06:59] "POST /web/dataset/call_kw/res.currency/get_metadata HTTP/1.0" 200 - 6 0.003 0.011
+2020-09-14 11:07:00,247 6 INFO ? werkzeug: 72.255.15.123 - - [14/Sep/2020 11:07:00] "GET /web/static/src/xml/dialog.xml?debug=1600081418336 HTTP/1.0" 200 - - - -
+2020-09-14 11:07:29,424 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:07:29] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:08:19,695 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:08:19] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:09:09,970 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:09:09] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.010
+2020-09-14 11:10:00,261 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:10:00] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:10:50,534 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:10:50] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.009
+2020-09-14 11:11:40,886 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:11:40] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:12:31,159 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:12:31] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 11:13:21,430 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:13:21] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 11:14:11,702 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:14:11] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:15:01,987 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:15:01] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:15:52,258 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:15:52] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:16:42,529 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:16:42] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:17:32,799 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:17:32] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:18:23,070 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:18:23] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:19:13,346 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:19:13] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 11:20:03,616 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:20:03] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:20:53,904 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:20:53] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:21:44,183 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:21:44] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.014
+2020-09-14 11:22:34,452 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:22:34] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:23:24,724 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:23:24] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:24:15,002 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:24:15] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-14 11:25:05,276 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:25:05] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 11:25:55,550 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:25:55] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:26:45,823 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:26:45] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:27:36,091 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:27:36] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.009
+2020-09-14 11:28:26,367 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:28:26] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 11:29:16,637 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:29:16] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:30:06,909 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:30:06] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.009
+2020-09-14 11:30:57,180 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:30:57] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:31:47,451 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:31:47] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:32:37,728 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:32:37] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.012
+2020-09-14 11:33:28,002 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:33:28] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:34:18,272 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:34:18] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:35:08,544 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:35:08] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:35:58,818 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:35:58] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 11:36:49,096 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:36:49] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.006 0.013
+2020-09-14 11:37:39,371 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:37:39] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 11:38:29,643 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:38:29] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:39:19,915 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:39:19] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:40:10,187 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:40:10] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-14 11:41:00,459 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:41:00] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.009
+2020-09-14 11:41:50,730 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:41:50] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:42:41,001 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:42:41] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:43:31,269 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:43:31] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:44:21,535 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:44:21] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.008
+2020-09-14 11:45:11,805 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:45:11] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.009
+2020-09-14 11:46:02,077 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:46:02] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:46:52,349 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:46:52] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:47:42,616 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:47:42] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.009
+2020-09-14 11:48:32,885 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:48:32] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:49:23,154 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:49:23] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.008
+2020-09-14 11:50:13,419 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:50:13] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:51:03,687 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:51:03] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.008
+2020-09-14 11:51:53,965 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:51:53] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.006 0.013
+2020-09-14 11:52:44,236 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:52:44] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 11:53:34,509 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:53:34] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.009
+2020-09-14 11:54:24,781 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:54:24] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:55:15,051 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:55:15] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:56:05,319 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:56:05] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:56:55,591 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:56:55] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:57:45,866 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:57:45] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 11:58:36,138 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:58:36] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 11:59:26,408 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 11:59:26] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:00:16,685 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:00:16] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.013
+2020-09-14 12:01:06,956 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:01:06] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:01:57,225 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:01:57] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:02:47,496 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:02:47] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.011
+2020-09-14 12:03:37,765 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:03:37] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:04:28,039 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:04:28] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:05:18,307 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:05:18] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.008
+2020-09-14 12:06:08,580 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:06:08] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:06:58,855 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:06:58] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-14 12:07:49,155 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:07:49] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.009
+2020-09-14 12:08:39,426 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:08:39] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:09:29,697 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:09:29] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:10:19,970 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:10:19] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 12:11:10,246 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:11:10] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.013
+2020-09-14 12:12:00,512 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:12:00] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:12:50,785 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:12:50] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:13:41,053 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:13:41] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:14:31,341 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:14:31] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:15:21,608 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:15:21] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:16:11,879 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:16:11] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:17:02,152 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:17:02] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:17:52,424 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:17:52] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:18:42,694 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:18:42] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:19:32,963 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:19:32] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:20:23,240 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:20:23] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.007 0.015
+2020-09-14 12:21:13,511 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:21:13] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 12:22:03,785 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:22:03] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:22:54,057 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:22:54] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:23:44,329 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:23:44] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:24:34,617 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:24:34] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:25:24,891 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:25:24] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:26:15,823 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:26:15] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:27:06,095 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:27:06] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 12:27:56,369 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:27:56] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:28:46,637 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:28:46] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:29:36,905 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:29:36] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:30:27,210 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:30:27] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:31:17,477 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:31:17] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:32:07,741 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:32:07] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:32:58,007 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:32:58] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:33:48,278 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:33:48] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:34:38,572 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:34:38] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-14 12:35:28,845 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:35:28] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.013
+2020-09-14 12:36:19,113 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:36:19] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:37:09,389 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:37:09] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.013
+2020-09-14 12:37:59,702 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:37:59] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.020 0.029
+2020-09-14 12:38:49,972 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:38:49] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 12:39:40,240 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:39:40] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:40:30,507 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:40:30] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-14 12:41:20,775 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:41:20] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:42:11,049 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:42:11] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:43:01,325 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:43:01] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.013
+2020-09-14 12:43:51,594 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:43:51] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:44:41,888 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:44:41] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.037
+2020-09-14 12:45:32,153 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:45:32] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.012
+2020-09-14 12:46:22,425 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:46:22] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:47:12,692 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:47:12] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-14 12:48:02,961 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:48:02] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:48:53,229 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:48:53] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-14 12:49:43,506 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:49:43] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.012
+2020-09-14 12:50:33,774 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:50:33] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 12:51:24,047 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:51:24] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-14 12:52:14,322 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:52:14] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-14 12:53:04,585 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:53:04] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 12:53:54,887 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:53:54] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:54:45,162 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:54:45] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 12:55:35,438 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:55:35] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.007 0.010
+2020-09-14 12:56:25,710 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:56:25] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.011
+2020-09-14 12:57:15,980 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:57:15] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-14 12:58:06,253 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:58:06] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.011
+2020-09-14 12:58:56,520 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:58:56] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 12:59:46,789 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 12:59:46] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-14 13:00:37,058 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:00:37] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 13:01:27,324 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:01:27] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 13:02:17,649 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:02:17] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 13:03:07,914 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:03:07] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 13:03:58,186 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:03:58] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 13:04:48,642 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:04:48] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 13:05:38,912 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:05:38] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-14 13:06:29,188 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:06:29] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.006 0.014
+2020-09-14 13:07:19,465 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:07:19] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.011
+2020-09-14 13:08:09,739 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:08:09] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-14 13:09:00,014 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:09:00] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 13:09:50,286 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:09:50] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 13:10:40,559 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:10:40] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.011
+2020-09-14 13:11:30,831 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:11:30] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-14 13:12:21,101 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:12:21] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 13:13:11,367 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:13:11] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 13:14:01,636 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:14:01] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.011
+2020-09-14 13:14:02,647 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 104.197.210.220 - - [14/Sep/2020 13:14:02] "GET /web/webclient/version_info HTTP/1.0" 200 - 1 0.001 0.004
+2020-09-14 13:14:52,191 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:14:52] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 13:15:42,460 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:15:42] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-14 13:16:32,743 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:16:32] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.007 0.017
+2020-09-14 13:17:23,013 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:17:23] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-14 13:18:13,280 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:18:13] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-14 13:19:03,553 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:19:03] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-14 13:19:54,284 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:19:54] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.011
+2020-09-14 13:20:44,554 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:20:44] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.009
+2020-09-14 13:21:34,827 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:21:34] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.011
+2020-09-14 13:22:25,106 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:22:25] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.015
+2020-09-14 13:23:15,370 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:23:15] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-14 13:24:05,656 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:24:05] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.006 0.022
+2020-09-14 13:24:55,975 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:24:55] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.013
+2020-09-14 13:25:46,245 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:25:46] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-14 13:26:36,515 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:26:36] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-14 13:27:26,789 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:27:26] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.012
+2020-09-14 13:28:19,559 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:28:19] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.012 0.032
+2020-09-14 13:29:09,832 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:29:09] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.012
+2020-09-14 13:30:00,104 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 72.255.15.123 - - [14/Sep/2020 13:30:00] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-14 13:32:02,651 6 INFO fltdca-odoo-uat800-1398569 odoo.service.server: Initiating shutdown 
+2020-09-14 13:32:02,652 6 INFO fltdca-odoo-uat800-1398569 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2020-09-14 17:04:03,302 6 INFO ? odoo: Odoo version 12.0 
+2020-09-14 17:04:03,305 6 INFO ? odoo: Using configuration file at /home/odoo/.config/odoo/odoo.conf 
+2020-09-14 17:04:03,305 6 INFO ? odoo: addons paths: ['/home/odoo/data/addons/12.0', '/home/odoo/src/user', '/home/odoo/src/user/cancel_sale_order-12.0.1.0', '/home/odoo/src/user/farhanrashad/ftld-modules', '/home/odoo/src/user/product_variants-12.0.1.0.0', '/home/odoo/src/odoo/addons', '/home/odoo/src/odoo/odoo/addons', '/home/odoo/src/enterprise', '/home/odoo/src/themes'] 
+2020-09-14 17:04:03,305 6 INFO ? odoo: database: p_fltdca_odoo_uat800_1398569@192.168.1.1:5432 
+2020-09-14 17:04:03,316 6 INFO ? odoo: Could not determine if database fltdca-odoo-uat800-1398569 exists, skipping auto-creation: permission denied for relation pg_database
+ 
+2020-09-14 17:04:03,450 6 INFO ? odoo.addons.base.models.ir_actions_report: Will use the Wkhtmltopdf binary at /usr/local/bin/wkhtmltopdf 
+2020-09-14 17:04:03,837 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/data/addons/12.0 
+2020-09-14 17:04:03,837 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user 
+2020-09-14 17:04:03,837 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/cancel_sale_order-12.0.1.0 
+2020-09-14 17:04:03,837 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/farhanrashad/ftld-modules 
+2020-09-14 17:04:03,837 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/product_variants-12.0.1.0.0 
+2020-09-14 17:04:03,838 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/addons 
+2020-09-14 17:04:03,838 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/odoo/addons 
+2020-09-14 17:04:03,838 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/enterprise 
+2020-09-14 17:04:03,838 6 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/themes 
+2020-09-14 17:04:04,394 6 INFO ? odoo.service.server: AutoReload watcher running with inotify 
+2020-09-14 17:04:04,396 6 INFO ? odoo.service.server: HTTP service (werkzeug) running through socket activation 
+2020-09-14 17:04:04,505 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 1 modules... 
+2020-09-14 17:04:04,520 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries 
+2020-09-14 17:04:04,538 6 INFO ? odoo.http: HTTP Configuring static files 
+2020-09-14 17:04:04,677 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 167 modules... 
+2020-09-14 17:04:06,313 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model sale.line.product.confg has no _description 
+2020-09-14 17:04:06,559 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model product.pack has no _description 
+2020-09-14 17:04:06,561 6 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model wizard.product.bundle.bi has no _description 
+2020-09-14 17:04:06,725 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 167 modules loaded in 2.05s, 0 queries 
+2020-09-14 17:04:07,756 6 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: Modules loaded. 
+2020-09-14 17:04:07,818 6 INFO fltdca-odoo-uat800-1398569 odoo.addons.base.models.ir_http: Generating routing map 
+2020-09-14 17:04:08,070 6 INFO fltdca-odoo-uat800-1398569 werkzeug: 104.197.210.220 - - [14/Sep/2020 17:04:08] "GET /web/webclient/version_info HTTP/1.0" 200 - 1 0.001 3.526
+2020-09-14 17:06:14,578 6 INFO fltdca-odoo-uat800-1398569 odoo.service.server: Initiating shutdown 
+2020-09-14 17:06:14,578 6 INFO fltdca-odoo-uat800-1398569 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2020-09-15 02:25:19,478 60 INFO ? odoo: Odoo version 12.0 
+2020-09-15 02:25:19,480 60 INFO ? odoo: Using configuration file at /home/odoo/.config/odoo/odoo.conf 
+2020-09-15 02:25:19,480 60 INFO ? odoo: addons paths: ['/home/odoo/data/addons/12.0', '/home/odoo/src/user', '/home/odoo/src/user/cancel_sale_order-12.0.1.0', '/home/odoo/src/user/farhanrashad/ftld-modules', '/home/odoo/src/user/product_variants-12.0.1.0.0', '/home/odoo/src/odoo/addons', '/home/odoo/src/odoo/odoo/addons', '/home/odoo/src/enterprise', '/home/odoo/src/themes'] 
+2020-09-15 02:25:19,480 60 INFO ? odoo: database: p_fltdca_odoo_uat800_1398569@192.168.1.1:5432 
+2020-09-15 02:25:19,494 60 INFO ? odoo: Could not determine if database fltdca-odoo-uat800-1398569 exists, skipping auto-creation: permission denied for relation pg_database
+ 
+2020-09-15 02:25:19,602 60 INFO ? odoo.addons.base.models.ir_actions_report: Will use the Wkhtmltopdf binary at /usr/local/bin/wkhtmltopdf 
+2020-09-15 02:25:19,992 60 INFO ? odoo.service.server: Watching addons folder /home/odoo/data/addons/12.0 
+2020-09-15 02:25:19,992 60 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user 
+2020-09-15 02:25:19,992 60 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/cancel_sale_order-12.0.1.0 
+2020-09-15 02:25:19,992 60 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/farhanrashad/ftld-modules 
+2020-09-15 02:25:19,992 60 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/product_variants-12.0.1.0.0 
+2020-09-15 02:25:19,992 60 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/addons 
+2020-09-15 02:25:19,992 60 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/odoo/addons 
+2020-09-15 02:25:19,992 60 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/enterprise 
+2020-09-15 02:25:19,992 60 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/themes 
+2020-09-15 02:25:20,485 60 INFO ? odoo.service.server: AutoReload watcher running with inotify 
+2020-09-15 02:25:20,486 60 INFO ? odoo.service.server: HTTP service (werkzeug) running through socket activation 
+2020-09-15 02:25:20,567 60 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 1 modules... 
+2020-09-15 02:25:20,582 60 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 1 modules loaded in 0.01s, 0 queries 
+2020-09-15 02:25:20,702 60 INFO ? odoo.http: HTTP Configuring static files 
+2020-09-15 02:25:20,822 60 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 167 modules... 
+2020-09-15 02:25:22,370 60 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model sale.line.product.confg has no _description 
+2020-09-15 02:25:22,570 60 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model product.pack has no _description 
+2020-09-15 02:25:22,571 60 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model wizard.product.bundle.bi has no _description 
+2020-09-15 02:25:22,710 60 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 167 modules loaded in 1.89s, 0 queries 
+2020-09-15 02:25:23,540 60 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: Modules loaded. 
+2020-09-15 02:25:23,581 60 INFO fltdca-odoo-uat800-1398569 odoo.addons.base.models.ir_http: Generating routing map 
+2020-09-15 02:25:25,954 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:25] "GET / HTTP/1.0" 200 - 1096 1.088 4.149
+2020-09-15 02:25:26,638 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:26] "GET /web/content/9373-b88e324/1/web.assets_common.0.css HTTP/1.0" 200 - 6 0.003 0.010
+2020-09-15 02:25:26,656 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:26] "GET /web/content/11203-148854b/1/web.assets_frontend.0.css HTTP/1.0" 200 - 4 0.003 0.012
+2020-09-15 02:25:26,664 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:26] "GET /web/content/11204-148854b/1/web.assets_frontend.1.css HTTP/1.0" 200 - 4 0.004 0.013
+2020-09-15 02:25:26,979 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:26] "GET /web/content/8786-5164540/1/web_editor.summernote.0.css HTTP/1.0" 200 - 4 0.002 0.009
+2020-09-15 02:25:27,019 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:27] "GET /web/content/8904-aafbb40/1/web_editor.assets_editor.0.css HTTP/1.0" 200 - 4 0.002 0.009
+2020-09-15 02:25:27,358 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:27] "GET /web/content/11205-3983e7a/1/website.assets_editor.0.css HTTP/1.0" 200 - 4 0.002 0.008
+2020-09-15 02:25:28,598 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:28] "GET /web/content/9374-b88e324/1/web.assets_common.js HTTP/1.0" 200 - 4 0.002 0.026
+2020-09-15 02:25:28,607 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:28] "GET /web/content/11206-148854b/1/web.assets_frontend.js HTTP/1.0" 200 - 4 0.002 0.016
+2020-09-15 02:25:29,296 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:29] "GET /web/content/8787-5164540/1/web_editor.summernote.js HTTP/1.0" 200 - 4 0.002 0.009
+2020-09-15 02:25:29,319 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:29] "GET /web/content/8905-aafbb40/1/web_editor.assets_editor.js HTTP/1.0" 200 - 4 0.002 0.010
+2020-09-15 02:25:29,944 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:29] "GET /web/content/11207-3983e7a/1/website.assets_editor.js HTTP/1.0" 200 - 4 0.002 0.011
+2020-09-15 02:25:30,288 60 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:30] "GET /website_sale_stock/static/src/xml/website_sale_stock_product_availability.xml HTTP/1.0" 200 - - - -
+2020-09-15 02:25:30,349 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:30] "POST /website/translations HTTP/1.0" 200 - 13 0.041 0.022
+2020-09-15 02:25:30,361 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:30] "POST /web/dataset/call HTTP/1.0" 200 - 13 0.019 0.014
+2020-09-15 02:25:30,650 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:30] "GET /web/image/9711/ASCERA-XT-75-Jewellery-Black-&-White-Small.png HTTP/1.0" 200 - 4 0.005 0.011
+2020-09-15 02:25:30,687 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:30] "GET /web/image/7432/acf1-transparent-900px%20(1).png HTTP/1.0" 200 - 4 0.004 0.012
+2020-09-15 02:25:30,690 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:30] "GET /web/image/res.company/1/secondary_logo?unique=f16e63e HTTP/1.0" 200 - 23 0.030 0.024
+2020-09-15 02:25:32,051 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:32] "POST /payment/get_env HTTP/1.0" 200 - 9 0.012 0.010
+2020-09-15 02:25:32,062 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:32] "GET /web/image/7625/clean-background.jpg HTTP/1.0" 200 - 4 0.004 0.011
+2020-09-15 02:25:32,064 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:32] "GET /web/image/9952/epac%202.1.png HTTP/1.0" 200 - 4 0.003 0.011
+2020-09-15 02:25:32,228 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:32] "GET /web/image/9713/Capture.png HTTP/1.0" 200 - 4 0.003 0.008
+2020-09-15 02:25:32,762 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:32] "GET /web/image/8251/042A0239_KB300.jpg HTTP/1.0" 200 - 4 0.002 0.022
+2020-09-15 02:25:33,211 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:33] "GET /web/image/8141/710Seal-2-(1).png HTTP/1.0" 200 - 4 0.003 0.007
+2020-09-15 02:25:33,374 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:33] "GET /web/image/2724/payment-methods1.png HTTP/1.0" 200 - 4 0.003 0.007
+2020-09-15 02:25:33,596 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:33] "GET /web/webclient/locale/en_US HTTP/1.0" 200 - 1 0.000 0.006
+2020-09-15 02:25:33,817 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:33] "GET /web/image/1942/footer-bg1.jpg HTTP/1.0" 200 - 4 0.003 0.089
+2020-09-15 02:25:33,932 60 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:33] "GET /website/static/src/xml/website.xml HTTP/1.0" 200 - - - -
+2020-09-15 02:25:34,035 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:34] "POST /website_mass_mailing/is_subscriber HTTP/1.0" 200 - 11 0.016 0.010
+2020-09-15 02:25:34,271 60 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:34] "GET /website/static/src/xml/website.editor.xml HTTP/1.0" 200 - - - -
+2020-09-15 02:25:34,348 60 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:34] "GET /web_enterprise/static/src/fonts/Roboto/Roboto-Regular-webfont.woff HTTP/1.0" 200 - - - -
+2020-09-15 02:25:34,630 60 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:34] "GET /web_editor/static/src/xml/editor.xml HTTP/1.0" 200 - - - -
+2020-09-15 02:25:35,002 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:35] "POST /web/dataset/call_kw/web_tour.tour/get_consumed_tours HTTP/1.0" 200 - 10 0.006 0.007
+2020-09-15 02:25:35,316 60 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:35] "GET /web/static/lib/fontawesome/fonts/fontawesome-webfont.woff2?v=4.7.0 HTTP/1.0" 200 - - - -
+2020-09-15 02:25:35,361 60 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:35] "GET /web_enterprise/static/src/fonts/Roboto/Roboto-Medium-webfont.woff HTTP/1.0" 200 - - - -
+2020-09-15 02:25:36,820 60 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:25:36] "GET /web/image/website/1/favicon/ HTTP/1.0" 200 - 4 0.006 0.006
+2020-09-15 02:27:42,436 60 INFO fltdca-odoo-uat800-1398569 odoo.service.server: Initiating shutdown 
+2020-09-15 02:27:42,437 60 INFO fltdca-odoo-uat800-1398569 odoo.service.server: Hit CTRL-C again or send a second signal to force the shutdown. 
+2020-09-15 02:41:59,466 180 INFO ? odoo: Odoo version 12.0 
+2020-09-15 02:41:59,467 180 INFO ? odoo: Using configuration file at /home/odoo/.config/odoo/odoo.conf 
+2020-09-15 02:41:59,467 180 INFO ? odoo: addons paths: ['/home/odoo/data/addons/12.0', '/home/odoo/src/user', '/home/odoo/src/user/cancel_sale_order-12.0.1.0', '/home/odoo/src/user/farhanrashad/ftld-modules', '/home/odoo/src/user/product_variants-12.0.1.0.0', '/home/odoo/src/odoo/addons', '/home/odoo/src/odoo/odoo/addons', '/home/odoo/src/enterprise', '/home/odoo/src/themes'] 
+2020-09-15 02:41:59,468 180 INFO ? odoo: database: p_fltdca_odoo_uat800_1398569@192.168.1.1:5432 
+2020-09-15 02:41:59,482 180 INFO ? odoo: Could not determine if database fltdca-odoo-uat800-1398569 exists, skipping auto-creation: permission denied for relation pg_database
+ 
+2020-09-15 02:41:59,673 180 INFO ? odoo.addons.base.models.ir_actions_report: Will use the Wkhtmltopdf binary at /usr/local/bin/wkhtmltopdf 
+2020-09-15 02:42:00,188 180 INFO ? odoo.service.server: Watching addons folder /home/odoo/data/addons/12.0 
+2020-09-15 02:42:00,188 180 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user 
+2020-09-15 02:42:00,188 180 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/cancel_sale_order-12.0.1.0 
+2020-09-15 02:42:00,188 180 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/farhanrashad/ftld-modules 
+2020-09-15 02:42:00,188 180 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/user/product_variants-12.0.1.0.0 
+2020-09-15 02:42:00,188 180 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/addons 
+2020-09-15 02:42:00,188 180 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/odoo/odoo/addons 
+2020-09-15 02:42:00,188 180 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/enterprise 
+2020-09-15 02:42:00,188 180 INFO ? odoo.service.server: Watching addons folder /home/odoo/src/themes 
+2020-09-15 02:42:00,787 180 INFO ? odoo.service.server: AutoReload watcher running with inotify 
+2020-09-15 02:42:00,789 180 INFO ? odoo.service.server: HTTP service (werkzeug) running through socket activation 
+2020-09-15 02:42:00,859 180 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 1 modules... 
+2020-09-15 02:42:00,880 180 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 1 modules loaded in 0.02s, 0 queries 
+2020-09-15 02:42:01,087 180 INFO ? odoo.http: HTTP Configuring static files 
+2020-09-15 02:42:01,200 180 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: loading 167 modules... 
+2020-09-15 02:42:03,005 180 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model sale.line.product.confg has no _description 
+2020-09-15 02:42:03,221 180 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model product.pack has no _description 
+2020-09-15 02:42:03,223 180 WARNING fltdca-odoo-uat800-1398569 odoo.models: The model wizard.product.bundle.bi has no _description 
+2020-09-15 02:42:03,350 180 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: 167 modules loaded in 2.15s, 0 queries 
+2020-09-15 02:42:04,226 180 INFO fltdca-odoo-uat800-1398569 odoo.modules.loading: Modules loaded. 
+2020-09-15 02:42:04,252 180 INFO fltdca-odoo-uat800-1398569 odoo.addons.base.models.ir_http: Generating routing map 
+2020-09-15 02:42:04,252 180 INFO fltdca-odoo-uat800-1398569 odoo.addons.base.models.ir_http: Generating routing map 
+2020-09-15 02:42:04,269 180 INFO fltdca-odoo-uat800-1398569 odoo.addons.base.models.ir_http: Generating routing map 
+2020-09-15 02:42:04,631 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:04] "POST /payment/get_env HTTP/1.0" 200 - 19 0.029 3.807
+2020-09-15 02:42:04,642 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:04] "POST /web/dataset/call HTTP/1.0" 200 - 19 0.028 3.822
+2020-09-15 02:42:04,647 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:04] "POST /website/translations HTTP/1.0" 200 - 23 0.046 3.492
+2020-09-15 02:42:05,029 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:05] "POST /website_mass_mailing/is_subscriber HTTP/1.0" 200 - 12 0.012 0.011
+2020-09-15 02:42:05,218 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:05] "POST /web/dataset/call_kw/web_tour.tour/get_consumed_tours HTTP/1.0" 200 - 10 0.006 0.009
+2020-09-15 02:42:09,307 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:09] "GET /web HTTP/1.0" 200 - 595 0.351 0.780
+2020-09-15 02:42:10,047 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:10] "GET /web/content/9368-edf50a2/web.assets_common.0.css HTTP/1.0" 200 - 4 0.006 0.021
+2020-09-15 02:42:10,047 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:10] "GET /web/content/11214-60d4649/web.assets_backend.0.css HTTP/1.0" 200 - 7 0.010 0.021
+2020-09-15 02:42:10,051 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:10] "GET /web/content/11215-60d4649/web.assets_backend.1.css HTTP/1.0" 200 - 4 0.005 0.023
+2020-09-15 02:42:10,978 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:10] "GET /web/content/8729-27c67b0/web_studio.assets.0.css HTTP/1.0" 200 - 4 0.006 0.017
+2020-09-15 02:42:10,979 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:10] "GET /web/content/8790-5164540/web_editor.summernote.0.css HTTP/1.0" 200 - 4 0.004 0.018
+2020-09-15 02:42:10,985 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:10] "GET /web/content/8889-1bca022/web_editor.assets_editor.0.css HTTP/1.0" 200 - 4 0.006 0.014
+2020-09-15 02:42:11,287 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:11] "GET /web/content/9371-edf50a2/web.assets_common.js HTTP/1.0" 200 - 4 0.002 0.022
+2020-09-15 02:42:11,342 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:11] "GET /web/content/8731-27c67b0/web_studio.assets.js HTTP/1.0" 200 - 4 0.002 0.022
+2020-09-15 02:42:11,357 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:11] "GET /web/content/11216-60d4649/web.assets_backend.js HTTP/1.0" 200 - 4 0.002 0.045
+2020-09-15 02:42:11,557 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:11] "GET /web/content/8792-5164540/web_editor.summernote.js HTTP/1.0" 200 - 4 0.002 0.011
+2020-09-15 02:42:11,582 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:11] "GET /web/content/8891-1bca022/web_editor.assets_editor.js HTTP/1.0" 200 - 4 0.002 0.011
+2020-09-15 02:42:17,111 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:17] "GET /web/webclient/qweb?mods=base,web,bus,web_tour,mail,sales_team,product,portal,digest,account,payment,sale,barcodes,stock,sale_management,sale_stock,product_bundle_pack,calendar,utm,contacts,crm,web_editor,website,account_asset,account_accountant,website_form,website_partner,website_crm,website_payment,website_mail,rating,website_rating,website_sale,web_dashboard,website_sale_dashboard,purchase,account_bank_statement_import,base_import,account_bank_statement_import_csv,account_bank_statement_import_ofx,account_check_printing,web_settings_dashboard,iap,mail_enterprise,account_invoice_extract,account_online_sync,account_plaid,account_ponto,account_reports,account_yodlee,auth_signup,web_mobile,barcodes_mobile,cancel_sale_order,ct_searchbar_in_menu,de_theme_modification,de_website_age_verification,de_website_banner,de_website_header,de_website_product_image_swap,de_website_quick_view,delivery,delivery_easypost,google_calendar,google_drive,l10n_ca,l10n_ca_check_printing,l10n_generic_coa,l10n_us,l10n_us_check_printing,mail_bot,web_kanban_gauge,mass_mailing,marketing_automation,ocn_client,partner_autocomplete,payment_elavon_scs,payment_paypal,payment_transfer,product_tiered_pricing,product_variants,sh_shop_qty,sms,snailmail,website_theme_install,theme_common,web_cohort,web_diagram,web_enterprise,web_gantt,web_grid,web_studio,website_animate,website_google_map,website_crm_partner_assign,website_customer,website_enterprise,website_form_editor,website_links,website_mass_mailing,website_sale_wishlist,website_product_carousel,website_sale_coupon,website_sale_stock,website_sale_delivery,website_sale_link_tracker,website_sale_management,website_studio,mass_mailing_themes,theme_treehouse,website_blog,theme_bootswatch,theme_default HTTP/1.0" 200 - 1 0.001 0.141
+2020-09-15 02:42:17,773 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:17] "POST /web/dataset/call HTTP/1.0" 200 - 13 0.012 0.011
+2020-09-15 02:42:17,906 180 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:17] "GET /web/static/src/img/favicon.ico HTTP/1.0" 200 - - - -
+2020-09-15 02:42:18,034 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:18] "POST /web/webclient/translations HTTP/1.0" 200 - 5 0.009 0.005
+2020-09-15 02:42:18,707 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:18] "POST /mail/init_messaging HTTP/1.0" 200 - 105 0.282 0.067
+2020-09-15 02:42:19,004 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:19] "POST /web/dataset/call_kw/ir.ui.menu/load_menus HTTP/1.0" 200 - 448 0.307 0.300
+2020-09-15 02:42:19,079 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:19] "POST /longpolling/poll HTTP/1.0" 200 - 11 0.020 0.010
+2020-09-15 02:42:21,856 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:21] "POST /web/dataset/call_kw/res.users/systray_get_activities HTTP/1.0" 200 - 17 0.028 0.015
+2020-09-15 02:42:22,203 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:22] "POST /calendar/notify HTTP/1.0" 200 - 3 0.014 0.005
+2020-09-15 02:42:22,531 180 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:22] "GET /web/static/src/img/logo_inverse_white_206px.png HTTP/1.0" 200 - - - -
+2020-09-15 02:42:22,592 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:22] "GET /web/image?model=res.users&field=image_small&id=2 HTTP/1.0" 200 - 16 0.011 0.013
+2020-09-15 02:42:22,799 180 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:22] "GET /web_enterprise/static/src/fonts/Roboto/Roboto-Bold-webfont.woff HTTP/1.0" 200 - - - -
+2020-09-15 02:42:22,899 180 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:22] "GET /web_studio/static/src/img/studio_icon_small.png HTTP/1.0" 200 - - - -
+2020-09-15 02:42:22,929 180 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:22] "GET /web_enterprise/static/src/img/home-menu-bg-overlay.svg HTTP/1.0" 200 - - - -
+2020-09-15 02:42:23,245 180 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:23] "GET /account/static/description/icon.png HTTP/1.0" 200 - - - -
+2020-09-15 02:42:23,260 180 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:23] "GET /crm/static/description/icon.png HTTP/1.0" 200 - - - -
+2020-09-15 02:42:23,577 180 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:23] "GET /stock/static/description/icon.png HTTP/1.0" 200 - - - -
+2020-09-15 02:42:24,033 180 INFO ? werkzeug: 119.160.103.95 - - [15/Sep/2020 02:42:24] "GET /web_tour/static/src/xml/tip.xml HTTP/1.0" 200 - - - -
+2020-09-15 02:43:09,468 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:43:09] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.006 0.010
+2020-09-15 02:43:59,813 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:43:59] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 02:44:50,246 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:44:50] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.007 0.009
+2020-09-15 02:45:40,582 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:45:40] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 02:46:30,914 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:46:30] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-15 02:47:21,498 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:47:21] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.008
+2020-09-15 02:48:11,983 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:48:11] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-15 02:49:02,320 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:49:02] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.009
+2020-09-15 02:49:52,742 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:49:52] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.009
+2020-09-15 02:50:43,088 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:50:43] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 02:51:33,480 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:51:33] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 02:52:23,812 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:52:23] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-15 02:53:14,458 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:53:14] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 02:54:04,850 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:54:04] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 02:54:55,189 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:54:55] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 02:55:45,529 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:55:45] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.008
+2020-09-15 02:56:35,900 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:56:35] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.011
+2020-09-15 02:57:26,235 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:57:26] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.012
+2020-09-15 02:58:16,568 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:58:16] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 02:59:06,924 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:59:06] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.011
+2020-09-15 02:59:57,258 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 02:59:57] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.008
+2020-09-15 03:00:47,653 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:00:47] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.012
+2020-09-15 03:01:38,120 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:01:38] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 03:02:28,460 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:02:28] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 03:03:18,935 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:03:18] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.014
+2020-09-15 03:04:12,435 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:04:12] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-15 03:05:02,811 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:05:02] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.015
+2020-09-15 03:05:53,172 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:05:53] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.010
+2020-09-15 03:06:43,566 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:06:43] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.009
+2020-09-15 03:07:33,925 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:07:33] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.011
+2020-09-15 03:08:24,363 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:08:24] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 03:09:14,731 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:09:14] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 03:10:05,100 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:10:05] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.014
+2020-09-15 03:10:55,605 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:10:55] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.012
+2020-09-15 03:11:45,932 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:11:45] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.003 0.008
+2020-09-15 03:12:36,384 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:12:36] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 03:13:26,726 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:13:26] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.005 0.010
+2020-09-15 03:14:17,062 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:14:17] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009
+2020-09-15 03:15:07,402 180 INFO fltdca-odoo-uat800-1398569 werkzeug: 119.160.103.95 - - [15/Sep/2020 03:15:07] "POST /longpolling/poll HTTP/1.0" 200 - 7 0.004 0.009

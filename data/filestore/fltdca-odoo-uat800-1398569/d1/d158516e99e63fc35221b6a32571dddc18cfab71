@@ -1,0 +1,24 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//PYVOBJECT//NONSGML Version 1//EN
+BEGIN:VEVENT
+UID:20200818T200910Z - 9136@fltdca-odoo-master-549513
+DTSTART:20200819T163000Z
+DTEND:20200819T170000Z
+ATTENDEE:MAILTO:chantal@ftldistribution.ca
+ATTENDEE:MAILTO:drew@ftldistribution.ca
+CREATED:20200818T200910Z
+DESCRIPTION:Group call with Taylor Barry about his new podcast\, and perhap
+ s what we can do to support him with advertising\, coming onto the podcast
+  to talk about some of our brands\, or what else they may be thinking of w
+ ith potential partnerships. \n\nCall at: 403-808-6262
+DTSTAMP:20200818T200910Z
+LOCATION:Phone call
+SUMMARY:FTLD on their new podcast
+BEGIN:VALARM
+ACTION:AUDIO
+DESCRIPTION:1 Hour(s)
+TRIGGER;related=START:PT1H
+END:VALARM
+END:VEVENT
+END:VCALENDAR

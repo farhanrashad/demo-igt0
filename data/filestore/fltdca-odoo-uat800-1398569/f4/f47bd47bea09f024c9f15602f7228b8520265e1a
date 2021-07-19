@@ -1,0 +1,45 @@
+
+#oe_manipulators .o_anim_li > a > i {
+  color: orange !important;
+}
+
+#oe_manipulators span.timeline {
+  display: block;
+  width: 100%;
+  height: 5px;
+  margin-bottom: 5px;
+  position: relative;
+  background-color: #F7F7F7;
+  border-bottom: 1px solid #EAEAEA;
+}
+
+#oe_manipulators span.timeline > span {
+  float: left;
+  display: inline-block;
+  position: relative;
+  height: 5px;
+}
+
+#oe_manipulators span.timeline span[simulate="duration"] {
+  position: absolute;
+  float: left;
+  left: 0;
+  height: 100%;
+  background: #21b799;
+  width: 0%;
+  animation-name: o_animate_timeline_duration;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}
+
+#oe_manipulators span.timeline span[simulate="delay"] {
+  position: absolute;
+  float: left;
+  left: 0;
+  height: 100%;
+  background: #A4498C;
+  width: 0%;
+  animation-name: o_animate_timeline_delay;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}

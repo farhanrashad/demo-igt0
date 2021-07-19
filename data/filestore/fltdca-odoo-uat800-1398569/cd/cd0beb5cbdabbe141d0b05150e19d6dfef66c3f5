@@ -1,0 +1,487 @@
+
+.o_ma_campaign_kanban .o_kanban_record {
+  width: 317px;
+  padding: 0px;
+}
+
+.o_ma_campaign_kanban .o_kanban_record .o_ma_header {
+  padding: 4px 0px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.o_ma_campaign_kanban .o_kanban_record .o_ma_header .o_ma_title {
+  font-size: 16px;
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+}
+
+.o_ma_campaign_kanban .o_kanban_record .o_ma_header .label {
+  margin-top: 2px;
+}
+
+.o_ma_campaign_kanban .o_kanban_record .o_ma_counter {
+  padding: 10px 0px;
+}
+
+.o_ma_campaign_kanban .o_kanban_record .o_ma_counter [class*=col-]:not(:last-child) {
+  border-right: 1px solid #dee2e6;
+}
+
+.o_ma_campaign_kanban.o_kanban_grouped {
+  -webkit-flex-flow: row wrap; flex-flow: row wrap;
+}
+
+.o_ma_campaign_kanban.o_kanban_grouped .o_kanban_record {
+  min-width: inherit;
+}
+
+.o_ma_hierarchy {
+  margin-left: -16px;
+  margin-right: -16px;
+  margin-bottom: -24px;
+  padding: 10px 0px 24px 16px;
+  background-color: #F0F0F0;
+  box-shadow: 0px 1px 1px rgba(17, 17, 17, 0.23);
+  overflow-x: auto;
+}
+
+@media (min-width: 992px) and (max-width: 1533.98px) {
+  .o_ma_hierarchy {
+    margin-left: -32px;
+    margin-right: -32px;
+  }
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_title {
+  padding: 0px 0px 0px 72px;
+  font-size: 18px;
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_readonly {
+  padding: 40px 0px 0px 40px;
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_editonly {
+  position: relative;
+  background-color: #DCDADA;
+  max-width: 398px;
+  margin: 6px 0px 0px 62px;
+  padding: 3px 0px 10px 23px;
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_editonly:before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: middle;
+  border-bottom: 10px solid;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 0;
+  -moz-transform: scale(0.9999);
+  position: absolute;
+  top: -10px;
+  left: auto;
+  bottom: 100%;
+  right: auto;
+  border-bottom-color: #DCDADA;
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_container .o-kanban-button-new {
+  padding: 2px 12px;
+  margin: 0px 0px 0px 44px;
+  border-radius: 25px;
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_container .o_kanban_view.o_kanban_ungrouped .o_kanban_record {
+  display: -webkit-box; display: -webkit-flex; display: flex;
+  flex: 0 0 100%;
+  border: 0px;
+  padding: 0px 0px 0px 100px;
+  margin: 0px 0px 0px 0px;
+  background-color: transparent;
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_container .o_kanban_view.o_kanban_ungrouped .o_kanban_record:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: auto;
+  left: auto;
+  bottom: auto;
+  right: auto;
+  height: 100%;
+  margin-left: 8px;
+  border-left: 1px dashed #c1c9d0;
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_container .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_body {
+  margin-left: 8px;
+  padding-top: 20px;
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_container .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_body .o_ma_timeline {
+  position: absolute;
+  top: 32px;
+  left: 6px;
+  bottom: auto;
+  right: auto;
+  width: 90px;
+  padding: 3px 0px;
+  border-radius: 3px;
+  background-color: #FFFFFF;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_container .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_body .o_ma_card {
+  position: relative;
+  margin-left: 22px;
+  margin-bottom: 2px;
+  width: 500px;
+  border-radius: 3px;
+  background: #FFFFFF;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_container .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_body .o_ma_card:before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: -17px;
+  bottom: auto;
+  right: auto;
+  margin-left: 10px;
+  width: 14px;
+  height: 14px;
+  background: #FFFFFF;
+  border-bottom: 1px solid #dee2e6;
+  transform: rotate(45deg);
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_container .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_body .o_ma_card:after {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: -28px;
+  bottom: auto;
+  right: auto;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #00A09D;
+  border-radius: 10px;
+  background: #F0F0F0;
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_container .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_body .o_hierarchy_children {
+  margin-left: 25px;
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_container .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_body .o_hierarchy_children > div:last-child:before {
+  height: 40px;
+}
+
+.o_ma_hierarchy .o_ma_hierarchy_container .o_kanban_view.o_kanban_ungrouped .o_kanban_record:last-child:before {
+  height: 40px;
+}
+
+.o_form_editable .o_ma_hierarchy .o_ma_hierarchy_container .o_kanban_view.o_kanban_ungrouped > .o_kanban_record:last-child:before {
+  height: 100%;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar {
+  position: relative;
+  border-bottom: 1px solid #dee2e6;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  background-color: #FFFFFF;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar .o_ma_icon {
+  display: inline-block;
+  padding: 3px 7px;
+  margin: 5px;
+  width: 28px;
+  height: 28px;
+  color: #FFFFFF;
+  font-size: 14px;
+  border-radius: 3px;
+  background: linear-gradient(to right bottom, #00A09D, #008784);
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar .o_ma_title {
+  position: absolute;
+  top: auto;
+  left: auto;
+  bottom: auto;
+  right: auto;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar .o_ma_title h3 {
+  font-weight: 500;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar .o_ma_title h3 a {
+  display: inline-block;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  width: 296px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar .o_ma_title h3 a.o_ma_full {
+  width: 378px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar .o_ma_title .o_ma_desc {
+  margin-top: -2px;
+  font-size: 11px;
+  color: #999999;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar .o_ma_switch {
+  position: absolute;
+  top: 0px;
+  left: auto;
+  bottom: auto;
+  right: 0px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar .o_ma_switch > span {
+  width: 39px;
+  height: 39px;
+  display: inline-block;
+  border-left: 1px solid #dee2e6;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease 0s;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar .o_ma_switch > span .fa {
+  font-size: 16px;
+  margin: 12px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar .o_ma_switch > span:hover:not(.active) {
+  cursor: pointer;
+  background-color: #dee2e6;
+  border-bottom-color: #dee2e6;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_title_bar .o_ma_switch > span.active {
+  color: #00A09D;
+  border-bottom-color: #FFFFFF;
+  background-color: #FFFFFF;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_graph > .row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_graph .o_ma_graph {
+  padding: 0px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_graph .o_ma_graph .o_ma_activity_graph {
+  width: 100%;
+  height: 110px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_graph .o_ma_graph .o_ma_activity_graph .nvd3.nv-line .nvd3.nv-scatter .nv-groups .nv-point {
+  stroke-opacity: 1 !important;
+  fill: #FFFFFF !important;
+  fill-opacity: 1 !important;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_graph .o_ma_graph .o_ma_activity_graph .nvd3.nv-line .nvd3.nv-scatter .nv-groups .nv-point.hover {
+  stroke-width: 1px !important;
+  fill: inherit !important;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_graph .o_ma_graph .o_ma_activity_graph clipPath {
+  display: none;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_graph .o_ma_graph .o_ma_chart_time {
+  position: absolute;
+  top: 5px;
+  left: 170px;
+  bottom: auto;
+  right: auto;
+  font-size: 10px;
+  color: #A7A7A7;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_graph .o_ma_email_details {
+  border-top: 1px solid #dee2e6;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_graph .o_ma_email_details > div {
+  padding: 4px 0px;
+  border-right: 1px solid #dee2e6;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_graph .o_ma_email_details div:last-child {
+  border-right: 0px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_graph .o_ma_email_details div:first-child {
+  font-weight: 500;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_pane_filter {
+  padding: 10px;
+  min-height: 140px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_child_activity {
+  background: #F0F0F0;
+  width: 100%;
+  height: 18px;
+  overflow: hidden;
+  transition: all 0.3s ease 0s;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_child_activity .o_ma_child_activity_title {
+  padding: 2px;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_child_activity .o_ma_child_activity_buttons {
+  display: -webkit-box; display: -webkit-flex; display: flex;
+  justify-content: space-around;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_child_activity .o_ma_child_activity_buttons i.fa {
+  -webkit-box-flex: 1; -webkit-flex: 1 0 auto; flex: 1 0 auto;
+  padding: 10px;
+  border-top: 1px solid #E2E2E2;
+  border-left: 1px solid #E2E2E2;
+  cursor: pointer;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_child_activity .o_ma_child_activity_buttons i.fa:hover {
+  background-color: #e3e3e3;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_child_activity .o_ma_child_activity_buttons i.fa:first-child {
+  border-bottom: 1px solid #E2E2E2;
+  border-top-width: 0px;
+  border-left-width: 0px;
+}
+
+.o_ma_hierarchy_container.o_ma_campaign_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_child_activity:hover {
+  height: 53px;
+}
+
+.o_ma_hierarchy_container.o_ma_workitem_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_body .o_ma_timeline {
+  top: 20px;
+}
+
+.o_ma_hierarchy_container.o_ma_workitem_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_icon {
+  position: relative;
+  display: inline-block;
+  padding: 4px 7px;
+  margin: 5px;
+  width: 28px;
+  height: 28px;
+  color: #FFFFFF;
+  font-size: 14px;
+  border-radius: 3px;
+}
+
+.o_ma_hierarchy_container.o_ma_workitem_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_type {
+  margin-left: 3px;
+  font-size: 10px;
+  color: #A7A7A7;
+}
+
+.o_ma_hierarchy_container.o_ma_workitem_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_status_text {
+  font-size: 10px;
+}
+
+.o_ma_hierarchy_container.o_ma_workitem_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_actions {
+  display: -webkit-box; display: -webkit-flex; display: flex;
+  justify-content: space-around;
+}
+
+.o_ma_hierarchy_container.o_ma_workitem_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_actions span {
+  -webkit-box-flex: 1; -webkit-flex: 1 0 auto; flex: 1 0 auto;
+  padding: 3px;
+  border-top: 1px solid #F1F1F1;
+  border-left: 1px solid #F1F1F1;
+  font-size: 11px;
+  color: #C3C3C3;
+}
+
+.o_ma_hierarchy_container.o_ma_workitem_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_actions span:first-child {
+  border-left-width: 0px;
+}
+
+.o_ma_hierarchy_container.o_ma_workitem_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_actions span.active {
+  color: #00A09D;
+}
+
+.o_ma_hierarchy_container.o_ma_workitem_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_test_buttons {
+  position: absolute;
+  top: 5px;
+  left: auto;
+  bottom: auto;
+  right: -70px;
+}
+
+.o_ma_hierarchy_container.o_ma_workitem_hierarchy .o_kanban_view.o_kanban_ungrouped .o_kanban_record .o_ma_test_buttons .btn {
+  border-radius: 3px;
+}
+
+.o_ma_text_processed {
+  color: #00A09D;
+}
+
+.o_ma_text_rejected {
+  color: #DC6965;
+}
+
+.o_ma_text_canceled {
+  color: #F0AD4E;
+}
+
+.o_ma_text_error {
+  color: #8F8F8F;
+}
+
+.o_ma_text_scheduled {
+  color: #875A7B;
+}
+
+.o_ma_processed {
+  background-color: #00A09D;
+}
+
+.o_ma_rejected {
+  background-color: #DC6965;
+}
+
+.o_ma_canceled {
+  background-color: #F0AD4E;
+}
+
+.o_ma_error {
+  background-color: #8F8F8F;
+}
+
+.o_ma_scheduled {
+  background-color: #875A7B;
+}
+

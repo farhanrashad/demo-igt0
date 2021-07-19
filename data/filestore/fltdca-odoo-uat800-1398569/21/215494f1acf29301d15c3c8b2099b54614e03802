@@ -1,0 +1,17 @@
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+
+$font-size-base: $o-theme-font-size-base;
+.oe_website_sale  #payment_method .card {
+    display:none !important;
+}
+#payment_method .modal .card .card-body:first-child {
+    display:none !important;
+} 
+.modal #payment_method .card .card-body:first-child {
+    display:none !important;
+} 
+#delivery_carrier .badge-secondary {
+    display:none !important;
+}

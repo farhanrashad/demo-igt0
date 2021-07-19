@@ -1,0 +1,19 @@
+
+.oe_website_sale .td-wish-btn {
+  width: 140px;
+}
+
+.oe_website_sale div.css_not_available .o_add_wishlist_dyn {
+  display: none;
+}
+
+@media (max-width: 767.98px) {
+  .oe_website_sale .td-wish-btn {
+    width: 100px;
+  }
+}
+
+table.table-comparator .td-img img {
+  max-height: 100px;
+}
+

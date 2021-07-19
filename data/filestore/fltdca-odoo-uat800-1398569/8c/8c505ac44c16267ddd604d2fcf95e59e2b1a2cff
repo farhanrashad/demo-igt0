@@ -1,0 +1,165 @@
+
+.o_web_studio_menu {
+  height: 46px;
+  background-color: #3a3f46;
+  text-align: center;
+  border-bottom: 3px solid #262C34;
+}
+
+.o_web_studio_menu .o_web_studio_breadcrumb {
+  display: inline-block;
+  float: left;
+}
+
+.o_web_studio_menu .o_web_studio_breadcrumb > ol {
+  background-color: inherit;
+  margin: 12px 16px;
+}
+
+.o_web_studio_menu .o_web_studio_breadcrumb > ol > li {
+  font-size: 0.8em;
+  text-transform: uppercase;
+  line-height: 1;
+  cursor: default;
+  font-weight: bold;
+  color: #b7b7b7;
+}
+
+.o_web_studio_menu .o_web_studio_breadcrumb > ol > li.active:not(:first-child) {
+  color: #EAEAEA;
+}
+
+.o_web_studio_menu .o_web_studio_breadcrumb > ol > li.o_back_button:hover {
+  cursor: pointer;
+  color: white;
+}
+
+.o_web_studio_menu .o_web_studio_breadcrumb > ol > li + li:before {
+  font-weight: normal;
+  content: "\003E";
+}
+
+.o_web_studio_menu .o_web_studio_undo, .o_web_studio_menu .o_web_studio_redo {
+  float: right;
+  display: inline-block;
+  margin: 8px 0;
+  visibility: hidden;
+}
+
+.o_web_studio_menu .o_web_studio_undo i, .o_web_studio_menu .o_web_studio_redo i {
+  margin-right: 5px;
+}
+
+.o_web_studio_menu .o_web_studio_undo > button, .o_web_studio_menu .o_web_studio_redo > button {
+  padding-left: 0;
+  cursor: default;
+  background-color: #3a3f46;
+  color: #b7b7b7;
+}
+
+.o_web_studio_menu .o_web_studio_undo > button > span, .o_web_studio_menu .o_web_studio_redo > button > span {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.8em;
+}
+
+.o_web_studio_menu .o_web_studio_undo.o_web_studio_undo span, .o_web_studio_menu .o_web_studio_redo.o_web_studio_undo span {
+  padding-right: 10px;
+  border-right: 1px solid #3a3f46;
+}
+
+.o_web_studio_menu .o_web_studio_undo.o_web_studio_active, .o_web_studio_menu .o_web_studio_redo.o_web_studio_active {
+  visibility: visible;
+}
+
+.o_web_studio_menu .o_web_studio_undo.o_web_studio_active > button:hover, .o_web_studio_menu .o_web_studio_redo.o_web_studio_active > button:hover {
+  cursor: pointer;
+  color: #EAEAEA;
+}
+
+.o_web_studio_menu .o_web_studio_redo.o_web_studio_active + .o_web_studio_undo span {
+  border-right-color: gray;
+}
+
+.o_web_studio_menu .o_web_studio_snackbar {
+  float: right;
+  display: inline-block;
+  font-size: 0.9em;
+  line-height: 46px;
+  opacity: 0.5;
+  padding-right: 40px;
+  background-color: #3a3f46;
+  color: #b7b7b7;
+}
+
+.o_web_studio_menu .o_menu_sections {
+  float: right;
+  margin: 0;
+  list-style: none;
+}
+
+.o_web_studio_menu .o_menu_sections > li {
+  float: left;
+  position: relative;
+}
+
+.o_web_studio_menu .o_menu_sections > li > .dropdown-menu {
+  right: 0;
+  left: auto;
+}
+
+.o_web_studio_menu .o_menu_sections > li:hover, .o_web_studio_menu .o_menu_sections > li:active, .o_web_studio_menu .o_menu_sections > li:focus {
+  outline: none;
+}
+
+.o_web_studio_menu .o_menu_sections > li:hover > a, .o_web_studio_menu .o_menu_sections > li:active > a, .o_web_studio_menu .o_menu_sections > li:focus > a {
+  background-color: #353a40;
+  color: white;
+  border-color: #00d3cf;
+}
+
+.o_web_studio_menu .o_menu_sections > li > a {
+  font-size: 0.9em;
+  display: block;
+  padding: 0 9px;
+  height: 43px;
+  line-height: 46px;
+  color: #b7b7b7;
+  border-bottom: 3px solid #262C34;
+  box-sizing: content-box;
+}
+
+.o_web_studio_menu .o_menu_sections > li > a:hover, .o_web_studio_menu .o_menu_sections > li > a:active, .o_web_studio_menu .o_menu_sections > li > a:focus {
+  outline: none;
+}
+
+.o_web_studio_menu .o_menu_sections > li > a.active {
+  color: #EAEAEA;
+  border-color: #00A09D;
+}
+
+.o_web_studio_menu .o_menu_sections .o_web_studio_views_icons {
+  border-left: 1px solid #262C34;
+  padding: 0 15px;
+  margin-left: 9px;
+  height: 43px;
+}
+
+.o_web_studio_menu .o_menu_sections .o_web_studio_views_icons > a {
+  float: left;
+  padding: 0 7px;
+  background-color: transparent;
+  color: #b7b7b7;
+  border-radius: 0.2rem;
+  line-height: 46px;
+  height: 43px;
+}
+
+.o_web_studio_menu .o_menu_sections .o_web_studio_views_icons > a:last-child {
+  padding-right: 0;
+}
+
+.o_web_studio_menu .o_menu_sections .o_web_studio_views_icons > a:hover {
+  color: #EAEAEA;
+}
+

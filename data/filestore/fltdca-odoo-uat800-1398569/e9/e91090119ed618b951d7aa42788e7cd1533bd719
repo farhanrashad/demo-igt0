@@ -1,0 +1,179 @@
+
+.o_form_view .o_form_sheet .o_notebook .tab-content .tab-pane .o_mail_body {
+  margin-top: -16px;
+  margin-left: -16px;
+  margin-right: -16px;
+  margin-bottom: -40px;
+}
+
+.o_mail_theme_selector > a {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: auto;
+  right: 0;
+  height: 46px;
+  line-height: 31px;
+  border-radius: 0;
+  background-color: #272730;
+  color: #999999;
+  display: -webkit-box; display: -webkit-flex; display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.o_mail_theme_selector > a:hover, .o_mail_theme_selector > a:focus, .o_mail_theme_selector > a:active {
+  color: #d4d5d7;
+}
+
+.o_mail_theme_selector > a i {
+  margin-right: 10px;
+}
+
+.o_mail_theme_selector.show > a {
+  color: white;
+  background-color: #2c2c36;
+}
+
+.o_mail_theme_selector .dropdown-menu {
+  position: absolute;
+  top: 45px;
+  left: -1px;
+  bottom: -1px;
+  right: -1px;
+  margin: 0;
+  border-radius: 0;
+  overflow: auto;
+  background-color: #2c2c36;
+}
+
+.o_mail_theme_selector .dropdown-menu .dropdown-item {
+  padding: 10px 10px;
+}
+
+.o_mail_theme_selector .dropdown-menu .dropdown-item:first-child {
+  display: none;
+}
+
+.o_mail_theme_selector .dropdown-menu .dropdown-item .o_thumb {
+  display: none;
+  background-size: cover;
+  padding-top: 50%;
+  border: 1px solid #4e525b;
+  border-top: 1px solid #999999;
+}
+
+.o_mail_theme_selector .dropdown-menu .dropdown-item .o_thumb.logo {
+  display: block;
+}
+
+.o_mail_theme_selector .dropdown-menu .dropdown-item:hover {
+  background-color: #272730;
+}
+
+.o_mail_theme_selector .dropdown-menu .dropdown-item:hover .o_thumb {
+  border: 1px solid white;
+}
+
+.o_mail_theme_selector .dropdown-menu .dropdown-item.selected .o_thumb {
+  border: 2px solid #875A7B;
+  background-color: #2c2c36;
+}
+
+body.o_force_mail_theme_choice #oe_snippets {
+  width: 100%;
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-toggle {
+  display: none;
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu {
+  display: block;
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item {
+  margin: 0;
+  float: left;
+  clear: none;
+  width: 100%;
+  max-width: 25%;
+  transition: all 0.3s ease 0s;
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item:first-child {
+  display: block;
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item .o_thumb {
+  display: none;
+  padding-top: 107%;
+  border: 1px solid #4e525b;
+  border-top: 1px solid #999999;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+  will-change: transform;
+  backface-visibility: hidden;
+  transition: all 0.3s ease 0s;
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item .o_thumb.small {
+  display: block;
+}
+
+@media screen and (min-width: 900px) {
+  body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item .o_thumb.small {
+    display: none;
+  }
+  body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item .o_thumb.large {
+    display: block;
+  }
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item:hover {
+  background-color: #2c2c36;
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item:hover .o_thumb {
+  box-shadow: 0 5px 30px 1px rgba(0, 0, 0, 0.6);
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item.o_mass_mailing_themes_upgrade .o_thumb {
+  position: relative;
+  display: block;
+  border: 1px dashed white;
+  opacity: 0.2;
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item.o_mass_mailing_themes_upgrade .o_thumb > .fa {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+  font-size: 50px;
+  color: white;
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item.o_mass_mailing_themes_upgrade .o_thumb > .fa::before {
+  vertical-align: middle;
+}
+
+body.o_force_mail_theme_choice #oe_snippets .o_mail_theme_selector .dropdown-menu .dropdown-item.o_mass_mailing_themes_upgrade .o_thumb > .fa::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+#web_editor_inside_iframe.o_basic_theme {
+  padding-left: 0px !important;
+}
+
+#web_editor_inside_iframe.o_basic_theme #oe_snippets {
+  display: none;
+}
+
+#web_editor_inside_iframe #wrapwrap > main #editable_area {
+  padding: 24px;
+}

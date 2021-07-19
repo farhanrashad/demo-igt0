@@ -1,0 +1,71 @@
+
+@media (min-width: 1200px) {
+  .preheader {
+    width: 100%;
+    padding: 0.625rem 0;
+    position: relative;
+  }
+  .preheader .container {
+    max-width: 100%;
+  }
+  .preheader .logo img {
+    height: 60px;
+  }
+  .preheader h3 {
+    font-size: 2.8rem !important;
+  }
+  .preheader h4 {
+    font-size: 1.0rem !important;
+  }
+  .preheader .table th, .preheader .table td {
+    padding: 0.15rem;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  .preheader h3, .preheader h4 {
+    font-size: 0.7rem !important;
+  }
+}
+
+.preheader .table {
+  margin-bottom: 0px !important;
+}
+
+.preheader .table th, .preheader .table td {
+  padding: 0.15rem;
+}
+
+.preheader h3, .preheader h4 {
+  color: #ffffff !important;
+}
+
+.preheader hr {
+  width: 98%;
+  border: 0;
+  height: 3px;
+  background: #ffffff;
+  opacity: 0.6;
+}
+
+.preheader {
+  background-color: #000000;
+}
+
+.homepage .preheader {
+  background-color: transparent !important;
+}
+
+.preheader h4 {
+  color: #ffffff !important;
+  font-size: 1.0rem !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #ffffff !important;
+}
+
+.navbar-light .navbar-nav .nav-link:hover {
+  text-decoration: underline;
+}
+

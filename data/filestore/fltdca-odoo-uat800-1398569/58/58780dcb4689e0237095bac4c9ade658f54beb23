@@ -1,0 +1,85 @@
+// Fonts
+//
+// Font, line-height, and color for body text, headings, and more.
+.css_attribute_color {
+  animation-name: hover;
+  animation-duration: 1ms;
+  animation-fill-mode: backwards;
+  animation-play-state: paused;   
+
+    border: none;
+}
+
+$font-size-base: $o-theme-font-size-base;
+.oe_website_sale  #payment_method .card {
+    display:none !important;
+}
+#payment_method .modal .card .card-body:first-child {
+    display:none !important;
+} 
+.modal #payment_method .card .card-body:first-child {
+    display:none !important;
+} 
+#delivery_carrier .badge-secondary {
+    display:none !important;
+}
+.owl-carousel.owl-drag .owl-item {
+    touch-action: auto !important;
+    user-select: auto !important;
+}
+#modal_content {
+    border:0px !important;
+    border-radius: 9px !important;
+}
+#modal_content .content_wrapper {
+    margin:0px !important;
+}
+// .css_attribute_color:hover{
+    
+//     border:2px solid #66ee66;
+   
+//   visibility: visible;
+
+    
+// }
+
+
+@keyframes hover {
+  0% {
+    // normal styles
+  }
+  100% {
+    // hover styles
+  }
+}
+
+
+.css_attribute_color:active,
+.css_attribute_color:focus,
+.css_attribute_color:hover {
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  border:2px solid #66ee66;
+}
+
+
+.css_attribute_color.active{
+    
+    border:none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

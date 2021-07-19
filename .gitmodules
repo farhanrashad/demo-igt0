@@ -1,0 +1,4 @@
+[submodule "farhanrashad/ftld-modules"]
+	path = farhanrashad/ftld-modules
+	url = git@github.com:farhanrashad/ftld-modules.git
+	branch = 12.0
