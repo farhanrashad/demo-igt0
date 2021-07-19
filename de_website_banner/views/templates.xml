@@ -1,0 +1,116 @@
+<odoo>
+    <data>
+        <template id="assets_frontend" inherit_id="web.assets_frontend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/de_website_banner/static/src/scss/main.scss"/>
+                <script type="text/javascript" src="/de_website_banner/static/src/js/style.js"/>
+            </xpath>
+        </template>
+        <!-- <template id="website_homepage_banner" inherit_id="website.layout"> -->
+        <template id="website_homepage_banner" name="Homepage Banner" inherit_id="website.homepage">
+             
+            <!--<xpath expr="//div[1][@id='wrap']" position="before">-->
+            <xpath expr="//div" position="before">
+                <t t-set="banner" t-value="request.env['product.template'].sudo().search([('is_banner', '=', True)])"/>
+                <t t-set="x" t-value="1"/>
+                <div id="myCarousel1570811641930" class="productsBanner s_carousel carousel slide s_carousel_default" data-interval="10000">
+                    <ol class="carousel-indicators d-none">
+                        <li data-target="#myCarousel1570811641930" data-slide-to="0" class="active"/>
+                        <t t-foreach="banner" t-as="b">
+                            <li data-target="#myCarousel1570811641930" t-attf-data-slide-to="{{x}}" />
+                            <t t-set="x" t-value="x+1"/>
+                        </t>
+                    </ol>
+                    <div class="carousel-inner">
+                        <t t-foreach="banner" t-as="b">
+                            <div id="carousel-item" class="carousel-item bg-alpha oe_custom_bg oe_img_bg pt0 pb0" data-name="Slide">
+                                <div class="backgroundimage" style="position:absolute;opacity:1;top:0;width:auto;max-height:100%;z-index:-1000;">
+                                    <t t-if="b.background_image" t-set="bimage" t-value="b.background_image"/>
+                                    <img class="" style="width:100%;" t-att-src="image_data_uri(bimage)" alt="b.name"/>
+                                 </div>
+                                <div class="container">
+                                    <div class="row content pt48 pb32">
+                                        <div class="carousel-content col-lg-6 pt144">
+                                            <t t-if="b.product_image" t-set="pimage" t-value="b.product_image"/>
+                <img class="img img-fluid mx-auto" style="width:100%;" t-att-src="image_data_uri(pimage)" alt="b.name"/>
+                                            <!--
+                                            <span itemprop="image"
+                                                          t-field="b.product_image"
+                                                          t-options="{'widget': 'image', 'resize': None if product_image_big else '500x500', 'zoom': 'image'}"
+                                                          t-att-alt="b.name"/>
+-->
+                                            <!--                                        <img class="img-fluid o_we_custom_image" src="/web/image/2742/carousel-img2.jpg"/> -->
+                                        </div>
+                                        <div class="carousel-content col-lg-3 pt144 pb0">
+                                            <div class="s_title pb8" data-name="Title">
+                                                <div class="s_title_default s_text_seperator">
+                                                    <p><font style="font-size: 40px;" class="o_default_snippet_text">
+                                                        <t t-esc="b.name"/>
+                                                    </font></p>
+                                                    <p><font style="font-size: 30px;" class="o_default_snippet_text">
+                                                        <t t-esc="b.main_desc"/>
+                                                    </font></p>
+                                                </div>
+                                                <div groups="base.group_public">
+                                                    <div class="s_title_default">
+                                                        <font style="font-size: 24px;" class="o_default_snippet_text">Not Logged In?
+                                                            <br/>
+                                                Sign In 
+                                                            <a class="s_text_default" t-attf-href="/register">
+                                                                <font style="color: rgb(79, 226, 246);">Here</font>
+                                                            </a>
+                                                        </font>
+                                                    </div>
+                                                </div>                                                
+                                            </div>
+                                            <p groups="base.group_user, base.group_portal" class="lead o_default_snippet_text">
+                                                <t t-set="website_sale_pricelists" t-value="website.get_current_pricelist()"/>
+                                                <t t-foreach="website_sale_pricelists" t-as="pricelist">
+                                                    <div class="product-tiered-pricing">
+                                                        <t t-foreach="pricelist.item_ids.sorted(key=lambda r: r.min_quantity)" t-as="offer">
+                                                            <t t-if="offer.product_tmpl_id.id==b.id">
+                                                                <p class='tiered-item o_default_snippet_text' style="line-height:normal;margin:0px;padding:0px;">&lt;
+                                                                    <t t-esc="offer.min_quantity"/> Units - 
+                                                                    <t t-if="offer.compute_price=='percentage'">
+                                                                        <t t-esc="offer.percent_price"/></t>
+                                                                    <t t-elif="offer.compute_price=='fixed'">
+                                                                        <t t-esc="offer.fixed_price"/></t>
+                                                                    <t t-elif="offer.compute_price=='formula'">
+                                                                        <t t-esc="offer.price_on_basepricelist"/></t>/ea
+                            
+                                                                </p>
+                                                            </t>
+                                                        </t>
+                                                    </div>
+                                                </t>
+                                            </p>
+                                            <a groups="base.group_public" class="btn btn-secondary flat" t-attf-href="/shop/product/{{ slug(b) }}">Click For Pricing</a>
+                                            <a groups="base.group_user, base.group_portal" class="btn btn-secondary flat" t-attf-href="/shop/product/{{ slug(b) }}">Buy Now</a>
+                                        </div>
+                                        <div class="carousel-content col-lg-3 pt144 pb0">
+                                            <div class="s_title" data-name="Title">
+                                                <p class="s_title_default">
+                                                    <font style="font-size: 30px;">
+                                                        <t t-esc="b.flavor_desc"/>
+                                                    </font>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                    <div class="carousel-control-prev" data-target="#myCarousel1570811641930" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                        <span class="carousel-control-prev-icon"/>
+                        <span class="sr-only o_default_snippet_text">Previous</span>
+                    </div>
+                    <div class="carousel-control-next" data-target="#myCarousel1570811641930" data-slide="next" role="img" aria-label="Next" title="Next">
+                        <span class="carousel-control-next-icon"/>
+                        <span class="sr-only o_default_snippet_text">Next</span>
+                    </div>
+                </div>
+            </xpath>
+        </template>
+    </data>
+</odoo>

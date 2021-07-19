@@ -1,0 +1,71 @@
+<odoo>
+  <data>
+      <record id="view_mrp_workcenter_form_inherit" model="ir.ui.view">
+        <field name="name">view.mrp.workcenter.form.inherit</field>
+        <field name="model">mrp.workcenter</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="mrp.mrp_workcenter_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/group[1]" position="after">
+                <field name="price_on_basepricelist"/>
+            </xpath>
+        </field>
+    </record>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="de_carousel_tiered_pricing.list">
+      <field name="name">de_carousel_tiered_pricing list</field>
+      <field name="model">de_carousel_tiered_pricing.de_carousel_tiered_pricing</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="de_carousel_tiered_pricing.action_window">
+      <field name="name">de_carousel_tiered_pricing window</field>
+      <field name="res_model">de_carousel_tiered_pricing.de_carousel_tiered_pricing</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="de_carousel_tiered_pricing.action_server">
+      <field name="name">de_carousel_tiered_pricing server</field>
+      <field name="model_id" ref="model_de_carousel_tiered_pricing_de_carousel_tiered_pricing"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="de_carousel_tiered_pricing" id="de_carousel_tiered_pricing.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="de_carousel_tiered_pricing.menu_1" parent="de_carousel_tiered_pricing.menu_root"/>
+    <menuitem name="Menu 2" id="de_carousel_tiered_pricing.menu_2" parent="de_carousel_tiered_pricing.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="de_carousel_tiered_pricing.menu_1_list" parent="de_carousel_tiered_pricing.menu_1"
+              action="de_carousel_tiered_pricing.action_window"/>
+    <menuitem name="Server to list" id="de_carousel_tiered_pricing" parent="de_carousel_tiered_pricing.menu_2"
+              action="de_carousel_tiered_pricing.action_server"/>
+    -->
+  </data>
+</odoo>

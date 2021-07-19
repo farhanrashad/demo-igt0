@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data>
+  <!-- inheriting Products item" view -->
+  <template id="ct_search_bar_in_menu" inherit_id="website.layout_logo_show" name="Show Search Bar in menu" active="True" priority="99">
+    <xpath expr="//a[1]" position="after">
+        <t t-if='ct_searchbar_in_menu'>
+            <form action="/shop" method="get" attrs="{'invisible': [('ct_searchbar_in_menu','=',False)],'required': [('ct_searchbar_in_menu', '=', True)] }">
+                <div class="input-group">
+                    <input type="text" name="search" class="search-query form-control oe_search_box" placeholder="Search..." t-att-value="search"/>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary oe_search_button" aria-label="Search" title="Search">
+                            <i class="fa fa-search"/>
+                        </button>
+                    </div>
+                </div>
+</form>
+</t>
+        </xpath>
+    </template>
+
+
+    </data>

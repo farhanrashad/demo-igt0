@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <template id="custom_assets_frontend" inherit_id="website_sale.assets_frontend" name="Shop">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/product_tiered_pricing/static/src/js/pricelist.js"></script>
+        </xpath>
+    </template>
+
+    <template id="prduct_pricelist" inherit_id="website_sale.product" active="False" customize_show="True" name="Product Tiered Pricing">
+        <!-- <xpath expr="//div[@id='product_details']//form" position="after"> -->
+        <!-- <xpath expr="//div[hasclass('o_not_editable')]" position="before"> -->
+        <xpath expr="//a[@id='add_to_cart']" position="before">
+            <t t-call="product_tiered_pricing.web_pricelist"/>
+        </xpath>
+    </template>
+
+    <template id="web_pricelist">
+        <t t-set="pricelist" t-value="pricelist_items"/>
+        <div class="product_pricelist">
+            <t t-if="pricelist">
+			<br/>
+                <!--
+                <hr />
+                <h4><b>Special Price Offers</b></h4>
+-->
+                <div itemprop="offers">
+                <table class="table table-striped table-condensed text-center" id="pricelist_details" t-if="pricelist">
+                    <thead>
+                        <tr>
+                            <th width="100" class="text-center">Quantity</th>
+                            <th width="100" class="text-center">Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="pricelist" t-as="item">
+                            <tr>
+                                <td><t t-esc="item['quantity']" class="text-center" /></td>
+                                <td><t t-esc="item['price']" /></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                </div>
+           </t>
+        </div>
+    </template>
+    
+</odoo>

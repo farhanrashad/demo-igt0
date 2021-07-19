@@ -1,0 +1,62 @@
+<odoo>
+    <data>
+        <template id="de_website_hide_price_products_item" inherit_id="website_sale.products_item" >
+        <xpath expr="//div[@itemprop='offers']" position="inside">
+             <t t-set="l_index" t-value="0"/>
+            <t t-set="foo" t-value="true"/>
+            
+            <t t-set="website_sale_pricelists" t-value="website.get_current_pricelist()"/>
+            <div itemprop="offers">
+                <t t-foreach="website_sale_pricelists" t-as="pricelist">
+                    <t t-foreach="pricelist.item_ids.sorted(key=lambda r: r.min_quantity)" t-as="offer">
+                        <t t-if="offer.product_tmpl_id.id==product.id">
+                            <t t-set="l_index" t-value="l_index+1"/>
+                            <!--<span t-esc="l_index"/>-->
+                            <t t-if="l_index == 4">
+                                <t t-set="foo" t-value="false"/>
+                            </t>
+                            <t t-if="foo == true">
+                            <div>&gt; <t t-esc="offer.min_quantity"/> Units - <t t-if="offer.compute_price=='percentage'"><t t-esc="offer.percent_price"/></t><t t-elif="offer.compute_price=='fixed'"><t t-esc="offer.fixed_price"/></t><t t-elif="offer.compute_price=='formula'"><t t-esc="offer.price_on_basepricelist"/></t>/ea
+                            </div>
+                            </t>
+                        </t>
+                    </t>
+                </t>
+            </div>
+        </xpath>
+    </template>
+        
+    <template id="de_website_tiered_pricing_product" inherit_id="website_sale.product_price" >
+        <xpath expr="//div[@itemprop='offers']" position="before">
+            <t t-set="website_sale_pricelists" t-value="website.get_current_pricelist()"/>
+            <t t-foreach="website_sale_pricelists" t-as="pricelist">
+                <t t-if="pricelist.item_ids">
+            <table groups="base.group_user, base.group_portal" class="table table-striped table-condensed text-center" id="pricelist_details" >
+                
+                <thead>
+                    <tr>
+                        <th width="100" class="text-center">Minimum Quantity</th>
+                        <th width="100" class="text-center">Price (per unit)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                
+                    <t t-foreach="pricelist.item_ids.sorted(key=lambda r: r.min_quantity)" t-as="offer">
+                        <t t-if="offer.product_tmpl_id.id==product.id">
+                    <tr>
+                        <td><t t-esc="offer.min_quantity"/></td>
+                        <td><t t-if="offer.compute_price=='percentage'"><t t-esc="offer.percent_price"/></t><t t-elif="offer.compute_price=='fixed'"><t t-esc="offer.fixed_price"/></t><t t-elif="offer.compute_price=='formula'"><t t-esc="offer.price_on_basepricelist"/></t></td>
+                    </tr>
+                        </t>
+                    </t>
+                
+                </tbody>
+            </table>
+                </t>
+            </t>
+        </xpath>   
+    </template>
+        
+    </data>
+</odoo>

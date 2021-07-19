@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_de_website_product_image_swap_de_website_product_image_swap,de_website_product_image_swap.de_website_product_image_swap,model_de_website_product_image_swap_de_website_product_image_swap,,1,0,0,0

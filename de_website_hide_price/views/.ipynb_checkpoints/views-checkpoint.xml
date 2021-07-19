@@ -1,0 +1,72 @@
+<odoo>
+  <data>
+      <record id="crm_case_form_view_oppor_inherit" model="ir.ui.view">
+        <field name="name">crm.case.form.view.oppor.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="crm.crm_case_form_view_oppor"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_name']" position="before">
+                <field name="business_type"/>
+                <field name="country_state" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="de_website_hide_price.list">
+      <field name="name">de_website_hide_price list</field>
+      <field name="model">de_website_hide_price.de_website_hide_price</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="de_website_hide_price.action_window">
+      <field name="name">de_website_hide_price window</field>
+      <field name="res_model">de_website_hide_price.de_website_hide_price</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="de_website_hide_price.action_server">
+      <field name="name">de_website_hide_price server</field>
+      <field name="model_id" ref="model_de_website_hide_price_de_website_hide_price"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="de_website_hide_price" id="de_website_hide_price.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="de_website_hide_price.menu_1" parent="de_website_hide_price.menu_root"/>
+    <menuitem name="Menu 2" id="de_website_hide_price.menu_2" parent="de_website_hide_price.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="de_website_hide_price.menu_1_list" parent="de_website_hide_price.menu_1"
+              action="de_website_hide_price.action_window"/>
+    <menuitem name="Server to list" id="de_website_hide_price" parent="de_website_hide_price.menu_2"
+              action="de_website_hide_price.action_server"/>
+    -->
+  </data>
+</odoo>

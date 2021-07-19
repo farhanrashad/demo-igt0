@@ -1,0 +1,111 @@
+<odoo>
+    <data>
+        <template id="assets_frontend" inherit_id="website.assets_frontend" name="Wishlist assets frontend">
+            <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/de_website_header/static/src/scss/preheader.scss"/>
+            </xpath>
+        </template>
+        
+        <!-- add register menu link -->
+        <template id="header" inherit_id="website.layout" name="Header Shop Wishlist Link">
+            <xpath expr="//header//ul[@id='top_menu']/li[hasclass('divider')]" position="after">
+                <li groups="base.group_public" class="nav-item">
+                    <a role="menuitem" href="/register" class="nav-link ">
+                        <span data-oe-model="website.menu" data-oe-id="13" data-oe-field="name" data-oe-type="char" data-oe-expression="submenu.name">Register</span>
+                    </a>
+                </li>
+            </xpath>
+        </template>
+        
+        
+        <template id="website_portal_top_header" inherit_id="website.layout">
+           <!-- 
+            <xpath expr="//div/header/nav[@id='preheader']" position="replace">
+                <span></span>
+            </xpath>
+            -->
+            <xpath expr="//header//nav[1]" position="before">
+                <section class="s_text_block preheader pt0 pb0">
+                <div class="container">
+                    <div class="row">
+                        <div class="pt0 pb0 col-lg-2">
+                            <a href="/" class="logo">
+                                                <span t-field="res_company.secondary_logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                                            </a>
+                            
+                        </div>
+                        <div class="pt8 pb0 col-lg-5">
+                            
+            <form action="/shop" method="get">
+                <div class="input-group">
+                    <input type="text" name="search" class="search-query form-control oe_search_box" placeholder="Search..." t-att-value="search"/>
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary oe_search_button" aria-label="Search" title="Search">
+                            <i class="fa fa-search"/>
+                        </button>
+                    </div>
+                </div>
+</form>
+
+                        </div>
+                        <div class="pt0 pb0 col-lg-5 pt8">
+                            <table class="table table-borderless box">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center pt8" width="">
+                                            <h3><span class="fa fa-phone"/></h3>
+                                        </td>
+                                        <td class="pt8 text-left" width="">
+                                            <h4><span t-field="res_company.phone"/><br/>Customer Support</h4>
+                                        </td>
+                                        <td class="text-center pt8" width="">
+                                            <h3><span class="fa fa-envelope"/></h3>
+                                        </td>
+                                        <td class="pt8 text-left" width="">
+                                            <h4><span t-field="res_company.email"/></h4>
+                                        </td>
+                                        <td class="text-center pt8" width="">
+                                            <h3><span class="fa fa-shield"/></h3>
+                                        </td>
+                                        <td class="pt8 text-left" width="40%">
+                                            <h4><span t-field="website.msg"/></h4>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="s_text_block preheader pb0 pt0">
+                <div class="container">
+                    <div class="row">
+                        <div class="pb0 pt0 col-lg-12">
+                          <div class="s_hr text-left pt0 pb0">
+                            <hr/>
+                          </div>
+                        </div>
+                  </div>
+                </div>
+            </section>
+            </xpath>
+            <xpath expr="//header//a[hasclass('navbar-brand')]" position="replace">
+                <span></span>
+            </xpath>
+        </template>
+        <!-- add black  space in menu bar -->
+        <template id="header" inherit_id="website.layout" name="blank menu">
+            <xpath expr="//header//ul[@id='top_menu']/li[@id='my_cart']" position="before">
+                <li id="blank-nav-item" class="nav-item blank-nav-item" >
+                    
+                </li>
+                <li groups="base.group_public" class="nav-item">
+                    <a role="menuitem" href="/register" class="nav-link ">
+                        <span data-oe-model="website.menu" data-oe-id="13" data-oe-field="name" data-oe-type="char" data-oe-expression="submenu.name">Register</span>
+                    </a>
+                </li>
+            </xpath>
+        </template>
+        
+    </data>
+</odoo>

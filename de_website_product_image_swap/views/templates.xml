@@ -1,0 +1,47 @@
+<odoo>
+    <data>
+        <template id="assets_frontend_js" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/de_website_product_image_swap/static/js/swap.js"/>
+            </xpath>
+        </template>
+        
+        <template id="de_website_product_images_swap" inherit_id="website_sale.products_item" >
+            <xpath expr="//div[hasclass('oe_product_image')]/a/span[1]" position="attributes">
+                <attribute name="class" add="oe_product_primary_image" separator=" "/>
+            </xpath>
+            
+            <xpath expr="//div[hasclass('oe_product_image')]/a" position="inside">
+                <t t-set="pimgs" t-value="product.product_image_ids"/>
+                <t t-set="foo" t-value="True"/>
+                <t t-foreach="pimgs" t-as="i">
+                    <t t-if="i">
+                        <t t-if="foo == True">
+                            <span class="oe_product_secondary_image" itemprop="image" t-field="i.image" t-options="{'widget': 'image', 'resize': None if product_image_big else '300x300', 'zoom': 'image'}" />
+                            <t t-set="foo" t-value="False"/>
+                        </t>
+                    </t>
+                    
+                </t>
+            </xpath>
+        </template>
+        <!-- <template id="listing"> -->
+        <!--   <ul> -->
+        <!--     <li t-foreach="objects" t-as="object"> -->
+        <!--       <a t-attf-href="#{ root }/objects/#{ object.id }"> -->
+        <!--         <t t-esc="object.display_name"/> -->
+        <!--       </a> -->
+        <!--     </li> -->
+        <!--   </ul> -->
+        <!-- </template> -->
+        <!-- <template id="object"> -->
+        <!--   <h1><t t-esc="object.display_name"/></h1> -->
+        <!--   <dl> -->
+        <!--     <t t-foreach="object._fields" t-as="field"> -->
+        <!--       <dt><t t-esc="field"/></dt> -->
+        <!--       <dd><t t-esc="object[field]"/></dd> -->
+        <!--     </t> -->
+        <!--   </dl> -->
+        <!-- </template> -->
+    </data>
+</odoo>

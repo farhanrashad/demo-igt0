@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="de_invoice_report_enhancement.list">
+      <field name="name">de_invoice_report_enhancement list</field>
+      <field name="model">de_invoice_report_enhancement.de_invoice_report_enhancement</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="de_invoice_report_enhancement.action_window">
+      <field name="name">de_invoice_report_enhancement window</field>
+      <field name="res_model">de_invoice_report_enhancement.de_invoice_report_enhancement</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="de_invoice_report_enhancement.action_server">
+      <field name="name">de_invoice_report_enhancement server</field>
+      <field name="model_id" ref="model_de_invoice_report_enhancement_de_invoice_report_enhancement"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="de_invoice_report_enhancement" id="de_invoice_report_enhancement.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="de_invoice_report_enhancement.menu_1" parent="de_invoice_report_enhancement.menu_root"/>
+    <menuitem name="Menu 2" id="de_invoice_report_enhancement.menu_2" parent="de_invoice_report_enhancement.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="de_invoice_report_enhancement.menu_1_list" parent="de_invoice_report_enhancement.menu_1"
+              action="de_invoice_report_enhancement.action_window"/>
+    <menuitem name="Server to list" id="de_invoice_report_enhancement" parent="de_invoice_report_enhancement.menu_2"
+              action="de_invoice_report_enhancement.action_server"/>
+    -->
+  </data>
+</odoo>

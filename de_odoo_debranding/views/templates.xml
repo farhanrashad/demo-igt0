@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+         <!-- Remove "Create a free website with Odoo" -->
+    <template id="layout_footer_copyright" inherit_id="website.brand_promotion" >
+        <xpath expr="//div[hasclass('o_brand_promotion')]" position="replace">
+            <div class="o_brand_promotion"/>
+        </xpath>
+    </template>
+       
+    </data>
+</odoo>
