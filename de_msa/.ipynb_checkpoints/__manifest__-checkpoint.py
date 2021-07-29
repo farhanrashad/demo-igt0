@@ -1,20 +1,26 @@
 # -*- coding: utf-8 -*-
-# Part of BrowseInfo. See LICENSE file for full copyright and licensing details.
-
 {
-    "name": "Master Service Agreement",
-    "category": 'Agreement',
-    "summary": "Master Service Agreement",
-    "description": """
-	 
-   
+    'name': "Master Service Agreement",
+
+    'summary': """
+        Master Service Agreement
+        Telecom Billing
+        """,
+
+    'description': """
+        Master Service Agreement
+        - Telecom Billing
     """,
-    "sequence": 1,
-    "author": "Dynexcel",
-    "website": "http://www.dynexcel.co",
-    "version": '14.1.0.1',
-    "depends": ['product','project'],
-    "data": [
+
+    'author': "Dynexcel",
+    'website': "https://www.dynexcel.com",
+    'category': 'Sale',
+    'version': '14.0.0.6',
+
+    'depends': ['base','product','project','account','contacts'],
+
+    'data': [
+        'security/msa_security.xml',
         'security/ir.model.access.csv',
         'views/master_service_agreement_view.xml',
         'views/billing_info_view.xml',
@@ -27,7 +33,6 @@
         'views/msa_menu.xml',
 #         'report/employee_report_pdf.xml',
     ],
-    
     "price": 25,
     "currency": 'EUR',
     "installable": True,

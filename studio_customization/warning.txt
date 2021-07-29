@@ -1,0 +1,50 @@
+The following relational data haven't been exported because they either refer
+to a model that Studio doesn't export, or have no XML id:
+
+Record: studio_customization.3rd_party_billing_se_5b346823-9e97-4fc1-b0ff-d5784976cfb8
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 291) ('Administrator', 'Arunkumar Peringattu Thankappan')
+
+Record: studio_customization.internal_requisition_29342efe-30c7-46a5-96c2-044a0f0a9dac
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 312, 330, 400, 414, 421, 486, 549) ('Administrator', 'Aung Zay Ya', 'Cho Thet Su', 'Kyaw Naing Win', 'L. Lay Lay Mee', 'May Myat Thu', 'Saw Thiri Khin', 'Yekhaing lin')
+
+Record: studio_customization.internal_requisition_5e636cbe-3d3c-4908-b35a-7b409aa0501b
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 312, 569, 549) ('Administrator', 'Aung Zay Ya', 'Ye Khaing Lin', 'Yekhaing lin')
+
+Record: studio_customization.internal_requisition_913b2e54-9b45-4137-a707-326bac8ea29c
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2,) ('Administrator')
+
+Record: studio_customization.top_up_admin_approva_334b7e7c-b9eb-489a-ae0f-9483c63b45d0
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 449, 506) ('Administrator', 'Nant Hnin Kyi Kyi Oo', 'Thaw Dar Win')
+
+Record: studio_customization.top_up_hr_approval_6de2cbac-ea00-4947-be3c-b2c29af290d7
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2,) ('Administrator')
+
+Record: studio_customization.top_up_lm_approval_ce480e25-fe00-4154-8743-8cfd114eafec
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 506) ('Administrator', 'Thaw Dar Win')
+
+Record: studio_customization.update_import_status_76282656-0de2-47b1-9d6d-b2ccc5bb968c
+Model: ir.actions.server
+Field: fields_lines
+Type: one2many
+Value: ir.server.object.lines(1386,) ('ir.server.object.lines,1386')

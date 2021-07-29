@@ -7,10 +7,10 @@ from odoo.exceptions import UserError
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    project_id = fields.Many2one('project.project', string='Project')
-    project_count = fields.Integer(string='Projects', compute='_compute_project')
-    task_ids = fields.One2many('project.task', 'purchase_id', string='Tasks')
-    task_count = fields.Integer(string='Tasks', compute='_compute_task_ids')
+    project_id = fields.Many2one('project.project', string='Project', copy=False)
+    project_count = fields.Integer(string='Project counts', compute='_compute_project')
+    task_ids = fields.One2many('project.task', 'purchase_id', string='Tasks', copy=False)
+    task_count = fields.Integer(string='Task counts', compute='_compute_task_ids')
 
     def _get_targeted_project_ids(self):
         project_ids = []
@@ -55,14 +55,24 @@ class PurchaseOrder(models.Model):
                     'purchase_project_id': project.id,
                     'purchase_id': self.id,
                     'name': project.name + ' - ' + template.name,
+                    'partner_id': self.partner_id.id,
                     'user_id': template.user_id.id,
                     'date_deadline': fields.Date.to_string(self.date_approve + timedelta(template.completion_days)),
                     'allow_picking': template.allow_picking,
                     'allow_invoice': template.allow_invoice,
+                    'completion_days': template.completion_days,
+                    'completion_percent': template.completion_percent,
+                    'task_sequence': template.sequence,
                     'stage_id': stage_id,
                     'purchase_task_stage_ids': [(6, 0, template.stage_ids.ids)],
                 })
                 task_id = self.env['project.task'].sudo().create(task)
+                for tdoc in template.template_doc_ids:
+                    docs = ({
+                        'name': tdoc.name,
+                        'task_id': task_id.id,
+                    })
+                    doc_id = self.env['project.task.documents'].sudo().create(docs)
         return res
 
     def button_cancel(self):
@@ -76,7 +86,7 @@ class PurchaseOrder(models.Model):
     
     def _compute_proj_count(self):
         for rec in self:
-            self.project_count = self.env['project.project'].search_count([('purchase_order_id', '=', self.id)])
+            self.project_count = self.env['project.project'].search_count([('project_id', '=', self.id)])
 
     def action_view_project(self):
         """
@@ -96,7 +106,7 @@ class PurchaseOrder(models.Model):
 
     def _compute_task_count(self):
         for rec in self:
-            self.task_count = self.env['project.task'].search_count([('purchase_order_id', '=', self.id)])
+            self.task_count = self.env['project.task'].search_count([('purchase_id', '=', self.id)])
 
     def action_view_tasks(self):
         """

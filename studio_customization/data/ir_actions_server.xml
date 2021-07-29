@@ -1,0 +1,1234 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="studio_customization.auto_submit_request__44d8e5fc-faea-4150-825d-dbe373f5e593" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+if record.create_uid.has_group('base.group_portal'):
+  #record.button_submit()
+  record.update({
+    'date_submit' : record.create_date,
+    'stage_id' : record.stage_id.next_stage_id.id,
+  })
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Auto Submit Request for Portal user</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.change_status_partia_1721780e-d2a3-4791-a90e-c4fd0301fd1e" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+dmd_qty = dlv_qty = 0
+sh_stage_id = env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',record.picking_id.stock_transfer_order_id.id),('stage_code','=','SH')],limit=1)
+ps_stage_id = env['stock.transfer.order.stage'].search([('transfer_order_type_ids','=',record.picking_id.stock_transfer_order_id.id),('stage_code','=','PS')],limit=1)
+order_id = env['stock.transfer.order'].browse(record.picking_id.stock_transfer_order_id.id)
+if record.picking_id.stock_transfer_order_id:
+  for line in record.picking_id.stock_transfer_order_id.stock_transfer_order_line:
+    dmd_qty += line.product_uom_qty
+    dlv_qty += line.delivered_qty
+  if (dmd_qty - dlv_qty) > 0:
+    order_id.write({
+      'stage_id': 47
+    })
+  elif (dmd_qty - dlv_qty) == 0:
+    order_id.write({
+      'stage_id': 17
+    })
+  
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="stock.model_stock_move"/>
+    <field name="name">Change Status Partially or fully shipped</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.duplicate_project_b0819444-4d9c-4124-ab56-8a00d5378eef" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+project_id = env['project.project'].search_count([('active','=',True),('name','=',record.name),('id','!=',record.id)])
+if project_id:
+  raise Warning(('Site already exists %s') % (record.name))
+
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">Duplicate Project</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.duplication_of_descr_6ee77637-1039-4170-bf9f-c12ed790e308" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+#status_lst = record.mapped('cash_line_ids.state')
+prv_desc = env['hr.salary.advance.line']
+for line in record.cash_line_ids:
+  prv_desc = env['hr.salary.advance.line'].search([('advance_id','=',record.id),('id','!=',line.id)])
+  for d in prv_desc:
+    if line.desc == d.desc:
+      raise Warning(('Duplicate descriptions found. Please provide unique description.'))
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_empfin_advances.model_hr_salary_advance"/>
+    <field name="name">Duplication of Description</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.electricity_exceptio_38bcf7a0-f8c9-485a-a57d-f3c705c9c9f1" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+if record.amount_total == 0:
+  raise Warning(('Need to upload vendor data'))
+  
+for line in record.custom_entry_line:
+    #exception message
+    if line.meter_number or line.opening_reading > 0:
+      if line.note and line.x_studio_exception == False:
+        #record.update({
+          #'is_custom_entry_import': True
+        #})
+        raise Warning(('Closed Reading or Meter Number is mimatched'))
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Electricity Exceptions</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.electricity_update_c_0a67ae44-8a38-4de6-b45e-012d1c820c86" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+#project_id = env['project.project'].search([('id','=',record.project_id.id)])
+if record.custom_entry_id.custom_entry_type_id.sequence_code == 'EB':
+  if record.project_id.id:
+    ebh = env['account.custom.entry.ebh.line'].search([('custom_entry_id','=',record.custom_entry_id.id),('project_id','=',record.project_id.id)],limit=1)
+    if record.custom_entry_id.stage_category == 'draft' or record.custom_entry_id.stage_id.prv_stage_id.stage_category == 'draft':
+      if record.project_id.id:
+        if not ebh.project_id.id:
+          env['account.custom.entry.ebh.line'].create({
+            'custom_entry_id': record.custom_entry_id.id,
+            'project_id': record.project_id.id,
+            'amount': record.amount_advanced,
+            
+          })
+        else:
+          ebh.update({
+            'amount': record.amount_advanced,
+          })
+    else:
+      if ebh.amount:
+        record.update({
+          'amount_advanced':ebh.amount,
+        })
+      elif not ebh.project_id.id:
+        record.update({
+          'amount_advanced':0,
+        })
+    
+    
+    #if record.opening_reading != project_id.x_studio_last_reading and not record.note:
+    #  record.update({
+    #    'note': 'Opening Reading Mismatched'
+    #  })
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry_line"/>
+    <field name="name">Electricity Update Closing Readings</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.faulty_replacement_q_f73058fc-1bd5-4f12-afac-88593c950bc8" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+issue_qty = rtn_qty = 0
+if record.transfer_order_category_id.code == 'FR':
+  for line in record.stock_transfer_order_line:
+    issue_qty += line.product_uom_qty
+  for line in record.stock_transfer_return_line:
+    rtn_qty += line.product_uom_qty
+  if issue_qty != rtn_qty:
+    raise Warning(('The return quantity %s must be equal to issue quantity (%s).') % (str(issue_qty), str(rtn_qty)))
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_stock_material_transfer_approvals.model_stock_transfer_order"/>
+    <field name="name">Faulty Replacement Quantity Check</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.fuel_product_and_qua_15e6e62d-d6ae-4d30-9cd2-614b8afd5f8b" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+if record.custom_entry_id.custom_entry_type_id.sequence_code == 'FF':
+  record.update({
+    'product_id': record.custom_entry_id.custom_entry_type_id.default_product_id.id,
+    'product_uom_id': record.custom_entry_id.custom_entry_type_id.default_product_id.uom_id.id,
+    'quantity': record.custom_entry_line_id.f_product_qty,
+  })
+elif record.custom_entry_id.custom_entry_type_id.sequence_code == 'FD':
+  record.update({
+    'product_id': record.custom_entry_id.custom_entry_type_id.default_product_id.id,
+    'product_uom_id': record.custom_entry_id.custom_entry_type_id.default_product_id.uom_id.id,
+    'quantity': record.custom_entry_line_id.d_product_qty,
+  })
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="account.model_account_move_line"/>
+    <field name="name">Fuel Product and Quantity Update</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.generate_name_automa_1261f26f-4f15-441b-8d8b-b4cb34731a37" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+record.update({
+  'name': record.x_studio_msa_id.name + '-' + record.x_studio_project_id.name + '-' + record.x_studio_load + '-' + record.x_studio_period 
+})
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="studio_customization.monthly_tower_load_200deabd-8dfe-4ed0-84cc-a17b2ad82cb5"/>
+    <field name="name">Generate Name Automatically</field>
+    <field name="sequence">5</field>
+    <field name="state">object_write</field>
+  </record>
+  <record id="studio_customization.generate_name_automa_1542ff26-0dc0-4cc7-8ba7-6273ff4a64b0" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+record.update({
+  'name': record.x_studio_msa_id.name + '-' + record.x_studio_project_id.name + '-' + record.x_studio_load + '-' + record.x_studio_period 
+})
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="studio_customization.monthly_power_model_fdebe644-cebf-429d-8dbf-dcb28ff1d804"/>
+    <field name="name">Generate Name Automatically for Monthly Power</field>
+    <field name="sequence">5</field>
+    <field name="state">object_write</field>
+  </record>
+  <record id="studio_customization.generate_name_automa_5f5dfb2c-44f8-4f31-be12-c5b1f963d2c4" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+record.update({
+  'name': record.x_studio_msa_id.name + '-' + record.x_studio_project_id.name + '-' + record.x_studio_load + '-' + record.x_studio_period 
+})
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="studio_customization.monthly_tower_model_a08272a1-5cb1-4c13-a526-1c2a2f7119d7"/>
+    <field name="name">Generate Name Automatically for Monthly Tower</field>
+    <field name="sequence">5</field>
+    <field name="state">object_write</field>
+  </record>
+  <record id="studio_customization.penalty_invoices_ser_c55ec10c-c4e4-48a9-a21e-2d98317b8af7" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+entry_line_id = env['account.custom.entry.line']
+om_entry_id = env['account.custom.entry'].search([('date_entry_month','=',record.custom_entry_id.date_entry_month),('custom_entry_type_id.sequence_code','=','OM'),('date_entry_year','=',record.custom_entry_id.date_entry_year)],limit=1)
+occur_entry_ids = env['account.custom.entry'].search([('id','!=',record.custom_entry_id.id),('partner_id','=',record.custom_entry_id.partner_id.id),('custom_entry_type_id','=',record.custom_entry_id.custom_entry_type_id.id)])
+
+penalty_config_id = env['op.penalty.config'].search([('partner_id','=',record.custom_entry_id.partner_id.id),('custom_entry_type_id','=',record.custom_entry_id.custom_entry_type_id.id)],limit=1)
+
+penalty_amount = occur = 0
+if record.custom_entry_id.custom_entry_type_id.move_type in ('in_refund','out_refund'):
+  entry_line_id = env['account.custom.entry.line'].search([('custom_entry_id','=',om_entry_id.id), ('project_id','=',record.project_id.id)],limit=1)
+  record.update({
+    'x_studio_om_service_charges': entry_line_id.o_final_amount,
+  })
+  for entry in occur_entry_ids.custom_entry_line.filtered(lambda s: s.project_id.id == record.project_id.id):
+    occur += 1
+  if record.custom_entry_id.custom_entry_type_id.sequence_code == 'HSE':
+    for pline in penalty_config_id.penalty_config_occur_line:
+      if pline.occurence == occur:
+        penalty_amount = pline.penalty_amount
+        break
+    if record.amount_penalty == 0:
+      record.update({
+        'amount_penalty': penalty_amount,
+      })
+  elif record.custom_entry_id.custom_entry_type_id.sequence_code == 'PM':
+    for pline in penalty_config_id.penalty_config_sow_line:
+      if pline.penalty_sow_id.id == record.penalty_sow_id.id:
+        if record.sow_deduct_type == 'a':
+          penalty_amount = (pline.penalty_deduction_a / 100) * record.x_studio_om_service_charges
+        else:
+          penalty_amount = (pline.penalty_deduction_b / 100) * record.x_studio_om_service_charges
+      
+      record.update({
+        'amount_penalty': penalty_amount,
+      })
+  elif record.custom_entry_id.custom_entry_type_id.sequence_code == 'SLA':
+    for pline in penalty_config_id.penalty_config_line:
+      if pline.service_class == record.service_class and pline.service_level == record.service_level and (record.uptime >= pline.uptime_from and record.uptime <= pline.uptime_to):
+        penalty_amount = (pline.penalty_deduction_per / 100) * record.x_studio_om_service_charges * pline.penalty_deduction_factor
+      record.update({
+        'amount_penalty': penalty_amount,
+          
+      })
+  if record.amount_approved_penalty == 0:
+    record.update({
+        'amount_approved_penalty': record.amount_penalty,
+      
+    })
+  record.update({
+    'price_unit': record.amount_approved_penalty,
+    
+  })
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry_line"/>
+    <field name="name">Penalty Invoices (Service Charges)</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.purchase_order_refer_d9983e8c-bf07-4c50-8955-e74b24af6c1b" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+purchase_id = env['purchase.order'].search([('invoice_ids','in',record.move_id.id)])
+if record.account_id.internal_type == 'payable':
+  for purchase in purchase_id:
+    record.update({
+      'name': record.move_id.name + ' ' + purchase.name
+    })
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="account.model_account_move_line"/>
+    <field name="name">Purchase Order Reference on Vendor Bill</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.site_duplication_exc_00fe7f71-06f6-4559-a299-199d97e61a15" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+days = exception_count = 0
+old_requisition_lines = env['purchase.requisition.line']
+requisition_id = env['purchase.requisition'].search([('id','=',record.requisition_id.id)])
+#if record.stage_id.next_stage_id.stage_category != 'draft':
+for line in record:
+  #old_requisition_lines = env['purchase.requisition.line'].search([('product_id','=',line.product_id.id),('project_id','=',line.project_id.id),('requisition_id.state','not in',['draft','cancel'])])
+  old_requisition_lines = env['purchase.requisition.line'].search([('requisition_id','!=',record.requisition_id.id),('product_id','=',line.product_id.id),('project_id','=',line.project_id.id),('requisition_id.state','not in',['draft','cancel'])])
+  if len(old_requisition_lines):
+    for oline in old_requisition_lines:
+      if line.requisition_id.ordering_date and oline.requisition_id.ordering_date:
+        days = (line.requisition_id.ordering_date - oline.requisition_id.ordering_date).days
+        if abs(days) < 365:
+          #record.update({
+          #  'x_studio_site_duplication_exception': True,
+          #})
+          exception_count = env['purchase.requisition.line'].search_count([('requisition_id','=',record.id),('x_studio_exception_remarks','!=',False)])
+          if exception_count > 0:
+            requisition_id.update({
+              'x_studio_allow_submission_with_exception': False,
+            })
+          else:
+            requisition_id.update({
+              'x_studio_allow_submission_with_exception': True,
+            })
+
+
+#requisition_id.update({
+#  'x_studio_allow_submission_with_exception': False,
+#})
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="purchase_requisition.model_purchase_requisition_line"/>
+    <field name="name">Site Duplication Exception Update</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.stock_not_found_472df910-29d1-47ca-8dac-79f9873f2509" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+sq_id = env['stock.quant']
+avbl_qty = 0
+for line in record.stock_transfer_order_line:
+  for quant in sq_id.search([('product_id','=',line.product_id.id),('location_id','=',line.location_src_id.id)]):
+    avbl_qty += quant.available_quantity
+  if line.product_uom_qty > avbl_qty:
+    raise Warning(('The Product %s stock is equal to %s') % (line.product_id.name, str(avbl_qty)))
+
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_stock_material_transfer_approvals.model_stock_transfer_order"/>
+    <field name="name">Stock Not Found</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.temporarily_sequence_e1b8451e-c695-42b9-8193-d0502a811577" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+if record.name == 'New':
+  record.update({
+    'name': record.custom_entry_type_id.sequence_id.next_by_id(),
+  })
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Temporarily Sequence Assignment</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.temporarily_stage_as_257bc637-e0d8-4053-a1c5-b6e303d34923" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+stage_id = env['account.custom.entry.stage']
+if not record.stage_id:
+  stage_id = env['account.custom.entry.stage'].search([('custom_entry_type_ids','=',record.custom_entry_type_id.id),('stage_category','=','draft')])
+  record.update({
+    'stage_id':stage_id.id,
+  })
+
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Temporarily Stage Assignment</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.update_advances_invo_f7102e26-c2a2-46ae-92f6-85f5502547be" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+if record.move_id.move_type == 'in_invoice':
+  if record.hr_salary_advance_line_id:
+    record.update({
+      'project_id':record.hr_salary_advance_line_id.x_studio_project_id.id,
+      'employee_id':record.hr_salary_advance_line_id.employee_id.id,
+    })
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="account.model_account_move_line"/>
+    <field name="name">Update Advances Invoices</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.update_data_82f7684c-b3c1-48c6-b828-ed97e61fe20b" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+# record = model.browse(env.context['active_id'])
+  
+
+project_id = env['project.project']
+for line in record.custom_entry_line:
+  if not line.product_id and record.custom_entry_type_id.default_product_id.id:
+    line.update({
+      'product_id': record.custom_entry_type_id.default_product_id.id,
+      'product_uom_id': record.custom_entry_type_id.default_product_id.uom_id.id,
+    })
+    product_id = record.custom_entry_type_id.default_product_id.id
+    product_uom_id = record.custom_entry_type_id.default_product_id.uom_id.id
+  
+  if record.custom_entry_type_id.sequence_code == 'FB':
+    line.update({
+      'product_id':product_id,
+      'product_uom_id':product_uom_id,
+      'price_unit': line.f_amount,
+      'product_qty': 1,
+      'currency_id': line.custom_entry_type_id.currency_id.id,
+    })
+  elif record.custom_entry_type_id.sequence_code == 'AB':
+    line.update({
+      'product_id':product_id,
+      'product_uom_id':product_uom_id,
+      'price_unit': line.h_amount,
+      'product_qty': 1,
+    })
+  elif record.custom_entry_type_id.sequence_code == 'TB':
+    line.update({
+      'product_id':product_id,
+      'product_uom_id':product_uom_id,
+      'price_unit': line.t_amount_travel,
+      'product_qty': 1,
+    })
+      
+
+#'price_unit': pricelist_id.price,
+#'product_qty': line.total_unit,
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Update Data</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.update_fuel_drawn_da_783c0e6b-521c-4f5b-a55a-96f2afce1100" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+if record.custom_entry_type_id.sequence_code == 'FF':
+  record.update({
+    'currency_id':record.custom_entry_type_id.currency_id.id,
+  })
+  for line in record.custom_entry_line:
+    if line.f_partner_id.name == 'Cash' or line.f_partner_id.ref == 'cash':
+      supplier_id = record.partner_id.id
+    else:
+      supplier_id = line.f_partner_id.id
+    line.update({
+      'price_unit': line.f_price_unit,
+      'product_qty': line.f_product_qty,
+      'supplier_id': supplier_id,
+      'f_closing_stock': line.f_opening_stock + line.f_product_qty,
+      #'currency_id': record.custom_entry_type_id.currency_id.id,
+    })
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Update Fuel Filling data</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.update_fuel_drawn_da_7f89d128-bd44-4897-8c79-3988a46f6591" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+rfi_days = onair_days = 0
+rfi_price = onair_price = 0
+if record.custom_entry_type_id.sequence_code == 'OM':
+  record.update({
+    'currency_id':record.custom_entry_type_id.currency_id.id,
+  })
+  for line in record.custom_entry_line:
+    task_id = env['project.task'].search([('site_hoto','=',True),('site_id','=',line.project_id.id)],limit=1)
+
+    if line.o_date_end and line.o_date_rfi:
+      if (line.o_date_end.strftime("%m/%Y") == line.o_date_rfi.strftime("%m/%Y")):
+      #if (line.o_date_end - line.o_date_rfi).days <= 31:
+        rfi_days = (line.o_date_end - line.o_date_rfi).days
+      else:
+        rfi_days = (line.o_date_end - line.o_date_start).days
+    if line.o_date_end and line.o_date_onair:
+      if (line.o_date_end.strftime("%m/%Y") == line.o_date_onair.strftime("%m/%Y")):
+        onair_days = (line.o_date_end - line.o_date_onair).days
+      else:
+        onair_days = (line.o_date_end - line.o_date_start).days
+    
+    rfi_price = env['product.supplierinfo'].search([('purchase_pricelist_id','=',line.custom_entry_id.partner_id.x_studio_purchase_pricelist_id.id),('product_tmpl_id','=',line.product_id.product_tmpl_id.id),('x_studio_tower_type','=',line.o_tower_type),('x_studio_om_charges_type','=','rfi')],limit=1).price 
+    onair_price = env['product.supplierinfo'].search([('purchase_pricelist_id','=',line.custom_entry_id.partner_id.x_studio_purchase_pricelist_id.id),('product_tmpl_id','=',line.product_id.product_tmpl_id.id),('x_studio_tower_type','=',line.o_tower_type),('x_studio_om_charges_type','=','onair')],limit=1).price 
+
+    #raise Warning(('RFI Price (%s)') % (str(abs(rfi_price))))
+    
+    line.update({
+      'product_id': line.o_product_id.id,
+      'product_uom_id': line.o_product_id.uom_id.id,
+      'o_final_amount': line.o_amount,
+      'price_unit': line.o_final_amount,
+      'product_qty': 1,
+      'o_date_rfi': task_id.date_rfi,
+      'o_date_handover': task_id.date_handover,
+      'o_date_onair': task_id.date_onair,
+      'o_days_rfi': rfi_days,
+      'o_days_onair': onair_days,
+      'o_charges': (rfi_price * rfi_days) + (onair_price * onair_days),
+      #'supplier_id': supplier_id,
+      'currency_id': record.custom_entry_type_id.currency_id.id,
+    })
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Update OM Data</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.update_fuel_drawn_da_cdebc6b1-9e1f-4f53-b4ca-878a3d4fcd78" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+if record.custom_entry_type_id.sequence_code == 'FD':
+  record.update({
+    'currency_id':record.custom_entry_type_id.currency_id.id,
+  })
+  for line in record.custom_entry_line:
+    if line.d_partner_id.name == 'Cash' or line.d_partner_id.ref == 'cash':
+      supplier_id = record.partner_id.id
+    else:
+      supplier_id = line.d_partner_id.id
+    line.update({
+      'price_unit': line.d_price_unit,
+      'product_qty': line.d_product_qty,
+      'supplier_id': supplier_id,
+      'currency_id': record.custom_entry_type_id.currency_id.id,
+    })
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Update Fuel Drawn data</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.update_header_record_06c4b250-9338-431f-b07f-4a45b8a7e40c" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+record.update({
+  'currency_id': record.custom_entry_type_id.currency_id.id,
+})
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Update Header Record</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.update_import_mode_1a3935da-88cd-44ca-ac16-15cbc2f71b96" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+if record.custom_entry_type_id.sequence_code == 'EB':
+  if record.account_entry_type == 'payment':
+    record.update({
+      'is_custom_entry_import': True,
+    })
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Update Import Mode</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.update_import_status_76282656-0de2-47b1-9d6d-b2ccc5bb968c" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+record.update({
+  'is_custom_entry_import': True,
+})
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Update Import Status on correction button</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.update_name_field_fo_d806d347-c8bb-48fd-92ca-d4947117cb83" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+
+if record.site_hoto:
+  record.update({
+    'name': str(record.project_id.name) + '-' + str(record.site_id.name) + '-' + str(record.date_handover) 
+  })
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">Update Name field for HOTO Task</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.update_project_histo_e4f7ebf2-8c94-4b55-8a2f-fc6c0228de7c" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+for line in record.custom_entry_line:
+  line_values = ' '
+  line_values += str(line.project_id.name) + '|' + str(line.amount_advanced) + '|' + str(line.e_paid_to) + '|' + str(line.date_bill_from) + '|' + str(line.date_bill_to) + '|' + str(line.meter_number) + '|' + str(line.maintainence_fee) + '|' + str(line.hp_fee) + '|' + str(line.KHW_charges) + '|' + str(line.other_charges) + '|' + str(line.opening_reading) + '|' + str(line.closing_reading) + '|' + str(line.additional_unit) + '|' + str(line.note)
+  line.update({
+      'line_vals': line_values,
+    })  
+    
+    
+project_id = env['project.project']
+#activate the button after making payment
+ebh = env['account.custom.entry.ebh.line']
+pricelist_id = env['product.supplierinfo']
+
+#block supplier for updation
+#if record.stage_category == 'closed' or record.stage_id.name == 'AP:
+ # record.update({
+  #  'is_custom_entry_import': False
+  #})
+
+current_unit = 0
+if record.custom_entry_type_id.sequence_code == 'EB':
+  record.action_generate_excel()
+  #update currency
+  record.update({
+    'currency_id':record.custom_entry_type_id.currency_id.id,
+  })
+      
+  #update vendor portal for editting
+  if record.account_entry_type == 'payment' or record.stage_id.stage_code == 'AP':
+    record.update({
+      'is_custom_entry_import': True,
+      'allow_correction': True,
+      'correction_reason': 'Please upload details',
+    })
+  elif record.stage_category != 'draft':
+    record.update({
+      'is_custom_entry_import': False,
+      'allow_correction': False,
+    })
+      
+    
+  for line in record.custom_entry_line:
+    #update quantity price
+    line.update({
+      'amount_total_electricity': line.maintainence_fee + line.hp_fee + line.KHW_charges + line.other_charges,
+      'total_unit': (line.closing_reading - line.opening_reading) + line.additional_unit,
+      'product_id': record.custom_entry_type_id.default_product_id.id,
+      'product_uom_id': record.custom_entry_type_id.default_product_id.uom_id.id,
+      'price_unit': (line.maintainence_fee + line.hp_fee + line.KHW_charges + line.other_charges),
+      'product_qty': 1,
+      #'currency_id': record.custom_entry_type_id.currency_id.id,
+      
+    })
+    #update advance amount
+    if record.custom_entry_type_id.expense_advance:
+      line.update({
+        'advance_subtotal': line.amount_advanced,
+      })
+    
+    if line.project_id:
+      project_id = env['project.project'].search([('id','=',line.project_id.id)])
+      #update Closing Units
+      if record.stage_category == 'closed':
+        project_id.update({
+          'x_studio_last_reading': line.closing_reading,
+        })
+      #call for correction from vendor
+      #if line.x_studio_exception == False:
+      if line.opening_reading != project_id.x_studio_last_reading:
+        line.update({
+          'note': 'Opening Reading Mismatched',
+        })
+        record.update({
+          'is_custom_entry_import': True,
+          'allow_correction': True,
+        })
+    #update actual units
+    current_unit = line.total_unit
+    total_amount = 0.0
+    prices = env['product.supplierinfo'].search([('project_id','=',line.project_id.id)],order='min_qty asc')
+    for price in prices:
+      if current_unit > 0:
+        if current_unit > price.min_qty:
+          current_unit = (current_unit - price.min_qty)
+          total_amount += (price.price * price.min_qty)
+        else:
+          total_amount += (price.price * current_unit)
+          break
+      else:
+        break
+    if line.total_unit > 0:
+      line.update({
+        'actual_KHW_charges': total_amount,
+      })
+    #update advanced amount/forecasted amount
+    #if record.stage_category == 'draft' or record.stage_id.prv_stage_id.stage_category == 'draft':
+    #  if line.project_id.id:
+    #    ebh.create({
+    #      'custom_entry_id': record.id,
+    #      'project_id': line.project_id.id,
+    #      'amount': line.amount_advanced,
+    #    })
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="de_custom_journal_entry.model_account_custom_entry"/>
+    <field name="name">Update Electricity Bill Data</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.yearly_constraint_on_2ce0ae20-63a9-410e-b6a1-158e9d80df2f" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+days = 0
+#if record.stage_id.next_stage_id.stage_category != 'draft':
+for line in record.line_ids:
+  #old_requisition_lines = env['purchase.requisition.line'].search([('product_id','=',line.product_id.id),('project_id','=',line.project_id.id),('requisition_id.state','not in',['draft','cancel'])])
+  old_requisition_lines = env['purchase.requisition.line'].search([('requisition_id','!=',record.id),('product_id','=',line.product_id.id),('project_id','=',line.project_id.id),('requisition_id.state','not in',['draft','cancel'])])
+  if len(old_requisition_lines):
+    for oline in old_requisition_lines:
+      if line.requisition_id.ordering_date and oline.requisition_id.ordering_date:
+        days = (line.requisition_id.ordering_date - oline.requisition_id.ordering_date).days
+        if abs(days) < 365:
+          if not record.x_studio_allow_submission_with_exception:
+            raise Warning(('The Product %s has already issued to Site (%s) %s days ago') % (line.product_id.name, line.project_id.name, str(abs(days))))
+
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="purchase_requisition.model_purchase_requisition"/>
+    <field name="name">Yearly Constraint on Site Issuance Same Product</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+  <record id="studio_customization.yearly_constraint_on_d13522f0-c3e6-4e81-b318-f3185d2ad01a" model="ir.actions.server" context="{'studio': True}">
+    <field name="binding_model_id" eval="False"/>
+    <field name="binding_type">action</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="child_ids" eval="[(6, 0, [])]"/>
+    <field name="code"><![CDATA[# Available variables:
+#  - env: Odoo Environment on which the action is triggered
+#  - model: Odoo Model of the record on which the action is triggered; is a void recordset
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - time, datetime, dateutil, timezone: useful Python libraries
+#  - float_compare: Odoo function to compare floats based on specific precisions
+#  - log: log(message, level='info'): logging function to record debug information in ir.logging table
+#  - UserError: Warning Exception to use with raise
+# To return an action, assign: action = {...}
+days = 0
+old_requisition_lines = env['purchase.requisition.line']
+#if record.stage_id.next_stage_id.stage_category != 'draft':
+for line in record.line_ids:
+  #old_requisition_lines = env['purchase.requisition.line'].search([('product_id','=',line.product_id.id),('project_id','=',line.project_id.id),('requisition_id.state','not in',['draft','cancel'])])
+  old_requisition_lines = env['purchase.requisition.line'].search([('requisition_id','!=',record.id),('product_id','=',line.product_id.id),('project_id','=',line.project_id.id),('requisition_id.state','not in',['draft','cancel'])])
+  if len(old_requisition_lines):
+    for oline in old_requisition_lines:
+      if line.requisition_id.ordering_date and oline.requisition_id.ordering_date:
+        days = (line.requisition_id.ordering_date - oline.requisition_id.ordering_date).days
+        if abs(days) < 365:
+          record.update({
+            'x_studio_site_duplication_exception': True,
+          })
+          if line.x_studio_exception_remarks:
+            record.update({
+              'x_studio_allow_submission_with_exception': True,
+              
+            })
+
+
+]]></field>
+    <field name="crud_model_id" eval="False"/>
+    <field name="help" eval="False"/>
+    <field name="link_field_id" eval="False"/>
+    <field name="model_id" ref="purchase_requisition.model_purchase_requisition"/>
+    <field name="name">Yearly Constraint Submission Management</field>
+    <field name="sequence">5</field>
+    <field name="state">code</field>
+  </record>
+</odoo>

@@ -20,6 +20,22 @@ import warnings
 class AccountMove(models.Model):
     _inherit = 'account.move'
     
+    
+    reconcile_amount = fields.Float(string='Reconcile Amount', compute='_compute_reconcile_amount')
+    
+    def _compute_reconcile_amount(self):
+        for entry in self:
+            reconcile_amount = 0.0
+            for move_line in entry.line_ids:
+                for credit_line in move_line.matched_credit_ids:
+                    reconcile_amount = reconcile_amount + credit_line.amount
+                for debit_line in move_line.matched_debit_ids:
+                    reconcile_amount = reconcile_amount + debit_line.amount        
+            entry.update({
+                'reconcile_amount' : reconcile_amount
+            })
+
+    
         
     
     def allocate_invoice_payment(self):
@@ -34,8 +50,13 @@ class AccountMove(models.Model):
         payment_list = []
         invoice_list = []
         partner = []
-        
-        payments = self.env['account.payment'].search([('partner_id','=',self.partner_id.id),('state','=','posted'),('is_reconciled','=', False)])     
+        refund_invoice_list = []
+        payments = self.env['account.payment'].search([('partner_id','=',self.partner_id.id),('is_reconciled','=', False)], limit=0)
+        if self.move_type == 'in_invoice':
+            payments = self.env['account.payment'].search([('partner_id','=',self.partner_id.id),('is_reconciled','=', False), ('payment_type','=', 'outbound')])
+        if self.move_type == 'out_invoice':
+            payments = self.env['account.payment'].search([('partner_id','=',self.partner_id.id),('is_reconciled','=', False), ('payment_type','=', 'inbound')])    
+            
         for  payment in  payments:
             payment_amount = 0.0
             currency = 0
@@ -63,6 +84,35 @@ class AccountMove(models.Model):
             selected_records = rec.env['account.move'].browse(selected_ids)
             
             for  inv in selected_records:
+                refund_invoices = self.env['account.move'].search([('partner_id','=',inv.partner_id.id),('payment_state','in', ('not_paid','partial'))], limit=0)  
+                if self.move_type == 'in_invoice':
+                    refund_invoices = self.env['account.move'].search([('move_type','=','in_refund'),('partner_id','=',inv.partner_id.id),('payment_state','in', ('not_paid','partial'))]) 
+                elif self.move_type == 'out_invoice':
+                    refund_invoices = self.env['account.move'].search([('move_type','=','out_refund'),('partner_id','=',inv.partner_id.id),('payment_state','in', ('not_paid','partial'))])     
+                
+                
+                for  refund_inv in refund_invoices:
+                    amount = 0.0
+                    currency = 0
+                    if refund_inv.currency_id.id == self.currency_id.id:
+                        amount = refund_inv.amount_residual
+                        currency = refund_inv.currency_id.id 
+                    else:
+                        amount = refund_inv.currency_id._convert(refund_inv.amount_residual, self.currency_id, self.company_id, self.date)
+                        currency = self.currency_id.id 
+
+                    refund_invoice_list.append((0,0,{
+                        'move_id': refund_inv.id,
+                        'payment_date': refund_inv.invoice_date,
+                        'due_date': refund_inv.invoice_date_due,
+                        'invoice_amount': refund_inv.amount_total,
+                        'unallocate_amount': amount,
+                        'allocate': False,
+                        'allocate_amount': amount,
+                        'currency_id': currency,
+                        'original_currency_id': refund_inv.currency_id.id, 
+                    }))
+
                 if inv.state == 'draft':
                     raise UserError(_('Only Posted Invoice are allow to Reconcile!'))
                 invoice_list.append((0,0,{
@@ -75,7 +125,10 @@ class AccountMove(models.Model):
                     'allocate_amount': inv.amount_residual,
                     'original_currency_id': inv.currency_id.id,
                     'currency_id': inv.currency_id.id,
-                }))    
+                }))
+                
+        
+                
         return {
             'name': ('Payment Allocation'),
             'view_type': 'form',
@@ -86,6 +139,7 @@ class AccountMove(models.Model):
             'target': 'new',
             'context': {'default_payment_line_ids': payment_list, 
                         'default_invoice_move_ids': invoice_list, 
+                        'default_invoice_refund_ids': refund_invoice_list, 
                         'default_company_id': self.env.company.id,
                         'default_is_invoice': True,
                         'default_partner_id': self.partner_id.id,
@@ -98,7 +152,9 @@ class AccountMove(models.Model):
 class AccountMoveLine(models.Model):
     _inherit= 'account.move.line'
     
-#     payment_date = fields.Date(string='Payment Date')
-#     due_date = fields.Date(string='Payment Date')
+
+    
+class AccountMove(models.Model):
+    _inherit = 'decimal.precision'    
 
     

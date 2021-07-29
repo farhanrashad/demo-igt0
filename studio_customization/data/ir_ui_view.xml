@@ -1,0 +1,3519 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="base.user_groups_view" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <field name="groups_id" position="replace">
+        <group col="2">
+          <separator string="User Type" colspan="2" groups="base.group_no_one"/>
+          <field name="sel_groups_1_9_10" widget="radio" groups="base.group_no_one"/>
+          <newline/>
+        </group>
+        <group col="2" attrs="{'invisible': [('sel_groups_1_9_10', '!=', 1)]}">
+          <group col="2" string="Account">
+            <newline/>
+            <field name="sel_groups_615" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+          </group>
+          <group col="2" string="Sales">
+            <newline/>
+            <field name="sel_groups_51_52_53" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+          </group>
+          <group col="2" string="Services">
+            <newline/>
+            <field name="sel_groups_79_80" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+          </group>
+          <group col="2" string="Accounting">
+            <newline/>
+            <field name="sel_groups_27_28_29_30_102" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+          </group>
+          <group col="2" string="Inventory">
+            <newline/>
+            <field name="sel_groups_37_38" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_47_48" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+          </group>
+          <group col="2" string="Website">
+            <newline/>
+            <field name="sel_groups_625_626" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+          </group>
+          <group col="2" string="Marketing">
+            <newline/>
+            <field name="sel_groups_73_74" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+          </group>
+          <group col="2" string="Human Resources">
+            <newline/>
+            <field name="sel_groups_61_62" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_67_15_16" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_109_110" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_72" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_22_23_24" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_113_114" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_86_87_88" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_68_69_70" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_65_66" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_77_78" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+          </group>
+          <group col="2" string="Productivity">
+            <newline/>
+            <field name="sel_groups_75_76" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+          </group>
+          <group col="2" string="Administration">
+            <newline/>
+            <field name="sel_groups_2_3" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+          </group>
+          <group col="2" string="Other">
+            <newline/>
+            <field name="sel_groups_594_595" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_111_609" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_620_621" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_650_651" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+            <field name="sel_groups_118_119" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+            <newline/>
+          </group>
+        </group>
+        <group col="4" attrs="{'invisible': [('sel_groups_1_9_10', '!=', 1)]}" class="o_label_nowrap">
+          <separator string="Other" colspan="4"/>
+          <field name="in_group_629" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_630" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_627" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_628" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <separator string="Custom Entries" colspan="4"/>
+          <field name="in_group_634" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_618" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_631" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_614" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_613" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_619" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_635" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_646" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_632" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_616" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_644" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_645" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_648" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_647" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_617" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_633" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <separator string="Purchase Subscriptions" colspan="4"/>
+          <field name="in_group_603" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_601" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_602" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_106" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_108" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_107" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <separator string="Job Position Request" colspan="4"/>
+          <field name="in_group_124" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_125" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_123" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <separator string="Advances" colspan="4"/>
+          <field name="in_group_608" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_607" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_606" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <separator string="Technical" colspan="4" groups="base.group_no_one"/>
+          <field name="in_group_31" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_44" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_49" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_56" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_11" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_7" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_55" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_18" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_32" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_46" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_13" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_14" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_17" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_21" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_40" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_60" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_59" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_71" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_129" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_591" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_54" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_43" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_39" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_35" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_12" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_36" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_41" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_19" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_20" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_42" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_624" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_57" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_34" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_58" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_45" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_33" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_50" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_25" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_26" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_82" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_83" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_81" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <separator string="Extra Rights" colspan="4" groups="base.group_no_one"/>
+          <field name="in_group_8" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_4" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_5" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_6" invisible="1" groups="base.group_no_one" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <separator string="Other" colspan="4"/>
+          <field name="in_group_574" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_649" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_573" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_585" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_582" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_586" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_576" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_575" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_269" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_271" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_597" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_643" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_642" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_241" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_243" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_244" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_240" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_242" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_639" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_654" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_577" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_611" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_604" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_224" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_235" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_225" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_226" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_227" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_278" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_231" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_228" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_229" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_233" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_232" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_588" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_572" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_230" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_612" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_264" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_268" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_610" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_267" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_638" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_266" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_598" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_599" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_636" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_248" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_584" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_605" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_583" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_653" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_652" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_265" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_600" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_590" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_246" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_251" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_263" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_253" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_254" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_257" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_258" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_270" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_256" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_255" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_261" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+          <field name="in_group_260" attrs="{'readonly': [('sel_groups_1_9_10', '!=', 1)]}"/>
+        </group>
+      </field>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="base.view_users_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">res.users</field>
+    <field name="name">res.users.groups</field>
+    <field name="priority">16</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.default_form_view_fo_04fa4fc7-1584-40e6-8ac8-3750b57d0db2" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <form>
+        <sheet string="site.billing.info">
+          <group col="4">
+            <field name="name" modifiers="{}"/>
+            <field name="site_id" can_create="true" can_write="true" modifiers="{}"/>
+            <field name="site_tower_type" can_create="true" can_write="true" modifiers="{}"/>
+            <field name="inv_tower_type" can_create="true" can_write="true" modifiers="{}"/>
+            <field name="site_power_model" can_create="true" can_write="true" modifiers="{}"/>
+            <field name="inv_power_model" can_create="true" can_write="true" modifiers="{}"/>
+            <field name="indoor_bts" modifiers="{}"/>
+            <field name="outdoor_bts" modifiers="{}"/>
+            <field name="ip_start_date" modifiers="{}"/>
+            <field name="ip_end_date" modifiers="{}"/>
+            <field name="billable" modifiers="{}"/>
+            <field name="head_lease_full_extra" modifiers="{}"/>
+            <field name="billable_lease_amount" modifiers="{&quot;required&quot;: true}"/>
+            <field name="network_type_id" can_create="true" can_write="true" modifiers="{}"/>
+            <field name="site_class" modifiers="{}"/>
+            <field name="msa_id" can_create="true" can_write="true" modifiers="{}"/>
+            <separator/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">site.billing.info</field>
+    <field name="name">Default form view for ir.model(384,)</field>
+    <field name="priority">16</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.default_form_view_fo_1809822d-3e38-4e08-ac9f-71c137d70a07" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="Project Task Documents">
+          <widget name="web_ribbon" text="Archived" bg_color="bg-danger" attrs="{'invisible': [('x_active', '=', True)]}"/>
+          <field name="x_active" invisible="1"/>
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_0aecfa">
+            <group name="studio_group_0aecfa_left"/>
+            <group name="studio_group_0aecfa_right"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_project_task_documen</field>
+    <field name="name">Default form view for x_project_task_documen</field>
+    <field name="priority">16</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.default_form_view_fo_3d42947e-37b7-45f0-b29e-8ac39bc254c7" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="Monthly Tower Model">
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_08808b">
+            <group name="studio_group_08808b_left"/>
+            <group name="studio_group_08808b_right"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_monthly_tower_model</field>
+    <field name="name">Default form view for x_monthly_tower_model</field>
+    <field name="priority">16</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.default_form_view_fo_6e52d1df-fd10-413d-8f90-388bcb8a7748" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="Monthly Tower Load">
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_19a884">
+            <group name="studio_group_19a884_left"/>
+            <group name="studio_group_19a884_right"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_monthly_tower_load</field>
+    <field name="name">Default form view for x_monthly_tower_load</field>
+    <field name="priority">16</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.default_form_view_fo_8317fc1b-deb2-4967-95af-9c72de384305" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="Lease Candidate">
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_c5c41c">
+            <group name="studio_group_c5c41c_left"/>
+            <group name="studio_group_c5c41c_right"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_lease_candidate</field>
+    <field name="name">Default form view for x_lease_candidate</field>
+    <field name="priority">16</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.default_form_view_fo_b331fe97-48cf-4710-bc24-519488a17bf2" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <form>
+        <header/>
+        <sheet string="Monthly Power Model">
+          <div class="oe_title">
+            <h1>
+              <field name="x_name" required="1" placeholder="Name..."/>
+            </h1>
+          </div>
+          <group name="studio_group_b7297b">
+            <group name="studio_group_b7297b_left"/>
+            <group name="studio_group_b7297b_right"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_monthly_power_model</field>
+    <field name="name">Default form view for x_monthly_power_model</field>
+    <field name="priority">16</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.default_kanban_view__8271aeb8-cc3f-4d26-9e7d-220266b7a987" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <kanban string="Custom Entry">
+        <templates>
+          <t t-name="kanban-box">
+            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+              <div class="o_kanban_card_content">
+                <field name="name" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">account.custom.entry</field>
+    <field name="name">Default kanban view for ir.model(1277,)</field>
+    <field name="priority">16</field>
+    <field name="type">kanban</field>
+  </record>
+  <record id="studio_customization.default_list_view_fo_1920a3fb-e6bf-489e-ab8a-6e3b9485817a" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="x_name"/>
+      </tree>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_lease_candidate</field>
+    <field name="name">Default list view for x_lease_candidate</field>
+    <field name="priority">16</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.default_list_view_fo_25d46279-0f71-448e-bb1b-df3e0a35a2c3" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="x_name"/>
+      </tree>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_monthly_tower_load</field>
+    <field name="name">Default list view for x_monthly_tower_load</field>
+    <field name="priority">16</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.default_list_view_fo_968ce92b-7796-4567-8ccd-5e3fb22b9f6d" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="x_studio_sequence" widget="handle"/>
+        <field name="x_name"/>
+      </tree>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_project_task_documen</field>
+    <field name="name">Default list view for x_project_task_documen</field>
+    <field name="priority">16</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.default_list_view_fo_bc32d29b-2d99-4ab3-965e-722f3267a4f7" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="x_name"/>
+      </tree>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_monthly_tower_model</field>
+    <field name="name">Default list view for x_monthly_tower_model</field>
+    <field name="priority">16</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.default_list_view_fo_c8000746-1cf2-4021-9c0c-6c77857efd2c" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <tree>
+        <field name="x_name"/>
+      </tree>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_monthly_power_model</field>
+    <field name="name">Default list view for x_monthly_power_model</field>
+    <field name="priority">16</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.default_search_view__0dced719-da5b-4f21-8b47-2563108b40ee" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+      </search>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_lease_candidate</field>
+    <field name="name">Default search view for x_lease_candidate</field>
+    <field name="priority">16</field>
+    <field name="type">search</field>
+  </record>
+  <record id="studio_customization.default_search_view__0ef9d52c-074e-4d47-94b1-293ff6c07ee5" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <search string="Custom Entry">
+        <field name="name" modifiers="{&quot;readonly&quot;: true, &quot;required&quot;: true}"/>
+      </search>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">account.custom.entry</field>
+    <field name="name">Default search view for ir.model(1534,)</field>
+    <field name="priority">16</field>
+    <field name="type">search</field>
+  </record>
+  <record id="studio_customization.default_search_view__2a131830-5a22-41c1-ad07-0e62a98856f3" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+        <separator/>
+        <filter string="Archived" name="archived_x_project_task_documen" domain="[['x_active', '=', False]]"/>
+        <separator/>
+      </search>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_project_task_documen</field>
+    <field name="name">Default search view for x_project_task_documen</field>
+    <field name="priority">16</field>
+    <field name="type">search</field>
+  </record>
+  <record id="studio_customization.default_search_view__720b2f1a-fd11-4300-b9a9-b7a8df76cd2e" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+      </search>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_monthly_tower_model</field>
+    <field name="name">Default search view for x_monthly_tower_model</field>
+    <field name="priority">16</field>
+    <field name="type">search</field>
+  </record>
+  <record id="studio_customization.default_search_view__77f91964-48f4-41cf-953d-402e3d5b0135" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+      </search>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_monthly_power_model</field>
+    <field name="name">Default search view for x_monthly_power_model</field>
+    <field name="priority">16</field>
+    <field name="type">search</field>
+  </record>
+  <record id="studio_customization.default_search_view__ca3f6c58-5e02-4585-b8e5-309f251e197f" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <search>
+        <field name="x_name"/>
+      </search>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">x_monthly_tower_load</field>
+    <field name="name">Default search view for x_monthly_tower_load</field>
+    <field name="priority">16</field>
+    <field name="type">search</field>
+  </record>
+  <record id="studio_customization.default_tree_view_fo_9e83bf51-2161-40ae-894a-c7963bba8382" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <tree string="site.billing.info">
+        <field name="name" modifiers="{}"/>
+      </tree>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key" eval="False"/>
+    <field name="mode">primary</field>
+    <field name="model">site.billing.info</field>
+    <field name="name">Default tree view for ir.model(384,)</field>
+    <field name="priority">16</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_account__09a2d2c6-ac5f-4f9f-9bf3-d2d13062d9a6" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='amount_total_signed']" position="after">
+          <field name="amount_residual"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="account.view_in_invoice_tree"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">account.move</field>
+    <field name="name">Odoo Studio: account.out.invoice.tree customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_account__14a10cfa-40e3-48b5-bd4a-63106456ec90" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='purchase_id']" position="attributes">
+          <attribute name="invisible"/>
+          <attribute name="attrs">{"readonly": [["state","not in",["draft"]]]}</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/group[1]/group[2]/field[@name='date']" position="attributes">
+          <attribute name="attrs">{"invisible": [], "readonly": [["state","!=","draft"]]}</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='invoice_line_ids']/tree[1]/field[@name='product_uom_id']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+          <attribute name="optional">hide</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='invoice_line_ids']/tree[1]/field[@name='discount_fixed']" position="attributes">
+          <attribute name="groups"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='invoice_line_ids']/tree[1]/field[@name='tax_ids']" position="after">
+          <field name="x_studio_simulation_date_id" string="Simulation Date" optional="hide"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[2]/field[@name='line_ids']/tree[1]/field[@name='product_id']" position="attributes">
+          <attribute name="invisible"/>
+          <attribute name="attrs">{}</attribute>
+          <attribute name="optional">hide</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[2]/field[@name='line_ids']/tree[1]/field[@name='quantity']" position="attributes">
+          <attribute name="invisible"/>
+          <attribute name="attrs">{}</attribute>
+          <attribute name="optional">hide</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="account.view_move_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">account.move</field>
+    <field name="name">Odoo Studio: account.move.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_account__16d89e96-0b68-48dd-847c-f29b4d8516c3" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='payment_reference']" position="after">
+          <field name="x_studio_source_document" string="Source Document"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[2]/field[@name='line_ids']/tree[1]/field[@name='credit']" position="after">
+          <field name="reconciliation_invoice_id"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="account.view_move_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">account.move</field>
+    <field name="name">Odoo Studio: account.move.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_account__28ff005b-f322-4f6c-b24c-b7e14a0b2fa1" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="x_studio_employee_id"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="account.view_move_line_tree"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">account.move.line</field>
+    <field name="name">Odoo Studio: account.move.line.tree customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_account__b7a0b073-5d0d-4821-a2d1-b1e327253867" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='date_entry']" position="after">
+          <field name="date_entry_month"/>
+          <field name="date_entry_year"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_tree_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">account.custom.entry</field>
+    <field name="name">Odoo Studio: account.custom.entry.tree.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_account__e1252c0b-3fa1-49bc-a086-d5e76086cd53" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//button[@name='button_refuse']" position="attributes">
+          <attribute name="attrs">{'invisible': ['|',('stage_category', 'not in', ['progress']),('stage_code', '=', 'AP')]}</attribute>
+        </xpath>
+        <xpath expr="//button[@name='button_cancel']" position="attributes">
+          <attribute name="attrs">{'invisible': ['|',('stage_category', 'not in', ['progress']),('stage_code', '=', 'AP')]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='is_custom_entry_import']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='attachment1']" position="attributes">
+          <attribute name="attrs">{"required": [["has_attachment","==","required"]]}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='date_entry_period']" position="attributes">
+          <attribute name="string">Period</attribute>
+        </xpath>
+        <xpath expr="//field[@name='opening_reading']" position="attributes">
+          <attribute name="attrs">{"required": [["parent.has_electricity","==","required"]], "column_invisible": [["parent.has_electricity","==","no"]]}</attribute>
+          <attribute name="force_save">True</attribute>
+        </xpath>
+        <xpath expr="//field[@name='amount_total_electricity']" position="after">
+          <field name="x_studio_exception" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+        </xpath>
+        <xpath expr="//field[@name='d_partner_id']" position="attributes">
+          <attribute name="domain">[('category_id.name','=','Petrol Station')]</attribute>
+        </xpath>
+        <xpath expr="//field[@name='d_contact_id']" position="attributes">
+          <attribute name="invisible">True</attribute>
+        </xpath>
+        <xpath expr="//field[@name='f_partner_id']" position="attributes">
+          <attribute name="domain">[('category_id.name','=','Petrol Station')]</attribute>
+        </xpath>
+        <xpath expr="//field[@name='f_contact_id']" position="attributes">
+          <attribute name="invisible">True</attribute>
+        </xpath>
+        <xpath expr="//field[@name='uptime']" position="after">
+          <field name="x_studio_om_service_charges" string="Service Charges" force_save="True" readonly="1" attrs="{'column_invisible':[('parent.move_type','not in',['in_refund','out_refund'])]}"/>
+        </xpath>
+        <xpath expr="//field[@name='amount_penalty']" position="attributes">
+          <attribute name="attrs">{"column_invisible": [["parent.move_type","not in",["in_refund","out_refund"]]]}</attribute>
+          <attribute name="force_save">True</attribute>
+          <attribute name="readonly">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='amount_approved_penalty']" position="after">
+          <xpath expr="//field[@name='note']" position="move"/>
+          <field name="x_studio_exception_remarks" attrs="{'column_invisible':[('parent.has_electricity','==','no')]}"/>
+        </xpath>
+        <xpath expr="//page[@name='studio_page_Y2JHj']" position="attributes">
+          <attribute name="groups">base.group_erp_manager</attribute>
+        </xpath>
+        <xpath expr="//field[@name='note']" position="attributes">
+          <attribute name="optional"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_form_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">account.custom.entry</field>
+    <field name="name">Odoo Studio: account.custom.entry.form.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_account__face2d50-a8bc-46b0-b638-0baaaf1c681b" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='currency_id']" position="attributes">
+          <attribute name="invisible"/>
+          <attribute name="attrs">{}</attribute>
+          <attribute name="optional">show</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="account.view_move_line_tree_grouped_partner"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">account.move.line</field>
+    <field name="name">Odoo Studio: account.move.line.tree.grouped.partner customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_custom_e_f71653af-bb9e-43c0-8daf-b7f73b6bca08" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='custom_entry_type_ids']" position="attributes">
+          <attribute name="widget">many2many_tags</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_custom_journal_entry.custom_entry_stage_view_list"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">account.custom.entry.stage</field>
+    <field name="name">Odoo Studio: custom.entry.stage.list customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_default__26320802-2a7b-4fa0-b8e0-92bf43a12612" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//tree[1]" position="attributes">
+          <attribute name="editable">top</attribute>
+          <attribute name="multi_edit">false</attribute>
+        </xpath>
+        <xpath expr="//field[@name='x_name']" position="before">
+          <field name="x_studio_msa_id" attrs="{}" required="1" options="{&quot;no_create&quot;:true}"/>
+          <field name="x_studio_project_id" attrs="{}" required="1" options="{&quot;no_create&quot;:true}"/>
+          <field name="x_studio_product_id" attrs="{}" required="1" options="{&quot;no_create&quot;:true}"/>
+          <field name="x_studio_period" string="Period" attrs="{}" required="1"/>
+        </xpath>
+        <xpath expr="//field[@name='x_name']" position="attributes">
+          <attribute name="optional">hide</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="studio_customization.default_list_view_fo_c8000746-1cf2-4021-9c0c-6c77857efd2c"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">x_monthly_power_model</field>
+    <field name="name">Odoo Studio: Default list view for x_monthly_power_model customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_default__3cdeb45d-5ba8-4c80-90c6-382f5f5fcb91" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//tree[1]" position="attributes">
+          <attribute name="editable">top</attribute>
+        </xpath>
+        <xpath expr="//field[@name='x_name']" position="before">
+          <field name="x_studio_msa_id" attrs="{}" required="1"/>
+          <field name="x_studio_project_id"/>
+          <field name="x_studio_load" string="Load" attrs="{}" required="1"/>
+          <field name="x_studio_period" string="Period" attrs="{}" required="1"/>
+        </xpath>
+        <xpath expr="//field[@name='x_name']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+          <attribute name="optional">hide</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="studio_customization.default_list_view_fo_25d46279-0f71-448e-bb1b-df3e0a35a2c3"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">x_monthly_tower_load</field>
+    <field name="name">Odoo Studio: Default list view for x_monthly_tower_load customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_default__4a2ce1fa-605f-4381-9ad0-004788083204" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//tree[1]" position="attributes">
+          <attribute name="editable">top</attribute>
+        </xpath>
+        <xpath expr="//tree[1]/field[@name='name']" position="before">
+          <field name="msa_id" attrs="{}" required="1"/>
+          <field name="site_id" attrs="{}" required="1"/>
+        </xpath>
+        <xpath expr="//tree[1]/field[@name='name']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+          <attribute name="required">1</attribute>
+        </xpath>
+        <xpath expr="//tree[1]/field[@name='name']" position="after">
+          <field name="network_type_id"/>
+          <field name="indoor_bts"/>
+          <field name="outdoor_bts"/>
+          <field name="site_class"/>
+          <field name="ip_start_date" attrs="{}" required="1"/>
+          <field name="ip_end_date"/>
+          <field name="billable"/>
+          <field name="head_lease_full_extra"/>
+          <field name="billable_lease_amount"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="studio_customization.default_tree_view_fo_9e83bf51-2161-40ae-894a-c7963bba8382"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">site.billing.info</field>
+    <field name="name">Odoo Studio: Default tree view for ir.model(384,) customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_default__93b0faf1-8ea7-48f7-816c-1f0826051352" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='x_studio_sequence']" position="after">
+          <field name="x_studio_task_id"/>
+        </xpath>
+        <xpath expr="//field[@name='x_name']" position="after">
+          <field filename="x_studio_document_filename" name="x_studio_document" string="Document"/>
+          <field name="x_studio_submission_date" string="Submission Date"/>
+          <field name="x_studio_is_invoice" string="Is Invoice?"/>
+          <field name="x_studio_is_rejected" string="Is Rejected?"/>
+          <field invisible="1" name="x_studio_document_filename"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="studio_customization.default_list_view_fo_968ce92b-7796-4567-8ccd-5e3fb22b9f6d"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">x_project_task_documen</field>
+    <field name="name">Odoo Studio: Default list view for x_project_task_documen customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_default__b3c6153f-28ba-4312-8a16-cc75cb9ae60f" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//tree[1]" position="attributes">
+          <attribute name="editable">top</attribute>
+        </xpath>
+        <xpath expr="//field[@name='x_name']" position="before">
+          <field name="x_studio_msa_id" attrs="{}" required="1"/>
+          <field name="x_studio_project_id" attrs="{}" required="1"/>
+          <field name="x_studio_product_id" attrs="{}" required="1"/>
+          <field name="x_studio_period" string="Period" attrs="{}" required="1"/>
+        </xpath>
+        <xpath expr="//field[@name='x_name']" position="attributes">
+          <attribute name="optional">hide</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="studio_customization.default_list_view_fo_bc32d29b-2d99-4ab3-965e-722f3267a4f7"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">x_monthly_tower_model</field>
+    <field name="name">Odoo Studio: Default list view for x_monthly_tower_model customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_fleet_ve_e05bd49c-2d86-4500-9d6f-3c88d2a22ff2" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//filter[@name='driver']" position="after">
+          <filter name="studio_group_by_fgtrb" string="Service Type" context="{'group_by': 'service_type_id'}"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="fleet.fleet_costs_report_view_search"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">fleet.vehicle.cost.report</field>
+    <field name="name">Odoo Studio: fleet.vehicle.cost.view.search customization</field>
+    <field name="priority">99</field>
+    <field name="type">search</field>
+  </record>
+  <record id="studio_customization.odoo_studio_hr_expen_4a725456-f9f2-4899-9076-c652df23ac8c" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='account_id']" position="attributes">
+          <attribute name="attrs">{"readonly": [["is_editable","=",False]]}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">hr.expense</field>
+    <field name="name">Odoo Studio: hr.expense.view.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_hr_salar_75d43cb1-73ed-4b73-b3ca-fdf22f78d445" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='exceed_condition']" position="attributes">
+          <attribute name="attrs">{"readonly": [["state","!=","draft"]]}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='company_id']" position="after">
+          <field name="x_studio_purchase_id" string="Related PO"/>
+        </xpath>
+        <xpath expr="//field[@name='type_id']" position="after">
+          <field name="x_studio_project_id"/>
+        </xpath>
+        <xpath expr="//field[@name='product_id']" position="attributes">
+          <attribute name="optional">hide</attribute>
+        </xpath>
+        <xpath expr="//field[@name='desc']" position="attributes">
+          <attribute name="attrs">{"readonly": [["state","!=","draft"]]}</attribute>
+          <attribute name="required">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='hr_expense_sheet_id']" position="attributes">
+          <attribute name="string">Related Remittance</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_empfin_advances.hr_salary_advance_form_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">hr.salary.advance</field>
+    <field name="name">Odoo Studio: hr.salary.advance.form.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_hr_salar_ceca6075-1a37-456c-afb3-3328fafcd601" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='expense_deadline']" position="attributes">
+          <attribute name="string">Remittance Days</attribute>
+        </xpath>
+        <xpath expr="//field[@name='expense_deadline']" position="after">
+          <field name="date_due_expense" widget="date"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_empfin_advances.hr_salary_advance_tree_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">hr.salary.advance</field>
+    <field name="name">Odoo Studio: hr.salary.advance.tree.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_op_penal_09324e62-ef93-4603-9ac3-ef6d0bb0eb96" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//tree[1]/field[@name='name']" position="after">
+          <field name="custom_entry_type_id"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_custom_journal_entry_penalty.operation_penalty_config_list_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">op.penalty.config</field>
+    <field name="name">Odoo Studio: op.penalty.config.list.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_project__04563d8b-e716-4827-a870-41c55fc04087" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//tree[1]/field[@name='name']" position="after">
+          <field name="stage_code"/>
+        </xpath>
+        <xpath expr="//field[@name='fold']" position="after">
+          <field name="prv_stage_id"/>
+          <field name="next_stage_id"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="project.task_type_tree"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">project.task.type</field>
+    <field name="name">Odoo Studio: project.task.type.tree customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_project__261853e7-5d25-4fb4-8ebc-424ed93c1674" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='stage_id']" position="after">
+          <button name="action_submit" string="Submit for Approval" type="object" class="oe_highlight" attrs="{'invisible': [('stage_category', 'not in', ['draft'])]}"/>
+          <button name="action_confirm" string="Approve" type="object" class="oe_highlight" attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+          <button name="action_refuse" string="Refuse" type="object" attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/div[1]/h1[1]/field[@name='name']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='partner_id']" position="attributes">
+          <attribute name="attrs">{"readonly": [["stage_category","!=","draft"]]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='project_id']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+          <attribute name="invisible">1</attribute>
+          <attribute name="readonly"/>
+        </xpath>
+        <xpath expr="//field[@name='project_id']" position="after">
+          <field name="stage_category" invisible="1"/>
+        </xpath>
+        <xpath expr="//field[@name='site_id']" position="attributes">
+          <attribute name="attrs">{"readonly": [["stage_category","!=","draft"]]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='hoto_type']" position="attributes">
+          <attribute name="attrs">{"readonly": [["stage_category","!=","draft"]]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='date_handover']" position="attributes">
+          <attribute name="attrs">{"readonly": [["stage_category","!=","draft"]]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='date_rfi']" position="attributes">
+          <attribute name="attrs">{"readonly": [["stage_category","!=","draft"]]}</attribute>
+        </xpath>
+        <xpath expr="//field[@name='date_onair']" position="attributes">
+          <attribute name="attrs">{"readonly": [["stage_category","!=","draft"]]}</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]" position="after">
+          <div class="oe_chatter" name="studio_div_4a8a69">
+            <field name="message_follower_ids"/>
+            <field name="activity_ids"/>
+            <field name="message_ids"/>
+          </div>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_operations.view_task_form_hoto"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">project.task</field>
+    <field name="name">Odoo Studio: project.task.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_project__2768b8ba-7235-4c25-9a72-e81247fe1551" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="x_studio_percentage"/>
+          <field name="x_studio_site" string="Site"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+          <page string="Documents" name="studio_page_AIYsh">
+            <group name="studio_group_AIYsh">
+        </group>
+          </page>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="project.view_task_form2"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">project.task</field>
+    <field name="name">Odoo Studio: project.task.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_project__9d507c70-fcf2-4054-a49f-db8644ee5cfe" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//button[@name='919']" position="after">
+          <button class="oe_stat_button" icon="fa-diamond" type="action" name="1338">
+            <field widget="statinfo" name="x_site_id__site_billing_info_count" string="Site Billing Info"/>
+          </button>
+          <button class="oe_stat_button" icon="fa-diamond" type="action" name="1339">
+            <field widget="statinfo" name="x_site_id__monthly_power_model_count" string="Power Models"/>
+          </button>
+          <button class="oe_stat_button" icon="fa-diamond" type="action" name="1340">
+            <field widget="statinfo" name="x_site_id__monthly_tower_model_count" string="Tower Models"/>
+          </button>
+        </xpath>
+        <xpath expr="//field[@name='analytic_account_id']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+          <attribute name="required">1</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+          <page string="HOTO Details" name="studio_page_8T2xu">
+            <group name="studio_group_8T2xu">
+              <group name="studio_group_8T2xu_left">
+                <field name="x_studio_date_rfi" string="RFI Date"/>
+                <field name="x_studio_date_airon" string="On Air Date"/>
+                <field name="x_studio_date_handedon" string="Handed Over On"/>
+              </group>
+              <group name="studio_group_8T2xu_right"/>
+            </group>
+          </page>
+          <page string="Products" name="studio_page_Rn9PI">
+            <group name="studio_group_Rn9PI">
+              <group name="studio_group_Rn9PI_left">
+          </group>
+              <group name="studio_group_Rn9PI_right">
+                <field name="x_studio_meter_no" string="Meter No."/>
+                <field name="x_studio_last_reading" string="Last Reading"/>
+              </group>
+            </group>
+          </page>
+          <page string="Power Model" name="studio_page_c2UxA">
+            <group name="studio_group_c2UxA">
+              <group name="studio_group_c2UxA_left"/>
+              <group name="studio_group_c2UxA_right"/>
+            </group>
+          </page>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="project.edit_project"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">project.project</field>
+    <field name="name">Odoo Studio: project.project.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_project__c01d0120-3793-47d9-91ec-7419563ae9ac" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='project_id']" position="attributes">
+          <attribute name="optional">hide</attribute>
+        </xpath>
+        <xpath expr="//field[@name='project_id']" position="after">
+          <field name="purchase_project_id"/>
+          <field name="purchase_id"/>
+        </xpath>
+        <xpath expr="//field[@name='activity_ids']" position="after">
+          <field name="x_studio_percentage" string="Percentage" widget="progressbar"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="project.view_task_tree2"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">project.task</field>
+    <field name="name">Odoo Studio: project.task.tree customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_purchase_548fb373-97c1-4199-b391-e32903cf068a" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="x_studio_site_hunter" string="Site Hunter"/>
+          <field name="x_studio_saq_vendor" string="SAQ Vendor"/>
+        </xpath>
+        <xpath expr="//field[@name='subscription_type_id']" position="after">
+          <field name="x_studio_many2one_field_GID7V"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[3]/group[1]/group[2]/field[@name='analytic_tag_ids']" position="after">
+          <field name="x_studio_related_msa_id"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_purchase_subscription.purchase_subcription_form_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">purchase.subscription</field>
+    <field name="name">Odoo Studio: purchase.subscription.form.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_purchase_8b13e1b2-316e-4c01-aebb-fb9288d0c992" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='allow_invoice']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_purchase_tasks.purchase_task_template_view_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">purchase.task.template</field>
+    <field name="name">Odoo Studio: purchase.task.template.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_purchase_afd617f0-56b7-474c-8d69-682ef48b5d85" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='kmph']" position="replace"/>
+        <xpath expr="//field[@name='tower']" position="replace"/>
+        <xpath expr="//field[@name='tower_manufacture']" position="replace"/>
+        <xpath expr="//field[@name='kpa']" position="replace"/>
+        <xpath expr="//button[@name='button_confirm']" position="attributes">
+          <attribute name="studio_approval">True</attribute>
+        </xpath>
+        <xpath expr="//field[@name='currency_id']" position="after">
+          <field name="x_studio_site_duplication_exception" string="Site Duplication Exception" force_save="True" attrs="{}" readonly="1" invisible="1"/>
+          <field name="x_studio_allow_submission_with_exception" string="Allow Submission with Exception" force_save="True" attrs="{}"/>
+        </xpath>
+        <xpath expr="//field[@name='tenant']" position="after">
+          <field name="x_studio_exception_remarks" string="Exception Remarks"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">purchase.requisition</field>
+    <field name="name">Odoo Studio: purchase.requisition.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_purchase_d0d2f85e-33c0-40c9-9473-1b50538084f7" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//form[1]/header[1]/button[@name='button_confirm']" position="attributes">
+          <attribute name="studio_approval">True</attribute>
+        </xpath>
+        <xpath expr="//form[1]/header[1]/button[@name='button_confirm'][2]" position="attributes">
+          <attribute name="studio_approval">True</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="purchase.purchase_order_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">purchase.order</field>
+    <field name="name">Odoo Studio: purchase.order.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_purchase_f02bd981-6aba-476b-a217-5514ff3e8926" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="x_studio_om_pricing" string="OM Pricing"/>
+        </xpath>
+        <xpath expr="//field[@name='price']" position="after">
+          <field name="x_studio_tower_type" string="Tower Type" attrs="{'column_invisible': [('parent.x_studio_om_pricing','=',False)], 'required': [('parent.x_studio_om_pricing','=',True)]}"/>
+          <field name="x_studio_om_charges_type" string="OM Charges Type" attrs="{'column_invisible': [('parent.x_studio_om_pricing','=',False)], 'required': [('parent.x_studio_om_pricing','=',True)]}"/>
+          <field name="x_studio_region" string="Region"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_purchase_pricelist.purchase_pricelist_form_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">purchase.pricelist</field>
+    <field name="name">Odoo Studio: purchase.pricelist.form.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_res_bank_6c5e2587-98f1-425c-a5b2-01101b8ce725" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//form[1]/sheet[1]/group[not(@name)][1]" position="after">
+          <group name="studio_group_UwIHw">
+            <group name="studio_group_UwIHw_left" string="India Only">
+              <field name="x_studio_ifsc_code" string="IFSC Code"/>
+              <field name="x_studio_mirc_code"/>
+            </group>
+            <group name="studio_group_UwIHw_right">
+              <field name="x_studio_branch"/>
+            </group>
+          </group>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="base.view_res_bank_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">res.bank</field>
+    <field name="name">Odoo Studio: res.bank.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_res_part_b22058a3-2b6b-4e00-bed1-2ef0ee5e05ba" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='acc_number']" position="after">
+          <field name="bank_bic"/>
+        </xpath>
+        <xpath expr="//field[@name='acc_type']" position="after">
+          <field name="x_studio_account_type" string="Account Type"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="base.view_partner_bank_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">res.partner.bank</field>
+    <field name="name">Odoo Studio: res.partner.bank.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_res_part_b4ab14ca-8e62-4907-8be2-1fe2ac34884b" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='property_purchase_currency_id']" position="after">
+          <field name="x_studio_purchase_pricelist_id" string="OM Pricelist" options="{&quot;no_create&quot;:true}" domain="[[&quot;x_studio_om_pricing&quot;,&quot;=&quot;,True]]"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">res.partner</field>
+    <field name="name">Odoo Studio: res.partner.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_res_part_c2f6967a-3a48-45ff-83a8-998f56ae90ff" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//button[@name='action_approved']" position="attributes">
+          <attribute name="studio_approval">True</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="base.view_partner_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">res.partner</field>
+    <field name="name">Odoo Studio: res.partner.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_stock_mo_c19f9e7b-5104-459b-aa85-82419b0789d6" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//group[@name='main_grp_col2']" position="attributes">
+          <attribute name="string">Unit Price</attribute>
+        </xpath>
+        <xpath expr="//field[@name='state_id']" position="after">
+          <field name="price_unit"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="stock.view_move_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">stock.move</field>
+    <field name="name">Odoo Studio: stock.move.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_stock_pi_8c243b0a-9f3b-4c25-b684-9f313559411c" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='invoice_control']" position="after">
+          <field name="move_id"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="stock.vpicktree"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">stock.picking</field>
+    <field name="name">Odoo Studio: stock.picking.tree customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_stock_pi_ae3faa2f-8df2-4270-aed6-dcb10775d32b" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//button[@name='action_view_stock_valuation_layers']" position="attributes">
+          <attribute name="groups"/>
+        </xpath>
+        <xpath expr="//field[@name='origin']" position="after">
+          <field name="purchase_id"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/tree[1]/field[@name='product_id']" position="after">
+          <field name="x_studio_barcode" string="Barcode" attrs="{}" invisible="1"/>
+          <field name="x_studio_oem_barcode" string="OEM Barcode" attrs="{}" invisible="1"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/tree[1]/field[@name='product_uom']" position="after">
+          <field name="x_studio_cost_price" string="Cost Price"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/tree[1]/field[@name='price_unit']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='extra']/group[1]" position="after">
+          <group name="studio_group_vdv27" attrs="{&quot;invisible&quot;: [[&quot;picking_type_code&quot;,&quot;!=&quot;,&quot;outgoing&quot;]]}">
+            <group name="studio_group_vdv27_left">
+              <field name="x_studio_operator_id" string="Operator Name"/>
+              <field name="x_studio_issued_for" string="Issued For"/>
+              <field name="x_studio_contractor_name" string="Contractor Name"/>
+              <field name="x_studio_transporter_name" string="Transporter Name"/>
+              <field name="x_studio_tower_type" string="Tower Type"/>
+              <field name="x_studio_is_hub" string="Hub / Non-Hub"/>
+              <field name="x_studio_tower_supplier_name" string="Tower Supplier Name"/>
+              <field name="x_studio_delivery_vehicle_no" string="Vehicle No."/>
+            </group>
+            <group name="studio_group_vdv27_right">
+              <field name="x_studio_driver_name" string="Driver Name"/>
+              <field name="x_studio_driver_contact_no" string="Driver Contact No."/>
+              <field name="x_studio_contractor_rep_name" string="Transporter/Contractor Rep. Name"/>
+              <field name="x_studio_transporter" string="Transporter"/>
+              <field name="x_studio_delivery_remarks" string="Remarks (If any)"/>
+            </group>
+          </group>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">stock.picking</field>
+    <field name="name">Odoo Studio: stock.picking.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_stock_pi_b364b819-0891-4826-aa51-b1efca018ccf" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='group_id']" position="replace"/>
+        <xpath expr="//field[@name='user_id']" position="replace"/>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/tree[1]/field[@name='product_uom']" position="after">
+          <field name="price_unit"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='extra']/group[1]/group[@name='other_infos']/field[@name='picking_type_code']" position="before">
+          <field name="x_studio_many2one_field_nWERD" options="{&quot;no_create&quot;:true}" string="Company"/>
+          <field name="x_studio_o7_destination_warehouse" string="Destination Warehouse"/>
+          <field name="x_studio_o7_delivery_method" string="Delivery Method"/>
+          <field name="x_studio_o7_invoice_control" string="Invoice Control"/>
+          <field name="x_studio_o7_auto_picking" string="Auto Picking"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='extra']/group[1]" position="after">
+          <group name="studio_group_fKAMr" attrs="{'invisible': [('picking_type_code','!=','incoming')]}">
+            <group name="studio_group_fKAMr_left">
+              <field name="x_studio_o7_ge_number" string="G.E. number"/>
+              <field name="x_studio_o7_ge_date" string="G.E. date"/>
+              <field name="x_studio_o7_transporter_cha" string="Transporter / CHA"/>
+              <field name="x_studio_o7_shipment" string="Shipment"/>
+              <field name="x_studio_o7_container_qty" string="Container Qty"/>
+              <field name="x_studio_o7_container_type" string="Container Type"/>
+              <field name="x_studio_o7_container_no" string="Container No"/>
+              <field name="x_studio_o7_truck_no" string="Truck No"/>
+              <field name="x_studio_o7_bl_no" string="BL No"/>
+              <field name="x_studio_o7_remarks_if_any" string="Remarks (If Any)"/>
+            </group>
+            <group name="studio_group_fKAMr_right">
+              <field name="x_studio_o7_date_of_reception" string="Date of Reception "/>
+              <field name="x_studio_o7_arrival_date"/>
+              <field name="x_studio_o7_driver_name" string="Driver Name"/>
+              <field name="x_studio_o7_port_collection_from" string="Port Collection From"/>
+              <field name="x_studio_o7_container_return_to_port" string="Container Return To Port"/>
+              <field name="x_studio_o7_vehicle_arriving_time" string="Vehicle Arriving Time"/>
+              <field name="x_studio_o7_total_unloading_time" string="Total Unloading Time"/>
+              <field name="x_studio_o7_shipping_date" string="Shipping Date"/>
+            </group>
+          </group>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="stock.view_picking_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">stock.picking</field>
+    <field name="name">Odoo Studio: stock.picking.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_stock_re_08fd32e2-3b05-4105-9387-e9d21f056b18" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//field[@name='owner_id']" position="attributes">
+          <attribute name="string">Fuel Supplier</attribute>
+        </xpath>
+        <xpath expr="//field[@name='user_id']" position="after">
+          <field name="x_studio_om_vendor" string="O&amp;M Vendor"/>
+          <field name="x_studio_petrol_station" string="Petrol Station"/>
+        </xpath>
+        <xpath expr="//field[@name='product_uom_id']" position="after">
+          <field name="x_studio_project_" options="{&quot;no_create&quot;:true}"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_fuel_management.stock_refill_form_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">stock.refill</field>
+    <field name="name">Odoo Studio: stock.refill.form.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_stock_tr_0be5c0a7-54ca-46c8-a721-2e8516eb2e2b" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//form[1]/sheet[1]/group[@name='transfer_order_header']/group[@name='transfer_order_details']/field[@name='transfer_exception_type_id']" position="after">
+          <field name="x_studio_health_check_form" string="Health Check Form" attrs="{}" invisible="1"/>
+          <field name="x_studio_fir_report" string="FIR Report" attrs="{}" invisible="1"/>
+          <field name="x_studio_accident_report_1" string="Accident Report" attrs="{}" invisible="1"/>
+          <field name="x_studio_hoto_checklist" string="HOTO Checklist" attrs="{}" invisible="1"/>
+        </xpath>
+        <xpath expr="//field[@name='delivery_status']" position="after">
+          <field name="x_studio_material_condition" options="{&quot;no_create&quot;:true}" groups="__export__.res_groups_572_8c20ea10"/>
+          <field name="x_studio_remarks" string="Remarks" groups="__export__.res_groups_572_8c20ea10"/>
+          <field name="x_studio_abstract_product" string="Abstract Product" groups="__export__.res_groups_572_8c20ea10"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='transfer_order_return_line']/field[@name='stock_transfer_return_line']/tree[1]/field[@name='product_id']" position="before">
+          <field name="x_studio_igt_barcode" string="IGT Barcode" groups="__export__.res_groups_572_8c20ea10"/>
+          <field name="x_studio_oem_barcode" string="OEM Barcode" groups="__export__.res_groups_572_8c20ea10"/>
+        </xpath>
+        <xpath expr="//field[@name='return_status']" position="after">
+          <field name="x_studio_return_material_condition" options="{&quot;no_create&quot;:true}"/>
+          <field name="x_studio_remark"/>
+          <field name="x_studio_abstract_product"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+          <page string="Documents" name="studio_page_ynIbK">
+            <group name="studio_group_ynIbK">
+              <group name="studio_group_ynIbK_left">
+                <field filename="x_studio_health_check_form_1_filename" name="x_studio_health_check_form_1" string="Health Check Form" attrs="{&quot;required&quot;: [[&quot;x_studio_health_check_form&quot;,&quot;=&quot;,True]]}">
+                  <field invisible="1" name="x_studio_health_check_form_1_filename"/>
+                </field>
+                <field filename="x_studio_fir_report_1_filename" name="x_studio_fir_report_1" string="FIR Report" attrs="{&quot;required&quot;: [[&quot;x_studio_fir_report&quot;,&quot;=&quot;,True]]}"/>
+                <field filename="x_studio_accident_report_2_filename" name="x_studio_accident_report_2" string="Accident Report" attrs="{&quot;required&quot;: [[&quot;x_studio_accident_report_1&quot;,&quot;=&quot;,True]]}"/>
+                <field filename="x_studio_hoto_checklist_1_filename" name="x_studio_hoto_checklist_1" string="HOTO Checklist" attrs="{&quot;required&quot;: [[&quot;x_studio_hoto_checklist&quot;,&quot;=&quot;,True]]}"/>
+                <field invisible="1" name="x_studio_hoto_checklist_1_filename"/>
+                <field invisible="1" name="x_studio_accident_report_2_filename"/>
+                <field invisible="1" name="x_studio_fir_report_1_filename"/>
+              </group>
+              <group name="studio_group_ynIbK_right"/>
+            </group>
+          </page>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_stock_material_transfer.stock_transfer_order_form_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">stock.transfer.order</field>
+    <field name="name">Odoo Studio: stock.transfer.order.form.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_stock_tr_49ef25d6-8a23-41c9-b663-91eeab94f78c" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//button[@name='action_confirm']" position="attributes">
+          <attribute name="studio_approval">True</attribute>
+        </xpath>
+        <xpath expr="//button[@name='action_refuse']" position="attributes">
+          <attribute name="studio_approval">True</attribute>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='transfer_order_order_line']/field[@name='stock_transfer_order_line']/tree[1]/field[@name='date_scheduled']" position="after">
+          <field name="x_studio_is_recoverable" string="Is Recoverable" groups="__export__.res_groups_278_e7940972"/>
+        </xpath>
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='transfer_order_return_line']/field[@name='stock_transfer_return_line']/tree[1]/field[@name='location_dest_id']" position="after">
+          <field name="x_studio_material_condition" groups="__export__.res_groups_572_8c20ea10"/>
+          <field name="x_studio_remark" string="Remark" groups="__export__.res_groups_572_8c20ea10"/>
+          <field name="x_studio_abstract_product" string="Abstract Product" groups="__export__.res_groups_572_8c20ea10"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_stock_material_transfer.stock_transfer_order_form_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">stock.transfer.order</field>
+    <field name="name">Odoo Studio: stock.transfer.order.form.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.odoo_studio_stock_tr_b38aaaf2-1c71-4dac-8084-74eebbf8c39b" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//tree[1]/field[@name='name']" position="after">
+          <field name="id"/>
+          <field name="stage_code"/>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_stock_material_transfer.stock_transfer_order_stage_list_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">stock.transfer.order.stage</field>
+    <field name="name">Odoo Studio: stock.transfer.order.stage.list.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">tree</field>
+  </record>
+  <record id="studio_customization.odoo_studio_stock_tr_f5570efd-8b53-4597-87e2-28f1ea3119c9" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//form[1]/sheet[1]/group[not(@name)][1]/group[1]/field[@name='date_scheduled']" position="attributes">
+          <attribute name="attrs">{"readonly": [["stage_category","!=","draft"]]}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_stock_material_transfer.stock_transfer_order_form_view"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">stock.transfer.order</field>
+    <field name="name">Odoo Studio: stock.transfer.order.form.view customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.studio_report_docume_9c8d6d3f-7641-48d7-a6ad-c7bc4a7225e2" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <t t-name="studio_report_document">
+        <t t-call="web.internal_layout">
+          <div class="page"/>
+        </t>
+      </t>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key">studio_customization.studio_report_docume_9c8d6d3f-7641-48d7-a6ad-c7bc4a7225e2_document</field>
+    <field name="mode">primary</field>
+    <field name="model" eval="False"/>
+    <field name="name">studio_customization.studio_report_docume_9c8d6d3f-7641-48d7-a6ad-c7bc4a7225e2_document</field>
+    <field name="priority">16</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.odoo_studio_studio_c_03a16829-a3c6-42a0-bce4-2450fa1e4945" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/t/t/div" position="inside">
+          <div class="row">
+            <div class="col h4" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <h3>
+                <span>MATERIAL REQUEST FORM</span>
+              </h3>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>MRF No.</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.display_name"/>
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Date of MRF Creation:</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.create_date"/>
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>MRF Type</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.transfer_order_category_id.display_name"/>
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Date of Pickup:</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.delivery_deadline"/>
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Contractor PO</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.purchase_id.display_name"/>
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Contractor Name</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.partner_id.name"/>
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Requestor Warehouse</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.location_src_id.display_name"/>
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Transporter</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.transporter_id.name"/>
+              <span/>
+            </div>
+          </div>
+        </xpath>
+        <xpath expr="/t/t/div/div[5]" position="after">
+          <div class="row">
+            <table class="table o_report_block_table">
+              <thead>
+                <tr>
+                  <th style="border:1px solid #000000;padding:5px;">IG Site Code</th>
+                  <th style="border:1px solid #000000;padding:5px;">Site Type</th>
+                  <th style="border:1px solid #000000;padding:5px;">Tower Type</th>
+                  <th style="border:1px solid #000000;padding:5px;">IGT Site Code</th>
+                  <th style="border:1px solid #000000;padding:5px;">Tower/Power Vendor</th>
+                  <th style="border:1px solid #000000;padding:5px;">Tower Height</th>
+                  <th style="border:1px solid #000000;padding:5px;">Wind Zone(kmph)</th>
+                  <th style="border:1px solid #000000;padding:5px;">IGT ERP Material Code</th>
+                  <th style="border:1px solid #000000;padding:5px;">IGT ERP Material Description</th>
+                  <th style="border:1px solid #000000;padding:5px;">Required Qty</th>
+                  <th style="border:1px solid #000000;padding:5px;">UOM</th>
+                  <th style="border:1px solid #000000;padding:5px;">Site Address for Delivery</th>
+                  <th style="border:1px solid #000000;padding:5px;">Cost Center</th>
+                  <th style="border:1px solid #000000;padding:5px;">Material Condition on Return</th>
+                  <th style="border:1px solid #000000;padding:5px;">Reason for Return</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr t-foreach="doc.stock_transfer_order_line" t-as="table_line">
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.project_id.name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.default_code"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.display_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_uom_qty"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.uom_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.location_dest_id.display_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.analytic_account_id.display_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </xpath>
+        <xpath expr="/t/t/div/div[6]" position="after">
+          <div class="row">
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>MRF Created By</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.user_id.display_name"/>
+            </div>
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>Mobile No./Designation</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.user_id.mobile"/>
+            </div>
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>MRF Approved By</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.write_uid.display_name"/>
+            </div>
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>Mobile No./Designation</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span/>
+            </div>
+          </div>
+        </xpath>
+        <xpath expr="/t/t/div/div[7]" position="after">
+          <div class="row">
+            <div class="col-12 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:left;">
+              <div>1. Contractor need to inform the WH team about his arrival to the WH Team in advance so the WH Team can prepare the Materials and make ready for shipment.</div>
+              <div>2. MRF for Tower Pick should be in advance i.e minimum 3 days prior to the pick up date.</div>
+              <div>3. Tower / Power will only be transported as one, and on one truck, we will not load tower / Power on two or three separate trucks.</div>
+              <div>4. Contractor should come to WH with PPE i.e Safety Helment, Safety Shoes when coming to Pick up the Material from WH</div>
+            </div>
+          </div>
+        </xpath>
+        <xpath expr="/t/t/div/div[1]/div/h3/span" position="replace">
+          <span>MATERIAL REQUEST FORM</span>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="studio_customization.studio_report_docume_9c8d6d3f-7641-48d7-a6ad-c7bc4a7225e2"/>
+    <field name="key">gen_key.e5812e</field>
+    <field name="mode">extension</field>
+    <field name="model" eval="False"/>
+    <field name="name">Odoo Studio: studio_customization.studio_report_docume_9c8d6d3f-7641-48d7-a6ad-c7bc4a7225e2_document customization</field>
+    <field name="priority">99</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.studio_report_docume_6c45de17-98a9-4898-8db4-88464cdb3655" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <t t-name="studio_report_document">
+        <t t-call="web.internal_layout">
+          <div class="page"/>
+        </t>
+      </t>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key">studio_customization.studio_report_docume_6c45de17-98a9-4898-8db4-88464cdb3655_document</field>
+    <field name="mode">primary</field>
+    <field name="model" eval="False"/>
+    <field name="name">studio_customization.studio_report_docume_6c45de17-98a9-4898-8db4-88464cdb3655_document</field>
+    <field name="priority">16</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.odoo_studio_studio_c_64a0061f-8017-4aec-81af-f0a9ced4155a" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/t/t/div" position="inside">
+          <div class="row">
+            <div class="col-12 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <TABLE style="width:100%;text-align:center;">
+                <tr>
+                  <td style="width:15%;"/>
+                  <td>
+                    <div style="width:10px;height:10px;border:1px solid #000000;top:10px;position:absolute;"/>
+                    <h5>MATERIAL ISSUE NOTE</h5>
+                  </td>
+                  <td/>
+                  <td>
+                    <div style="width:10px;height:10px;border:1px solid #000000;top:10px;position:absolute;"/>
+                    <h5>MATERIAL RETURN NOTE</h5>
+                  </td>
+                  <td/>
+                  <td>
+                    <div style="width:10px;height:10px;border:1px solid #000000;top:10px;position:absolute;"/>
+                    <h5>STOCK TRANSFER NOTE</h5>
+                  </td>
+                  <td style="width:15%;"/>
+                </tr>
+              </TABLE>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>MRF No.</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.display_name"/>
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Issue/Return Date:</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;"><span t-field="doc.delivery_deadline"/> / 
+                    
+                    
+                    
+                    
+                <span t-field="doc.return_deadline"/>
+                <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>MRF Type</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.transfer_order_category_id.display_name"/>
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Contractor Name:</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.partner_id.name"/>
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>WH/Site Source</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.location_src_id.display_name"/>
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Contractor PO No.</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.purchase_id.display_name"/>
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;"/>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Transporter</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.transporter_id.name"/>
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 " style="padding:5px;display:block;border:1px solid #000000;background-color:#9370DB;margin:0px;text-align:center;">
+              <span>Materail Request</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;padding:5px;">
+              <span>WH/Site Srouce(Transfer From)</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;padding:5px;">
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;padding:5px;">
+              <span>Destination</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;padding:5px;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <table class="table o_report_block_table">
+              <thead>
+                <tr>
+                  <th style="border:1px solid #000000;padding:5px;">Supplier</th>
+                  <th style="border:1px solid #000000;padding:5px;">IGT ERP Material Code</th>
+                  <th style="border:1px solid #000000;padding:5px;">IGT ERP Material Description</th>
+                  <th style="border:1px solid #000000;padding:5px;">Required Qty</th>
+                  <th style="border:1px solid #000000;padding:5px;">Transfer Qty</th>
+                  <th style="border:1px solid #000000;padding:5px;">UOM</th>
+                  <th style="border:1px solid #000000;padding:5px;">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr t-foreach="doc.stock_transfer_order_line" t-as="table_line">
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.supplier_id.name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.default_code"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.display_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_uom_qty"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.delivered_qty"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.uom_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-12 " style="padding:5px;display:block;border:1px solid #000000;background-color:#9370DB;margin:0px;text-align:center;">
+              <span>Materail Return</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;padding:5px;">
+              <span>WH/Site Srouce</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;padding:5px;">
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;padding:5px;">
+              <span>Received By Location</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;padding:5px;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <table class="table o_report_block_table">
+              <thead>
+                <tr>
+                  <th style="border:1px solid #000000;padding:5px;">IGT Barcode</th>
+                  <th style="border:1px solid #000000;padding:5px;">OEM Barcode</th>
+                  <th style="border:1px solid #000000;padding:5px;">IGT ERP Material Description</th>
+                  <th style="border:1px solid #000000;padding:5px;">Product</th>
+                  <th style="border:1px solid #000000;padding:5px;">UOM</th>
+                  <th style="border:1px solid #000000;padding:5px;">Material Description</th>
+                  <th style="border:1px solid #000000;padding:5px;">Materail Condition</th>
+                  <th style="border:1px solid #000000;padding:5px;">Return Qty</th>
+                  <th style="border:1px solid #000000;padding:5px;">Received Qty</th>
+                  <th style="border:1px solid #000000;padding:5px;">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr t-foreach="doc.stock_transfer_return_line" t-as="table_line">
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.barcode"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.barcode"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.display_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.default_code"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.uom_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.display_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.display_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_uom_qty"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.received_qty"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>MRF Created By</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.user_id.display_name"/>
+            </div>
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>Mobile No./Designation</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.user_id.mobile"/>
+            </div>
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>MRF Approved By</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.write_uid.display_name"/>
+            </div>
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>Mobile No./Designation</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Remarks for material without ERP Code.</span>
+            </div>
+            <div class="col-8 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <strong>The above consignment was checked and inspected for HOTO process by the folowing respective representative.</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span style="color:#ff0000;">IGT</span>
+            </div>
+            <div class="col-8 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span style="color:#ff0000;">Vendor / Contractor</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Signatory Date</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Signatory Date</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Name of Authorized Person</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Name of Authorized Person</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Designation</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Designation</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Contact No.</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Contact No.</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Gatepass Form No.</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Vehicle No.</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;background-color:#9370DB;margin:0px;text-align:center;">
+              <span>Origional For IGT</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;background-color:#9370DB;margin:0px;text-align:center;">
+              <span>Copy to WH Doc</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;background-color:#9370DB;margin:0px;text-align:center;">
+              <span>Copy to Contractor Rep:</span>
+            </div>
+          </div>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="studio_customization.studio_report_docume_6c45de17-98a9-4898-8db4-88464cdb3655"/>
+    <field name="key">gen_key.7f452e</field>
+    <field name="mode">extension</field>
+    <field name="model" eval="False"/>
+    <field name="name">Odoo Studio: studio_customization.studio_report_docume_6c45de17-98a9-4898-8db4-88464cdb3655_document customization</field>
+    <field name="priority">99</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.studio_report_docume_64b038cb-6895-40c4-a21c-2618e7b5c7ea" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <t t-name="studio_report_document">
+        <t t-call="web.internal_layout">
+          <div class="page"/>
+        </t>
+      </t>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key">studio_customization.studio_report_docume_64b038cb-6895-40c4-a21c-2618e7b5c7ea_document</field>
+    <field name="mode">primary</field>
+    <field name="model" eval="False"/>
+    <field name="name">studio_customization.studio_report_docume_64b038cb-6895-40c4-a21c-2618e7b5c7ea_document</field>
+    <field name="priority">16</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.odoo_studio_studio_c_75a48028-dfc2-4348-bc75-6fc6c84cdd04" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/t/t/div" position="inside">
+          <div class="row">
+            <div class="col h5" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Goods Transfer Note</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Gate Entry No.</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_ge_number"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Gate Entry Date</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_ge_date"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>ERP GRN No.</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.display_name"/>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Vendor Supplier Name</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.partner_id.display_name"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Purchase Order No.</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.purchase_id.display_name"/>
+              </span>
+            </div>
+            <div class="col-4" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;"/>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Tower Height</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Tower Wind Speed</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Type</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>CHA Name</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_transporter_cha"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Container No.:</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_container_no"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>No. Of Containers</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_container_qty"/>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Truck No..</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_truck_no"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Mode of Transport</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_container_type"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>No of Trucks</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <table class="table o_report_block_table">
+            <thead>
+              <tr>
+                <th>
+                  <span>Item Code</span>
+                </th>
+                <th>
+                  <span>Display Name</span>
+                </th>
+                <th>
+                  <span>Ordered</span>
+                </th>
+                <th>
+                  <span>Received Quantity</span>
+                </th>
+                <th>
+                  <span>Receiver Comments</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr t-foreach="doc.move_lines" t-as="table_line">
+                <td>
+                  <span t-field="table_line.product_id.default_code"/>
+                </td>
+                <td>
+                  <span t-field="table_line.product_id.display_name"/>
+                </td>
+                <td>
+                  <span t-field="table_line.product_uom_qty"/>
+                </td>
+                <td>
+                  <span t-field="table_line.quantity_done"/>
+                </td>
+                <td/>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Name</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+              <span t-field="doc.activity_user_id.display_name"/>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Name</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Position</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Position</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Date Received/Inspected</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span t-field="doc.date_done"/>
+              <span/>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Date</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Signature</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Signature</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <strong>Any damages / lost of Tower and Power materials outside warehouse(during loading on improper pickup truck), 100%
+responsibility and aware by representative who pickup the tower</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <strong>Registered Office Address : Irrawaddy Green Towers Ltd, 308, Ahlone Road,Dagon Township,Yangon Myanma</strong>
+            </div>
+          </div>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="studio_customization.studio_report_docume_64b038cb-6895-40c4-a21c-2618e7b5c7ea"/>
+    <field name="key">gen_key.b6466b</field>
+    <field name="mode">extension</field>
+    <field name="model" eval="False"/>
+    <field name="name">Odoo Studio: studio_customization.studio_report_docume_64b038cb-6895-40c4-a21c-2618e7b5c7ea_document customization</field>
+    <field name="priority">99</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.studio_report_docume_8a732abf-a577-4915-ac71-b78e9999f4f3" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <t t-name="studio_report_document">
+        <t t-call="web.internal_layout">
+          <div class="page"/>
+        </t>
+      </t>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key">studio_customization.studio_report_docume_8a732abf-a577-4915-ac71-b78e9999f4f3_document</field>
+    <field name="mode">primary</field>
+    <field name="model" eval="False"/>
+    <field name="name">studio_customization.studio_report_docume_8a732abf-a577-4915-ac71-b78e9999f4f3_document</field>
+    <field name="priority">16</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.odoo_studio_studio_c_83bf9343-dcb0-4a87-b4ae-19b7274b1fd1" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/t/t/div" position="inside">
+          <div class="row">
+            <div class="col-12 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <TABLE style="width:100%;text-align:center;">
+                <tr>
+                  <td style="width:15%;"/>
+                  <td>
+                    <div style="width:10px;height:10px;border:1px solid #000000;top:10px;position:absolute;"/>
+                    <h5>MATERIAL ISSUE NOTE</h5>
+                  </td>
+                  <td/>
+                  <td>
+                    <div style="width:10px;height:10px;border:1px solid #000000;top:10px;position:absolute;"/>
+                    <h5>MATERIAL RETURN NOTE</h5>
+                  </td>
+                  <td/>
+                  <td>
+                    <div style="width:10px;height:10px;border:1px solid #000000;top:10px;position:absolute;"/>
+                    <h5>STOCK TRANSFER NOTE</h5>
+                  </td>
+                  <td style="width:15%;"/>
+                </tr>
+              </TABLE>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>MRF No.</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.display_name"/>
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Issue/Return Date:</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;"><span t-field="doc.delivery_deadline"/> / 
+                    
+                    
+                <span t-field="doc.return_deadline"/>
+                <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>MRF Type</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.transfer_order_category_id.display_name"/>
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Contractor Name:</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.partner_id.name"/>
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>WH/Site Source</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.location_src_id.display_name"/>
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Contractor PO No.</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.purchase_id.display_name"/>
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="border:1px solid #000000;margin:0px;"/>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span/>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span>Transporter</span>
+            </div>
+            <div class="col-4" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.transporter_id.name"/>
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <table class="table o_report_block_table">
+              <thead>
+                <tr>
+                  <th style="border:1px solid #000000;padding:5px;">IG Site Code</th>
+                  <th style="border:1px solid #000000;padding:5px;">Site Type</th>
+                  <th style="border:1px solid #000000;padding:5px;">Tower Type</th>
+                  <th style="border:1px solid #000000;padding:5px;">IGT Site Code</th>
+                  <th style="border:1px solid #000000;padding:5px;">Tower/Power Vendor</th>
+                  <th style="border:1px solid #000000;padding:5px;">Tower Height</th>
+                  <th style="border:1px solid #000000;padding:5px;">Wind Zone(kmph)</th>
+                  <th style="border:1px solid #000000;padding:5px;">IGT ERP Material Code</th>
+                  <th style="border:1px solid #000000;padding:5px;">IGT ERP Material Description</th>
+                  <th style="border:1px solid #000000;padding:5px;">Required Qty</th>
+                  <th style="border:1px solid #000000;padding:5px;">Issue/Return Qty</th>
+                  <th style="border:1px solid #000000;padding:5px;">UOM</th>
+                  <th style="border:1px solid #000000;padding:5px;">Remarks</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr t-foreach="doc.stock_transfer_order_line" t-as="table_line">
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.project_id.name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.default_code"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.display_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_uom_qty"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                  <td style="border:1px solid #000000;padding:5px;">
+                    <span t-field="table_line.product_id.uom_name"/>
+                  </td>
+                  <td style="border:1px solid #000000;padding:5px;"/>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="row">
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>MRF Created By</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.user_id.display_name"/>
+            </div>
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>Mobile No./Designation</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.user_id.mobile"/>
+            </div>
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>MRF Approved By</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span t-field="doc.write_uid.display_name"/>
+            </div>
+            <div class="col-1" style="border:1px solid #000000;margin:0px;">
+              <span>Mobile No./Designation</span>
+            </div>
+            <div class="col-2" style="border:1px solid #000000;margin:0px;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Remarks for material without ERP Code.</span>
+            </div>
+            <div class="col-8 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <strong>The above consignment was checked and inspected for HOTO process by the folowing respective representative.</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span style="color:#ff0000;">IGT</span>
+            </div>
+            <div class="col-8 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span style="color:#ff0000;">Vendor / Contractor</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Signatory Date</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Signatory Date</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Name of Authorized Person</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Name of Authorized Person</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Designation</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Designation</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Contact No.</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Contact No.</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Gatepass Form No.</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Vehicle No.</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;background-color:#9370DB;margin:0px;text-align:center;">
+              <span>Origional For IGT</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;background-color:#9370DB;margin:0px;text-align:center;">
+              <span>Copy to WH Doc</span>
+            </div>
+            <div class="col-4 " style="padding:5px;display:block;border:1px solid #000000;background-color:#9370DB;margin:0px;text-align:center;">
+              <span>Copy to Contractor Rep:</span>
+            </div>
+          </div>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="studio_customization.studio_report_docume_8a732abf-a577-4915-ac71-b78e9999f4f3"/>
+    <field name="key">gen_key.93eaeb</field>
+    <field name="mode">extension</field>
+    <field name="model" eval="False"/>
+    <field name="name">Odoo Studio: studio_customization.studio_report_docume_8a732abf-a577-4915-ac71-b78e9999f4f3_document customization</field>
+    <field name="priority">99</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.studio_report_docume_1b9d3416-50a5-4fd4-a2d8-ec0a9ff97d95" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <t t-name="studio_report_document">
+        <t t-call="web.internal_layout">
+          <div class="page"/>
+        </t>
+      </t>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key">studio_customization.studio_report_docume_1b9d3416-50a5-4fd4-a2d8-ec0a9ff97d95_document</field>
+    <field name="mode">primary</field>
+    <field name="model" eval="False"/>
+    <field name="name">studio_customization.studio_report_docume_1b9d3416-50a5-4fd4-a2d8-ec0a9ff97d95_document</field>
+    <field name="priority">16</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.odoo_studio_studio_c_90974335-e2ae-4d22-981b-5cbedb2e46e4" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="/t/t/div" position="inside">
+          <div class="row">
+            <div class="col h5" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Goods Received Note</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Gate Entry No.</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_ge_number"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Gate Entry Date</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_ge_date"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>ERP GRN No.</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.display_name"/>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Vendor Supplier Name</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.partner_id.display_name"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Purchase Order No.</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.purchase_id.display_name"/>
+              </span>
+            </div>
+            <div class="col-4" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;"/>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Material Related To</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Tower Height</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Tower Wind Speed</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Type</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>CHA Name</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_transporter_cha"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Container No.:</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_container_no"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>No. Of Containers</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_container_qty"/>
+              </span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Truck No..</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_truck_no"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Mode of Transport</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>
+                <span t-field="doc.x_studio_o7_container_type"/>
+              </span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>No of Trucks</span>
+            </div>
+            <div class="col-2" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <table class="table o_report_block_table">
+            <thead>
+              <tr>
+                <th>
+                  <span>Item Code</span>
+                </th>
+                <th>
+                  <span>Display Name</span>
+                </th>
+                <th>
+                  <span>Ordered</span>
+                </th>
+                <th>
+                  <span>Received Quantity</span>
+                </th>
+                <th>
+                  <span>Receiver Comments</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr t-foreach="doc.move_lines" t-as="table_line">
+                <td>
+                  <span t-field="table_line.product_id.default_code"/>
+                </td>
+                <td>
+                  <span t-field="table_line.product_id.display_name"/>
+                </td>
+                <td>
+                  <span t-field="table_line.product_uom_qty"/>
+                </td>
+                <td>
+                  <span t-field="table_line.quantity_done"/>
+                </td>
+                <td/>
+              </tr>
+            </tbody>
+          </table>
+          <div class="row">
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Name</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+              <span t-field="doc.activity_user_id.display_name"/>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Name</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Position</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Position</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Date Received/Inspected</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span t-field="doc.date_done"/>
+              <span/>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Date</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Signature</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span>Signature</span>
+            </div>
+            <div class="col-3" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <span/>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <strong>Any damages / lost of Tower and Power materials outside warehouse(during loading on improper pickup truck), 100%
+responsibility and aware by representative who pickup the tower</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:center;">
+              <strong>Registered Office Address : Irrawaddy Green Towers Ltd, 308, Ahlone Road,Dagon Township,Yangon Myanma</strong>
+            </div>
+          </div>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="studio_customization.studio_report_docume_1b9d3416-50a5-4fd4-a2d8-ec0a9ff97d95"/>
+    <field name="key">gen_key.616c8a</field>
+    <field name="mode">extension</field>
+    <field name="model" eval="False"/>
+    <field name="name">Odoo Studio: studio_customization.studio_report_docume_1b9d3416-50a5-4fd4-a2d8-ec0a9ff97d95_document customization</field>
+    <field name="priority">99</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.odoo_studio_topup_re_8e09dbb8-9f24-40b3-8256-62b4a6d3169d" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <data>
+        <xpath expr="//button[@name='action_approved']" position="attributes">
+          <attribute name="studio_approval">True</attribute>
+        </xpath>
+        <xpath expr="//button[@name='action_approved_hr']" position="attributes">
+          <attribute name="studio_approval">True</attribute>
+        </xpath>
+        <xpath expr="//button[@name='action_approved_admin']" position="attributes">
+          <attribute name="studio_approval">True</attribute>
+        </xpath>
+        <xpath expr="//button[@name='action_refuse']" position="attributes">
+          <attribute name="studio_approval">True</attribute>
+        </xpath>
+      </data>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" ref="de_top_up.view_top_up_form"/>
+    <field name="key" eval="False"/>
+    <field name="mode">extension</field>
+    <field name="model">topup.request</field>
+    <field name="name">Odoo Studio: topup.request.form customization</field>
+    <field name="priority">99</field>
+    <field name="type">form</field>
+  </record>
+  <record id="studio_customization.studio_main_report_0d824d96-cc25-4b14-a1b9-8cde97050c61" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <t t-name="studio_main_report">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="doc">
+            <t t-call="studio_customization.studio_report_docume_8a732abf-a577-4915-ac71-b78e9999f4f3_document"/>
+          </t>
+        </t>
+      </t>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key">studio_customization.studio_report_docume_8a732abf-a577-4915-ac71-b78e9999f4f3</field>
+    <field name="mode">primary</field>
+    <field name="model" eval="False"/>
+    <field name="name">studio_customization.studio_report_docume_8a732abf-a577-4915-ac71-b78e9999f4f3</field>
+    <field name="priority">16</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.studio_main_report_1d67fb6b-196c-4f39-ab65-466b206d1183" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <t t-name="studio_main_report">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="doc">
+            <t t-call="studio_customization.studio_report_docume_9c8d6d3f-7641-48d7-a6ad-c7bc4a7225e2_document"/>
+          </t>
+        </t>
+      </t>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key">studio_customization.studio_report_docume_9c8d6d3f-7641-48d7-a6ad-c7bc4a7225e2</field>
+    <field name="mode">primary</field>
+    <field name="model" eval="False"/>
+    <field name="name">studio_customization.studio_report_docume_9c8d6d3f-7641-48d7-a6ad-c7bc4a7225e2</field>
+    <field name="priority">16</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.studio_main_report_1efb6a23-f583-450f-996d-d786d6766f8a" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <t t-name="studio_main_report">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="doc">
+            <t t-call="studio_customization.studio_report_docume_6c45de17-98a9-4898-8db4-88464cdb3655_document"/>
+          </t>
+        </t>
+      </t>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key">studio_customization.studio_report_docume_6c45de17-98a9-4898-8db4-88464cdb3655</field>
+    <field name="mode">primary</field>
+    <field name="model" eval="False"/>
+    <field name="name">studio_customization.studio_report_docume_6c45de17-98a9-4898-8db4-88464cdb3655</field>
+    <field name="priority">16</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.studio_main_report_b880e84f-4f2a-4320-b635-f171568d1e2f" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <t t-name="studio_main_report">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="doc">
+            <t t-call="studio_customization.studio_report_docume_1b9d3416-50a5-4fd4-a2d8-ec0a9ff97d95_document"/>
+          </t>
+        </t>
+      </t>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key">studio_customization.studio_report_docume_1b9d3416-50a5-4fd4-a2d8-ec0a9ff97d95</field>
+    <field name="mode">primary</field>
+    <field name="model" eval="False"/>
+    <field name="name">studio_customization.studio_report_docume_1b9d3416-50a5-4fd4-a2d8-ec0a9ff97d95</field>
+    <field name="priority">16</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="studio_customization.studio_main_report_e57dc70e-9856-4786-90bf-b42de1789933" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <t t-name="studio_main_report">
+        <t t-call="web.html_container">
+          <t t-foreach="docs" t-as="doc">
+            <t t-call="studio_customization.studio_report_docume_64b038cb-6895-40c4-a21c-2618e7b5c7ea_document"/>
+          </t>
+        </t>
+      </t>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key">studio_customization.studio_report_docume_64b038cb-6895-40c4-a21c-2618e7b5c7ea</field>
+    <field name="mode">primary</field>
+    <field name="model" eval="False"/>
+    <field name="name">studio_customization.studio_report_docume_64b038cb-6895-40c4-a21c-2618e7b5c7ea</field>
+    <field name="priority">16</field>
+    <field name="type">qweb</field>
+  </record>
+  <record id="web.internal_layout" model="ir.ui.view" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="arch" type="xml">
+      <t t-name="web.internal_layout">
+        <t t-if="not o" t-set="o" t-value="doc"/>
+        <t t-if="not company">
+          <!-- Multicompany -->
+          <t t-if="company_id">
+            <t t-set="company" t-value="company_id"/>
+          </t>
+          <t t-elif="o and 'company_id' in o and o.company_id.sudo()">
+            <t t-set="company" t-value="o.company_id.sudo()"/>
+          </t>
+          <t t-else="else">
+            <t t-set="company" t-value="res_company"/>
+          </t>
+        </t>
+        <div class="header">
+          <div class="row" style="">
+            <div class="col-10" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:left;">
+              <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+              <p>No. 422/426 7 &amp; 8th floor International Commercial Center, Botahtaung Township, Yangon, Myanmar</p>
+            </div>
+            <div class="col-2 offset-2 text-center" style="display:none;">
+              <span t-esc="company.name"/>
+              <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 45px;" alt="Logo"/>
+            </div>
+            <div class="col-2 text-right" style="padding:5px;display:block;border:1px solid #000000;margin:0px;text-align:right;">
+              <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d %H:%M')"/>
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <span class="page"/>
+                </li>
+                <li class="list-inline-item">/</li>
+                <li class="list-inline-item">
+                  <span class="topage"/>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="article" t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+          <t t-raw="0"/>
+        </div>
+      </t>
+    </field>
+    <field name="field_parent" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="inherit_id" eval="False"/>
+    <field name="key">web.internal_layout</field>
+    <field name="mode">primary</field>
+    <field name="model" eval="False"/>
+    <field name="name">internal_layout</field>
+    <field name="priority">16</field>
+    <field name="type">qweb</field>
+  </record>
+</odoo>

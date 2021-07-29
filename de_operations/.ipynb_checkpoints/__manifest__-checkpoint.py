@@ -23,7 +23,7 @@
     'version': '14.0.0.7',
 
     # any module necessary for this one to work correctly
-    'depends': ['de_purchase_subscription','de_project_planning','de_account_stock_transfer','de_fuel_management'],
+    'depends': ['de_purchase_subscription','de_project_planning','de_custom_journal_entry'],
 
     # always loaded
     'data': [
@@ -39,10 +39,12 @@
         'wizard/purchase_subscription_plan_views.xml',
         'views/purchase_agreements_views.xml',
         'views/purchase_agreements_deductions_views.xml',
+        'views/custom_journal_entry_views.xml',
+        'views/project_views.xml',
         #'views/sale_agreements_views.xml',
-        'views/stock_fuel_views.xml',
-        'views/account_journal_views.xml',
-        'views/account_move_views.xml',
+        #'views/stock_fuel_views.xml',
+        #'views/account_journal_views.xml',
+        #'views/account_move_views.xml',
         
     ],
     # only loaded in demonstration mode
